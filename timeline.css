@@ -1,0 +1,25 @@
+body {
+	font: 10px sans-serif;
+}
+
+.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+#graph {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.axis text {
+	fill: #555;
+}
+
+.line {
+	fill: none;
+	stroke: #ef0d0c;
+	stroke-width: 1.5px;
+}
