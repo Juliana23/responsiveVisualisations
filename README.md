@@ -1,12 +1,14 @@
-responsiveVisualisations
+Responsive Visualisations
 ========================
 
-1. Choisir visualisation simple et un jeu de données
+Choisir visualisation simple et un jeu de données
+--------------
 
-Visualisation Area Chart
+Visualisation de base : Visualisation TimeLine
 Jeu de données : fichier tsv avec des dates pour l'axe des absisses et des points marqués pour l'axe des ordonnés
 
-2. Mettre en place le responsive
+Mettre en place le responsive
+--------------
 
 Utiliser les outils du lien :
 https://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
@@ -19,7 +21,8 @@ Ce non surchargement des axes se fait grâce à ces lignes de codes :
 
 La fonction ticks met le nombre de données que nous voulons sur les axes. Nous prenons donc en compte la taille de la fenêtre qui vient d'être redimensionnée.
 
-3. Mettre en place la généricité
+Mettre en place la généricité
+--------------
 
 Utiliser les outils du lien : 
 http://bost.ocks.org/mike/chart/ 
