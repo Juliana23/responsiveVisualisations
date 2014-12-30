@@ -7,14 +7,21 @@
 
 <!-- import JS -->
 <script src="http://d3js.org/d3.v3.js"></script>
-<script type="text/javascript" src="./reuse.js"></script>
 
 </head>
 <body>
 <script type="text/javascript" src="./timeline.js"></script>
+<script type="text/javascript" src="./reuse.js"></script>
 <script>
-	var representation = new D3_Timeline();
-	representation.show("./data.tsv");
+	var configs = {
+			dateFormat: "%Y-%m",
+			container: "body"
+	}
+	//var representation = new D3_Timeline();
+	//representation.show("./dataProducts.tsv", "%Y-%m");
+	//representation.show("./dataFemaleUs.tsv", configs);
+	//representation.show("./data.tsv", "%d-%b-%y");
+	//representation.show("./amzn.tsv", "%Y-%m-%d");
 </script>
 </body>
 </html>
