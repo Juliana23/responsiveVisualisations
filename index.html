@@ -3,25 +3,24 @@
 <meta charset="utf-8">
 
 <!-- import CSS -->
-<link href="./timeline.css" rel="stylesheet" type="text/css" />
+<link href="./css/timeline.css" rel="stylesheet" type="text/css" />
 
 <!-- import JS -->
-<script src="http://d3js.org/d3.v3.js"></script>
-
+<script type="text/javascript" src="./d3/d3.v3.min.js"></script>
+<script type="text/javascript" src="./js/timeline.js"></script>
+<script type="text/javascript" src="./js/reuse.js"></script>
 </head>
 <body>
-<script type="text/javascript" src="./timeline.js"></script>
-<script type="text/javascript" src="./reuse.js"></script>
 <script>
-	var configs = {
-			dateFormat: "%Y-%m",
-			container: "body"
-	}
+// 	var configs = {
+// 			dateFormat: "%Y-%m",
+// 			container: "body"
+// 	}
 	//var representation = new D3_Timeline();
-	//representation.show("./dataProducts.tsv", "%Y-%m");
-	//representation.show("./dataFemaleUs.tsv", configs);
-	//representation.show("./data.tsv", "%d-%b-%y");
-	//representation.show("./amzn.tsv", "%Y-%m-%d");
+	//representation.show("./data/dataProducts.tsv", "%Y-%m");
+	//representation.show("./data/dataFemaleUs.tsv", configs);
+	//representation.show("./data/data.tsv", "%d-%b-%y");
+	//representation.show("./data/amzn.tsv", "%Y-%m-%d");
 </script>
 </body>
 </html>
