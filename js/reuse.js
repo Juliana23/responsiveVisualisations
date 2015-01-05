@@ -315,7 +315,6 @@ function TimeLine(options) {
 		my.svg().attr("height", my.height());
 		return my;
 	}
-	
 	return my;
 
 };
