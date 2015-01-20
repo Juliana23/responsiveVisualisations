@@ -78,8 +78,18 @@ function TimeLine(options) {
 		.nice();
 
 		var xAxis = d3.svg.axis().scale(x).orient("bottom");
-
+		
 		var yAxis = d3.svg.axis().scale(y).orient("left");
+		
+		var zoom = d3.behavior.zoom()
+	    .x(x)
+	    .scaleExtent([1, 10])
+	    .on("zoom", zoomed);
+		
+		var div = d3.select("body")
+		.append("div")
+		.attr("class", "tooltip")
+		.style("opacity", 0);   
 
 		var line = d3.svg.line()
 		.x(function(d) {
@@ -89,10 +99,18 @@ function TimeLine(options) {
 			return y(d.close);
 		});
 		
+		// Define 'div' for tooltips
+		var div = d3.select("body")
+		.append("div")
+		.attr("class", "tooltip")
+		.style("opacity", 0);  
+		
 		var graph = d3.select("#graph")
 		.append("g")
-		.attr("transform", "translate(" + margin + "," + margin + ")");
-
+		.attr("transform", "translate(" + margin + "," + margin + ")")
+		.attr("class", "zoomable")
+		.call(zoom);
+				
 		data.forEach(function(d) {
 			d.date = parseDate(d.date);
 			d.close = +d.close;
@@ -155,9 +173,15 @@ function TimeLine(options) {
 		last.append("circle")
 				.attr("r", 4);
 		
+		function zoomed() {
+			graph.select(".x.axis").call(xAxis);
+			//graph.select(".line").attr("d", line);
+			//graph.selectAll('.line').datum(data).attr("d", line);
+		}	
 		
 		// Set des differentes composantes parametrables du graphe
 		my.svg(svg);
+		my.div(div);
 		my.graph(graph);
 		my.data(data);
 		my.line(line);
@@ -166,6 +190,7 @@ function TimeLine(options) {
 		my.xAxis(xAxis);
 		my.yAxis(yAxis);
 		my.margin(margin);
+		my.zoom(zoom);
 		my.firstRecord(firstRecord);
 		my.lastRecord(lastRecord);
 		my.first(first);
@@ -185,6 +210,14 @@ function TimeLine(options) {
 			return svg;
 		}
 		svg = newSvg;
+		return my;
+	}
+	
+	my.div = function(newDiv) {
+		if (!arguments.length) {
+			return div;
+		}
+		div = newDiv;
 		return my;
 	}
 	
@@ -268,6 +301,14 @@ function TimeLine(options) {
 		return my;
 	}
 	
+	my.zoom = function(newZoom) {
+		if (!arguments.length) {
+			return zoom;
+		}
+		zoom = newZoom;
+		return my;
+	}
+	
 	my.lastRecord = function(newLastRecord) {
 		if (!arguments.length) {
 			return lastRecord;
@@ -313,6 +354,33 @@ function TimeLine(options) {
 		my.svg().attr("width", my.width());
 		my.y().range([my.height(), 0]);
 		my.svg().attr("height", my.height());
+		
+		
+		var formatTime = d3.time.format("%e %B");
+		// draw the scatterplot
+		d3.selectAll("circle").remove();
+		my.graph().selectAll("dot")								
+		.data(my.data())											
+		.enter().append("circle")								
+		.attr("r", 2)	
+		.attr("cx", function(d) { return x(d.date); })		 
+		.attr("cy", function(d) { return y(d.close); })
+		// Tooltip stuff after this
+		.on("mouseover", function(d) {		
+			my.div().transition()
+			.duration(500)	
+			.style("opacity", 0);
+			my.div().transition()
+			.duration(200)	
+			.style("opacity", .9);	
+			my.div().html(
+					'<a>' +
+					formatTime(d.date) +
+					"</a>" +
+					"<br/>"  + d.close)	 
+					.style("left", (d3.event.pageX) + "px")			 
+					.style("top", (d3.event.pageY - 28) + "px");
+		});
 		return my;
 	}
 	return my;
@@ -329,5 +397,4 @@ var data = d3.tsv("./data/dataFemaleUs.tsv", function(error, data) {
 				}
 				var my = TimeLine(options);
 				my();
-				console.log(my.width() + " " + my.height());
 			});
