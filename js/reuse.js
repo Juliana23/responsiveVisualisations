@@ -36,7 +36,7 @@ function TimeLine(options) {
 			}
 
 			my.yAxis().ticks(Math.max(my.height() / 50, 2));
-			my.xAxis().ticks(Math.max(my.width() / 100, 2));
+			my.xAxis().ticks(Math.max(my.width() / 50, 2));
 			
 			my.graph().select('.x.axis')
 					.attr("transform", "translate(0," + my.height() + ")")
@@ -83,13 +83,8 @@ function TimeLine(options) {
 		
 		var zoom = d3.behavior.zoom()
 	    .x(x)
-	    .scaleExtent([1, 10])
-	    .on("zoom", zoomed);
-		
-		var div = d3.select("body")
-		.append("div")
-		.attr("class", "tooltip")
-		.style("opacity", 0);   
+	    .scaleExtent([1, 1])
+	    .on("zoom", zoomed); 
 
 		var line = d3.svg.line()
 		.x(function(d) {
@@ -106,10 +101,13 @@ function TimeLine(options) {
 		.style("opacity", 0);  
 		
 		var graph = d3.select("#graph")
+		.append("svg")
+		.attr("class", "svgZoom")
+		.call(zoom)
 		.append("g")
-		.attr("transform", "translate(" + margin + "," + margin + ")")
-		.attr("class", "zoomable")
-		.call(zoom);
+		.attr("transform", "translate(" + margin + "," + margin + ")");
+		
+		var svgZoomable = d3.select(".svgZoom");
 				
 		data.forEach(function(d) {
 			d.date = parseDate(d.date);
@@ -175,6 +173,7 @@ function TimeLine(options) {
 		
 		function zoomed() {
 			graph.select(".x.axis").call(xAxis);
+			graph.select('.line').attr('d', line);
 			//graph.select(".line").attr("d", line);
 			//graph.selectAll('.line').datum(data).attr("d", line);
 		}	
@@ -183,6 +182,7 @@ function TimeLine(options) {
 		my.svg(svg);
 		my.div(div);
 		my.graph(graph);
+		my.svgZoomable(svgZoomable);
 		my.data(data);
 		my.line(line);
 		my.x(x);
@@ -226,6 +226,14 @@ function TimeLine(options) {
 			return graph;
 		}
 		graph = newGraph;
+		return my;
+	}
+	
+	my.svgZoomable = function(newSvgZoomable) {
+		if (!arguments.length) {
+			return svgZoomable;
+		}
+		svgZoomable = newSvgZoomable;
 		return my;
 	}
 	
@@ -344,43 +352,44 @@ function TimeLine(options) {
 	/*
 	 * Methods
 	 */
-	
 	my.resize = function(height, width){
 		if (arguments.length) {
 			my.height(height);
 			my.width(width);
 		}
+		
+		// On redimenssionne le svg, les axes et le graphe
+		my.svgZoomable().attr("width", width);
+		my.graph().attr("width", width);
+		my.graph().attr("height", height);
+		
 		my.x().range([0, my.width()]);
 		my.svg().attr("width", my.width());
 		my.y().range([my.height(), 0]);
 		my.svg().attr("height", my.height());
 		
-		
+		// On ajoute des points sur la courbe
 		var formatTime = d3.time.format("%e %B");
-		// draw the scatterplot
 		d3.selectAll("circle").remove();
-		my.graph().selectAll("dot")								
-		.data(my.data())											
-		.enter().append("circle")								
-		.attr("r", 2)	
-		.attr("cx", function(d) { return x(d.date); })		 
-		.attr("cy", function(d) { return y(d.close); })
-		// Tooltip stuff after this
-		.on("mouseover", function(d) {		
-			my.div().transition()
-			.duration(500)	
-			.style("opacity", 0);
-			my.div().transition()
-			.duration(200)	
-			.style("opacity", .9);	
-			my.div().html(
-					'<a>' +
-					formatTime(d.date) +
-					"</a>" +
-					"<br/>"  + d.close)	 
-					.style("left", (d3.event.pageX) + "px")			 
-					.style("top", (d3.event.pageY - 28) + "px");
-		});
+		my.graph().selectAll(".dot").data(my.data()).enter().append("circle")
+				.attr("r", 2).attr("cx", function(d) {
+					return x(d.date);
+				}).attr("cy", function(d) {
+					return y(d.close);
+				})
+				.on(
+						"mouseover",
+						function(d) {
+							my.div().transition().duration(500).style(
+									"opacity", 0);
+							my.div().transition().duration(200).style(
+									"opacity", .9);
+							my.div().html(
+									'<a>' + formatTime(d.date) + "</a>"
+											+ "<br/>" + d.close).style("left",
+									(d3.event.pageX) + "px").style("top",
+									(d3.event.pageY - 28) + "px");
+						});
 		return my;
 	}
 	return my;
@@ -388,13 +397,37 @@ function TimeLine(options) {
 };
 
 var data = d3.tsv("./data/dataFemaleUs.tsv", function(error, data) {
-				if (error) alert(error);
-				var options = {
-						height: 300,
-						width: 500,
-						margin: 60,
-						data: data
-				}
-				var my = TimeLine(options);
-				my();
-			});
+	if (error) alert(error);
+	var options = {
+			height: 300,
+			width: 500,
+			margin: 60,
+			data: data
+	}
+	var my = TimeLine(options);
+	my();
+});
+
+//var data = d3.csv("./data/pollution.csv", function(error, data) {
+//	if (error) alert(error);
+//	var dataFilter = [];
+//	var dataInt = {};
+//	data.forEach(function(d) { 
+//		if(d["COU"] === "FRA"){
+//			dataInt = {
+//					date: parseInt(d["Annee"]),
+//					close: d["Value"]
+//			}
+//			console.log(dataInt["date"]);
+//			dataFilter.push(dataInt);
+//		}
+//	});
+//	var options = {
+//			height: 300,
+//			width: 500,
+//			margin: 60,
+//			data: dataFilter
+//	}
+//	var my = TimeLine(options);
+//	my();
+//});
