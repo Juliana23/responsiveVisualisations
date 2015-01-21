@@ -48,3 +48,7 @@ div.tooltip {
  /*  pointer-events: none;	This line needs to be removed */
 	
 }
+
+.arc path {
+  stroke: #fff;
+}
