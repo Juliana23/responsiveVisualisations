@@ -134,7 +134,7 @@ function TimeLine(options) {
 		var tooltip = d3.select("body")
 		.append("div")  
 		.attr("class", "tooltip")
-		.attr("x", width - 300)
+		.attr("x", width)
 		.attr("y", 0)
 		.style("opacity", 0);
 		my.tooltip(tooltip);
@@ -397,9 +397,6 @@ function TimeLine(options) {
 	}
 
 	my.redraw = function () {
-		//my.x().range([0, my.width()]);
-		//my.y().range([my.height(), 0]);
-		
 		my.verticalLine().attr("height", my.height());
 
 		if (my.width() < 300 && my.height() < 80) {
@@ -523,8 +520,9 @@ function TimeLine(options) {
 			tooltip
 			.style("opacity", .9);
 			tooltip
-			.style("left", ((onDesktop ? d3.event.pageX : cursor_x) + 20) + "px")    
-			.style("top", ((onDesktop ? d3.event.pageY : cursor_y - 40) - 30) + "px")
+			.style("left", (onDesktop ? (d3.event.pageX + 50 < width ? d3.event.pageX + 50 : d3.event.pageX - 200)
+					: (cursor_x + 50 < width ? cursor_x + 50 : cursor_x - 200)) + "px")    
+			.style("top", ((onDesktop ? d3.event.pageY : cursor_y) - 50) + "px")
 			.html("<b>Date : </b>" + formatter(entry.date) + "<br>"
 					+ "<b>Valeur : </b>" + entry.close + "<br>");
 		})
