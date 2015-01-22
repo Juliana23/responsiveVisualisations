@@ -12,15 +12,18 @@
 </head>
 <body>
 <script>
-// 	var configs = {
-// 			dateFormat: "%Y-%m",
-// 			container: "body"
-// 	}
-	//var representation = new D3_Timeline();
-	//representation.show("./data/dataProducts.tsv", "%Y-%m");
-	//representation.show("./data/dataFemaleUs.tsv", configs);
-	//representation.show("./data/data.tsv", "%d-%b-%y");
-	//representation.show("./data/amzn.tsv", "%Y-%m-%d");
+var data = d3.tsv("./data/dataFemaleUs.tsv", function (error, data) {
+    if (error)
+        alert(error);
+    var options = {
+        height: window.innerHeight - 120,
+        width: window.innerWidth - 120,
+        margin: 60,
+        data: data
+    };
+    var my = TimeLine(options);
+    my();
+});
 </script>
 </body>
 </html>

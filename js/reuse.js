@@ -1,562 +1,551 @@
 function TimeLine(options) {
-    options = options || {};
+	options = options || {};
 
-    function my() {
-        my.init(options);
+	function my() {
+		my.init(options);
 
-        function resize() {
-            
-            var width = parseInt(d3.select("#graph").style("width")) - my.margin() * 2,
-                    height = parseInt(d3.select("#graph").style("height")) - my.margin() * 2;
+		function resize() {
+			var width = parseInt(d3.select("#graph").style("width")) - my.margin() * 2,
+			height = parseInt(d3.select("#graph").style("height")) - my.margin() * 2;
 
-            // Modification de la hauteur et de la largeur
-            my.resize(height, width);
+			// Modification de la hauteur et de la largeur
+			my.resize(height, width);
 
-            // Mise a jour des donnees
-            my.updateData();
+			// Redessine le graphe de maniere reponsive
+			my.redraw();
+		}
 
-            my.x().range([0, my.width()]);
-            my.y().range([my.height(), 0]);
+		d3.select(window).on('resize', resize);
+	}
 
-            if (my.width() < 300 && my.height() < 80) {
-                my.graph().select('.x.axis').style("display", "none");
-                my.graph().select('.y.axis').style("display", "none");
+	my.init = function (options) {
 
-                my.graph().select(".first")
-                        .attr("transform", "translate(" + my.x()(my.firstRecord().date) +
-                                "," + my.y()(my.firstRecord().close) + ")")
-                        .style("display", "initial");
+		//On cree un nouveau noeud <svg>
+		my.svg(d3.select("body").append("svg").attr("id", "graph"));
 
-                my.graph().select(".last")
-                        .attr("transform", "translate(" + my.x()(my.lastRecord().date) +
-                                "," + my.y()(my.lastRecord().close) + ")")
-                        .style("display", "initial");
-            }
-            else {
-                my.graph().select('.x.axis').style("display", "initial");
-                my.graph().select('.y.axis').style("display", "initial");
-                my.graph().select(".last").style("display", "none");
-                my.graph().select(".first").style("display", "none");
-            }
+		// Initialisation de la taille du graphe
+		my.margin(options.margin || 60);
+		my.width(options.width || parseInt(d3.select("#graph").style("width")) - my.margin() * 2);
+		my.height(options.height || parseInt(d3.select("#graph").style("height")) - my.margin() * 2);
 
-            my.yAxis().ticks(Math.max(my.height() / 50, 2));
-            my.xAxis().ticks(Math.max(my.width() / 100, 2));
+		// Initialisation des donnees
+		my.initData(options.data);
+		
+		// Initialisation de la map
+		my.initMap(my.data());
 
-            my.graph().select('.x.axis')
-                    .attr("transform", "translate(0," + my.height() + ")")
-                    .call(my.xAxis());
+		// Initialisation des axes
+		my.initX(my.width(), my.data());
+		my.initY(my.height(), my.data());
+		my.xAxis(d3.svg.axis().scale(my.x()).orient("bottom"));
+		my.yAxis(d3.svg.axis().scale(my.y()).orient("left"));
 
-            my.graph().select('.y.axis')
-                    .call(my.yAxis());
+		// Initialisation de les lignes
+		my.initLine();
 
-            var dataPerPixel = my.data().length / my.width();
-            var dataResampled = my.data().filter(function (d, i) {
-                return i % Math.ceil(dataPerPixel) === 0;
-            });
-
-            my.graph().selectAll('.line').datum(dataResampled).attr("d", my.line());
-        }
-
-        d3.select(window).on('resize', resize);
-    }
-
-    my.init = function (options) {
-
-        //On cree un nouveau noeud <svg>
-        var svg = d3.select("body").append("svg").attr("id", "graph");
-
-        var parseDate = d3.time.format("%Y-%m").parse;
-
-        var margin = options.margin || 60;
-        var width = options.width || parseInt(d3.select("#graph").style("width")) - margin * 2;
-        var height = options.height || parseInt(d3.select("#graph").style("height")) - margin * 2;
-
-        var data = options.data || [];
-
-        var x = d3.time.scale()
-                .range([0, width])
-                .nice(d3.time.year);
-
-        var y = d3.scale.linear()
-                .range([height, 0])
-                .nice();
-
-        var xAxis = d3.svg.axis().scale(x).orient("bottom");
-
-        var yAxis = d3.svg.axis().scale(y).orient("left");
-
-        var zoom = d3.behavior.zoom()
-                .x(x)
-                //.translate( [x, y] )
-                .scaleExtent([1, 4])
-                .on("zoom", my.zoomed);
-
-        var line = d3.svg.line()
-                .x(function (d) {
-                    return x(d.date);
-                })
-                .y(function (d) {
-                    return y(d.close);
-                });
-
-        // Define 'div' for tooltips
-        var div = d3.select("body")
-                .append("div")
-                .attr("class", "tooltip")
-                .style("opacity", 0);
-
-        var graph = d3.select("#graph")
-                .append("g")
-                .attr("transform", "translate(" + margin + "," + margin + ")");
-
-        data.forEach(function (d) {
-            d.date = parseDate(d.date);
-            d.close = +d.close;
-        });
-
-        x.domain(d3.extent(data, function (d) {
-            return d.date;
-        }));
-
-        y.domain([0, d3.max(data, function (d) {
-            return d.close;
-        })]);
-
-        /*
-		 * On definit la visualisation principale
-		 */
-        graph.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-
-        graph.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-                .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end");
-
-        var dataPerPixel = data.length / width;
-        var dataResampled = data.filter(function (d, i) {
-            return i % Math.ceil(dataPerPixel) === 0;
-        });
-
-        graph.append("path")
-                .datum(dataResampled)
-                .attr("class", "line")
-                .attr("d", line);
-
-        /*
+		// Initialisation du tooltip
+		my.initTooltip(my.width());
+				
+		// Initialisation du graphe
+		my.initGraph(my.margin(), my.height(), my.width(), my.xAxis(), my.yAxis(), my.data(), my.line());
+		
+		// Initialisation de la ligne verticale
+		my.initVerticalLine(my.graph(), my.height());
+		
+		// Initialisation du rectangle
+		my.initRect(my.svg());
+		
+		/*
 		 * On recupere la premiere et derniere
 		 * valeur pour les afficher avec un cercle
 		 * si la visualisation est trop petite
+		 */        
+		if(options.firstEndCircle){
+			my.updateFirstEndCircle(my.graph(), my.firstRecord(), my.lastRecord());
+		}
+		
+		my.udateMouseMove(my.rect());
+		
+		my.udateTouchMove(my.rect());
+
+		// Resize du graph
+		my.resize(my.height(), my.width());
+		
+		return my;
+	};
+
+	/*
+	 * Fonctions d'initialisation
+	 */
+
+	my.initData = function(pData){
+		var data = pData || [];
+		var parseDate = d3.time.format("%Y-%m").parse;
+		data.forEach(function (d) {
+			d.date = parseDate(d.date);
+			d.close = +d.close;
+		});
+		my.data(data);
+		my.firstRecord(data[0]);
+		my.lastRecord(data[data.length - 1]);
+	};
+	
+	my.initMap = function(data){
+		var map = {};
+		data.forEach(function (d) {
+			map[d.date] = d;
+		});
+		my.map(map);
+	}
+
+	my.initX = function(width, data){
+		var x = d3.time.scale()
+		.range([0, width])
+		.nice(d3.time.year);
+		x.domain(d3.extent(data, function (d) {
+			return d.date;
+		}));
+		my.x(x);
+	};
+
+	my.initY = function(height, data){
+		var y = d3.scale.linear()
+		.range([height, 0])
+		.nice();
+		y.domain([0, d3.max(data, function (d) {
+			return d.close;
+		})]);
+		my.y(y);
+	};
+
+	my.initLine = function(){
+		var line = d3.svg.line()
+		.x(function (d) {return x(d.date);})
+		.y(function (d) {return y(d.close);});
+		my.line(line);
+	};
+
+	my.initTooltip = function(width){
+		var tooltip = d3.select("body")
+		.append("div")  
+		.attr("class", "tooltip")
+		.attr("x", width - 300)
+		.attr("y", 0)
+		.style("opacity", 0);
+		my.tooltip(tooltip);
+	};
+
+	my.initVerticalLine = function(graph, height){
+		var verticalLine = graph.append("line")
+		.attr("class", "verticalLine")
+		.attr("x1",0)
+		.attr("y1",0)
+		.attr("x2",0)
+		.attr("y2",height)
+		.style("opacity", 0);
+		my.verticalLine(verticalLine);
+	}
+
+	my.initGraph = function(margin, height, width, xAxis, yAxis, data, line){
+		var graph = d3.select("#graph")
+		.append("g");
+
+		if(margin){
+			graph.attr("transform", "translate(" + margin + "," + margin + ")");
+		}
+
+		/*
+		 * On definit la visualisation principale
 		 */
-        var firstRecord = data[data.length - 1];
-        var lastRecord = data[0];
+		graph.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis);
 
-        var first = graph.append("g")
-                .attr("class", "first")
-                .style("display", "none");
+		graph.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+		.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6)
+		.attr("dy", ".71em")
+		.style("text-anchor", "end");
 
-        first.append("text")
-                .attr("x", -8)
-                .attr("y", 4)
-                .attr("text-anchor", "end")
-                .text(firstRecord.close);
-        first.append("circle").attr("r", 4);
+		var dataPerPixel = data.length / width;
+		var dataResampled = data.filter(function (d, i) {
+			return i % Math.ceil(dataPerPixel) === 0;
+		});
 
-        var last = graph.append("g")
-                .attr("class", "last")
-                .style("display", "none");
+		graph.append("path")
+		.datum(data)
+		.attr("class", "line")
+		.attr("d", line);
+		
+		my.graph(graph);
+	};
+	
+	my.initRect = function (container) {
+		// On cree un rectangle par dessus la visualisation
+		var rect = container.append("rect")
+		.attr("width", my.width() + margin)
+		.attr("height", my.height() + margin)
+		.style("opacity", 0)
+		.attr("class", "onMouseMove");
+		my.rect(rect);
+	};
 
-        last.append("text")
-                .attr("x", 8)
-                .attr("y", 4)
-                .text(lastRecord.close);
-        last.append("circle")
-                .attr("r", 4);
+	/*
+	 * Getters AND Setters
+	 */
 
-        // Set des differentes composantes parametrables du graphe
-        my.parseDate(parseDate);
-        my.svg(svg);
-        my.div(div);
-        my.graph(graph);
-        my.data(data);
-        my.line(line);
-        my.x(x);
-        my.y(y);
-        my.height(height);
-        my.width(width);
-        my.xAxis(xAxis);
-        my.yAxis(yAxis);
-        my.margin(margin);
-        my.zoom(zoom);
-        my.firstRecord(firstRecord);
-        my.lastRecord(lastRecord);
-        my.first(first);
-        my.last(last);
-        
-        my.updateData();
-        my.resize(height, width);
-        
-        return my;
-    };
+	my.svg = function (newSvg) {
+		if (!arguments.length) {
+			return svg;
+		}
+		svg = newSvg;
+		return my;
+	};
 
-    /*
-     * Getters AND Setters
-     */
+	my.tooltip = function (newTooltip) {
+		if (!arguments.length) {
+			return tooltip;
+		}
+		tooltip = newTooltip;
+		return my;
+	};
 
-    my.parseDate = function (newParseDate) {
-        if (!arguments.length) {
-            return parseDate;
-        }
-        parseDate = newParseDate;
-        return my;
-    };
-    
-    my.svg = function (newSvg) {
-        if (!arguments.length) {
-            return svg;
-        }
-        svg = newSvg;
-        return my;
-    };
+	my.verticalLine = function (newVerticalLine) {
+		if (!arguments.length) {
+			return verticalLine;
+		}
+		verticalLine = newVerticalLine;
+		return my;
+	};
 
-    my.div = function (newDiv) {
-        if (!arguments.length) {
-            return div;
-        }
-        div = newDiv;
-        return my;
-    };
+	my.graph = function (newGraph) {
+		if (!arguments.length) {
+			return graph;
+		}
+		graph = newGraph;
+		return my;
+	};
+	
+	my.map = function (newMap) {
+		if (!arguments.length) {
+			return map;
+		}
+		map = newMap;
+		return my;
+	};
 
-    my.graph = function (newGraph) {
-        if (!arguments.length) {
-            return graph;
-        }
-        graph = newGraph;
-        return my;
-    };
+	my.data = function (newData) {
+		if (!arguments.length) {
+			return data;
+		}
+		data = newData;
+		return my;
+	};
 
-    my.data = function (newData) {
-        if (!arguments.length) {
-            return data;
-        }
-        data = newData;
-        return my;
-    };
+	my.line = function (newLine) {
+		if (!arguments.length) {
+			return line;
+		}
+		line = newLine;
+		return my;
+	};
 
-    my.line = function (newLine) {
-        if (!arguments.length) {
-            return line;
-        }
-        line = newLine;
-        return my;
-    };
+	my.width = function (newWidth) {
+		if (!arguments.length) {
+			return width;
+		}
+		width = newWidth;
+		return my;
+	};
 
-    my.width = function (newWidth) {
-        if (!arguments.length) {
-            return width;
-        }
-        width = newWidth;
-        return my;
-    };
+	my.height = function (newHeight) {
+		if (!arguments.length) {
+			return height;
+		}
+		height = newHeight;
+		return my;
+	};
 
-    my.height = function (newHeight) {
-        if (!arguments.length) {
-            return height;
-        }
-        height = newHeight;
-        return my;
-    };
+	my.x = function (newX) {
+		if (!arguments.length) {
+			return x;
+		}
+		x = newX;
+		return my;
+	};
 
-    my.x = function (newX) {
-        if (!arguments.length) {
-            return x;
-        }
-        x = newX;
-        return my;
-    };
+	my.y = function (newY) {
+		if (!arguments.length) {
+			return y;
+		}
+		y = newY;
+		return my;
+	};
 
-    my.y = function (newY) {
-        if (!arguments.length) {
-            return y;
-        }
-        y = newY;
-        return my;
-    };
+	my.xAxis = function (newXAxis) {
+		if (!arguments.length) {
+			return xAxis;
+		}
+		xAxis = newXAxis;
+		return my;
+	};
 
-    my.xAxis = function (newXAxis) {
-        if (!arguments.length) {
-            return xAxis;
-        }
-        xAxis = newXAxis;
-        return my;
-    };
+	my.yAxis = function (newYAxis) {
+		if (!arguments.length) {
+			return yAxis;
+		}
+		yAxis = newYAxis;
+		return my;
+	};
 
-    my.yAxis = function (newYAxis) {
-        if (!arguments.length) {
-            return yAxis;
-        }
-        yAxis = newYAxis;
-        return my;
-    };
+	my.margin = function (newMargin) {
+		if (!arguments.length) {
+			return margin;
+		}
+		margin = newMargin;
+		return my;
+	};
 
-    my.margin = function (newMargin) {
-        if (!arguments.length) {
-            return margin;
-        }
-        margin = newMargin;
-        return my;
-    };
+	my.lastRecord = function (newLastRecord) {
+		if (!arguments.length) {
+			return lastRecord;
+		}
+		lastRecord = newLastRecord;
+		return my;
+	};
 
-    my.zoom = function (newZoom) {
-        if (!arguments.length) {
-            return zoom;
-        }
-        zoom = newZoom;
-        return my;
-    };
+	my.firstRecord = function (newFirstRecord) {
+		if (!arguments.length) {
+			return firstRecord;
+		}
+		firstRecord = newFirstRecord;
+		return my;
+	};
+	
+	my.rect = function (newRect) {
+		if (!arguments.length) {
+			return rect;
+		}
+		rect = newRect;
+		return my;
+	};
 
-    my.lastRecord = function (newLastRecord) {
-        if (!arguments.length) {
-            return lastRecord;
-        }
-        lastRecord = newLastRecord;
-        return my;
-    };
+	/*
+	 * Methods
+	 */
 
-    my.firstRecord = function (newFirstRecord) {
-        if (!arguments.length) {
-            return firstRecord;
-        }
-        firstRecord = newFirstRecord;
-        return my;
-    };
+	 my.resize = function (height, width) {
+		if (arguments.length) {
+			my.height(height);
+			my.width(width);
+		}
+		my.x().range([0, my.width()]);
+		my.svg().attr("width", my.width());
+		my.y().range([my.height(), 0]);
+		my.svg().attr("height", my.height());
+		
+		my.verticalLine().attr("height", my.height());
+		return my;
+	};
 
-    my.last = function (newLast) {
-        if (!arguments.length) {
-            return margin;
-        }
-        last = newLast;
-        return my;
-    };
+	my.redraw = function () {
+		my.x().range([0, my.width()]);
+		my.y().range([my.height(), 0]);
+		
+		my.verticalLine().attr("height", my.height());
 
-    my.first = function (newFirst) {
-        if (!arguments.length) {
-            return first;
-        }
-        first = newFirst;
-        return my;
-    };
+		if (my.width() < 300 && my.height() < 80) {
+			my.graph().select('.x.axis').style("display", "none");
+			my.graph().select('.y.axis').style("display", "none");
 
-    /*
-     * Methods
-     */
+			my.graph().select(".first")
+			.attr("transform", "translate(" + my.x()(my.firstRecord().date) +
+					"," + my.y()(my.firstRecord().close) + ")")
+					.style("display", "initial");
 
-    my.resize = function (height, width) {
-        if (arguments.length) {
-            my.height(height);
-            my.width(width);
-        }
-        my.x().range([0, my.width()]);
-        my.svg().attr("width", my.width());
-        my.y().range([my.height(), 0]);
-        my.svg().attr("height", my.height());
+			my.graph().select(".last")
+			.attr("transform", "translate(" + my.x()(my.lastRecord().date) +
+					"," + my.y()(my.lastRecord().close) + ")")
+					.style("display", "initial");
+		}
+		else {
+			my.graph().select('.x.axis').style("display", "initial");
+			my.graph().select('.y.axis').style("display", "initial");
+			my.graph().select(".last").style("display", "none");
+			my.graph().select(".first").style("display", "none");
+		}
 
-        // Creation d'une fonction scale pour mettre a l'echelle les cercles
-        // Pour la taille des cercles
-        var scale = d3.scale.linear()
-                .domain([0, d3.max(data, function (d) {
-                    return d.close;
-                })])
-                .range([0, 50]);
-        
-        // On supprime tous les cercles
-        d3.selectAll("circle").remove();
-        
-        // On affiche tous les cercles visibles ou non
-        my.graph()
-                .selectAll("dot")
-                .data(my.data())
-                .enter()
-                .append("circle")
-                .attr("r", function (d) {
-                    return scale(d.average);
-                })
-                .attr("tooltip", function (d) {
-                    return "X : " + d.date.getFullYear() + "</b><br/>Y : " + parseInt(d.average) + ")";
-                })
-                .attr("cx", function (d) {
-                    return x(d.date);
-                }).attr("cy", function (d) {
-                    return y(d.average);
-                })
-                .style("fill", "blue")
-                .style("visibility", function(d) {
-                    return d.visible ? "visible" : "hidden";
-                })
-                .style("opacity", "0.8");
+		my.yAxis().ticks(Math.max(my.height() / 50, 2));
+		my.xAxis().ticks(Math.max(my.width() / 100, 2));
 
-        // On supprime tous les cercles non visibles
-        d3.selectAll("circle").filter(function(d) { return !d.visible; }).remove();
-        
-        // On affiche l'etiquette
-        d3.selectAll("circle").each(function(d, i){
-            var circle = d3.select(this);
-            circle.on("mouseover", function(d) {		
-                    div.transition()
-                            .duration(500)	
-                            .style("opacity", 0);
-                    div.transition()
-                            .duration(200)	
-                            .style("opacity", .9);	
-                    div.html(circle.attr("tooltip"))	 
-                            .style("left", (d3.event.pageX) + "px")			 
-                            .style("top", (d3.event.pageY - 28) + "px");
-            });
-        });
-           
-        // Une fois avoir mis en place les cercles
-        // On applique le zoom
-        d3.selectAll("circle").on("click", my.zoomed);
-        return my;
-    };
-    
-    my.zoomed = function () {
-    	var xClicked = d3.select(this).attr("cx");
-    	my.filterData(xClicked);
-    	dataFilter = [];
-    	console.log(data);
-    	data.forEach(function(d) {
-    		if(d.onZoom){
-    			dataFilter.push(d);
-    		}
-    	});
-    	
-    	my.graph().select(".x.axis").call(my.xAxis());
-    	my.graph().select(".line").attr("d", my.line());
-    	 //my.graph().select(".line").attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");     
-    };
-    
-    /*
-     * Cette methode permet de filtrer les donnees pour
-     * zoomer sur celles-ci. On recupere les donnees du step
-     * ou le clic a ete fait
-     */
-    my.filterData = function (xClicked) {
-    	var nbData = parseInt(my.width() / 100);
-    	// Nombre de donnees par tranche
-        var step = parseInt(data.length / nbData);
-        // Nombre de tranche sur le graphe
-        var nbStep = parseInt(data.length / step);
-        // Numero du step de xClicked
-        var numStepX = parseInt(xClicked / step);
-    	var count = 0;
-    	var num = 1;
+		my.graph().select('.x.axis')
+		.attr("transform", "translate(0," + my.height() + ")")
+		.call(my.xAxis());
 
-    	console.log(numStepX + " --- " + xClicked + " --- " + nbStep);
-        // On parcourt les donnees
-        data.forEach(function(d) {
-        	// Si la donnee est dans la step ou le clic a ete fait
-        	if(count < step && num === numStepX){
-        		d.onZoom = true;
-        		count += 1;
-        	}
-        	else {
-        		if(count === step){
-        			count = 1;
-        			num += 1;
-        		}
-        		d.onZoom = false;
-        		count += 1;
-        	}
-        });
-        return my;
-    };
-    
-    /*
-     * Cette methode permet de modifier le nombre de donnees
-     * a afficher en fonction de la taille de l'ecran
-     */
-    my.updateData = function() {
-        var nbData = parseInt(my.width() / 100);
-        var step = parseInt(data.length / nbData);
-        
-        var count = 0;
-        var sum = 0;
-        var averageNode = null;
-        
-        // On parcourt les donnees
-        data.forEach(function(d) {
-            if(count === step){
-            	// On met la moyenne au noeud du milieu
-                averageNode.average = sum / step;
-                d.visible = false;
-                d.average = d.close;
-                sum = d.close;
-                count = 1;
-            }
-            else if(count === parseInt(step / 2)){
-            	// On est au milieu du step
-            	// On met en place un noeud qui sera affiche en un point
-                averageNode = d;
-                averageNode.visible = true;
-                averageNode.average = averageNode.close;
-                sum += averageNode.close;
-                count += 1;
-            }
-            else {
-                d.visible = false;
-                d.average = d.close;
-                sum += d.close;
-                count += 1;
-            }
-        });
-        
-        return my;
-    };
-    
-    return my;
+		my.graph().select('.y.axis')
+		.call(my.yAxis());
+
+		var dataPerPixel = my.data().length / my.width();
+		var dataResampled = my.data().filter(function (d, i) {
+			return i % Math.ceil(dataPerPixel) === 0;
+		});
+
+		my.graph().selectAll('.line').datum(dataResampled).attr("d", my.line());
+	};
+
+	my.updateFirstEndCircle = function(graph, firstRecord, lastRecord){
+		var first = graph.append("g")
+		.attr("class", "first")
+		.style("display", "none");
+
+		first.append("text")
+		.attr("x", -8)
+		.attr("y", 4)
+		.attr("text-anchor", "end")
+		.text(firstRecord.close);
+		first.append("circle").attr("r", 4);
+
+		var last = graph.append("g")
+		.attr("class", "last")
+		.style("display", "none");
+
+		last.append("text")
+		.attr("x", 8)
+		.attr("y", 4)
+		.text(lastRecord.close);
+		last.append("circle")
+		.attr("r", 4);
+	};
+
+	my.udateMouseMove = function(container){
+		var formatter = d3.time.format("%d/%m/%Y");
+		
+		container.on("mousemove", function() {
+			var verticalLine = my.verticalLine();
+			var tooltip = my.tooltip();
+			var map = my.map();
+			var margin = my.margin();
+			var height = my.height();
+			var width = my.width();
+			
+			// Recuperation de la position X & Y de la souris.
+			var cursor = d3.mouse(this);
+			var mouse_x = cursor[0];
+			var mouse_y = cursor[1];
+
+			// Si la position de la souris est en dehors de la zone du graphique, 
+			// on arrete le traitement
+			if (mouse_x < margin || mouse_x > (width + margin) || mouse_y < margin || mouse_y > (height + margin)) {
+				return ;
+			}
+
+			// Grace a la fonction 'invert' on peut recuperer les valeurs
+			// correspondant a notre position
+			// Il faut soustraire la marge pour que la valeur soit correct.
+			var selectedDate = x.invert(mouse_x - margin);
+			var selectedClose = Number((y.invert(mouse_y - margin)).toFixed(2));
+			
+			// Positionnement de la barre verticale
+			// en tenant compte de la marge
+			verticalLine.attr("x1", mouse_x - margin);
+			verticalLine.attr("x2", mouse_x - margin);
+			verticalLine.style("opacity", 1);
+
+			selectedDate.setHours(0,0,0,0);
+			var entry = map[selectedDate];
+			if (typeof entry === "undefined") {
+				entry = {
+							date: selectedDate,
+							close: selectedClose
+						};
+			}
+			
+			// On affiche l'etiquette associee
+			tooltip
+				.style("opacity", .9);
+			tooltip
+				.style("left", (d3.event.pageX + 20) + "px")    
+				.style("top", (d3.event.pageY - 30) + "px")
+				.html("<b>Date : </b>" + formatter(entry.date) + "<br>"
+					+ "<b>Valeur : </b>" + entry.close + "<br>");
+				})
+				.on("mouseout", function() {
+					var cursor = d3.mouse(this);
+					var mouse_x = cursor[0];
+					var mouse_y = cursor[1];
+		
+					// Si la position de la souris est en dehors de la zone du graphique, 
+					// on masque la ligne et le tooltip
+					if (mouse_x < margin || mouse_x > (width + margin) || mouse_y < margin || mouse_y > (height + margin)) {
+						tooltip.style("opacity", 0);
+						verticalLine.style("opacity", 0);
+					}
+				});
+	}
+	
+	my.udateTouchMove = function(container){
+		var formatter = d3.time.format("%d/%m/%Y");
+		
+		container.on("touchmove", function() {
+			var verticalLine = my.verticalLine();
+			var tooltip = my.tooltip();
+			var map = my.map();
+			var margin = my.margin();
+			var height = my.height();
+			var width = my.width();
+			
+			// Recuperation de la position X & Y du touch
+			var cursor = d3.touches(this)[0];
+			var mouse_x = parseInt(cursor[0]);
+			var mouse_y = parseInt(cursor[1]);
+
+			// Si la position de la souris est en dehors de la zone du graphique, 
+			// on arrete le traitement
+			if (mouse_x < margin || mouse_x > (width + margin) || mouse_y < margin || mouse_y > (height + margin)) {
+				return ;
+			}
+
+			// Grace a la fonction 'invert' on peut recuperer les valeurs
+			// correspondant a notre position
+			// Il faut soustraire la marge pour que la valeur soit correct.
+			var selectedDate = x.invert(mouse_x - margin);
+			var selectedClose = Number((y.invert(mouse_y - margin)).toFixed(2));
+			
+			// Positionnement de la barre verticale
+			// en tenant compte de la marge
+			verticalLine.attr("x1", mouse_x - margin);
+			verticalLine.attr("x2", mouse_x - margin);
+			verticalLine.style("opacity", 1);
+
+			selectedDate.setHours(0,0,0,0);
+			var entry = map[selectedDate];
+			if (typeof entry === "undefined") {
+				entry = {
+							date: selectedDate,
+							close: selectedClose
+						};
+			}
+			
+			// On affiche l'etiquette associee
+			console.log(mouse_x + " " + mouse_y);
+			tooltip
+				.style("opacity", .9);
+			tooltip
+				.style("left", (mouse_x + 20) + "px")    
+				.style("top", (mouse_y + 30) + "px")
+				.html("<b>Date : </b>" + formatter(entry.date) + "<br>"
+					+ "<b>Valeur : </b>" + entry.close + "<br>");
+				})
+				.on("touchend", function() {
+					tooltip.style("opacity", 0);
+					verticalLine.style("opacity", 0);
+				});
+	}
+	
+	return my;
 
 };
-
-var data = d3.tsv("./data/dataFemaleUs.tsv", function (error, data) {
-    if (error)
-        alert(error);
-    var options = {
-        height: window.innerHeight - 120,
-        width: window.innerWidth - 120,
-        margin: 60,
-        data: data
-    };
-    var my = TimeLine(options);
-    my();
-});
-
-//var data = d3.csv("./data/pollution.csv", function(error, data) {
-//	if (error) alert(error);
-//	var dataFilter = [];
-//	var dataInt = {};
-//	data.forEach(function(d) { 
-//		if(d["COU"] === "FRA"){
-//			dataInt = {
-//					date: parseInt(d["Annee"]),
-//					close: d["Value"]
-//			}
-//			console.log(dataInt["date"]);
-//			dataFilter.push(dataInt);
-//		}
-//	});
-//	var options = {
-//			height: 300,
-//			width: 500,
-//			margin: 60,
-//			data: dataFilter
-//	}
-//	var my = TimeLine(options);
-//	my();
-//});
