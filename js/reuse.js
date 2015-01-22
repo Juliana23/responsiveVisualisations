@@ -368,8 +368,8 @@ function TimeLine(options) {
 			my.height(height);
 			my.width(width);
 		}
-		// On enleve le zoom
-		my.graph().attr("transform", "translate(" + my.margin() + "," + my.margin() + ")scale(" + 1 + ")");
+		
+		my.zoomOut();
 		
 		my.x().range([0, my.width()]);
 		my.svg().attr("width", my.width());
@@ -380,6 +380,21 @@ function TimeLine(options) {
 		my.updateArgsVerticalLine(my.height());
 		return my;
 	};
+	
+	my.zoomOut = function() {
+		// On enleve le zoom
+		my.graph().attr("transform", "translate(" + my.margin() + "," + my.margin() + ")scale(" + 1 + ")");
+		my.verticalLine().attr("transform", null);
+		my.rect().attr("transform", null);
+	}
+	
+	my.zoomIn = function() {
+		// On met le zoom
+		my.graph().attr("transform", "translate(" + (my.margin() + 20) + "," + my.margin() + ")scale(" + 2 + ")");
+		my.verticalLine().attr("transform", "translate(" + 20 + ")");
+		my.rect().attr("transform", "scale(" + 2 + ")");
+		my.updateArgsRect(my.width(), my.height(), my.margin());
+	}
 
 	my.redraw = function () {
 		//my.x().range([0, my.width()]);
@@ -409,19 +424,12 @@ function TimeLine(options) {
 		}
 		
 		// On redefinit la quantite d'information sur les axes X & Y
-		// Si on est en mode portrait la visualisation
-		// est moins lisible
-		if(my.width() < my.height()){
-			my.yAxis().ticks(Math.max(my.height() / 200, 2));
-		}
-		else{
-			my.yAxis().ticks(Math.max(my.height() / 100, 2));
-		}
+		my.yAxis().ticks(Math.max(my.height() / 100, 2));
 		my.xAxis().ticks(Math.max(my.width() / 100, 2));
 		
 		if (my.width() < my.height()) {
 			my.resize(my.height() / 2, my.width() / 2);
-			my.graph().attr("transform", "translate(" + (my.margin() + 20) + "," + my.margin() + ")scale(" + 2 + ")");
+			my.zoomIn();
 		}
 		my.graph().select('.x.axis')
 		.attr("transform", "translate(0," + my.height() + ")")
