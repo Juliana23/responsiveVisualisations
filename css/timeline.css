@@ -2,10 +2,217 @@ body {
 	font: 10px sans-serif;
 }
 
+g {
+    overflow: visible;
+}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+	.axis text {
+        font-size: 20px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 20px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 20px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen 
+and (min-width : 321px) {
+	.axis text {
+        font-size: 22px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 22px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 22px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen 
+and (max-width : 320px) {
+	.axis text {
+        font-size: 20px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 20px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 20px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+	.axis text {
+        font-size: 15px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 11px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 11px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+	.axis text {
+        font-size: 15px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 11px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 11px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+	.axis text {
+        font-size: 15px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 11px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 11px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1224px) {
+	.axis text {
+        font-size: 15px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 11px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 11px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+	.axis text {
+        font-size: 15px;
+    }
+    div {
+		position: absolute;
+		background-color: #000;
+		color: #FFF;
+		font: bold 11px verdana;
+		padding-left: 10px;
+		padding-top: 7px;
+		text-shadow: 1px 1px 0 #222;
+	}
+	
+	div a {
+		color: #318DAD;
+		font: bold 11px verdana;
+		text-decoration: none;
+		text-shadow: none;
+	}
+}
+
+.area {
+    fill: none;
+    stroke: steelblue;
+    clip-path: url(#clip);
+}
 .axis path, .axis line {
-	fill: none;
-	stroke: #000;
-	shape-rendering: crispEdges;
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
 }
 
 #graph {
@@ -13,6 +220,13 @@ body {
 	height: 100%;
 	position: absolute;
 }
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+
 
 .axis text {
 	fill: #555;
@@ -26,23 +240,6 @@ body {
 
 .arc path {
   stroke: #fff;
-}
-
-div {
-	position: absolute;
-	background-color: #000;
-	color: #FFF;
-	font: bold 11px verdana;
-	padding-left: 10px;
-	padding-top: 7px;
-	text-shadow: 1px 1px 0 #222;
-}
-
-div a {
-	color: #318DAD;
-	font: bold 11px verdana;
-	text-decoration: none;
-	text-shadow: none;
 }
 
 .verticalLine {
