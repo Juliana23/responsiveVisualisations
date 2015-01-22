@@ -21,8 +21,10 @@ function TimeLine(options) {
 	my.init = function (options) {
 
 		//On cree un nouveau noeud <svg>
-		my.svg(d3.select("body").append("svg").attr("id", "graph"));
-
+		my.svg(d3.select("body")
+				.append("svg")
+				.attr("id", "graph"));
+				
 		// Initialisation de la taille du graphe
 		my.margin(options.margin || 60);
 		my.width(options.width || parseInt(d3.select("#graph").style("width")) - my.margin() * 2);
@@ -70,6 +72,9 @@ function TimeLine(options) {
 
 		// Resize du graph
 		my.resize(my.height(), my.width());
+		
+		// Redessine le graphe de maniere reponsive
+		my.redraw();
 		
 		return my;
 	};
@@ -358,12 +363,14 @@ function TimeLine(options) {
 	/*
 	 * Methods
 	 */
-
 	 my.resize = function (height, width) {
 		if (arguments.length) {
 			my.height(height);
 			my.width(width);
 		}
+		// On enleve le zoom
+		my.graph().attr("transform", "translate(" + my.margin() + "," + my.margin() + ")scale(" + 1 + ")");
+		
 		my.x().range([0, my.width()]);
 		my.svg().attr("width", my.width());
 		my.y().range([my.height(), 0]);
@@ -375,8 +382,8 @@ function TimeLine(options) {
 	};
 
 	my.redraw = function () {
-		my.x().range([0, my.width()]);
-		my.y().range([my.height(), 0]);
+		//my.x().range([0, my.width()]);
+		//my.y().range([my.height(), 0]);
 		
 		my.verticalLine().attr("height", my.height());
 
@@ -400,10 +407,22 @@ function TimeLine(options) {
 			my.graph().select(".last").style("display", "none");
 			my.graph().select(".first").style("display", "none");
 		}
-
-		my.yAxis().ticks(Math.max(my.height() / 50, 2));
+		
+		// On redefinit la quantite d'information sur les axes X & Y
+		// Si on est en mode portrait la visualisation
+		// est moins lisible
+		if(my.width() < my.height()){
+			my.yAxis().ticks(Math.max(my.height() / 200, 2));
+		}
+		else{
+			my.yAxis().ticks(Math.max(my.height() / 100, 2));
+		}
 		my.xAxis().ticks(Math.max(my.width() / 100, 2));
-
+		
+		if (my.width() < my.height()) {
+			my.resize(my.height() / 2, my.width() / 2);
+			my.graph().attr("transform", "translate(" + (my.margin() + 20) + "," + my.margin() + ")scale(" + 2 + ")");
+		}
 		my.graph().select('.x.axis')
 		.attr("transform", "translate(0," + my.height() + ")")
 		.call(my.xAxis());

@@ -24,17 +24,6 @@ body {
 	stroke-width: 1.5px;
 }
 
-.brush .extent {
-  stroke: #fff;
-  fill-opacity: .125;
-  shape-rendering: crispEdges;
-}
-
-.zoomable {
-	cursor: move;
-	pointer-events: all;
-}
-
 .arc path {
   stroke: #fff;
 }
