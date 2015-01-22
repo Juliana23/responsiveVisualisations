@@ -64,9 +64,12 @@ function TimeLine(options) {
 			my.updateFirstEndCircle(my.graph(), my.firstRecord(), my.lastRecord());
 		}
 		
-		my.udateMouseMove(my.rect());
+		//my.udateMouseMove(my.rect());
 		
-		my.udateTouchMove(my.rect());
+		//my.udateTouchMove(my.rect());
+		
+		my.updateMove(my.rect(), "mousemove", "mouseout", true);
+		my.updateMove(my.rect(), "touchmove", "touchend", false);
 
 		// Resize du graph
 		my.resize(my.height(), my.width());
@@ -420,130 +423,82 @@ function TimeLine(options) {
 		last.append("circle")
 		.attr("r", 4);
 	};
-
-	my.udateMouseMove = function(container){
-		var formatter = d3.time.format("%d/%m/%Y");
-		
-		container.on("mousemove", function() {
-			var verticalLine = my.verticalLine();
-			var tooltip = my.tooltip();
-			var map = my.map();
-			var margin = my.margin();
-			var height = my.height();
-			var width = my.width();
-			
-			// Recuperation de la position X & Y de la souris.
-			var cursor = d3.mouse(this);
-			var mouse_x = cursor[0];
-			var mouse_y = cursor[1];
-
-			// Si la position de la souris est en dehors de la zone du graphique, 
-			// on arrete le traitement
-			if (mouse_x < margin || mouse_x > (width + margin) || mouse_y < margin || mouse_y > (height + margin)) {
-				return ;
-			}
-
-			// Grace a la fonction 'invert' on peut recuperer les valeurs
-			// correspondant a notre position
-			// Il faut soustraire la marge pour que la valeur soit correct.
-			var selectedDate = x.invert(mouse_x - margin);
-			var selectedClose = Number((y.invert(mouse_y - margin)).toFixed(2));
-			
-			// Positionnement de la barre verticale
-			// en tenant compte de la marge
-			verticalLine.attr("x1", mouse_x - margin);
-			verticalLine.attr("x2", mouse_x - margin);
-			verticalLine.style("opacity", 1);
-
-			selectedDate.setHours(0,0,0,0);
-			var entry = map[selectedDate];
-			if (typeof entry === "undefined") {
-				entry = {
-							date: selectedDate,
-							close: selectedClose
-						};
-			}
-			
-			// On affiche l'etiquette associee
-			tooltip
-				.style("opacity", .9);
-			tooltip
-				.style("left", (d3.event.pageX + 20) + "px")    
-				.style("top", (d3.event.pageY - 30) + "px")
-				.html("<b>Date : </b>" + formatter(entry.date) + "<br>"
-					+ "<b>Valeur : </b>" + entry.close + "<br>");
-				})
-				.on("mouseout", function() {
-					var cursor = d3.mouse(this);
-					var mouse_x = cursor[0];
-					var mouse_y = cursor[1];
-		
-					// Si la position de la souris est en dehors de la zone du graphique, 
-					// on masque la ligne et le tooltip
-					if (mouse_x < margin || mouse_x > (width + margin) || mouse_y < margin || mouse_y > (height + margin)) {
-						tooltip.style("opacity", 0);
-						verticalLine.style("opacity", 0);
-					}
-				});
-	}
 	
-	my.udateTouchMove = function(container){
+	my.updateMove = function(container, event, eventEnd, onDesktop){
 		var formatter = d3.time.format("%d/%m/%Y");
-		
-		container.on("touchmove", function() {
+
+		container.on(event, function() {
 			var verticalLine = my.verticalLine();
 			var tooltip = my.tooltip();
 			var map = my.map();
 			var margin = my.margin();
 			var height = my.height();
 			var width = my.width();
-			
-			// Recuperation de la position X & Y du touch
-			var cursor = d3.touches(this)[0];
-			var mouse_x = parseInt(cursor[0]);
-			var mouse_y = parseInt(cursor[1]);
+
+			// Recuperation de la position X & Y
+			var cursor;
+			if(onDesktop){
+				cursor = d3.mouse(this);
+			}
+			else{
+				cursor = d3.touches(this)[0];
+			}
+			var cursor_x = parseInt(cursor[0]);
+			var cursor_y = parseInt(cursor[1]);
 
 			// Si la position de la souris est en dehors de la zone du graphique, 
 			// on arrete le traitement
-			if (mouse_x < margin || mouse_x > (width + margin) || mouse_y < margin || mouse_y > (height + margin)) {
+			if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
 				return ;
 			}
 
 			// Grace a la fonction 'invert' on peut recuperer les valeurs
 			// correspondant a notre position
 			// Il faut soustraire la marge pour que la valeur soit correct.
-			var selectedDate = x.invert(mouse_x - margin);
-			var selectedClose = Number((y.invert(mouse_y - margin)).toFixed(2));
-			
+			var selectedDate = x.invert(cursor_x - margin);
+			var selectedClose = Number((y.invert(cursor_y - margin)).toFixed(2));
+
 			// Positionnement de la barre verticale
 			// en tenant compte de la marge
-			verticalLine.attr("x1", mouse_x - margin);
-			verticalLine.attr("x2", mouse_x - margin);
+			verticalLine.attr("x1", cursor_x - margin);
+			verticalLine.attr("x2", cursor_x - margin);
 			verticalLine.style("opacity", 1);
 
 			selectedDate.setHours(0,0,0,0);
 			var entry = map[selectedDate];
 			if (typeof entry === "undefined") {
 				entry = {
-							date: selectedDate,
-							close: selectedClose
-						};
+						date: selectedDate,
+						close: selectedClose
+				};
 			}
-			
+
 			// On affiche l'etiquette associee
-			console.log(mouse_x + " " + mouse_y);
 			tooltip
-				.style("opacity", .9);
+			.style("opacity", .9);
 			tooltip
-				.style("left", (mouse_x + 20) + "px")    
-				.style("top", (mouse_y + 30) + "px")
-				.html("<b>Date : </b>" + formatter(entry.date) + "<br>"
+			.style("left", ((onDesktop ? d3.event.pageX : cursor_x) + 20) + "px")    
+			.style("top", ((onDesktop ? d3.event.pageY : cursor_y - 40) - 30) + "px")
+			.html("<b>Date : </b>" + formatter(entry.date) + "<br>"
 					+ "<b>Valeur : </b>" + entry.close + "<br>");
-				})
-				.on("touchend", function() {
+		})
+		.on(eventEnd, function() {
+			if(onDesktop){
+				var cursor = d3.mouse(this);
+				var cursor_x = parseInt(cursor[0]);
+				var cursor_y = parseInt(cursor[1]);
+				// Si la position de la souris est en dehors de la zone du graphique, 
+				// on masque la ligne et le tooltip
+				if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
 					tooltip.style("opacity", 0);
 					verticalLine.style("opacity", 0);
-				});
+				}
+			}
+			else{
+				tooltip.style("opacity", 0);
+				verticalLine.style("opacity", 0);
+			}
+		});
 	}
 	
 	return my;
