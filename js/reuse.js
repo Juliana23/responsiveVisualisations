@@ -53,7 +53,7 @@ function TimeLine(options) {
 		my.initVerticalLine(my.graph(), my.height());
 		
 		// Initialisation du rectangle
-		my.initRect(my.svg());
+		my.initRect(my.svg(), my.width(), my.height(), my.margin());
 		
 		/*
 		 * On recupere la premiere et derniere
@@ -64,10 +64,7 @@ function TimeLine(options) {
 			my.updateFirstEndCircle(my.graph(), my.firstRecord(), my.lastRecord());
 		}
 		
-		//my.udateMouseMove(my.rect());
-		
-		//my.udateTouchMove(my.rect());
-		
+		// On met les evenements sur le graphe a jour
 		my.updateMove(my.rect(), "mousemove", "mouseout", true);
 		my.updateMove(my.rect(), "touchmove", "touchend", false);
 
@@ -187,11 +184,11 @@ function TimeLine(options) {
 		my.graph(graph);
 	};
 	
-	my.initRect = function (container) {
+	my.initRect = function (container, width, height, margin) {
 		// On cree un rectangle par dessus la visualisation
 		var rect = container.append("rect")
-		.attr("width", my.width() + margin)
-		.attr("height", my.height() + margin)
+		.attr("width", width + margin)
+		.attr("height", height + margin)
 		.style("opacity", 0)
 		.attr("class", "onMouseMove");
 		my.rect(rect);
@@ -336,6 +333,27 @@ function TimeLine(options) {
 		rect = newRect;
 		return my;
 	};
+	
+	my.updateArgsRect = function (width, height, margin) {
+		if (!arguments.length) {
+			return my.rect();
+		}
+		my.rect()
+		.attr("width", width + margin)
+		.attr("height", height + margin);
+		
+		return my.rect();
+	};
+	
+	my.updateArgsVerticalLine = function (height) {
+		if (!arguments.length) {
+			return my.verticalLine();
+		}
+		my.verticalLine()
+		.attr("y2",height)
+		
+		return my.verticalLine();
+	};
 
 	/*
 	 * Methods
@@ -351,7 +369,8 @@ function TimeLine(options) {
 		my.y().range([my.height(), 0]);
 		my.svg().attr("height", my.height());
 		
-		my.verticalLine().attr("height", my.height());
+		my.updateArgsRect(my.width(), my.height(), my.margin());
+		my.updateArgsVerticalLine(my.height());
 		return my;
 	};
 
