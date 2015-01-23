@@ -533,6 +533,11 @@ function TimeLine(options) {
     /*
      * Methods
      */
+    
+    /*
+     * Cette methode applique les redimensions
+     * de la visualisation
+     */
     my.resize = function (height, width) {
         if (arguments.length) {
             my.height(height);
@@ -551,6 +556,9 @@ function TimeLine(options) {
         return my;
     };
 
+    /*
+     * Cette methode redessine le graphe
+     */
     my.redraw = function () {
         my.svg().select("rect")
                 .attr("width", window.innerWidth - (2 * my.margin()))
@@ -633,6 +641,10 @@ function TimeLine(options) {
         my.context().select('.area').datum(dataResampled).attr("d", my.brushArea());
     };
 
+    /*
+     * Cette methode met a jour les cercles 
+     * de la premiere et derniere valeur
+     */
     my.updateFirstEndCircle = function (graph, firstRecord, lastRecord) {
         var first = graph.append("g")
                 .attr("class", "first")
@@ -657,6 +669,10 @@ function TimeLine(options) {
                 .attr("r", 4);
     };
 
+    /*
+     * Cette methode applique les etiquettes
+     * lorsqu'on se deplace sur la courbe
+     */
     my.updateMove = function (container, event, eventEnd, onDesktop) {
         var formatter = d3.time.format("%d/%m/%Y");
 

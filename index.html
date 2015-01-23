@@ -7,39 +7,11 @@
 
 <!-- import JS -->
 <script type="text/javascript" src="./d3/d3.v3.min.js"></script>
-<script type="text/javascript" src="./js/timeline.js"></script>
+<script type="text/javascript" src="./js/sizeWindow.js"></script>
 <script type="text/javascript" src="./js/reuse.js"></script>
 </head>
 <body>
 <script>
-
-	function getWidth() {
-		xWidth = null;
-		if (window.screen != null)
-			xWidth = window.screen.availWidth;
-
-		if (window.innerWidth != null)
-			xWidth = window.innerWidth;
-
-		if (document.body != null)
-			xWidth = document.body.clientWidth;
-
-		return xWidth;
-	}
-	function getHeight() {
-		xHeight = null;
-		if (window.screen != null)
-			xHeight = window.screen.availHeight;
-
-		if (window.innerHeight != null)
-			xHeight = window.innerHeight;
-
-		if (document.body != null)
-			xHeight = document.body.clientHeight;
-		
-		return xHeight;
-	}
-
 	var data = d3.tsv("./data/dataFemaleUs.tsv", function(error, data) {
 		if (error)
 			alert(error);
