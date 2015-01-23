@@ -7,12 +7,33 @@
 
 <!-- import JS -->
 <script type="text/javascript" src="./d3/d3.v3.min.js"></script>
-<script type="text/javascript" src="./js/sizeWindow.js"></script>
-<script type="text/javascript" src="./js/reuse.js"></script>
+<script type="text/javascript" src="./js/utils/parseData.js"></script>
+<script type="text/javascript" src="./js/utils/sizeWindow.js"></script>
+<script type="text/javascript" src="./js/visualizations/reuse.js"></script>
 </head>
 <body>
 <script>
-	var data = d3.tsv("./data/dataFemaleUs.tsv", function(error, data) {
+// 	var data = d3.tsv("./data/dataFemaleUs.tsv", function(error, data) {
+// 		if (error)
+// 			alert(error);
+// 		var options = {
+// 			height : window.innerHeight - 120,
+// 			width : window.innerWidth - 120,
+// 			margin : 60,
+// 			brush : {
+// 				height : 50,
+// 				marginTop : 30
+// 			},
+// 			data : data,
+// 			formatDate: "%Y-%m"
+// 		};
+// 		var my = TimeLine(options);
+// 		my();
+// 	});
+
+	
+	var data = d3.tsv("./data/sp500.tsv", function(error, data) {
+		dataParsed = parseData(data);
 		if (error)
 			alert(error);
 		var options = {
@@ -23,7 +44,8 @@
 				height : 50,
 				marginTop : 30
 			},
-			data : data
+			data : dataParsed,
+			formatDate: "%Y-%m-%d"
 		};
 		var my = TimeLine(options);
 		my();

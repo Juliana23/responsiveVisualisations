@@ -45,7 +45,7 @@ function TimeLine(options) {
         my.height(options.height || parseInt(d3.select("#graph").style("height")) - my.margin() * 2);
 
         // Initialisation des donnees
-        my.initData(options.data);
+        my.initData(options.data, options.formatDate);
 
         // Initialisation de la map
         my.initMap(my.data());
@@ -101,9 +101,10 @@ function TimeLine(options) {
      * Fonctions d'initialisation
      */
 
-    my.initData = function (pData) {
+    my.initData = function (pData, formatDate) {
         var data = pData || [];
-        var parseDate = d3.time.format("%Y-%m").parse;
+        var parseDate = d3.time.format(formatDate).parse || d3.time.format("%Y-%m").parse;
+        //var parseDate = d3.time.format("%Y-%m-%d").parse;
         data.forEach(function (d) {
             d.date = parseDate(d.date);
             d.close = +d.close;
