@@ -4,6 +4,9 @@ function TimeLine(options) {
     function my() {
         my.init(options);
 
+        /*
+         * Fonction qui est appelee lors d'un resize de l'ecran
+         */
         function resize() {
             if (parseInt(d3.select("#graph").style("height")) < 200) {
                 my.brushHeight(0);
@@ -15,6 +18,7 @@ function TimeLine(options) {
                 my.brushHeight(50);
             }
 
+            // On redefinit les tailles
             var width = parseInt(d3.select("#graph").style("width")) - my.margin() * 2,
                     height = parseInt(d3.select("#graph").style("height")) - my.brushHeight() - options.brush.marginTop - my.margin() * 2;
 
@@ -47,9 +51,6 @@ function TimeLine(options) {
         // Initialisation des donnees
         my.initData(options.data, options.formatDate);
 
-        // Initialisation de la map
-        my.initMap(my.data());
-
         // Initialisation des axes
         my.initX(my.width(), my.data());
         my.initY(my.height(), my.data());
@@ -64,9 +65,6 @@ function TimeLine(options) {
 
         // Initialisation du graphe
         my.initGraph(my.margin(), my.height(), my.width(), my.xAxis(), my.yAxis(), my.data());
-
-        // Initialisation de la ligne verticale
-        my.initVerticalLine(my.graph(), my.height());
 
         // Initialisation du rectangle
         my.initRect(my.svg(), my.width(), my.height(), my.margin());
@@ -84,9 +82,9 @@ function TimeLine(options) {
         my.updateMove(my.rect(), "mousemove", "mouseout", true);
         my.updateMove(my.rect(), "touchmove", "touchend", false);
         
+        // Deuxieme methode pour les evenements
 //        my.updateMoveOld(my.rect(), "mousemove", "mouseout", true);
 //        my.updateMoveOld(my.rect(), "touchmove", "touchend", false);
-      //  my.updateColorMove(d3.select(".focus").select(".line"), "mouseover");
 
         // Resize du graph
         my.resize(my.height(), my.width());
@@ -97,14 +95,16 @@ function TimeLine(options) {
         return my;
     };
 
-    /*
+    /*******************************
      * Fonctions d'initialisation
-     */
+     ********************************/
 
+    /*
+     * Initialisation des donnees
+     */
     my.initData = function (pData, formatDate) {
         var data = pData || [];
-        var parseDate = d3.time.format(formatDate).parse || d3.time.format("%Y-%m").parse;
-        //var parseDate = d3.time.format("%Y-%m-%d").parse;
+        var parseDate = formatDate != null ? d3.time.format(formatDate).parse : d3.time.format("%Y-%m").parse;
         data.forEach(function (d) {
             d.date = parseDate(d.date);
             d.close = +d.close;
@@ -114,14 +114,9 @@ function TimeLine(options) {
         my.lastRecord(data[data.length - 1]);
     };
 
-    my.initMap = function (data) {
-        var map = {};
-        data.forEach(function (d) {
-            map[d.date] = d;
-        });
-        my.map(map);
-    };
-
+    /*
+     * Initialisation des abscisses
+     */
     my.initX = function (width, data) {
         var x = d3.time.scale()
                 .range([0, width])
@@ -132,6 +127,9 @@ function TimeLine(options) {
         my.x(x);
     };
 
+    /*
+     * Initialisation des ordonnees
+     */
     my.initY = function (height, data) {
         var y = d3.scale.linear()
                 .range([height, 0])
@@ -142,6 +140,9 @@ function TimeLine(options) {
         my.y(y);
     };
 
+    /*
+     * Initialisation de l'etiquette
+     */
     my.initTooltip = function (width) {
         var tooltip = d3.select("body")
                 .append("div")
@@ -152,18 +153,9 @@ function TimeLine(options) {
         my.tooltip(tooltip);
     };
 
-    my.initVerticalLine = function (graph, height) {
-        var verticalLine = graph.append("line")
-                .attr("class", "verticalLine")
-                .attr("x1", 0)
-                .attr("y1", 0)
-                .attr("x2", 0)
-                .attr("y2", height)
-                .attr("transform", "translate(" + margin + ", 0)")
-                .style("opacity", 0);
-        my.verticalLine(verticalLine);
-    };
-
+    /*
+     * Initialisation du graphe
+     */
     my.initGraph = function (margin, height, width, xAxis, yAxis, data) {
         var graph = d3.select("#graph")
                 .append("g")
@@ -224,6 +216,10 @@ function TimeLine(options) {
         my.graph(graph);
     };
 
+    /*
+     * Initialisation du rectangle qui aura
+     * les evenements mousemove et touchmove
+     */
     my.initRect = function (container, width, height, margin) {
         // On cree un rectangle par dessus la visualisation
         var rect = container.append("rect")
@@ -235,6 +231,9 @@ function TimeLine(options) {
         my.rect(rect);
     };
 
+    /*
+     * Initialisation du brush
+     */
     my.initBrush = function (brushOpts) {
         if (!brushOpts) {
             return;
@@ -278,6 +277,10 @@ function TimeLine(options) {
         my.initContext(area);
     };
 
+    /*
+     * Initialisation du context qui aura
+     * la visualisation plus petite
+     */
     my.initContext = function (area) {
         var context = my.svg().append("g")
                 .attr("class", "context")
@@ -308,9 +311,9 @@ function TimeLine(options) {
         my.context(context);
     };
 
-    /*
+    /************************
      * Getters AND Setters
-     */
+     ************************/
 
     my.svg = function (newSvg) {
         if (!arguments.length) {
@@ -328,27 +331,11 @@ function TimeLine(options) {
         return my;
     };
 
-    my.verticalLine = function (newVerticalLine) {
-        if (!arguments.length) {
-            return verticalLine;
-        }
-        verticalLine = newVerticalLine;
-        return my;
-    };
-
     my.graph = function (newGraph) {
         if (!arguments.length) {
             return graph;
         }
         graph = newGraph;
-        return my;
-    };
-
-    my.map = function (newMap) {
-        if (!arguments.length) {
-            return map;
-        }
-        map = newMap;
         return my;
     };
 
@@ -451,16 +438,6 @@ function TimeLine(options) {
         return my.rect();
     };
 
-    my.updateArgsVerticalLine = function (height) {
-        if (!arguments.length) {
-            return my.verticalLine();
-        }
-        my.verticalLine()
-                .attr("y2", height);
-
-        return my.verticalLine();
-    };
-
     my.area = function (newArea) {
         if (!arguments.length) {
             return area;
@@ -545,9 +522,9 @@ function TimeLine(options) {
         return my;
     };
 
-    /*
+    /************************
      * Methods
-     */
+     ************************/
     
     /*
      * Cette methode applique les redimensions
@@ -559,6 +536,7 @@ function TimeLine(options) {
             my.width(width);
         }
 
+        // On met a jour les axes et le svg
         my.x().range([0, my.width()]);
         my.svg().attr("width", my.width());
         if(my.height() > 0){
@@ -566,8 +544,9 @@ function TimeLine(options) {
             my.svg().attr("height", my.height());
         }
 
+        // On met a jour le rectange qui a les evenement mousemove
+        // et touchmove
         my.updateArgsRect(my.width(), my.height(), my.margin());
-        my.updateArgsVerticalLine(my.height());
         return my;
     };
 
@@ -578,8 +557,6 @@ function TimeLine(options) {
         my.svg().select("rect")
                 .attr("width", window.innerWidth - (2 * my.margin()))
                 .attr("height", window.innerHeight);
-
-        my.verticalLine().attr("height", my.height());
 
         if (my.width() < 300 && my.height() < 80) {
             my.graph().select('.x.axis').style("display", "none");
@@ -683,18 +660,6 @@ function TimeLine(options) {
         last.append("circle")
                 .attr("r", 4);
     };
-    
-    /*
-     * Cette methode colore la courbe
-     * si on est dessus
-     */
-    my.updateColorMove = function (container, event) {
-    	console.log("color");
-    	d3.select(".line").on(event, function () {
-    		console.log('ici');
-    		d3.select(this).style({'stroke-opacity':0.4,'stroke':'#eee'});
-    	});
-    };
 
     /*
      * Cette methode applique les etiquettes
@@ -759,87 +724,6 @@ function TimeLine(options) {
             }
         });
     };
-    
-    my.updateMoveOld = function(container, event, eventEnd, onDesktop){
-		var formatter = d3.time.format("%d/%m/%Y");
-
-		container.on(event, function () {
-			var verticalLine = my.verticalLine();
-			var tooltip = my.tooltip();
-			var map = my.map();
-			var margin = my.margin();
-			var height = my.height();
-			var width = my.width();
-
-			// Recuperation de la position X & Y
-			var cursor;
-			if (onDesktop) {
-				cursor = d3.mouse(this);
-			}
-			else {
-				cursor = d3.touches(this)[0];
-			}
-			var cursor_x = parseInt(cursor[0]);
-			var cursor_y = parseInt(cursor[1]);
-
-			// Si la position de la souris est en dehors de la zone du graphique, 
-			// on arrete le traitement
-			if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
-				return;
-			}
-
-			// Grace a la fonction 'invert' on peut recuperer les valeurs
-			// correspondant a notre position
-			// Il faut soustraire la marge pour que la valeur soit correct.
-			var selectedDate = x.invert(cursor_x - margin);
-			var selectedClose = Number((y.invert(cursor_y - margin)).toFixed(2));
-
-			// Positionnement de la barre verticale
-			// en tenant compte de la marge
-			verticalLine.attr("x1", cursor_x - margin);
-			verticalLine.attr("x2", cursor_x - margin);
-			verticalLine.style("opacity", 1);
-
-			selectedDate.setHours(0, 0, 0, 0);
-			var entry = map[selectedDate];
-			if (typeof entry === "undefined") {
-				entry = {
-						date: selectedDate,
-						close: selectedClose
-				};
-			}
-
-			// On affiche l'etiquette associee
-			tooltip
-			.style("opacity", .9);
-			tooltip
-			.style("left", (onDesktop ? ((d3.event.pageX + 50 < width) ? d3.event.pageX + 50
-					: (d3.event.pageX - 150 < margin) ? d3.event.pageX - 10 : d3.event.pageX - 150)
-					: ((cursor_x + 50 < width) ? cursor_x + 50
-							: (cursor_x - 150 < margin) ? cursor_x - 10 : cursor_x - 150)) + "px")
-							.style("top", ((onDesktop ? d3.event.pageY : cursor_y) - 50) + "px")
-							.html("<b>Date : </b>" + formatter(entry.date) + "<br>"
-									+ "<b>Valeur : </b>" + entry.close + "<br>");
-		})
-		.on(eventEnd, function () {
-			if (onDesktop) {
-				var cursor = d3.mouse(this);
-				var cursor_x = parseInt(cursor[0]);
-				var cursor_y = parseInt(cursor[1]);
-				// Si la position de la souris est en dehors de la zone du graphique, 
-				// on masque la ligne et le tooltip
-				if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
-					tooltip.style("opacity", 0);
-					verticalLine.style("opacity", 0);
-				}
-			}
-			else {
-				tooltip.style("opacity", 0);
-				verticalLine.style("opacity", 0);
-			}
-		});
-	};
-
 
     /*
      * Methods du Brush
