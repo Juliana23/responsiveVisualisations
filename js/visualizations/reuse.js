@@ -698,12 +698,9 @@ function TimeLine(options) {
     		tooltip
     		.style("opacity", .9);
     		tooltip
-    		.style("left", (onDesktop ? ((d3.event.pageX + 50 < width) ? d3.event.pageX + 50
-    				: (d3.event.pageX - 150 < margin) ? d3.event.pageX - 10 : d3.event.pageX - 150)
-    				: ((cursor_x + 50 < width) ? cursor_x + 50
-    						: (cursor_x - 150 < margin) ? cursor_x - 10 : cursor_x - 150)) + "px")
-    						.style("top", ((onDesktop ? d3.event.pageY : cursor_y) - 50) + "px")
-    						.html("<b>Date : </b>" + formatter(d.date) + "<br>"
+    		.style("left", x(d.date)   + "px")
+			.style("top", y(d.close) + "px")
+			.html("<b>Date : </b>" + formatter(d.date) + "<br>"
     								+ "<b>Valeur : </b>" + d.close + "<br>");
         })
         .on(eventEnd, function () {
