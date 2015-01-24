@@ -698,10 +698,10 @@ function TimeLine(options) {
     		tooltip
     		.style("opacity", .9);
     		tooltip
-    		.style("left", x(d.date)   + "px")
+    		.style("left", ((x(d.date) + 50 < width) ? x(d.date) + 50 : x(d.date) - 50) + "px")
 			.style("top", y(d.close) + "px")
 			.html("<b>Date : </b>" + formatter(d.date) + "<br>"
-    								+ "<b>Valeur : </b>" + d.close + "<br>");
+					+ "<b>Valeur : </b>" + d.close + "<br>");
         })
         .on(eventEnd, function () {
             if (onDesktop) {
