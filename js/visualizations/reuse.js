@@ -36,6 +36,7 @@ function TimeLine(options) {
         //On cree un nouveau noeud <svg>
         my.margin(options.margin || 60);
         my.svg(d3.select("body").append("svg").attr("id", "graph")
+        		.attr("class", "timeline")
                 .attr("width", window.innerWidth)
                 .attr("height", window.innerHeight));
         my.svg().append("defs").append("clipPath")
@@ -81,10 +82,6 @@ function TimeLine(options) {
         // On met les evenements sur le graphe a jour
         my.updateMove(my.rect(), "mousemove", "mouseout", true);
         my.updateMove(my.rect(), "touchmove", "touchend", false);
-        
-        // Deuxieme methode pour les evenements
-//        my.updateMoveOld(my.rect(), "mousemove", "mouseout", true);
-//        my.updateMoveOld(my.rect(), "touchmove", "touchend", false);
 
         // Resize du graph
         my.resize(my.height(), my.width());
@@ -544,7 +541,7 @@ function TimeLine(options) {
             my.svg().attr("height", my.height());
         }
 
-        // On met a jour le rectange qui a les evenement mousemove
+        // On met a jour le rectangle qui a les evenement mousemove
         // et touchmove
         my.updateArgsRect(my.width(), my.height(), my.margin());
         return my;

@@ -30,3 +30,23 @@ function data(file){
 		my();
 	});
 };
+
+var flare = {
+		url: "./data/flare.json"
+};
+
+function dataTreeMap(file){
+	d3.json(file.url, function(error, data) {
+		//var dataFiltered = parseData(data);
+		if (error)
+			alert(error);
+		var options = {
+				height : window.innerHeight - 120,
+				width : window.innerWidth - 120,
+				margin : 60,
+				data : data
+		};
+		var my = TreeMap(options);
+		my();
+	});
+};
