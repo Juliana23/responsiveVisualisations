@@ -16,7 +16,7 @@ and (max-device-width : 480px) {
 	.timeline .axis text {
         font-size: 20px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -26,7 +26,7 @@ and (max-device-width : 480px) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 20px verdana;
 		text-decoration: none;
@@ -40,7 +40,7 @@ and (min-width : 321px) {
 	.timeline .axis text {
         font-size: 22px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -50,7 +50,7 @@ and (min-width : 321px) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 22px verdana;
 		text-decoration: none;
@@ -64,7 +64,7 @@ and (max-width : 320px) {
 	.timeline .axis text {
         font-size: 20px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -74,7 +74,7 @@ and (max-width : 320px) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 20px verdana;
 		text-decoration: none;
@@ -89,7 +89,7 @@ and (max-device-width : 1024px) {
 	.timeline .axis text {
         font-size: 15px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -99,7 +99,7 @@ and (max-device-width : 1024px) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 11px verdana;
 		text-decoration: none;
@@ -115,7 +115,7 @@ and (orientation : landscape) {
 	.timeline .axis text {
         font-size: 15px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -125,7 +125,7 @@ and (orientation : landscape) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 11px verdana;
 		text-decoration: none;
@@ -141,7 +141,7 @@ and (orientation : portrait) {
 	.timeline .axis text {
         font-size: 15px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -151,7 +151,7 @@ and (orientation : portrait) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 11px verdana;
 		text-decoration: none;
@@ -165,7 +165,7 @@ and (min-width : 1224px) {
 	.timeline .axis text {
         font-size: 15px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -175,7 +175,7 @@ and (min-width : 1224px) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 11px verdana;
 		text-decoration: none;
@@ -189,7 +189,7 @@ and (min-width : 1824px) {
 	.timeline .axis text {
         font-size: 15px;
     }
-    .timeline div {
+    .tooltip {
 		position: absolute;
 		background-color: #000;
 		color: #FFF;
@@ -199,7 +199,7 @@ and (min-width : 1824px) {
 		text-shadow: 1px 1px 0 #222;
 	}
 	
-	.timeline div a {
+	.tooltip a {
 		color: #318DAD;
 		font: bold 11px verdana;
 		text-decoration: none;

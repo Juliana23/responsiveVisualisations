@@ -663,6 +663,9 @@ function TimeLine(options) {
      * lorsqu'on se deplace sur la courbe
      */
     my.updateMove = function (container, event, eventEnd, onDesktop) {
+    	var width = my.width();
+    	var height = my.height();
+    	var margin = my.margin();
     	var formatter = d3.time.format("%d/%m/%Y");
     	var bisectDate = d3.bisector(function(d) { return d.date; }).left;
     	container.on(event, function () {
@@ -692,9 +695,9 @@ function TimeLine(options) {
     				y(d.close) + ")");
 
     		// On affiche l'etiquette associee
-    		tooltip
+    		my.tooltip()
     		.style("opacity", .9);
-    		tooltip
+    		my.tooltip()
     		.style("left", ((x(d.date) + 50 < width) ? x(d.date) + 50 : x(d.date) - 50) + "px")
 			.style("top", y(d.close) + "px")
 			.html("<b>Date : </b>" + formatter(d.date) + "<br>"
@@ -708,12 +711,12 @@ function TimeLine(options) {
                 // Si la position de la souris est en dehors de la zone du graphique, 
                 // on masque la ligne et le tooltip
                 if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
-                    tooltip.style("opacity", 0);
+                    my.tooltip().style("opacity", 0);
                     d3.select("circle").style("opacity", 0);
                 }
             }
             else {
-                tooltip.style("opacity", 0);
+                my.tooltip().style("opacity", 0);
                 d3.select("circle").style("opacity", 0);
             }
         });
