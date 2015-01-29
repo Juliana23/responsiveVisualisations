@@ -1,3 +1,7 @@
+/*
+ * Fonction qui recupere les parents
+ * de node passe en parametre 
+ */
 function getAllParents(node){
     var parents = [];
     while(node.parent){
@@ -7,42 +11,79 @@ function getAllParents(node){
     return parents;
 }
 
+//function getMinX(nodes){
+//	var minX = [];
+//	var min = nodes[0];
+//	nodes.forEach(function(node){
+//		if(node.x < min.x){
+//			min = node;
+//		}
+//	}
+//	nodes.forEach(function(node){
+//		if(node.x === min.x){
+//			minX.push(node);
+//		}
+//	}
+//	return minX;
+//}
+
+/*
+ * Fonction qui recupere les quatres extremites
+ * d'un groupe de rectangles afin de pouvoir les
+ * encadrer
+ */
 function getOutline(nodes){
 	var maxTopLeft = nodes[0];
 	var maxTopRight = nodes[0];
 	var	minBottomLeft = nodes[0];
 	
+	var xMin = nodes[0].x;
+	var xMax = nodes[0].x + nodes[0].dx;
+	var yMin = nodes[0].y;
+	var yMax = nodes[0].y + nodes[0].dy;
+	
 	nodes.forEach(function(node){
-		// Max top left
-		if(node.x <= maxTopLeft.x && node.y <= maxTopLeft.y){
-			maxTopLeft = node;
+		if(node.x <= xMin){
+			xMin = node.x;
 		}
-		// Max top right
-		if((node.x + node.dx) >= (maxTopRight.x + maxTopRight.dx) && node.y <= maxTopRight.y){
-			maxTopRight = node;
+		if(node.y <= yMin){
+			yMin = node.y;
 		}
-		// Min bottom left
-		if(node.x <= minBottomLeft.x && (node.y + node.dy) >= (minBottomLeft.y + minBottomLeft.dy)){
-			minBottomLeft = node;
+		if((node.x + node.dx) >= xMax){
+			xMax = node.x + node.dx;
+		}
+		if((node.y + node.dy) >= yMax){
+			yMax = node.y + node.dy;
 		}
 	});
 	
 	var outline = [
 	               {
-	            	   x: maxTopLeft.x, y: maxTopLeft.y
+	            	   x: xMin, y: yMin
 	               },
 	               {
-	            	   x: maxTopRight.x + maxTopRight.dx, y: maxTopRight.y
+	            	   x: xMax, y: yMin
 	               },
 	               {
-	            	   x: maxTopRight.x + maxTopRight.dx, y: minBottomLeft.y + minBottomLeft.dy
+	            	   x: xMax, y: yMax
 	               },
 	               {
-	            	   x: minBottomLeft.x, y: minBottomLeft.y + minBottomLeft.dy
+	            	   x: xMin, y: yMax
 	               },
 	               {
-	            	   x: maxTopLeft.x, y: maxTopLeft.y
+	            	   x: xMin, y: yMin
 	               }
 	               ];
 	return outline;
+}
+
+function needLightColor(color){
+    var c = color.substring(1);      // strip #
+    var rgb = parseInt(c, 16);   // convert rrggbb to decimal
+    var r = (rgb >> 16) & 0xff;  // extract red
+    var g = (rgb >>  8) & 0xff;  // extract green
+    var b = (rgb >>  0) & 0xff;  // extract blue
+
+    var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+    return luma < 150;
 }
