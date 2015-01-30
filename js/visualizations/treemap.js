@@ -539,7 +539,7 @@ function TreeMap(options) {
 		var translationX;
 		var translationY;
 		if(onBottomRight){
-			translationX = margin + pathinfo[3].x + (nameText.length * 3) + 5;
+			translationX = margin + pathinfo[3].x + (nameText.length * 4) + 5;
 			translationY = margin + pathinfo[3].y - 5;
 		}
 		else{
@@ -553,8 +553,6 @@ function TreeMap(options) {
 		.attr("transform", "translate(" + translationX + "," + translationY + ")")
 		.style("opacity", function() { 
 			w = this.getComputedTextLength(); 
-			console.log(w); 
-			console.log(pathinfo[1].x - pathinfo[0].x);
 			return pathinfo[1].x - pathinfo[0].x > w ? 1 : 0; 
 		});
 		
@@ -615,9 +613,13 @@ function TreeMap(options) {
         }
 
         // On affiche l'etiquette associee
-        if(pathinfo[3].y - pathinfo[0].y > (my.margin() + i * 10)){
+        if(my.height() - pathinfo[0].y > (my.margin() + i * 10)){
         	my.tooltip()
             .style("top", pathinfo[0].y + my.margin() + "px")
+        }
+        else if(my.height() > (my.margin() + i * 10)){
+        	my.tooltip()
+            .style("top", my.margin() + my.height() - (my.margin() + i * 10) + "px")
         }
         else{
         	my.tooltip()

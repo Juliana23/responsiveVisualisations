@@ -9,7 +9,7 @@
 and (min-device-width : 320px) 
 and (max-device-width : 480px) {
 	.treemap text {
-        font-size: 16px;
+        font-size: 20px;
     }
 }
 
@@ -17,7 +17,7 @@ and (max-device-width : 480px) {
 @media only screen 
 and (min-width : 321px) {
 	.treemap text {
-        font-size: 16px;
+        font-size: 20px;
     }
 }
 
@@ -25,7 +25,7 @@ and (min-width : 321px) {
 @media only screen 
 and (max-width : 320px) {
 	.treemap text {
-        font-size: 15px;
+        font-size: 18px;
     }
 }
 
@@ -34,7 +34,7 @@ and (max-width : 320px) {
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) {
 	.treemap text {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
@@ -44,7 +44,7 @@ and (min-device-width : 768px)
 and (max-device-width : 1024px) 
 and (orientation : landscape) {
 	.treemap text {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
@@ -54,7 +54,7 @@ and (min-device-width : 768px)
 and (max-device-width : 1024px) 
 and (orientation : portrait) {
 	.treemap text {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
@@ -62,7 +62,7 @@ and (orientation : portrait) {
 @media only screen 
 and (min-width : 1224px) {
 	.treemap text {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
@@ -70,7 +70,7 @@ and (min-width : 1224px) {
 @media only screen 
 and (min-width : 1824px) {
 	.treemap text {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
