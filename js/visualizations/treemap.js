@@ -517,7 +517,7 @@ function TreeMap(options) {
      * du parent de node passe en parametre
      * et ajoute le tooltip
      */
-	my.drawOutline = function(node, children, nameText, nameClassPath, nameClassText, inMiddle){
+	my.drawOutline = function(node, children, nameText, nameClassPath, nameClassText, onBottomRight){
 		// Encadrement representant le parent
 		var pathinfo = getOutline(children);
 
@@ -538,9 +538,9 @@ function TreeMap(options) {
 		// Affichage du titre
 		var translationX;
 		var translationY;
-		if(inMiddle){
-			translationX = margin + (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
-			translationY = margin + (pathinfo[0].y + ((pathinfo[2].y - pathinfo[0].y) / 2));
+		if(onBottomRight){
+			translationX = margin + pathinfo[3].x + (nameText.length * 3) + 5;
+			translationY = margin + pathinfo[3].y - 5;
 		}
 		else{
 			translationX = margin + (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
@@ -550,7 +550,13 @@ function TreeMap(options) {
 		.attr("class", nameClassText)
 		.attr("text-anchor", "middle")
 		.text(nameText)
-		.attr("transform", "translate(" + translationX + "," + translationY + ")");
+		.attr("transform", "translate(" + translationX + "," + translationY + ")")
+		.style("opacity", function() { 
+			w = this.getComputedTextLength(); 
+			console.log(w); 
+			console.log(pathinfo[1].x - pathinfo[0].x);
+			return pathinfo[1].x - pathinfo[0].x > w ? 1 : 0; 
+		});
 		
 		return pathinfo;
 	};
@@ -566,7 +572,7 @@ function TreeMap(options) {
         var bgcolor = "";
         var textcolor = "";
         children.forEach(function (child) {
-        	var opacity = child != node ? "0.2" : "";
+        	var opacity = child != node ? "0.5" : "";
             child.ord = i;
             name = child.children ? child.name : child.parent.name;
             bgcolor = color(name);
