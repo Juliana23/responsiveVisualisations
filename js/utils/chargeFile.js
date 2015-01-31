@@ -37,7 +37,6 @@ var flare = {
 
 function dataTreeMap(file){
 	d3.json(file.url, function(error, data) {
-		//var dataFiltered = parseData(data);
 		if (error)
 			alert(error);
 		var options = {

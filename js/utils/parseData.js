@@ -53,7 +53,3 @@ function parseData(data){
 	}
 	return dataFiltered;
 };
-
-function parseDataTreeMap(data){
-	
-};

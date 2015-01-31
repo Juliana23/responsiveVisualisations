@@ -144,7 +144,7 @@ function TreeMap(options) {
 		if (margin) {
 			graph.attr("transform", "translate(" + margin + "," + margin + ")");
 		}
-		
+
 		graph.selectAll(".cell.child")
 		.data(children)
 		.enter().append("g")
@@ -322,14 +322,6 @@ function TreeMap(options) {
 		margin = newMargin;
 		return my;
 	};
-	
-	my.pathinfo = function (newPathinfo) {
-		if (!arguments.length) {
-			return pathinfo;
-		}
-		pathinfo = newPathinfo;
-		return my;
-	};
 
 	/************************
 	 * Methods
@@ -419,7 +411,7 @@ function TreeMap(options) {
 
 		my.children(my.treemap().nodes(my.node())
 				.filter(function(d) { return !d.children; }));
-			
+		
 		// Redefinition de la taille du svg
 		my.svg()
 		.attr("width", window.innerWidth - (2 * my.margin()))
@@ -442,7 +434,6 @@ function TreeMap(options) {
 			})
 			.style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
 			
-			// Noeud sur lequel on a clique
 			if(my.nodeOutline()){
 				// On encadre l'enfant clique
 				var listChildren = [];
@@ -477,11 +468,11 @@ function TreeMap(options) {
 		            .style("opacity", "0.2");
 	    		}
 			}
-			my.updateFirstParents(my.node().depth);
 		}
 		else{
 			my.graph().selectAll(".cell.child text").remove();
-			my.updateFirstParents(1);
+			// On redessine les parents
+	    	my.drawFirstParents();
 		}
 
 		// Redefinition des rectangles
@@ -505,63 +496,20 @@ function TreeMap(options) {
 	};
 	
 	my.drawFirstParents = function(){
-		var graph = my.graph();
-		
-		// Parents
-		var parents = graph.selectAll(".parent")
-		.data(my.parents())
-		.enter().append("g")
-		.attr("class", "parent")
-		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-		
-		graph.selectAll(".parent")
-		.append("rect")
-		.attr("id", function(d){
-			d.id = d.name + "_" + (d.parent ? d.parent.name : "root");
-			return d.id;
-		})
-		.attr("width", function(d) { return d.dx - 1; })
-		.attr("height", function(d) { return d.dy - 1; })
-		.style("stroke", "black")
-		.style("fill", "none")
-		.style("stroke-width", "border")
-		.style("display", function(d){
-			if(d.depth === 1){
-				return "";
-			}
-			else{
-				return "none";
+		// Affichage des premiers parents
+		my.parents().forEach(function(parent){
+			if(parent.depth === 1){
+				var listChildren = [];
+	    		my.graph().selectAll("g.cell")
+	            .each(function(n) {
+	            	var containParent = n.allParents.indexOf(parent);
+	            	if(containParent !== -1){
+	            		listChildren.push(n);
+	            	}
+	            });
+	    		my.drawOutline(parent, listChildren, parent.name, "outlineFirstParent", "textFirstParent", true);
 			}
 		});
-	};
-	
-	my.updateFirstParents = function(depth){
-		// Redefinition des rectangles
-		var kx = my.width() / my.node().dx;
-		var ky = my.height() / my.node().dy;
-		my.x().domain([my.node().x, my.node().x + my.node().dx]);
-		my.y().domain([my.node().y, my.node().y + my.node().dy]);
-		
-		var t = d3.selectAll(".parent").transition()
-		.attr("transform", function(d) { return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")"; });
-
-		d3.selectAll(".parent rect")
-		.attr("width", function(d) { return kx * d.dx - 1; })
-		.attr("height", function(d) { return ky * d.dy - 1; })
-		.style("display", function(d){
-			if(d.depth === depth){
-				return "";
-			}
-			else{
-				return "none";
-			}
-		});
-
-		t.select("text")
-		.attr("x", function(d) { return kx * d.dx / 2; })
-		.attr("y", function(d) { return ky * d.dy / 2; })
-		.style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
-        
 	};
 	
 	/*
@@ -571,34 +519,22 @@ function TreeMap(options) {
      */
 	my.drawOutline = function(node, children, nameText, nameClassPath, nameClassText, onBottomRight){
 		// Encadrement representant le parent
-		var pathinfo = [];
+		var pathinfo = getOutline(children);
+
+		var d3line = d3.svg.line()
+		.x(function(d){return d.x;})
+		.y(function(d){return d.y;})
+		.interpolate("linear"); 
 		
-		my.graph().selectAll(".parent rect")
-		.style("display", "none");
-		
-		my.graph().select("#" + node.parent.id)
-		.attr("width", function(d) { 
-			pathinfo.push({
-				x: d.x,
-				y: d.y
-			})
-			pathinfo.push({
-				x: d.x + d.dx,
-				y: d.y
-			})
-			pathinfo.push({
-				x: d.x + d.dx,
-				y: d.y + d.dy
-			})
-			pathinfo.push({
-				x: d.x,
-				y: d.y + d.dy
-			})
-			return d.dx - 1; 
-		})
-		.attr("height", function(d) { return d.dy - 1; })
-		.style("display", "");
-		
+		// Dessin du contour
+		my.svg().append("svg:path")
+		.attr("class", nameClassPath)
+		.attr("d", d3line(pathinfo))
+		.style("stroke-width", 1)
+		.style("stroke", "black")
+		.style("fill", "none")
+		.attr("transform", "translate(" + margin + "," + margin + ")");
+
 		// Affichage du titre
 		var translationX;
 		var translationY;
@@ -620,14 +556,13 @@ function TreeMap(options) {
 			return pathinfo[1].x - pathinfo[0].x > w ? 1 : 0; 
 		});
 		
-		my.pathinfo(pathinfo);
+		return pathinfo;
 	};
 	
 	/*
      * Cette methode affiche une etiquette
      */
-	my.drawTooltip = function(node){
-		var pathinfo = my.pathinfo();
+	my.drawTooltip = function(node, pathinfo){
 		var children = node.parent.children;
         var html = "<ol>";
         var i = 1;
@@ -733,12 +668,12 @@ function TreeMap(options) {
             .style("opacity", "0.2");
     		
     		// Information sur le parent du noeud courant
-    		my.drawOutline(d, listChildren, d.parent.name, "outlineParent", "textParent", false);
+    		var pathinfo = my.drawOutline(d, listChildren, d.parent.name, "outlineParent", "textParent", false);
     		
     		// On dessine le tooltip seulement si
     		// on n'est pas sur le zoom
     		if(my.node() === my.root()){
-    			my.drawTooltip(d);
+    			my.drawTooltip(d, pathinfo);
     		}
         })
         .on(eventEnd, function () {
@@ -756,7 +691,7 @@ function TreeMap(options) {
         	
         	// On redessine les premiers parents
         	if(my.node() === my.root()){
-        		my.updateFirstParents(1);
+            	my.drawFirstParents();
         	}
         	
         });
