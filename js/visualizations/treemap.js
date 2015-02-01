@@ -572,8 +572,8 @@ function TreeMap(options) {
 		my.graph().selectAll(".textFirstParent")
 		.attr("x", function(d) { return kx * d.dx - (d.name.length * 5); })
 		.attr("y", function(d) { return ky * d.dy - 5; })
-		.style("display", function(d){
-			if(d.depth === 1){
+		.style("display", function(){
+			if(depth === 1){
 				return "";
 			}
 			else{
