@@ -612,7 +612,7 @@ function TreeMap(options) {
 				return -3; 
 			}
 			else{
-				return ky * d.dy - (d.name.length * 5); 
+				return ky * d.dy - 5; 
 			}
 			
 		})
