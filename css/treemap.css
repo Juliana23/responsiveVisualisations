@@ -4,6 +4,10 @@
 	position: absolute;
 }
 
+.treemap text{
+	pointer-events: none;
+}
+
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen 
 and (max-width : 320px) {
