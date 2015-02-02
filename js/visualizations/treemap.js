@@ -68,7 +68,7 @@ function TreeMap(options) {
         	my.updateMove(my.svg().selectAll(".cell.child"), "mouseover", "mouseout", true);
         }
         else{
-        	my.updateMove(my.svg().selectAll(".cell.child"), "touchmove", "touchend", false);
+        	my.updateMove(my.svg().selectAll(".cell.child"), "swipe", "tap", false);
         }
 
 		// Resize de la visualisation
@@ -94,6 +94,10 @@ function TreeMap(options) {
 			}
 			
 		});
+		
+		$$('#graph').on("swipe", function(e){
+			  console.log('swipe');
+			});
 		
 		return my;
 	};
@@ -177,7 +181,9 @@ function TreeMap(options) {
 		.append("rect")
 		.attr("width", function(d) { return d.dx - 1; })
 		.attr("height", function(d) { return d.dy - 1; })
-		.style("fill", function(d) { return color(d.parent.name); })
+		.style("fill", function(d) { return color(d.parent.name); });
+		
+		graph.selectAll(".cell.child")
 		.on("click", function(d) {
 			var depth;
 			var node;
@@ -191,7 +197,8 @@ function TreeMap(options) {
 				depth = d.parent;
 				node = d;
 			}
-			return my.zoom(my.node() == d.parent ? my.root() : depth, node); });
+			return my.zoom(my.node() == d.parent ? my.root() : depth, node); 
+		});
 		
 		my.graph(graph);
 		my.drawFirstParents(parents);
@@ -415,6 +422,8 @@ function TreeMap(options) {
 		my.remove();
 		my.hide();
 		
+		my.graph().selectAll(".cell.child text").remove();
+		
 		// On affiche les enfants
 		my.graph().selectAll("g.cell.child")
 		// Si la liste des parents du noeud d courant 
@@ -490,7 +499,7 @@ function TreeMap(options) {
 			}
 		}
 		else{
-			my.graph().selectAll(".cell.child text").remove();
+			//my.graph().selectAll(".cell.child text").remove();
 			my.updateFirstParents(1);
 		}
 
