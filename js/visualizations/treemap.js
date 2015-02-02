@@ -65,10 +65,10 @@ function TreeMap(options) {
 		
 		// On met les evenements sur le graphe a jour
         if(!my.isMobile()){
-        	my.updateMove(my.svg().selectAll(".cell"), "mouseover", "mouseout", true);
+        	my.updateMove(my.svg().selectAll(".cell.child"), "mouseover", "mouseout", true);
         }
         else{
-        	my.updateMove(my.svg().selectAll(".cell"), "touchmove", "touchend", false);
+        	my.updateMove(my.svg().selectAll(".cell.child"), "touchmove", "touchend", false);
         }
 
 		// Resize de la visualisation
@@ -76,7 +76,25 @@ function TreeMap(options) {
 
 		// Redessine le graphe de maniere responsive
 		my.redraw();
-
+		
+		// On met l'evenement si on clique
+		// en dehors de la visualisation
+		// pour faire un zoom out sur le root
+		d3.select(window)
+		.on("click", function() {
+			var widthSvg = my.svg().attr("width");
+			var heightSvg = my.svg().attr("height");
+			var xClicked = d3.event.x;
+			var yClicked = d3.event.y;
+			if(xClicked < my.margin() 
+					|| yClicked < my.margin()
+					|| xClicked > widthSvg - my.margin()
+					|| yClicked > heightSvg - my.margin()){
+				my.zoom(my.root()); 
+			}
+			
+		});
+		
 		return my;
 	};
 
@@ -153,7 +171,13 @@ function TreeMap(options) {
 		.data(children)
 		.enter().append("g")
 		.attr("class", "cell child")
-		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+		graph.selectAll(".cell.child")
+		.append("rect")
+		.attr("width", function(d) { return d.dx - 1; })
+		.attr("height", function(d) { return d.dy - 1; })
+		.style("fill", function(d) { return color(d.parent.name); })
 		.on("click", function(d) {
 			var depth;
 			var node;
@@ -168,15 +192,9 @@ function TreeMap(options) {
 				node = d;
 			}
 			return my.zoom(my.node() == d.parent ? my.root() : depth, node); });
-
-		graph.selectAll(".cell.child")
-		.append("rect")
-		.attr("width", function(d) { return d.dx - 1; })
-		.attr("height", function(d) { return d.dy - 1; })
-		.style("fill", function(d) { return color(d.parent.name); });
 		
 		my.graph(graph);
-		my.drawFirstParents();
+		my.drawFirstParents(parents);
 	};
 
 	/************************
@@ -375,11 +393,8 @@ function TreeMap(options) {
 		.style("display", "none");
 		
 		// Suppression de highlight
-    	my.graph().selectAll("g.cell")
+    	my.graph().selectAll("g.cell.child")
     	.style("opacity", "1");
-    	
-    	// Suppression du contour et du texte
-    	d3.select("path").remove();
 	}
 	
 	my.hide = function(){
@@ -388,8 +403,9 @@ function TreeMap(options) {
     	.style("display", "none");
     	
 		// On cache toutes les cellules
-		my.graph().selectAll("g.cell")
+		my.graph().selectAll("g.cell.child")
 		.style("display", "none");
+		
 	}
 
 	/*
@@ -400,7 +416,7 @@ function TreeMap(options) {
 		my.hide();
 		
 		// On affiche les enfants
-		my.graph().selectAll("g.cell")
+		my.graph().selectAll("g.cell.child")
 		// Si la liste des parents du noeud d courant 
         // contient le parent sur lequel on est alors on l'affiche
 		.filter(function(d) {
@@ -447,11 +463,12 @@ function TreeMap(options) {
 			
 			// Noeud sur lequel on a clique
 			if(my.nodeOutline()){
+				my.updateFirstParents(my.node().depth, my.node());
 				// On encadre l'enfant clique
 	    		if(my.nodeOutline().children){
 	    			my.drawOutline(my.nodeOutline(), my.nodeOutline().name, "textChild");
 	    			// Highlight representant le parent
-		    		my.graph().selectAll("g.cell")
+		    		my.graph().selectAll("g.cell.child")
 		    		// Si la liste des parents du noeud n courant 
 		            // contient le parent sur lequel on est alors on l'affiche
 		            .filter(function(n) {
@@ -461,8 +478,8 @@ function TreeMap(options) {
 		            .style("opacity", "0.2");
 	    		}
 	    		else{
-	    			// Highlight representant le parent
-		    		my.graph().selectAll("g.cell")
+	    			// Highlight
+		    		my.graph().selectAll("g.cell.child")
 		    		// Si la liste des parents du noeud n courant 
 		            // contient le parent sur lequel on est alors on l'affiche
 		            .filter(function(n) {
@@ -471,7 +488,6 @@ function TreeMap(options) {
 		            .style("opacity", "0.2");
 	    		}
 			}
-			my.updateFirstParents(my.node().depth);
 		}
 		else{
 			my.graph().selectAll(".cell.child text").remove();
@@ -484,7 +500,7 @@ function TreeMap(options) {
 		my.x().domain([my.node().x, my.node().x + my.node().dx]);
 		my.y().domain([my.node().y, my.node().y + my.node().dy]);
 
-		var t = d3.selectAll(".cell").transition()
+		var t = d3.selectAll(".cell.child").transition()
 		.attr("transform", function(d) { return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")"; });
 
 		t.select("rect")
@@ -498,17 +514,17 @@ function TreeMap(options) {
 		
 	};
 	
-	my.drawFirstParents = function(){
+	my.drawFirstParents = function(parents){
 		var graph = my.graph();
 		
 		// Parents
-		var parents = graph.selectAll(".parent")
-		.data(my.parents())
+		var parents = graph.selectAll(".cell.parent")
+		.data(parents)
 		.enter().append("g")
-		.attr("class", "parent")
+		.attr("class", "cell parent")
 		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 		
-		graph.selectAll(".parent")
+		graph.selectAll(".cell.parent")
 		.append("rect")
 		.attr("id", function(d){
 			d.id = d.name + "_" + (d.parent ? d.parent.name : "root");
@@ -528,10 +544,7 @@ function TreeMap(options) {
 			}
 		});
 		
-		graph.selectAll(".parent")
-		.filter(function(d){
-			return d.depth === 1;
-		})
+		graph.selectAll(".cell.parent")
 		.append("text")
 		.attr("class", "textFirstParent")
 		.attr("text-anchor", "middle")
@@ -543,25 +556,40 @@ function TreeMap(options) {
 		.style("opacity", function(d) { 
 			w = this.getComputedTextLength(); 
 			return (d.x + d.dx) - d.x > w ? 1 : 0; 
+		})
+		.style("display", function(d){
+			if(d.depth === 1){
+				return "";
+			}
+			else{
+				return "none";
+			}
 		});
 		
 	};
 	
-	my.updateFirstParents = function(depth){
+	my.updateFirstParents = function(depth, node){
 		// Redefinition des rectangles
 		var kx = my.width() / my.node().dx;
 		var ky = my.height() / my.node().dy;
 		my.x().domain([my.node().x, my.node().x + my.node().dx]);
 		my.y().domain([my.node().y, my.node().y + my.node().dy]);
 		
-		var t = d3.selectAll(".parent").transition()
+		var t = d3.selectAll(".cell.parent").transition()
 		.attr("transform", function(d) { return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")"; });
 
-		d3.selectAll(".parent rect")
+		d3.selectAll(".cell.parent rect")
 		.attr("width", function(d) { return kx * d.dx - 1; })
 		.attr("height", function(d) { return ky * d.dy - 1; })
 		.style("display", function(d){
-			if(d.depth === depth){
+			var parent;
+			if(node){
+				parent = node;
+			}
+			else{
+				parent = d;
+			}
+			if(d.depth === depth && parent === d){
 				return "";
 			}
 			else{
@@ -570,10 +598,33 @@ function TreeMap(options) {
 		});
 		
 		my.graph().selectAll(".textFirstParent")
-		.attr("x", function(d) { return kx * d.dx - (d.name.length * 5); })
-		.attr("y", function(d) { return ky * d.dy - 5; })
-		.style("display", function(){
-			if(depth === 1){
+		.attr("x", function(d) { 
+			if(node){
+				return kx * d.dx / 2; 
+			}
+			else{
+				return kx * d.dx - (d.name.length * 5); 
+			}
+			
+		})
+		.attr("y", function(d) { 
+			if(node){
+				return -3; 
+			}
+			else{
+				return ky * d.dy - (d.name.length * 5); 
+			}
+			
+		})
+		.style("display", function(d){
+			var parent;
+			if(node){
+				parent = node;
+			}
+			else{
+				parent = d;
+			}
+			if(d.depth === depth && parent === d){
 				return "";
 			}
 			else{
@@ -595,11 +646,16 @@ function TreeMap(options) {
 	my.drawOutline = function(node, nameText, nameClassText){
 		// Encadrement representant le parent
 		var pathinfo = [];
+		var nodeId;
 		
-		my.graph().selectAll(".parent rect")
-		.style("display", "none");
+		if(node.children){
+			nodeId = node.id;
+		}
+		else{
+			nodeId = node.parent.id;
+		}
 		
-		my.graph().select("#" + node.parent.id)
+		my.graph().select("#" + nodeId)
 		.attr("width", function(d) { 
 			pathinfo.push({
 				x: d.x,
@@ -692,7 +748,7 @@ function TreeMap(options) {
                     });
         
         if(!my.isMobile()){
-        	my.updateMove(my.svg().selectAll(".cell text"), "mouseover", "mouseout", true);
+        	my.updateMove(my.svg().selectAll(".cell.child text"), "mouseover", "mouseout", true);
         }
 
         // On affiche l'etiquette associee
@@ -755,7 +811,7 @@ function TreeMap(options) {
     		
     		var listChildren = [];
     		// Highlight representant le parent
-    		my.graph().selectAll("g.cell")
+    		my.graph().selectAll("g.cell.child")
     		// Si la liste des parents du noeud n courant 
             // contient le parent sur lequel on est alors on l'affiche
             .filter(function(n) {
@@ -781,17 +837,19 @@ function TreeMap(options) {
         	.style("display", "none");
         	
         	// Suppression de highlight
-        	my.graph().selectAll("g.cell")
+        	my.graph().selectAll("g.cell.child")
         	.style("opacity", "1");
         	
         	// Suppression du contour et du texte
         	d3.selectAll(".numText").remove();
-        	d3.select("path").remove();
         	d3.select(".textParent").remove();
         	
         	// On redessine les premiers parents
         	if(my.node() === my.root()){
         		my.updateFirstParents(1);
+        	}
+        	else{
+        		my.updateFirstParents(my.node().depth, my.node());
         	}
         	
         });
