@@ -447,7 +447,7 @@ function TreeMap(options) {
 		.style("display", "none");
 		
 		// Suppression de highlight
-    	my.graph().selectAll("g.cell.child")
+    	my.graph().selectAll("g.cell.child")//.transition().duration(0)
     	.style("opacity", "1");
 	}
 	
@@ -892,15 +892,15 @@ function TreeMap(options) {
         // On affiche l'etiquette associee
         if(my.height() - pathinfo[0].y > (my.margin() + i * 10)){
         	my.tooltip()
-            .style("top", pathinfo[0].y + my.margin() + "px")
+            .style("top", pathinfo[0].y + my.margin() + "px");
         }
         else if(my.height() > (my.margin() + i * 10)){
         	my.tooltip()
-            .style("top", my.margin() + my.height() - (my.margin() + i * 10) + "px")
+            .style("top", my.margin() + my.height() - (my.margin() + i * 10) + "px");
         }
         else{
         	my.tooltip()
-            .style("top", 0 + "px")
+            .style("top", 0 + "px");
         }
         
         var widthScreen = getWidth();
@@ -936,7 +936,8 @@ function TreeMap(options) {
      * lorsqu'on se deplace sur la visualisation
      */
     my.updateMove = function (container, event, eventEnd, onDesktop) {
-    	container.on(event, function (d) {
+    	container
+    	.on(event, function (d) {
     		// Cas SmartPhone, Tablette, ...
     		if(my.isMobile()){
     			// Si le tooltip est affiche
@@ -957,7 +958,7 @@ function TreeMap(options) {
         .on(eventEnd, function () {
         	// Evenement utilise uniquement sur ordinateurs
         	my.endUpdateMove();
-        });
+        })
     };
     
     /*
@@ -970,7 +971,7 @@ function TreeMap(options) {
 		my.remove();
 		var listChildren = [];
 		// Highlight representant le parent
-		my.graph().selectAll("g.cell.child")
+		my.graph().selectAll("g.cell.child")//.transition().duration(500)
 		// Si la liste des parents du noeud n courant 
         // contient le parent sur lequel on est alors on l'affiche
         .filter(function(n) {
@@ -1011,7 +1012,7 @@ function TreeMap(options) {
 		my.tooltip().style("display", "none");
 		
 		// Suppression de highlight
-		my.graph().selectAll("g.cell.child")
+		my.graph().selectAll("g.cell.child")//.transition().duration(0)
 		.style("opacity", "1");
 		
 		// Suppression du contour et du texte
