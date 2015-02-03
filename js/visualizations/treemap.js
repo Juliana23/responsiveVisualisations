@@ -518,6 +518,11 @@ function TreeMap(options) {
 		                return containParent === -1;
 		            })
 		            .style("opacity", "0.2");
+		    		
+		    		my.updateFirstParents(my.node().depth + 1, my.node());
+					if(my.leaf()){
+		    			my.startUpdateMove(my.leaf());
+		    		}
 	    		}
 	    		else{
 	    			// Highlight
@@ -528,12 +533,10 @@ function TreeMap(options) {
 		                return n != my.nodeOutline();
 		            })
 		            .style("opacity", "0.2");
+		    		
+		    		my.updateFirstParents(my.node().depth + 1, my.node());
 	    		}
 			}
-			my.updateFirstParents(my.node().depth + 1, my.node());
-			if(my.leaf()){
-    			my.startUpdateMove(my.leaf());
-    		}
 		}
 		else{
 			my.updateFirstParents(1);
@@ -793,7 +796,6 @@ function TreeMap(options) {
                     .style("cursor", "default")
                     .text(function (d) {
                         if(children.indexOf(d) !== -1){
-                        	console.log("icicicic");
                             return d.ord;
                         }
                     })
