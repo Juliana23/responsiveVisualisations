@@ -163,11 +163,12 @@ function TreeMap(options) {
 		var graph = d3.select("#graph")
 		.append("g")
 		.attr("class", "focus");
-
+		
 		if (margin) {
 			graph.attr("transform", "translate(" + margin + "," + margin + ")");
 		}
 		
+		// Initiliasation des cellules
 		graph.selectAll(".cell.child")
 		.data(children)
 		.enter().append("g")
@@ -190,18 +191,18 @@ function TreeMap(options) {
 			      no_mouseevents: true
 			    }).on("doubletap", function(event){
 			    	var depth;
-					var node;
+					var nodeInt;
 					// On ne descend pas en profondeur si
 					// le noeud a des enfants
 					if(d.parent.depth != 1){
 						depth = d.parent.parent;
-						node = d.parent;
+						nodeInt = d.parent;
 					}
 					else{
 						depth = d.parent;
-						node = d;
+						nodeInt = d;
 					}
-					return my.zoom(my.node() == d.parent ? my.root() : depth, node, d); 
+					return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
 			    });
 			});
 		}
@@ -209,22 +210,23 @@ function TreeMap(options) {
 			graph.selectAll(".cell.child")
 			.on("click", function(d) {
 				var depth;
-				var node;
+				var nodeInt;
 				// On ne descend pas en profondeur si
 				// le noeud a des enfants
 				if(d.parent.depth != 1){
 					depth = d.parent.parent;
-					node = d.parent;
+					nodeInt = d.parent;
 				}
 				else{
 					depth = d.parent;
-					node = d;
+					nodeInt = d;
 				}
-				return my.zoom(my.node() == d.parent ? my.root() : depth, node, d); 
+				return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
 			});	
 		}
 		
 		my.graph(graph);
+		my.drawTitleFirstParent();
 		my.drawFirstParents(parents);
 	};
 
@@ -541,6 +543,7 @@ function TreeMap(options) {
 		else{
 			my.updateFirstParents(1);
 		}
+		my.updateTitleFirstParent(my.node());
 		my.updateChildren();
 	};
 	
@@ -563,6 +566,49 @@ function TreeMap(options) {
 		.attr("y", function(d) { return ky * d.dy / 2; })
 		.style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
 	};
+	
+	my.drawTitleFirstParent = function(){
+		var titleParent = d3.select("#graph")
+		.append("g")
+		.attr("class", "title");
+		
+		titleParent.selectAll(".titleParent")
+		.data(parents)
+		.enter().append("g")
+		.attr("class", "titleParent");
+
+		titleParent.selectAll(".titleParent")
+		.append("text")
+		.attr("class", "textTitleParent")
+		.attr("text-anchor", "middle")
+		.text(function(d){
+			return d.name;
+		})
+		.attr("x", function(d) { return my.width() / 2; })
+		.attr("y", function(d) { return my.margin() / 2; })
+		.style("display", function(d){
+			if(d.depth === 0){
+				return "";
+			}
+			else{
+				return "none";
+			}
+		});
+	}
+	
+	my.updateTitleFirstParent = function(node){
+		d3.selectAll(".titleParent text")
+		.attr("x", function(d) { return my.width() / 2; })
+		.attr("y", function(d) { return my.margin() / 2; })
+		.style("display", function(d){
+			if(d === node){
+				return "";
+			}
+			else{
+				return "none";
+			}
+		});
+	}
 	
 	my.drawFirstParents = function(parents){
 		var graph = my.graph();
