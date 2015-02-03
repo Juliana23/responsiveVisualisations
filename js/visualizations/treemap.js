@@ -258,14 +258,6 @@ function TreeMap(options) {
 		return my;
 	};
 
-	my.node = function (newNode) {
-		if (!arguments.length) {
-			return node;
-		}
-		node = newNode;
-		return my;
-	};
-
 	my.parents = function (newParents) {
 		if (!arguments.length) {
 			return parents;
@@ -281,7 +273,21 @@ function TreeMap(options) {
 		children = newChildren;
 		return my;
 	};
+	
+	/*
+	 * Noeud courant
+	 */
+	my.node = function (newNode) {
+		if (!arguments.length) {
+			return node;
+		}
+		node = newNode;
+		return my;
+	};
 
+	/*
+	 * Noeud parent 
+	 */
 	my.root = function (newRoot) {
 		if (!arguments.length) {
 			return root;
@@ -306,6 +312,9 @@ function TreeMap(options) {
 		return my;
 	};
 	
+	/*
+	 * Noeud qu'on souhaite encadrer
+	 */
 	my.nodeOutline = function (newNodeOutline){
 		if (!arguments.length) {
 			return nodeOutline;
@@ -314,6 +323,9 @@ function TreeMap(options) {
 		return my;
 	};
 	
+	/*
+	 * Noeud feuille
+	 */
 	my.leaf = function (newLeaf){
 		if (!arguments.length) {
 			return leaf;
@@ -547,6 +559,10 @@ function TreeMap(options) {
 		my.updateChildren();
 	};
 	
+	/*
+	 * Cette methode met les cellules a la
+	 * bonne dimension
+	 */
 	my.updateChildren = function(){
 		// Redefinition des rectangles
 		var kx = my.width() / my.node().dx;
@@ -567,6 +583,10 @@ function TreeMap(options) {
 		.style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
 	};
 	
+	/*
+	 * Cette methode affiche le titre du premier
+	 * parent
+	 */
 	my.drawTitleFirstParent = function(){
 		var titleParent = d3.select("#graph")
 		.append("g")
@@ -584,7 +604,7 @@ function TreeMap(options) {
 		.text(function(d){
 			return d.name;
 		})
-		.attr("x", function(d) { return my.width() / 2; })
+		.attr("x", function(d) { return getWidth() / 2; })
 		.attr("y", function(d) { return my.margin() / 2; })
 		.style("display", function(d){
 			if(d.depth === 0){
@@ -596,9 +616,13 @@ function TreeMap(options) {
 		});
 	}
 	
+	/*
+	 * Cette methode met a jour le titre
+	 * du parent de la visualisation
+	 */
 	my.updateTitleFirstParent = function(node){
 		d3.selectAll(".titleParent text")
-		.attr("x", function(d) { return my.width() / 2; })
+		.attr("x", function(d) { return getWidth() / 2; })
 		.attr("y", function(d) { return my.margin() / 2; })
 		.style("display", function(d){
 			if(d === node){
@@ -610,6 +634,10 @@ function TreeMap(options) {
 		});
 	}
 	
+	/*
+	 * Cette methode encadre et affiche le nom
+	 * des premiers parents
+	 */
 	my.drawFirstParents = function(parents){
 		var graph = my.graph();
 		
@@ -664,6 +692,11 @@ function TreeMap(options) {
 		
 	};
 	
+	/*
+	 * Cette methode met a jour l'encadrement
+	 * et affichage le nom des premiers 
+	 * parents de la visualisation
+	 */
 	my.updateFirstParents = function (depth, node) {
         // Redefinition des rectangles
         var kx = my.width() / my.node().dx;
@@ -759,7 +792,6 @@ function TreeMap(options) {
 		}
 		else{
 			nodeId = node.parent.id;
-			firstParent = node.parent;
 		}
 		
 		my.graph().select("#" + nodeId)
@@ -806,6 +838,9 @@ function TreeMap(options) {
 	
 	/*
      * Cette methode affiche une etiquette
+     * associe au bloc clique et met des numeros 
+     * dans les cellules pour les associer aux
+     * etiquettes
      */
 	my.drawTooltip = function(node){
 		var pathinfo = my.pathinfo();
@@ -920,11 +955,16 @@ function TreeMap(options) {
     		my.startUpdateMove(d);
         })
         .on(eventEnd, function () {
-        	// Evenement utilise uniquement sur PC
+        	// Evenement utilise uniquement sur ordinateurs
         	my.endUpdateMove();
         });
     };
     
+    /*
+     * Cette methode affiche l'etiquette
+     * et met en avant le bloc clique avec
+     * l'eclairage
+     */
     my.startUpdateMove = function(d){
 		// Suppression du contour et du texte
 		my.remove();
@@ -963,6 +1003,10 @@ function TreeMap(options) {
 		}
     };
     
+    /*
+     * Cette methode est la fin de l'evenement
+     * pour revenir a l'etat initial
+     */
     my.endUpdateMove = function(){
 		my.tooltip().style("display", "none");
 		
