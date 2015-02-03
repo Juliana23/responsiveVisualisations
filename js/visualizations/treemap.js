@@ -521,7 +521,7 @@ function TreeMap(options) {
 		            .style("opacity", "0.2");
 	    		}
 			}
-			my.updateFirstParents(my.node.depth + 1, my.node(), my.nodeOutline());
+			my.updateFirstParents(my.node().depth + 1, my.node(), my.nodeOutline());
 		}
 		else{
 			my.updateFirstParents(1);
@@ -624,7 +624,7 @@ function TreeMap(options) {
                     if (node) {
                         if(d.allParents){
                             if(d.allParents.indexOf(node) !== -1
-                                && d.children){
+                                && d.children && d.depth === depth){
                                 return "";
                             }
                             else{
@@ -656,7 +656,7 @@ function TreeMap(options) {
         	if (node) {
         		if(d.allParents){
         			if(d.allParents.indexOf(node) !== -1
-        					&& d.children){
+        					&& d.children && d.depth === depth){
         				return "";
         			}
         			else{
@@ -681,9 +681,10 @@ function TreeMap(options) {
         	return (d.x + d.dx) - d.x > w ? 1 : 0;
         });
 
-//        if(nodeOutline){
-//        	my.startUpdateMove(nodeOutline);
-//        }
+        console.log(nodeOutline);
+        if(nodeOutline){
+        	//my.startUpdateMove(nodeOutline);
+        }
     };
 			
 	/*
@@ -840,7 +841,7 @@ function TreeMap(options) {
 	
 	/*
      * Cette methode applique les etiquettes
-     * lorsqu'on se deplace sur la courbe
+     * lorsqu'on se deplace sur la visualisation
      */
     my.updateMove = function (container, event, eventEnd, onDesktop) {
     	container.on(event, function (d) {
@@ -852,7 +853,7 @@ function TreeMap(options) {
         				return n.allParents.indexOf(d.parent) !== -1;
         			}).style("opacity");
     				// Si le noeud sur lequel on a clique n'appartient
-    				// pas au block de noeud qui etait selectionne
+    				// pas au bloc de noeud qui etait selectionne
         			if(opacity != 1){
         				my.endUpdateMove();
         			}
@@ -894,6 +895,7 @@ function TreeMap(options) {
 		}
 		else{
 			if(d.parent !== my.node() || (d.parent === my.node() && d.children)){
+				console.log(d);
 				my.graph().selectAll("g.cell.child text")
 				.filter(function(n){
 					return listChildren.indexOf(n) !== -1;
@@ -921,7 +923,7 @@ function TreeMap(options) {
 			my.updateFirstParents(1);
 		}
 		else{
-			my.updateFirstParents(my.node().depth, my.node());
+			my.updateFirstParents(my.node().depth + 1, my.node());
 		}
 	};
 	
