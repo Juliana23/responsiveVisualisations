@@ -201,7 +201,7 @@ function TreeMap(options) {
 						depth = d.parent;
 						node = d;
 					}
-					return my.zoom(my.node() == d.parent ? my.root() : depth, node); 
+					return my.zoom(my.node() == d.parent ? my.root() : depth, node, d); 
 			    });
 			});
 		}
@@ -220,7 +220,7 @@ function TreeMap(options) {
 					depth = d.parent;
 					node = d;
 				}
-				return my.zoom(my.node() == d.parent ? my.root() : depth, node); 
+				return my.zoom(my.node() == d.parent ? my.root() : depth, node, d); 
 			});	
 		}
 		
@@ -311,6 +311,14 @@ function TreeMap(options) {
 		nodeOutline = newNodeOutline;
 		return my;
 	};
+	
+	my.leaf = function (newLeaf){
+		if (!arguments.length) {
+			return leaf;
+		}
+		leaf = newLeaf;
+		return my;
+	};
 
 	my.color = function (newColor){
 		if (!arguments.length) {
@@ -396,7 +404,8 @@ function TreeMap(options) {
 		return 1;
 	};
 
-	my.zoom = function (d, nodeOutline) {
+	my.zoom = function (d, nodeOutline, leaf) {
+		my.leaf(leaf);
 		my.node(d);
 		my.nodeOutline(nodeOutline);
 		my.redraw();
@@ -521,12 +530,18 @@ function TreeMap(options) {
 		            .style("opacity", "0.2");
 	    		}
 			}
-			my.updateFirstParents(my.node().depth + 1, my.node(), my.nodeOutline());
+			my.updateFirstParents(my.node().depth + 1, my.node());
+			if(my.leaf()){
+    			my.startUpdateMove(my.leaf());
+    		}
 		}
 		else{
 			my.updateFirstParents(1);
 		}
-
+		my.updateChildren();
+	};
+	
+	my.updateChildren = function(){
 		// Redefinition des rectangles
 		var kx = my.width() / my.node().dx;
 		var ky = my.height() / my.node().dy;
@@ -540,11 +555,10 @@ function TreeMap(options) {
 		.attr("width", function(d) { return kx * d.dx - 1; })
 		.attr("height", function(d) { return ky * d.dy - 1; });
 
-		t.select("text")
+		t.select("textChild")
 		.attr("x", function(d) { return kx * d.dx / 2; })
 		.attr("y", function(d) { return ky * d.dy / 2; })
 		.style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
-		
 	};
 	
 	my.drawFirstParents = function(parents){
@@ -601,7 +615,7 @@ function TreeMap(options) {
 		
 	};
 	
-	my.updateFirstParents = function (depth, node, nodeOutline) {
+	my.updateFirstParents = function (depth, node) {
         // Redefinition des rectangles
         var kx = my.width() / my.node().dx;
         var ky = my.height() / my.node().dy;
@@ -680,17 +694,11 @@ function TreeMap(options) {
         	w = this.getComputedTextLength();
         	return (d.x + d.dx) - d.x > w ? 1 : 0;
         });
-
-        console.log(nodeOutline);
-        if(nodeOutline){
-        	//my.startUpdateMove(nodeOutline);
-        }
     };
 			
 	/*
      * Cette methode encadre et affiche le nom
      * du parent de node passe en parametre
-     * et ajoute le tooltip
      */
 	my.drawOutline = function(node, nameText, nameClassText){
 		// Encadrement representant le parent
@@ -785,6 +793,7 @@ function TreeMap(options) {
                     .style("cursor", "default")
                     .text(function (d) {
                         if(children.indexOf(d) !== -1){
+                        	console.log("icicicic");
                             return d.ord;
                         }
                     })
@@ -894,8 +903,7 @@ function TreeMap(options) {
 			my.drawTooltip(d);
 		}
 		else{
-			if(d.parent !== my.node() || (d.parent === my.node() && d.children)){
-				console.log(d);
+			if(d.parent !== my.node()){
 				my.graph().selectAll("g.cell.child text")
 				.filter(function(n){
 					return listChildren.indexOf(n) !== -1;
