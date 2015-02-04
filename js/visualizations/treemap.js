@@ -35,7 +35,7 @@ function TreeMap(options) {
 		my.margin(options.margin || 60);
 
 		my.svg(d3.select("body").append("svg").attr("id", "graph")
-				.attr("class", "treemap")
+				.attr("class", "treemap responsive")
 				.attr("width", window.innerWidth)
 				.attr("height", window.innerHeight));
 
@@ -149,7 +149,7 @@ function TreeMap(options) {
     my.initTooltip = function (width) {
         var tooltip = d3.select("body")
                 .append("div")
-                .attr("class", "fixed-tooltip")
+                .attr("class", "fixed_tooltip")
                 .attr("x", width)
                 .attr("y", 0)
                 .style("display", "none");

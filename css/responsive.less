@@ -1,0 +1,121 @@
+/* ----------- Namespace classes ----------- */
+@namespaceLabel: .responsive text;
+@namespaceTooltip: .fixed_tooltip ol;
+
+/* ----------- Sizes of Media ----------- */
+@xs-min: 321px;
+@sm-min: 768px;
+@md-min: 1024px;
+@lg-min: 1824px;
+
+@xs-max: 320px;
+@xs-max-o: 768px;
+@sm-max: 1024px;
+
+/* ----------- Different Media ----------- */
+@phone:          			~"only screen and (max-width: @{xs-max})";
+@phone-landscape:			~"only screen and (min-width: @{xs-min}) and (max-width: @{xs-max-o})";
+@tablet:         			~"only screen and (min-width: @{sm-min}) and (max-width: @{sm-max})";
+@desktop:        			~"only screen and (min-width: @{md-min})";
+@large:          			~"only screen and (min-width: @{lg-min})";
+@phone-portrait-strict:		~"only screen and (min-device-width: @{xs-min}) and (max-device-width: @{xs-max-o}) and (orientation: portrait)";
+@phone-landscape-strict:	~"only screen and (min-device-width: @{xs-min}) and (max-device-width: @{xs-max-o}) and (orientation: landscape)";
+@tablet-landscape-strict:	~"only screen and (min-device-width: @{sm-min}) and (max-device-width: @{sm-max}) and (orientation: landscape)";
+@tablet-portrait-strict:	~"only screen and (min-device-width: @{sm-min}) and (max-device-width: @{sm-max}) and (orientation: portrait)";
+
+/* ----------- RulesSet ----------- */
+@base-font-size : 16px;
+.label-ruleset(@font-size: @base-font-size) { 
+	font-size: @font-size;
+};
+
+.tooltip-ruleset(@width, @max-width, @font-size, @line-height) { 
+	width: @width;
+	max-width: @max-width;
+	font-size: @font-size;
+	line-height: @line-height; 
+};
+
+/* ----------- Tooltip ----------- */
+
+/* Smartphones (portrait and landscape) ----------- */
+@media @phone {
+	@{namespaceLabel}{ 
+		.label-ruleset(20px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(100px, 100px, 14px, 16px);
+	}
+};
+/* Smartphones (landscape) ----------- */
+@media @phone-landscape {
+	@{namespaceLabel}{ 
+		.label-ruleset(20px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(100px, 100px, 14px, 16px);
+	}
+};
+/* iPads (portrait and landscape) ----------- */
+@media @tablet {
+	@{namespaceLabel}{ 
+		.label-ruleset(16px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(100px, 100px, 14px, 16px);
+	}
+};
+/* Desktops and laptops ----------- */
+@media @desktop {
+	@{namespaceLabel}{ 
+		.label-ruleset(16px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(100px, 100px, 12px, 16px);
+	}
+};
+/* Large screens ----------- */
+@media @large {
+	@{namespaceLabel}{ 
+		.label-ruleset(16px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(100px, 100px, 12px, 16px);
+	}
+};
+/* Smartphones (portrait) ----------- */
+@media @phone-portrait-strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(18px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(180px, 180px, 20px, 22px);
+	}
+};
+/* Smartphones (landscape) ----------- */
+@media @phone-landscape-strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(18px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(180px, 180px, 14px, 16px);
+	}
+};
+/* iPads (landscape) ----------- */
+@media @tablet-landscape-strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(16px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(180px, 180px, 14px, 16px);
+	}
+};
+/* iPads (portrait) ----------- */
+@media @tablet-portrait-strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(16px);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(180px, 180px, 16px, 16px);
+	}
+};

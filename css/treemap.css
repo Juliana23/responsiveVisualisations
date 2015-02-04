@@ -1,258 +1,13 @@
-.treemap{
-	width: 100%;
+.treemap {
+    width: 100%;
 	height: 100%;
 	position: absolute;
 }
-
 .treemap text{
 	pointer-events: none;
 }
 
-/* Smartphones (portrait and landscape) ----------- */
-@media only screen 
-and (max-width : 320px) {
-	.treemap text {
-        font-size: 20px;
-    }
-	.fixed-tooltip ol {
-		margin: 0;
-		width: 100px;
-		max-width: 100px;
-		font-family: sans-serif;
-		font-size: 14px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* Smartphones (landscape) ----------- */
-@media only screen 
-and (min-width : 321px)
-and (max-width : 768px) {
-	.treemap text {
-        font-size: 20px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 100px;
-		max-width: 100px;
-		font-family: sans-serif;
-		font-size: 14px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* iPads (portrait and landscape) ----------- */
-@media only screen 
-and (min-width : 768px) 
-and (max-width : 1024px) {
-	.treemap text {
-        font-size: 16px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 100px;
-		max-width: 100px;
-		font-family: sans-serif;
-		font-size: 14px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* Desktops and laptops ----------- */
-@media only screen 
-and (min-width : 1024px) {
-	.treemap text {
-        font-size: 16px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 100px;
-		max-width: 100px;
-		font-family: sans-serif;
-		font-size: 12px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* Large screens ----------- */
-@media only screen 
-and (min-width : 1824px) {
-	.treemap text {
-        font-size: 16px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 100px;
-		max-width: 100px;
-		font-family: sans-serif;
-		font-size: 12px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* Smartphones (portrait) ----------- */
-@media only screen 
-and (min-device-width : 321px)
-and (max-device-width : 768px)
-and (orientation : portrait) {
-	.treemap text {
-        font-size: 18px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 180px;
-		max-width: 180px;
-		font-family: sans-serif;
-		font-size: 20px;
-		line-height: 22px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* Smartphones (landscape) ----------- */
-@media only screen 
-and (min-device-width : 321px)
-and (max-device-width : 768px)
-and (orientation : landscape) {
-	.treemap text {
-        font-size: 18px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 180px;
-		max-width: 180px;
-		font-family: sans-serif;
-		font-size: 14px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* iPads (landscape) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
-and (orientation : landscape) {
-	.treemap text {
-        font-size: 16px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 180px;
-		max-width: 180px;
-		font-family: sans-serif;
-		font-size: 14px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-/* iPads (portrait) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
-and (orientation : portrait) {
-	.treemap text {
-        font-size: 16px;
-    }
-    .fixed-tooltip ol {
-		margin: 0;
-		width: 180px;
-		max-width: 180px;
-		font-family: sans-serif;
-		font-size: 16px;
-		line-height: 16px;
-		display: block;
-		-webkit-padding-start: 0px;
-	}
-	.fixed-tooltip ol li {
-		padding-left: 10px;
-		padding-right: 10px;
-		list-style-position: inside;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-}
-
-.fixed-tooltip {
+.fixed_tooltip {
     position: absolute;
     width: auto;
     height: auto;
@@ -266,4 +21,19 @@ and (orientation : portrait) {
     -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
     pointer-events: none;
+}
+
+.fixed_tooltip ol {
+	margin: 0;
+	font-family: sans-serif;
+	display: block;
+	-webkit-padding-start: 0px;
+}
+.fixed_tooltip ol li {
+	padding-left: 10px;
+	padding-right: 10px;
+	list-style-position: inside;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }

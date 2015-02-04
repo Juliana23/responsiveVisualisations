@@ -6,9 +6,19 @@
 <link href="./css/timeline.css" rel="stylesheet" type="text/css" />
 <link href="./css/treemap.css" rel="stylesheet" type="text/css" />
 
+
+<!-- Utilise LESS -->
+<link rel="stylesheet/less" type="text/css" href="./css/responsive.less">
+
 <!-- import JS -->
+<script src="./lib/less.min.js" type="text/javascript"></script>
+
 <script type="text/javascript" src="./lib/d3/d3.v3.min.js"></script>
 <script type="text/javascript" src="./lib/hammer.min.js"></script>
+
+<script type="text/javascript" src="./js/object/axis.js"></script>
+<script type="text/javascript" src="./js/utils/util.js"></script>
+
 <script type="text/javascript" src="./js/utils/chargeFile.js"></script>
 <script type="text/javascript" src="./js/utils/parseData.js"></script>
 <script type="text/javascript" src="./js/utils/utils.js"></script>
@@ -20,8 +30,8 @@
 <script>
 //data(sp500);
 //data(dataProducts);
-//data(dataFemaleUs);
-dataTreeMap(flare);
+data(dataFemaleUs);
+//dataTreeMap(flare);
 </script>
 </body>
 </html>
