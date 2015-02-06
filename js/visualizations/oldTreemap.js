@@ -35,7 +35,7 @@ function TreeMap(options) {
 		my.margin(options.margin || 60);
 
 		my.svg(d3.select("body").append("svg").attr("id", "graph")
-				.attr("class", "treemap")
+				.attr("class", "treemap responsive")
 				.attr("width", window.innerWidth)
 				.attr("height", window.innerHeight));
 
@@ -55,7 +55,14 @@ function TreeMap(options) {
 		my.color(d3.scale.category20c());
 		
 		// Initialisation du tooltip
-        my.initTooltip(my.width());
+        //my.initTooltip(my.width());
+		
+		// Initialisation du tooltip
+        my.tooltip(new ResponsiveAxis({
+        	containerResizable : my.svg(),
+            g: graph,
+            cls: "fixed_tooltip"
+        })());
 
 		// Initialisation des donnees
 		my.initData(options.data);
@@ -64,15 +71,34 @@ function TreeMap(options) {
 		my.initGraph(my.margin(), my.parents(), my.children(), my.node(), my.root(), my.color());
 		
 		// On met les evenements sur le graphe a jour
-        my.updateMove(my.svg().selectAll(".cell"), "mouseover", "mouseout", true);
-        my.updateMove(my.svg().selectAll(".cell"), "touchmove", "touchend", false);
+        if(!my.isMobile()){
+        	my.updateMove(my.svg().selectAll(".cell.child"), "mouseover", "mouseout", true);
+        }
+        else{
+        	my.updateMove(my.svg().selectAll(".cell.child"), "touchend", "", false);
+        }
 
 		// Resize de la visualisation
 		my.resize(my.height(), my.width());
 
 		// Redessine le graphe de maniere responsive
 		my.redraw();
-
+		
+		// On met l'evenement si on clique
+		// en dehors de la visualisation
+		// pour faire un zoom out sur le root
+		d3.select(window)
+		.on("click", function() {
+			var xClicked = d3.event.x;
+			var yClicked = d3.event.y;
+			if(xClicked < my.margin() 
+					|| yClicked < my.margin()
+					|| xClicked > window.innerWidth - my.margin()
+					|| yClicked > window.innerHeight - my.margin()){
+				my.zoom(my.root()); 
+			}
+		});
+		
 		return my;
 	};
 
@@ -97,6 +123,12 @@ function TreeMap(options) {
         	var allParents = getAllParents(d);
         	d["allParents"] = allParents;
         });
+		
+		my.parents().forEach(function(d) {
+        	var allParents = getAllParents(d);
+        	d["allParents"] = allParents;
+        });
+		
 		my.data(data);
 	};
 
@@ -124,10 +156,9 @@ function TreeMap(options) {
     my.initTooltip = function (width) {
         var tooltip = d3.select("body")
                 .append("div")
-                .attr("class", "fixed-tooltip")
+                .attr("class", "fixed_tooltip")
                 .attr("x", width)
                 .attr("y", 0)
-                .style("visibility", "hidden")
                 .style("display", "none");
         my.tooltip(tooltip);
     };
@@ -136,43 +167,74 @@ function TreeMap(options) {
 	 * Initialisation du graphe
 	 */
 	my.initGraph = function (margin, parents, children, node, root, color) {
-		var map = {};
 		var graph = d3.select("#graph")
 		.append("g")
 		.attr("class", "focus");
-
+		
 		if (margin) {
 			graph.attr("transform", "translate(" + margin + "," + margin + ")");
 		}
-
+		
+		// Initiliasation des cellules
 		graph.selectAll(".cell.child")
 		.data(children)
 		.enter().append("g")
 		.attr("class", "cell child")
-		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-		.on("click", function(d) {
-			var depth;
-			var node;
-			// On ne descend pas en profondeur si
-			// le noeud a des enfants
-			if(d.parent.depth != 1){
-				depth = d.parent.parent;
-				node = d.parent;
-			}
-			else{
-				depth = d.parent;
-				node = d;
-			}
-			return my.zoom(my.node() == d.parent ? my.root() : depth, node); });
+		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
 		graph.selectAll(".cell.child")
 		.append("rect")
 		.attr("width", function(d) { return d.dx - 1; })
 		.attr("height", function(d) { return d.dy - 1; })
-		.style("fill", function(d) { return color(d.parent.name); });
+		.style("fill", function(d) { return color(d.parent.name); })
+		.style("stroke", function(d) { return color(d.parent.name); })
+		.style("stroke-opacity", "0.3");
+		
+		if(my.isMobile()){
+			graph.selectAll(".cell.child").each(function(d,i){
+				// install handlers with hammer
+			    Hammer(this, {
+			      prevent_default: true,
+			      no_mouseevents: true
+			    }).on("doubletap", function(event){
+			    	var depth;
+					var nodeInt;
+					// On ne descend pas en profondeur si
+					// le noeud a des enfants
+					if(d.parent.depth != 1){
+						depth = d.parent.parent;
+						nodeInt = d.parent;
+					}
+					else{
+						depth = d.parent;
+						nodeInt = d;
+					}
+					return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
+			    });
+			});
+		}
+		else {
+			graph.selectAll(".cell.child")
+			.on("click", function(d) {
+				var depth;
+				var nodeInt;
+				// On ne descend pas en profondeur si
+				// le noeud a des enfants
+				if(d.parent.depth != 1){
+					depth = d.parent.parent;
+					nodeInt = d.parent;
+				}
+				else{
+					depth = d.parent;
+					nodeInt = d;
+				}
+				return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
+			});	
+		}
 		
 		my.graph(graph);
-		my.drawFirstParents();
+		my.drawTitleFirstParent();
+		my.drawFirstParents(parents);
 	};
 
 	/************************
@@ -203,14 +265,6 @@ function TreeMap(options) {
 		return my;
 	};
 
-	my.node = function (newNode) {
-		if (!arguments.length) {
-			return node;
-		}
-		node = newNode;
-		return my;
-	};
-
 	my.parents = function (newParents) {
 		if (!arguments.length) {
 			return parents;
@@ -226,7 +280,21 @@ function TreeMap(options) {
 		children = newChildren;
 		return my;
 	};
+	
+	/*
+	 * Noeud courant
+	 */
+	my.node = function (newNode) {
+		if (!arguments.length) {
+			return node;
+		}
+		node = newNode;
+		return my;
+	};
 
+	/*
+	 * Noeud parent 
+	 */
 	my.root = function (newRoot) {
 		if (!arguments.length) {
 			return root;
@@ -251,11 +319,25 @@ function TreeMap(options) {
 		return my;
 	};
 	
+	/*
+	 * Noeud qu'on souhaite encadrer
+	 */
 	my.nodeOutline = function (newNodeOutline){
 		if (!arguments.length) {
 			return nodeOutline;
 		}
 		nodeOutline = newNodeOutline;
+		return my;
+	};
+	
+	/*
+	 * Noeud feuille
+	 */
+	my.leaf = function (newLeaf){
+		if (!arguments.length) {
+			return leaf;
+		}
+		leaf = newLeaf;
 		return my;
 	};
 
@@ -322,6 +404,14 @@ function TreeMap(options) {
 		margin = newMargin;
 		return my;
 	};
+	
+	my.pathinfo = function (newPathinfo) {
+		if (!arguments.length) {
+			return pathinfo;
+		}
+		pathinfo = newPathinfo;
+		return my;
+	};
 
 	/************************
 	 * Methods
@@ -335,7 +425,8 @@ function TreeMap(options) {
 		return 1;
 	};
 
-	my.zoom = function (d, nodeOutline) {
+	my.zoom = function (d, nodeOutline, leaf) {
+		my.leaf(leaf);
 		my.node(d);
 		my.nodeOutline(nodeOutline);
 		my.redraw();
@@ -355,29 +446,24 @@ function TreeMap(options) {
 	
 	my.remove = function(){
 		// Suppression du contour et du texte
-		d3.selectAll(".outlineParent").remove();
-		d3.selectAll(".outlineFirstParent").remove();
-		d3.selectAll(".outlineChild").remove();
 		d3.selectAll(".textParent").remove();
-		d3.selectAll(".textFirstParent").remove();
 		d3.selectAll(".textChild").remove();
 		d3.selectAll(".numText").remove();
 		
+		my.graph().selectAll(".textFirstParent")
+		.style("display", "none");
+		
 		// Suppression de highlight
-    	my.graph().selectAll("g.cell")
+    	my.graph().selectAll("g.cell.child")//.transition().duration(0)
     	.style("opacity", "1");
-    	
-    	// Suppression du contour et du texte
-    	d3.select("path").remove();
 	}
 	
 	my.hide = function(){
 		// On cache le tooltip
-    	my.tooltip().style("visibility", "hidden")
-    	.style("display", "none");
+    	my.tooltip().style("display", "none");
     	
 		// On cache toutes les cellules
-		my.graph().selectAll("g.cell")
+		my.graph().selectAll("g.cell.child")
 		.style("display", "none");
 	}
 
@@ -388,8 +474,10 @@ function TreeMap(options) {
 		my.remove();
 		my.hide();
 		
+		my.graph().selectAll(".cell.child text").remove();
+		
 		// On affiche les enfants
-		my.graph().selectAll("g.cell")
+		my.graph().selectAll("g.cell.child")
 		// Si la liste des parents du noeud d courant 
         // contient le parent sur lequel on est alors on l'affiche
 		.filter(function(d) {
@@ -411,7 +499,7 @@ function TreeMap(options) {
 
 		my.children(my.treemap().nodes(my.node())
 				.filter(function(d) { return !d.children; }));
-		
+			
 		// Redefinition de la taille du svg
 		my.svg()
 		.attr("width", window.innerWidth - (2 * my.margin()))
@@ -424,6 +512,9 @@ function TreeMap(options) {
 		// Affichage des enfants si on zoom
 		if(my.node() != my.root()){
 			my.graph().selectAll(".cell.child")
+			.filter(function(d){
+				return d.parent === my.node();
+			})
 			.append("text")
 			.attr("x", function(d) { return d.dx / 2; })
 			.attr("y", function(d) { return d.dy / 2; })
@@ -434,21 +525,13 @@ function TreeMap(options) {
 			})
 			.style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
 			
+			// Noeud sur lequel on a clique
 			if(my.nodeOutline()){
 				// On encadre l'enfant clique
-				var listChildren = [];
-	    		my.graph().selectAll("g.cell")
-	            .each(function(n) {
-	            	var containParent = n.allParents.indexOf(my.nodeOutline());
-	            	if(containParent !== -1){
-	            		listChildren.push(n);
-	            	}
-	            });
-	    		
 	    		if(my.nodeOutline().children){
-	    			my.drawOutline(my.nodeOutline(), listChildren, my.nodeOutline().name, "outlineChild", "textChild", false);
+	    			my.drawOutline(my.nodeOutline(), my.nodeOutline().name, "textChild");
 	    			// Highlight representant le parent
-		    		my.graph().selectAll("g.cell")
+		    		my.graph().selectAll("g.cell.child")
 		    		// Si la liste des parents du noeud n courant 
 		            // contient le parent sur lequel on est alors on l'affiche
 		            .filter(function(n) {
@@ -456,96 +539,297 @@ function TreeMap(options) {
 		                return containParent === -1;
 		            })
 		            .style("opacity", "0.2");
+		    		
+		    		my.updateFirstParents(my.node().depth + 1, my.node());
+					if(my.leaf()){
+		    			my.startUpdateMove(my.leaf());
+		    		}
 	    		}
 	    		else{
-	    			// Highlight representant le parent
-		    		my.graph().selectAll("g.cell")
+	    			// Highlight
+		    		my.graph().selectAll("g.cell.child")
 		    		// Si la liste des parents du noeud n courant 
 		            // contient le parent sur lequel on est alors on l'affiche
 		            .filter(function(n) {
 		                return n != my.nodeOutline();
 		            })
 		            .style("opacity", "0.2");
+		    		
+		    		my.updateFirstParents(my.node().depth + 1, my.node());
 	    		}
 			}
 		}
 		else{
-			my.graph().selectAll(".cell.child text").remove();
-			// On redessine les parents
-	    	my.drawFirstParents();
+			my.updateFirstParents(1);
 		}
-
+		my.updateTitleFirstParent(my.node());
+		my.updateChildren();
+	};
+	
+	/*
+	 * Cette methode met les cellules a la
+	 * bonne dimension
+	 */
+	my.updateChildren = function(){
 		// Redefinition des rectangles
 		var kx = my.width() / my.node().dx;
 		var ky = my.height() / my.node().dy;
 		my.x().domain([my.node().x, my.node().x + my.node().dx]);
 		my.y().domain([my.node().y, my.node().y + my.node().dy]);
 
-		var t = d3.selectAll(".cell").transition()
+		var t = d3.selectAll(".cell.child").transition()
 		.attr("transform", function(d) { return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")"; });
 
 		t.select("rect")
 		.attr("width", function(d) { return kx * d.dx - 1; })
 		.attr("height", function(d) { return ky * d.dy - 1; });
 
-		t.select("text")
+		t.select("textChild")
 		.attr("x", function(d) { return kx * d.dx / 2; })
 		.attr("y", function(d) { return ky * d.dy / 2; })
 		.style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
-		
-	};
-	
-	my.drawFirstParents = function(){
-		// Affichage des premiers parents
-		my.parents().forEach(function(parent){
-			if(parent.depth === 1){
-				var listChildren = [];
-	    		my.graph().selectAll("g.cell")
-	            .each(function(n) {
-	            	var containParent = n.allParents.indexOf(parent);
-	            	if(containParent !== -1){
-	            		listChildren.push(n);
-	            	}
-	            });
-	    		my.drawOutline(parent, listChildren, parent.name, "outlineFirstParent", "textFirstParent", true);
-			}
-		});
 	};
 	
 	/*
-     * Cette methode encadre et affiche le nom
-     * du parent de node passe en parametre
-     * et ajoute le tooltip
-     */
-	my.drawOutline = function(node, children, nameText, nameClassPath, nameClassText, onBottomRight){
-		// Encadrement representant le parent
-		var pathinfo = getOutline(children);
-
-		var d3line = d3.svg.line()
-		.x(function(d){return d.x;})
-		.y(function(d){return d.y;})
-		.interpolate("linear"); 
+	 * Cette methode affiche le titre du premier
+	 * parent
+	 */
+	my.drawTitleFirstParent = function(){
+		var titleParent = d3.select("#graph")
+		.append("g")
+		.attr("class", "title");
 		
-		// Dessin du contour
-		my.svg().append("svg:path")
-		.attr("class", nameClassPath)
-		.attr("d", d3line(pathinfo))
-		.style("stroke-width", 1)
+		titleParent.selectAll(".titleParent")
+		.data(parents)
+		.enter().append("g")
+		.attr("class", "titleParent");
+
+		titleParent.selectAll(".titleParent")
+		.append("text")
+		.attr("class", "textTitleParent")
+		.attr("text-anchor", "middle")
+		.text(function(d){
+			return d.name;
+		})
+		.attr("x", function(d) { return getWidth() / 2; })
+		.attr("y", function(d) { return my.margin() / 2; })
+		.style("display", function(d){
+			if(d.depth === 0){
+				return "";
+			}
+			else{
+				return "none";
+			}
+		});
+	}
+	
+	/*
+	 * Cette methode met a jour le titre
+	 * du parent de la visualisation
+	 */
+	my.updateTitleFirstParent = function(node){
+		d3.selectAll(".titleParent text")
+		.attr("x", function(d) { return getWidth() / 2; })
+		.attr("y", function(d) { return my.margin() / 2; })
+		.style("display", function(d){
+			if(d === node){
+				return "";
+			}
+			else{
+				return "none";
+			}
+		});
+	}
+	
+	/*
+	 * Cette methode encadre et affiche le nom
+	 * des premiers parents
+	 */
+	my.drawFirstParents = function(parents){
+		var graph = my.graph();
+		
+		// Parents
+		var parents = graph.selectAll(".cell.parent")
+		.data(parents)
+		.enter().append("g")
+		.attr("class", "cell parent")
+		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+		
+		graph.selectAll(".cell.parent")
+		.append("rect")
+		.attr("id", function(d){
+			d.id = d.name + "_" + (d.parent ? d.parent.name : "root");
+			return d.id;
+		})
+		.attr("width", function(d) { return d.dx - 1; })
+		.attr("height", function(d) { return d.dy - 1; })
 		.style("stroke", "black")
 		.style("fill", "none")
-		.attr("transform", "translate(" + margin + "," + margin + ")");
+		.style("stroke-width", "border")
+		.style("display", function(d){
+			if(d.depth === 1){
+				return "";
+			}
+			else{
+				return "none";
+			}
+		});
+		
+		graph.selectAll(".cell.parent")
+		.append("text")
+		.attr("class", "textFirstParent")
+		.attr("text-anchor", "middle")
+		.text(function(d){
+			return d.name;
+		})
+		.attr("x", function(d) { return d.dx - (d.name.length * 5); })
+		.attr("y", function(d) { return d.dy - 5; })
+		.style("opacity", function(d) { 
+			w = this.getComputedTextLength(); 
+			return (d.x + d.dx) - d.x > w ? 1 : 0; 
+		})
+		.style("display", function(d){
+			if(d.depth === 1){
+				return "";
+			}
+			else{
+				return "none";
+			}
+		});
+		
+	};
+	
+	/*
+	 * Cette methode met a jour l'encadrement
+	 * et affichage le nom des premiers 
+	 * parents de la visualisation
+	 */
+	my.updateFirstParents = function (depth, node) {
+        // Redefinition des rectangles
+        var kx = my.width() / my.node().dx;
+        var ky = my.height() / my.node().dy;
+        my.x().domain([my.node().x, my.node().x + my.node().dx]);
+        my.y().domain([my.node().y, my.node().y + my.node().dy]);
 
+        var t = d3.selectAll(".cell.parent").transition()
+                .attr("transform", function (d) {
+                    return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")";
+                });
+
+        d3.selectAll(".cell.parent rect")
+                .attr("width", function (d) {
+                    return kx * d.dx - 1;
+                })
+                .attr("height", function (d) {
+                    return ky * d.dy - 1;
+                })
+                .style("display", function (d) {
+                    if (node) {
+                        if(d.allParents){
+                            if(d.allParents.indexOf(node) !== -1
+                                && d.children && d.depth === depth){
+                                return "";
+                            }
+                            else{
+                                return "none";
+                            }
+                        }
+                        else{
+                            return "none";
+                        }
+                    }
+                    else{
+                        if (d.depth === depth) {
+                            return "";
+                        }
+                        else {
+                            return "none";
+                        }
+                    }
+                });
+
+        my.graph().selectAll(".textFirstParent")
+        .attr("x", function (d) {
+        	return kx * d.dx - (d.name.length * 5);
+        })
+        .attr("y", function (d) {
+        	return ky * d.dy - 5;
+        })
+        .style("display", function (d) {
+        	if (node) {
+        		if(d.allParents){
+        			if(d.allParents.indexOf(node) !== -1
+        					&& d.children && d.depth === depth){
+        				return "";
+        			}
+        			else{
+        				return "none";
+        			}
+        		}
+        		else{
+        			return "none";
+        		}
+        	}
+        	else{
+        		if (d.depth === depth) {
+        			return "";
+        		}
+        		else {
+        			return "none";
+        		}
+        	}
+        })
+        .style("opacity", function (d) {
+        	w = this.getComputedTextLength();
+        	return (d.x + d.dx) - d.x > w ? 1 : 0;
+        });
+    };
+			
+	/*
+     * Cette methode encadre et affiche le nom
+     * du parent de node passe en parametre
+     */
+	my.drawOutline = function(node, nameText, nameClassText){
+		// Encadrement representant le parent
+		var pathinfo = [];
+		var nodeId;
+		
+		if(node.children){
+			nodeId = node.id;
+		}
+		else{
+			nodeId = node.parent.id;
+		}
+		
+		my.graph().select("#" + nodeId)
+		.attr("width", function(d) { 
+			pathinfo.push({
+				x: d.x,
+				y: d.y
+			})
+			pathinfo.push({
+				x: d.x + d.dx,
+				y: d.y
+			})
+			pathinfo.push({
+				x: d.x + d.dx,
+				y: d.y + d.dy
+			})
+			pathinfo.push({
+				x: d.x,
+				y: d.y + d.dy
+			})
+			return d.dx - 1; 
+		})
+		.attr("height", function(d) { return d.dy - 1; })
+		.style("display", "");
+		
 		// Affichage du titre
 		var translationX;
 		var translationY;
-		if(onBottomRight){
-			translationX = margin + pathinfo[3].x + (nameText.length * 4) + 5;
-			translationY = margin + pathinfo[3].y - 5;
-		}
-		else{
-			translationX = margin + (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
-			translationY = margin + (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
-		}
+		translationX = margin + (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
+		translationY = margin + (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
+		
 		my.svg().append("svg:text")
 		.attr("class", nameClassText)
 		.attr("text-anchor", "middle")
@@ -556,13 +840,17 @@ function TreeMap(options) {
 			return pathinfo[1].x - pathinfo[0].x > w ? 1 : 0; 
 		});
 		
-		return pathinfo;
+		my.pathinfo(pathinfo);
 	};
 	
 	/*
      * Cette methode affiche une etiquette
+     * associe au bloc clique et met des numeros 
+     * dans les cellules pour les associer aux
+     * etiquettes
      */
-	my.drawTooltip = function(node, pathinfo){
+	my.drawTooltip = function(node){
+		var pathinfo = my.pathinfo();
 		var children = node.parent.children;
         var html = "<ol>";
         var i = 1;
@@ -607,95 +895,146 @@ function TreeMap(options) {
                     		return "0.2";
                     	}
                     });
-        
-        if(!my.isMobile()){
-        	my.updateMove(my.svg().selectAll(".cell text"), "mouseover", "mouseout", true);
-        }
 
         // On affiche l'etiquette associee
         if(my.height() - pathinfo[0].y > (my.margin() + i * 10)){
         	my.tooltip()
-            .style("top", pathinfo[0].y + my.margin() + "px")
+            .style("top", pathinfo[0].y + my.margin() + "px");
         }
         else if(my.height() > (my.margin() + i * 10)){
         	my.tooltip()
-            .style("top", my.margin() + my.height() - (my.margin() + i * 10) + "px")
+            .style("top", my.margin() + my.height() - (my.margin() + i * 10) + "px");
         }
         else{
         	my.tooltip()
-            .style("top", 0 + "px")
+            .style("top", 0 + "px");
         }
-        if(pathinfo[0].x > 100){
-            my.tooltip()
-                    .style("left", (pathinfo[0].x - my.margin()) + "px")
+        
+        var widthScreen = getWidth();
+        var isMobile = my.isMobile();
+        // On redefinit le tooltip en fonction du device
+        if((widthScreen > 321 && widthScreen < 1024) && isMobile){
+        	if(pathinfo[0].x > 180){
+                my.tooltip()
+                        .style("left", (pathinfo[0].x - 180 + my.margin() - 20) + "px")
+            }
+            else {
+                my.tooltip()
+                        .style("left", (pathinfo[1].x + my.margin() + 20) + "px")
+            }
         }
-        else {
-            my.tooltip()
-                    .style("left", (pathinfo[1].x + my.margin() + 20) + "px")
+        else{
+        	if(pathinfo[0].x > 100){
+                my.tooltip()
+                        .style("left", (pathinfo[0].x - my.margin()) + "px")
+            }
+            else {
+                my.tooltip()
+                        .style("left", (pathinfo[1].x + my.margin() + 20) + "px")
+            }
         }
-        my.tooltip()
-        .style("visibility", "visible")
-        .style("display", "");
-        my.tooltip()
-                .html(html);
+        
+        my.tooltip().style("display", "");
+        my.tooltip().html(html);
 	}
 	
 	/*
      * Cette methode applique les etiquettes
-     * lorsqu'on se deplace sur la courbe
+     * lorsqu'on se deplace sur la visualisation
      */
     my.updateMove = function (container, event, eventEnd, onDesktop) {
-    	var width = my.width();
-    	var height = my.height();
-    	var margin = my.margin();
-    	
-    	container.on(event, function (d) {
-    		// Suppression du contour et du texte
-    		my.remove();
-    		
-    		var listChildren = [];
-    		// Highlight representant le parent
-    		my.graph().selectAll("g.cell")
-    		// Si la liste des parents du noeud n courant 
-            // contient le parent sur lequel on est alors on l'affiche
-            .filter(function(n) {
-            	var containParent = n.allParents.indexOf(d.parent);
-            	if(containParent !== -1){
-            		listChildren.push(n);
-            	}
-                return containParent === -1;
-            })
-            .style("opacity", "0.2");
-    		
-    		// Information sur le parent du noeud courant
-    		var pathinfo = my.drawOutline(d, listChildren, d.parent.name, "outlineParent", "textParent", false);
-    		
-    		// On dessine le tooltip seulement si
-    		// on n'est pas sur le zoom
-    		if(my.node() === my.root()){
-    			my.drawTooltip(d, pathinfo);
+    	container
+    	.on(event, function (d) {
+    		// Cas SmartPhone, Tablette, ...
+    		if(my.isMobile()){
+    			// Si le tooltip est affiche
+    			if(my.tooltip().style("display") !== "none"){
+    				var opacity = my.graph().selectAll("g.cell.child") .filter(function(n) {
+        				return n.allParents.indexOf(d.parent) !== -1;
+        			}).style("opacity");
+    				// Si le noeud sur lequel on a clique n'appartient
+    				// pas au bloc de noeud qui etait selectionne
+        			if(opacity != 1){
+        				my.endUpdateMove();
+        			}
+    			}
     		}
+    			
+    		my.startUpdateMove(d);
         })
         .on(eventEnd, function () {
-        	my.tooltip().style("visibility", "hidden")
-        	.style("display", "none");
-        	
-        	// Suppression de highlight
-        	my.graph().selectAll("g.cell")
-        	.style("opacity", "1");
-        	
-        	// Suppression du contour et du texte
-        	d3.selectAll(".numText").remove();
-        	d3.select("path").remove();
-        	d3.select(".textParent").remove();
-        	
-        	// On redessine les premiers parents
-        	if(my.node() === my.root()){
-            	my.drawFirstParents();
-        	}
-        	
-        });
+        	// Evenement utilise uniquement sur ordinateurs
+        	my.endUpdateMove();
+        })
     };
+    
+    /*
+     * Cette methode affiche l'etiquette
+     * et met en avant le bloc clique avec
+     * l'eclairage
+     */
+    my.startUpdateMove = function(d){
+		// Suppression du contour et du texte
+		my.remove();
+		var listChildren = [];
+		// Highlight representant le parent
+		my.graph().selectAll("g.cell.child")//.transition().duration(500)
+		// Si la liste des parents du noeud n courant 
+        // contient le parent sur lequel on est alors on l'affiche
+        .filter(function(n) {
+        	var containParent = n.allParents.indexOf(d.parent);
+        	if(containParent !== -1){
+        		listChildren.push(n);
+        	}
+            return containParent === -1;
+        })
+        .style("opacity", "0.2");
+		
+		// Information sur le parent du noeud courant
+		my.drawOutline(d, d.parent.name, "textParent");
+		
+		// On dessine le tooltip seulement si
+		// on n'est pas sur le zoom
+		if(my.node() === my.root()){
+			my.drawTooltip(d);
+		}
+		else{
+			if(d.parent !== my.node()){
+				my.graph().selectAll("g.cell.child text")
+				.filter(function(n){
+					return listChildren.indexOf(n) !== -1;
+				})
+				.style("display", "none");
+
+				my.drawTooltip(d);
+			}
+		}
+    };
+    
+    /*
+     * Cette methode est la fin de l'evenement
+     * pour revenir a l'etat initial
+     */
+    my.endUpdateMove = function(){
+		my.tooltip().style("display", "none");
+		
+		// Suppression de highlight
+		my.graph().selectAll("g.cell.child")//.transition().duration(0)
+		.style("opacity", "1");
+		
+		// Suppression du contour et du texte
+		d3.selectAll(".numText").remove();
+		d3.select(".textParent").remove();
+		
+		// On redessine les premiers parents
+		if(my.node() === my.root()){
+			my.updateFirstParents(1);
+		}
+		else{
+			my.updateFirstParents(my.node().depth + 1, my.node());
+		}
+	};
+	
 	return my;
 
 }

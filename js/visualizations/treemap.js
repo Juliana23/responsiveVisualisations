@@ -29,7 +29,7 @@ function TreeMap(options) {
 	}
 
 	my.init = function (options) {
-		my.isMobile(isMobile());
+		my.isMobile(mobile());
 		
 		//On cree un nouveau noeud <svg>
 		my.margin(options.margin || 60);
@@ -55,8 +55,8 @@ function TreeMap(options) {
 		my.color(d3.scale.category20c());
 		
 		// Initialisation du tooltip
-        my.initTooltip(my.width());
-
+        //my.initTooltip(my.width());
+		
 		// Initialisation des donnees
 		my.initData(options.data);
 
@@ -162,11 +162,19 @@ function TreeMap(options) {
 	my.initGraph = function (margin, parents, children, node, root, color) {
 		var graph = d3.select("#graph")
 		.append("g")
+		.attr("height", my.height())
+        .attr("width", my.width())
 		.attr("class", "focus");
 		
 		if (margin) {
 			graph.attr("transform", "translate(" + margin + "," + margin + ")");
 		}
+		
+		// Initialisation du tooltip
+        my.tooltip(new ResponsiveTooltip({
+        	g : graph,
+            cls: "fixed_tooltip"
+        })());
 		
 		// Initiliasation des cellules
 		graph.selectAll(".cell.child")
@@ -453,7 +461,7 @@ function TreeMap(options) {
 	
 	my.hide = function(){
 		// On cache le tooltip
-    	my.tooltip().style("display", "none");
+		my.tooltip().trigger("hide");
     	
 		// On cache toutes les cellules
 		my.graph().selectAll("g.cell.child")
@@ -844,6 +852,7 @@ function TreeMap(options) {
      */
 	my.drawTooltip = function(node){
 		var pathinfo = my.pathinfo();
+		//my.tooltip().position(pathinfo);
 		var children = node.parent.children;
         var html = "<ol>";
         var i = 1;
@@ -888,47 +897,14 @@ function TreeMap(options) {
                     		return "0.2";
                     	}
                     });
-
-        // On affiche l'etiquette associee
-        if(my.height() - pathinfo[0].y > (my.margin() + i * 10)){
-        	my.tooltip()
-            .style("top", pathinfo[0].y + my.margin() + "px");
-        }
-        else if(my.height() > (my.margin() + i * 10)){
-        	my.tooltip()
-            .style("top", my.margin() + my.height() - (my.margin() + i * 10) + "px");
-        }
-        else{
-        	my.tooltip()
-            .style("top", 0 + "px");
-        }
         
-        var widthScreen = getWidth();
-        var isMobile = my.isMobile();
-        // On redefinit le tooltip en fonction du device
-        if((widthScreen > 321 && widthScreen < 1024) && isMobile){
-        	if(pathinfo[0].x > 180){
-                my.tooltip()
-                        .style("left", (pathinfo[0].x - 180 + my.margin() - 20) + "px")
-            }
-            else {
-                my.tooltip()
-                        .style("left", (pathinfo[1].x + my.margin() + 20) + "px")
-            }
-        }
-        else{
-        	if(pathinfo[0].x > 100){
-                my.tooltip()
-                        .style("left", (pathinfo[0].x - my.margin()) + "px")
-            }
-            else {
-                my.tooltip()
-                        .style("left", (pathinfo[1].x + my.margin() + 20) + "px")
-            }
-        }
-        
-        my.tooltip().style("display", "");
-        my.tooltip().html(html);
+        var position = {
+        	xMin: pathinfo[0].x,
+        	yMin: pathinfo[0].y,
+        	xMax: pathinfo[1].x,
+        	yMax: pathinfo[2].y
+        };
+        my.tooltip().trigger("redraw", html);
 	}
 	
 	/*
@@ -941,7 +917,7 @@ function TreeMap(options) {
     		// Cas SmartPhone, Tablette, ...
     		if(my.isMobile()){
     			// Si le tooltip est affiche
-    			if(my.tooltip().style("display") !== "none"){
+    			if(my.tooltip().getIsDrawn()){
     				var opacity = my.graph().selectAll("g.cell.child") .filter(function(n) {
         				return n.allParents.indexOf(d.parent) !== -1;
         			}).style("opacity");
@@ -952,7 +928,6 @@ function TreeMap(options) {
         			}
     			}
     		}
-    			
     		my.startUpdateMove(d);
         })
         .on(eventEnd, function () {
@@ -1009,8 +984,7 @@ function TreeMap(options) {
      * pour revenir a l'etat initial
      */
     my.endUpdateMove = function(){
-		my.tooltip().style("display", "none");
-		
+		my.tooltip().trigger("hide");
 		// Suppression de highlight
 		my.graph().selectAll("g.cell.child")//.transition().duration(0)
 		.style("opacity", "1");

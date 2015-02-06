@@ -20,16 +20,13 @@ function TimeLine(options) {
 
             // On redefinit les tailles
             var width = parseInt(d3.select("#graph").style("width")) - my.margin() * 2,
-                    height = parseInt(d3.select("#graph").style("height")) /*- my.brushHeight() - options.brush.marginTop*/ - my.margin() * 2;
+                    height = parseInt(d3.select("#graph").style("height")) - my.brushHeight() - options.brush.marginTop - my.margin() * 2;
 
             // Modification de la hauteur et de la largeur
             my.resize(height, width);
 
             // Redessine le graphe de maniere reponsive
             my.redraw();
-
-            //my.x().resize();
-            //my.y().resize();
         }
 
         // Add resize event
@@ -37,12 +34,13 @@ function TimeLine(options) {
     }
 
     my.init = function (options) {
+    	my.isMobile(mobile());
         //On cree un nouveau noeud <svg>
         my.margin(options.margin || 60);
         my.svg(d3.select("body").append("svg").attr("id", "graph")
-                .attr("class", "timeline")
-                .attr("width", window.innerWidth - my.margin() * 2)
-                .attr("height", window.innerHeight  - my.margin() * 2));
+        		.attr("class", "timeline")
+                .attr("width", window.innerWidth)
+                .attr("height", window.innerHeight));
         my.svg().append("defs").append("clipPath")
                 .attr("id", "clip")
                 .append("rect")
@@ -56,20 +54,11 @@ function TimeLine(options) {
         // Initialisation des donnees
         my.initData(options.data, options.formatDate);
 
-
-//        my.initX(my.width(), my.data());
-//        my.initY(my.height(), my.data());
-//        my.xAxis(d3.svg.axis().scale(my.x()).orient("bottom"));
-//        my.yAxis(d3.svg.axis().scale(my.y()).orient("left"));
-
         // Initialisation du brush
-//        my.initBrush(options.brush || {});
-
-        // Initialisation du tooltip
-        my.initTooltip(my.width());
+        my.initBrush(options.brush || {});
 
         // Initialisation du graphe
-        my.initGraph(my.margin(), my.height(), my.width()/*, my.xAxis(), my.yAxis()*/, my.data());
+        my.initGraph(my.margin(), my.height(), my.width(), my.data());
 
         // Initialisation du rectangle
         my.initRect(my.svg(), my.width(), my.height(), my.margin());
@@ -116,48 +105,9 @@ function TimeLine(options) {
     };
 
     /*
-     * Initialisation des abscisses
-     */
-    my.initX = function (width, data) {
-        var x = d3.time.scale()
-                .range([0, width])
-                .nice(d3.time.year);
-        x.domain(d3.extent(data, function (d) {
-            return d.date;
-        }));
-        my.x(x);
-    };
-
-    /*
-     * Initialisation des ordonnees
-     */
-    my.initY = function (height, data) {
-        var y = d3.scale.linear()
-                .range([height, 0])
-                .nice();
-        y.domain([0, d3.max(data, function (d) {
-                return d.close;
-            })]);
-        my.y(y);
-    };
-
-    /*
-     * Initialisation de l'etiquette
-     */
-    my.initTooltip = function (width) {
-        var tooltip = d3.select("body")
-                .append("div")
-                .attr("class", "tooltip")
-                .attr("x", width)
-                .attr("y", 0)
-                .style("opacity", 0);
-        my.tooltip(tooltip);
-    };
-
-    /*
      * Initialisation du graphe
      */
-    my.initGraph = function (margin, height, width/*, xAxis, yAxis*/, data) {
+    my.initGraph = function (margin, height, width, data) {
         var graph = d3.select("#graph")
                 .append("g")
                 .attr("height", my.height())
@@ -168,6 +118,12 @@ function TimeLine(options) {
             graph.attr("transform", "translate(" + margin + "," + margin + ")");
         }
 
+        // Initialisation du tooltip
+        my.tooltip(new ResponsiveTooltip({
+        	g : graph,
+        	cls: "fixed_tooltip"
+        })());
+        
         // Initialisation des axes
         // Axes des x
         my.x(new ResponsiveAxis({
@@ -190,19 +146,20 @@ function TimeLine(options) {
                 })],
             autosize: false
         })());
-
+        
         /*
          * On definit la visualisation principale
          */
+
         // Definition un zone
         var area = d3.svg.area()
                 .interpolate("monotone")
                 .x(function (d) {
-                    return my.x().data()(d.date);
+                    return my.x()(d.date);
                 })
                 .y0(my.height())
                 .y1(function (d) {
-                    return my.y().data()(d.close);
+                    return my.y()(d.close);
                 });
         my.area(area);
 
@@ -215,28 +172,14 @@ function TimeLine(options) {
                 .datum(dataResampled)
                 .attr("class", "area")
                 .attr("d", area);
-
-//        graph.append("g")
-//                .attr("class", "x axis")
-//                .attr("transform", "translate(0," + height + ")")
-//                .call(xAxis);
-//
-//        graph.append("g")
-//                .attr("class", "y axis")
-//                .call(yAxis)
-//                .append("text")
-//                .attr("transform", "rotate(-90)")
-//                .attr("y", 6)
-//                .attr("dy", ".71em")
-//                .style("text-anchor", "end");
-
+        
         graph.append("circle")
-                .attr("class", "y")
-                .style("fill", "none")
-                .style("stroke", "blue")
-                .style("opacity", 0)
-                .attr("r", 4);
-
+	        .attr("class", "y")
+	        .style("fill", "none")
+	        .style("stroke", "blue")
+	        .style("opacity", 0)
+	        .attr("r", 4);
+	        
 
         my.graph(graph);
     };
@@ -260,24 +203,49 @@ function TimeLine(options) {
      * Initialisation du brush
      */
     my.initBrush = function (brushOpts) {
-        return null; // TO REMOVE
-        if (!brushOpts) {
-            return;
-        }
+        my.initContext(brushOpts);
+    };
 
-        // Height
+    /*
+     * Initialisation du context qui aura
+     * la visualisation plus petite
+     */
+    my.initContext = function (brushOpts) {
+    	// Height
         my.brushHeight(brushOpts.height);
         // Revu de la taille du graph original
         my.height(my.height() - my.brushHeight() - my.margin());
-        my.initY(my.height(), my.data());
-        my.yAxis(d3.svg.axis().scale(my.y()).orient("left"));
-
-        // Axes
-        my.brushX(d3.time.scale().range([0, my.width()]));
-        my.brushX().domain(my.x().domain());
-        my.brushY(d3.scale.linear().range([my.brushHeight(), 0]).nice());
-        my.brushY().domain(my.y().domain());
-        my.brushXAxis(d3.svg.axis().scale(my.brushX()).orient("bottom"));
+        var context = my.svg().append("g")
+        		.attr("height", my.brushHeight())
+                .attr("width", my.width())
+                .attr("class", "context")
+                .attr("transform", "translate(" + my.margin() + "," + (my.height() + my.margin() + options.brush.marginTop) + ")");
+        
+        if (!brushOpts) {
+            return;
+        }
+        
+        // Axes des x
+        my.brushX(new ResponsiveAxis({
+            g: context,
+            orientation: "bottom",
+            datatype: "year",
+            cls: "x axis",
+            domain: d3.extent(data, function (d) {
+                return d.date;
+            }),
+            autosize: false
+        })());
+        // Axes des y
+        my.brushY(new ResponsiveAxis({
+            g: context,
+            orientation: "left",
+            cls: "y axis",
+            domain: [0, d3.max(data, function (d) {
+                    return d.close;
+                })],
+            autosize: false
+        })());
 
         // Definition du brush 
         var brush = d3.svg.brush()
@@ -288,8 +256,8 @@ function TimeLine(options) {
                         }
                 );
         my.brush(brush);
-
-        // Definition du context
+        
+     // Definition un zone
         var area = d3.svg.area()
                 .interpolate("monotone")
                 .x(function (d) {
@@ -300,20 +268,9 @@ function TimeLine(options) {
                     return my.brushY()(d.close);
                 });
         my.brushArea(area);
-        my.initContext(area);
-    };
 
-    /*
-     * Initialisation du context qui aura
-     * la visualisation plus petite
-     */
-    my.initContext = function (area) {
-        var context = my.svg().append("g")
-                .attr("class", "context")
-                .attr("transform", "translate(" + my.margin() + "," + (my.height() + my.margin() + options.brush.marginTop) + ")");
-
-        var dataPerPixel = my.data().length / my.width();
-        var dataResampled = my.data().filter(function (d, i) {
+        var dataPerPixel = data.length / width;
+        var dataResampled = data.filter(function (d, i) {
             return i % Math.ceil(dataPerPixel) === 0;
         });
 
@@ -321,18 +278,18 @@ function TimeLine(options) {
                 .datum(dataResampled)
                 .attr("class", "area")
                 .attr("d", area);
+        
+//        context.append("g")
+//                .attr("class", "x axis")
+//                .attr("transform", "translate(0," + my.brushHeight() + ")")
+//                .call(my.brushXAxis());
 
-        context.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + my.brushHeight() + ")")
-                .call(my.brushXAxis());
-
-        context.append("g")
-                .attr("class", "x brush")
-                .call(my.brush())
-                .selectAll("rect")
-                .attr("y", -6)
-                .attr("height", my.brushHeight() + 7);
+//        context.append("g")
+//                .attr("class", "x brush")
+//                .call(my.brush())
+//                .selectAll("rect")
+//                .attr("y", -6)
+//                .attr("height", my.brushHeight() + 7);
 
         my.context(context);
     };
@@ -341,6 +298,14 @@ function TimeLine(options) {
      * Getters AND Setters
      ************************/
 
+    my.isMobile = function (newIsMobile) {
+		if (!arguments.length) {
+			return isMobile;
+		}
+		isMobile = newIsMobile;
+		return my;
+	};
+	
     my.svg = function (newSvg) {
         if (!arguments.length) {
             return svg;
@@ -348,12 +313,28 @@ function TimeLine(options) {
         svg = newSvg;
         return my;
     };
-
+    
     my.tooltip = function (newTooltip) {
         if (!arguments.length) {
             return tooltip;
         }
         tooltip = newTooltip;
+        return my;
+    };
+    
+    my.x = function (newX) {
+        if (!arguments.length) {
+            return x;
+        }
+        x = newX;
+        return my;
+    };
+
+    my.y = function (newY) {
+        if (!arguments.length) {
+            return y;
+        }
+        y = newY;
         return my;
     };
 
@@ -386,38 +367,6 @@ function TimeLine(options) {
             return height;
         }
         height = newHeight;
-        return my;
-    };
-
-    my.x = function (newX) {
-        if (!arguments.length) {
-            return x;
-        }
-        x = newX;
-        return my;
-    };
-
-    my.y = function (newY) {
-        if (!arguments.length) {
-            return y;
-        }
-        y = newY;
-        return my;
-    };
-
-    my.xAxis = function (newXAxis) {
-        if (!arguments.length) {
-            return xAxis;
-        }
-        xAxis = newXAxis;
-        return my;
-    };
-
-    my.yAxis = function (newYAxis) {
-        if (!arguments.length) {
-            return yAxis;
-        }
-        yAxis = newYAxis;
         return my;
     };
 
@@ -551,7 +500,7 @@ function TimeLine(options) {
     /************************
      * Methods
      ************************/
-
+    
     /*
      * Cette methode applique les redimensions
      * de la visualisation
@@ -563,10 +512,8 @@ function TimeLine(options) {
         }
 
         // On met a jour les axes et le svg
-        //my.x().range([0, my.width()]);
         my.svg().attr("width", my.width());
-        if (my.height() > 0) {
-            //my.y().range([my.height(), 0]);
+        if(my.height() > 0){
             my.svg().attr("height", my.height());
         }
 
@@ -584,61 +531,6 @@ function TimeLine(options) {
                 .attr("width", window.innerWidth - (2 * my.margin()))
                 .attr("height", window.innerHeight);
 
-        if (my.width() < 300 && my.height() < 80) {
-            my.graph().select('.x.axis').style("display", "none");
-            my.graph().select('.y.axis').style("display", "none");
-
-            my.graph().select(".first")
-                    .attr("transform", "translate(" + my.x().data()(my.firstRecord().date) +
-                            "," + my.y()(my.firstRecord().close) + ")")
-                    .style("display", "initial");
-
-            my.graph().select(".last")
-                    .attr("transform", "translate(" + my.x().data()(my.lastRecord().date) +
-                            "," + my.y()(my.lastRecord().close) + ")")
-                    .style("display", "initial");
-        }
-        else {
-            my.graph().select('.x.axis').style("display", "initial");
-            my.graph().select('.y.axis').style("display", "initial");
-            my.graph().select(".last").style("display", "none");
-            my.graph().select(".first").style("display", "none");
-        }
-
-        // On redefinit la quantite d'information sur les axes X & Y
-        if (getWidth() > 768) {
-            my.x().axis().ticks(Math.max(my.width() / 100, 2));
-        }
-        else if (getWidth() <= 768) {
-            my.x().axis().ticks(Math.max(my.width() / 150, 2));
-        }
-        else if (getWidth() <= 480) {
-            my.x().axis().ticks(Math.max(my.width() / 200, 2));
-        }
-        else if (getWidth() <= 320) {
-            my.x().axis().ticks(Math.max(my.width() / 300, 2));
-        }
-        // Axe des y
-        if (getHeight() > 768) {
-            my.y().axis().ticks(Math.max(my.height() / 100, 2));
-        }
-        else if (getHeight() <= 768) {
-            my.y().axis().ticks(Math.max(my.height() / 150, 2));
-        }
-        else if (getHeight() <= 480) {
-            my.y().axis().ticks(Math.max(my.height() / 200, 2));
-        }
-        else if (getHeight() <= 320) {
-            my.y().axis().ticks(Math.max(my.height() / 300, 2));
-        }
-
-        my.graph().select('.x.axis')
-                .attr("transform", "translate(0," + my.height() + ")")
-                .call(my.x().axis());
-
-        my.graph().select('.y.axis')
-                .call(my.y().axis());
-
         var dataPerPixel = my.data().length / my.width();
         var dataResampled = my.data().filter(function (d, i) {
             return i % Math.ceil(dataPerPixel) === 0;
@@ -647,11 +539,7 @@ function TimeLine(options) {
         my.area().y0(my.height());
         my.graph().select('.area').datum(dataResampled).attr("d", my.area());
 
-        my.x().trigger("redraw");
-        my.y().trigger("redraw");
-
-
-//        // Resize du brush
+        // Resize du brush
 //        my.brushX().range([0, my.width()]);
 //        my.brushY().range([my.brushHeight(), 0]);
 //        my.brushXAxis().ticks(Math.max(my.width() / 100, 2));
@@ -659,8 +547,8 @@ function TimeLine(options) {
 //        my.context().select('.x.axis')
 //                .attr("transform", "translate(0," + my.brushHeight() + ")")
 //                .call(my.brushXAxis());
-//        my.brushArea().y0(my.brushHeight());
-//        my.context().select('.area').datum(dataResampled).attr("d", my.brushArea());
+        my.brushArea().y0(my.brushHeight());
+        my.context().select('.area').datum(dataResampled).attr("d", my.brushArea());
     };
 
     /*
@@ -690,71 +578,104 @@ function TimeLine(options) {
         last.append("circle")
                 .attr("r", 4);
     };
+    
+    /*
+     * Cette methode affiche une etiquette
+     * associe au bloc clique et met des numeros 
+     * dans les cellules pour les associer aux
+     * etiquettes
+     */
+	my.drawTooltip = function(data, pathinfo){
+		//var pathinfo = my.pathinfo();
+        var html = "<ol>";
+        var i = 1;
+        var name = "";
+        for(key in data){
+            html += "<li>";
+            html += key;
+            html += ": ";
+            html += data[key];
+            html += "</li>";
+            i++;
+        }
+        html += "</ol>";
+        
+        my.tooltip().trigger("redraw", html);
+	}
 
     /*
      * Cette methode applique les etiquettes
      * lorsqu'on se deplace sur la courbe
      */
     my.updateMove = function (container, event, eventEnd, onDesktop) {
-//        var width = my.width();
-//        var height = my.height();
-//        var margin = my.margin();
-//        var formatter = d3.time.format("%d/%m/%Y");
-//        var bisectDate = d3.bisector(function (d) {
-//            return d.date;
-//        }).left;
-//        container.on(event, function () {
-//            // Recuperation de la position X & Y
-//            var cursor;
-//            var cursor_x;
-//            if (onDesktop) {
-//                cursor = d3.mouse(this);
-//                cursor_x = d3.mouse(this)[0];
-//            }
-//            else {
-//                cursor = d3.touches(this)[0];
-//            }
-//            var cursor_x = parseInt(cursor[0]);
-//            var cursor_y = parseInt(cursor[1]);
-//
-//            var x0 = x.invert(d3.mouse(this)[0]),
-//                    i = bisectDate(my.data(), x0, 1),
-//                    d0 = my.data()[i - 1],
-//                    d1 = my.data()[i],
-//                    d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-//
-//            my.graph().select("circle.y")
-//                    .style("opacity", 1)
-//                    .attr("transform",
-//                            "translate(" + x(d.date) + "," +
-//                            y(d.close) + ")");
-//
-//            // On affiche l'etiquette associee
-//            my.tooltip()
-//                    .style("opacity", .9);
-//            my.tooltip()
-//                    .style("left", ((x(d.date) + 50 < width) ? x(d.date) + 50 : x(d.date) - 50) + "px")
-//                    .style("top", y(d.close) + "px")
-//                    .html("<b>Date : </b>" + formatter(d.date) + "<br>"
-//                            + "<b>Valeur : </b>" + d.close + "<br>");
-//        })
-//                .on(eventEnd, function () {
-//                    if (onDesktop) {
-//                        var cursor = d3.mouse(this);
-//                        var cursor_x = parseInt(cursor[0]);
-//                        var cursor_y = parseInt(cursor[1]);
-//                        // Si la position de la souris est en dehors de la zone du graphique, 
-//                        // on masque la ligne et le tooltip
-//                        if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
-//                            my.tooltip().style("opacity", 0);
-//                            d3.select("circle").style("opacity", 0);
-//                        }
-//                    }
-//                    else {
-//                        my.tooltip().style("opacity", 0);
-//                        d3.select("circle").style("opacity", 0);
-//                    }
-//                });
+    	var width = my.width();
+    	var height = my.height();
+    	var margin = my.margin();
+    	var formatter = d3.time.format("%d/%m/%Y");
+    	var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+    	container.on(event, function () {
+    		// Recuperation de la position X & Y
+    		var cursor;
+    		var cursor_x;
+    		if (onDesktop) {
+    			cursor = d3.mouse(this);
+    			cursor_x = d3.mouse(this)[0];
+    		}
+    		else {
+    			cursor = d3.touches(this)[0];
+    		}
+    		var cursor_x = parseInt(cursor[0]);
+    		var cursor_y = parseInt(cursor[1]);
+    		
+    		var x0 = x.invert(d3.mouse(this)[0]),
+    		i = bisectDate(my.data(), x0, 1),
+    		d0 = my.data()[i - 1],
+    		d1 = my.data()[i],
+    		d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    		    		
+    		my.graph().select("circle.y")
+    		.style("opacity", 1)
+    		.attr("transform",
+    				"translate(" + x(d.date) + "," +
+    				y(d.close) + ")");
+
+    		// On affiche l'etiquette associee
+    		var data = {
+    				Date: formatter(d.date),
+    				Valeur: d.close
+    		}
+    		var pathinfo = [
+    		                {
+    		                	x: x(d.date) - 50,
+    		                	y: y(d.close)
+    		                },
+    		                {
+    		                	x: x(d.date) + 50,
+    		                	y: y(d.close)
+    		                }
+    		                ];
+    		my.drawTooltip(data, pathinfo);
+        })
+        .on(eventEnd, function () {
+            if (onDesktop) {
+                var cursor = d3.mouse(this);
+                var cursor_x = parseInt(cursor[0]);
+                var cursor_y = parseInt(cursor[1]);
+                // Si la position de la souris est en dehors de la zone du graphique, 
+                // on masque la ligne et le tooltip
+                if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
+                   
+                	my.tooltip().trigger("hide");
+                    
+                	d3.select("circle").style("opacity", 0);
+                }
+            }
+            else {
+            	my.tooltip().trigger("hide");
+            	
+                d3.select("circle").style("opacity", 0);
+            }
+        });
     };
 
     /*
@@ -767,5 +688,6 @@ function TimeLine(options) {
     };
 
     return my;
+
 }
 ;

@@ -33,7 +33,7 @@ function TimeLine(options) {
     }
 
     my.init = function (options) {
-    	my.isMobile(isMobile());
+    	my.isMobile(mobile());
         //On cree un nouveau noeud <svg>
         my.margin(options.margin || 60);
         my.svg(d3.select("body").append("svg").attr("id", "graph")
