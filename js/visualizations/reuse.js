@@ -33,7 +33,7 @@ function TimeLine(options) {
         }
 
         // Add resize event
-        addResizeEvent(resize);
+        $$ResponsiveUtil.addResizeEvent(resize);
     }
 
     my.init = function (options) {
@@ -105,7 +105,7 @@ function TimeLine(options) {
      */
     my.initData = function (pData, formatDate) {
         var data = pData || [];
-        var parseDate = formatDate != null ? d3.time.format(formatDate).parse : d3.time.format("%Y-%m").parse;
+        var parseDate = formatDate !== null ? d3.time.format(formatDate).parse : d3.time.format("%Y-%m").parse;
         data.forEach(function (d) {
             d.date = parseDate(d.date);
             d.close = +d.close;
@@ -172,7 +172,7 @@ function TimeLine(options) {
         // Axes des x
         my.x(new ResponsiveAxis({
             g: graph,
-            orientation: "bottom",
+            orientation: $$ResponsiveUtil._BOTTOM_,
             datatype: "year",
             cls: "x axis",
             domain: d3.extent(data, function (d) {
@@ -183,7 +183,7 @@ function TimeLine(options) {
         // Axes des y
         my.y(new ResponsiveAxis({
             g: graph,
-            orientation: "left",
+            orientation: $$ResponsiveUtil._LEFT_,
             cls: "y axis",
             domain: [0, d3.max(data, function (d) {
                     return d.close;
@@ -606,29 +606,29 @@ function TimeLine(options) {
         }
 
         // On redefinit la quantite d'information sur les axes X & Y
-        if (getWidth() > 768) {
+        if ($$ResponsiveUtil.getWidth() > 768) {
             my.x().axis().ticks(Math.max(my.width() / 100, 2));
         }
-        else if (getWidth() <= 768) {
+        else if ($$ResponsiveUtil.getWidth() <= 768) {
             my.x().axis().ticks(Math.max(my.width() / 150, 2));
         }
-        else if (getWidth() <= 480) {
+        else if ($$ResponsiveUtil.getWidth() <= 480) {
             my.x().axis().ticks(Math.max(my.width() / 200, 2));
         }
-        else if (getWidth() <= 320) {
+        else if ($$ResponsiveUtil.getWidth() <= 320) {
             my.x().axis().ticks(Math.max(my.width() / 300, 2));
         }
         // Axe des y
-        if (getHeight() > 768) {
+        if ($$ResponsiveUtil.getHeight() > 768) {
             my.y().axis().ticks(Math.max(my.height() / 100, 2));
         }
-        else if (getHeight() <= 768) {
+        else if ($$ResponsiveUtil.getHeight() <= 768) {
             my.y().axis().ticks(Math.max(my.height() / 150, 2));
         }
-        else if (getHeight() <= 480) {
+        else if ($$ResponsiveUtil.getHeight() <= 480) {
             my.y().axis().ticks(Math.max(my.height() / 200, 2));
         }
-        else if (getHeight() <= 320) {
+        else if ($$ResponsiveUtil.getHeight() <= 320) {
             my.y().axis().ticks(Math.max(my.height() / 300, 2));
         }
 

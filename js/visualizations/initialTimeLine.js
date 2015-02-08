@@ -33,7 +33,7 @@ function TimeLine(options) {
     }
 
     my.init = function (options) {
-    	my.isMobile(mobile());
+    	my.isMobile($$ResponsiveUtil.mobile());
         //On cree un nouveau noeud <svg>
         my.margin(options.margin || 60);
         my.svg(d3.select("body").append("svg").attr("id", "graph")
@@ -587,29 +587,29 @@ function TimeLine(options) {
         }
 
         // On redefinit la quantite d'information sur les axes X & Y
-        if(getWidth() > 768){
+        if($$ResponsiveUtil.getWidth() > 768){
             my.xAxis().ticks(Math.max(my.width() / 100, 2));
         }
-        else if(getWidth() <= 768){
+        else if($$ResponsiveUtil.getWidth() <= 768){
             my.xAxis().ticks(Math.max(my.width() / 150, 2));
         }
-        else if(getWidth() <= 480){
+        else if($$ResponsiveUtil.getWidth() <= 480){
             my.xAxis().ticks(Math.max(my.width() / 200, 2));
         }
-        else if(getWidth() <= 320){
+        else if($$ResponsiveUtil.getWidth() <= 320){
             my.xAxis().ticks(Math.max(my.width() / 300, 2));
         }
         // Axe des y
-        if(getHeight() > 768){
+        if($$ResponsiveUtil.getHeight() > 768){
             my.yAxis().ticks(Math.max(my.height() / 100, 2));
         }
-        else if(getHeight() <= 768){
+        else if($$ResponsiveUtil.getHeight() <= 768){
             my.yAxis().ticks(Math.max(my.height() / 150, 2));
         }
-        else if(getHeight() <= 480){
+        else if($$ResponsiveUtil.getHeight() <= 480){
             my.yAxis().ticks(Math.max(my.height() / 200, 2));
         }
-        else if(getHeight() <= 320){
+        else if($$ResponsiveUtil.getHeight() <= 320){
             my.yAxis().ticks(Math.max(my.height() / 300, 2));
         }
 
@@ -703,7 +703,7 @@ function TimeLine(options) {
             .style("top", 0 + "px");
         }
         
-        var widthScreen = getWidth();
+        var widthScreen = $$ResponsiveUtil.getWidth();
         var isMobile = my.isMobile();
         // On redefinit le tooltip en fonction du device
         if((widthScreen > 321 && widthScreen < 1024) && isMobile){

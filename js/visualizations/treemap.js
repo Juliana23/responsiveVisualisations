@@ -29,7 +29,7 @@ function TreeMap(options) {
 	}
 
 	my.init = function (options) {
-		my.isMobile(mobile());
+		my.isMobile($$ResponsiveUtil.mobile());
 		
 		//On cree un nouveau noeud <svg>
 		my.margin(options.margin || 60);
@@ -64,12 +64,15 @@ function TreeMap(options) {
 		my.initGraph(my.margin(), my.parents(), my.children(), my.node(), my.root(), my.color());
 		
 		// On met les evenements sur le graphe a jour
-        if(!my.isMobile()){
-        	my.updateMove(my.svg().selectAll(".cell.child"), "mouseover", "mouseout", true);
-        }
-        else{
-        	my.updateMove(my.svg().selectAll(".cell.child"), "touchend", "", false);
-        }
+		// Initialisation des evenements
+        my.event(new ResponsiveEvent({
+        	object : my.svg().selectAll(".cell.child"),
+        	events : [
+        		{"mouseover": my.onMoveMouse, "extend": false},
+        		{"touchend": my.onMoveTouch, "extend": false},
+        		{"mouseout": my.endMove, "extend": false}	
+        	]
+        })());
 
 		// Resize de la visualisation
 		my.resize(my.height(), my.width());
@@ -91,6 +94,58 @@ function TreeMap(options) {
 				my.zoom(my.root()); 
 			}
 		});
+		
+		if(my.isMobile()){
+			d3.select(window).each(function(d,i){
+				// install handlers with hammer
+			    Hammer(this, {
+			      prevent_default: true,
+			      no_mouseevents: true
+			    }).on("doubletap", function(event){
+			    	var xClicked = event.gesture.touches[0].pageX;
+					var yClicked = event.gesture.touches[0].pageY;
+					if(xClicked < my.margin() 
+							|| yClicked < my.margin()
+							|| xClicked > window.innerWidth - my.margin()
+							|| yClicked > window.innerHeight - my.margin()){
+						my.zoom(my.root()); 
+					}
+			    })
+			    .on("tap", function(event){
+			    	var xClicked = event.gesture.touches[0].pageX;
+					var yClicked = event.gesture.touches[0].pageY;
+					if(xClicked < my.margin() 
+							|| yClicked < my.margin()
+							|| xClicked > window.innerWidth - my.margin()
+							|| yClicked > window.innerHeight - my.margin()){
+						my.endUpdateMove();
+					}
+			    });
+			});
+		}
+		else {
+			d3.select(window)
+			.on("dblclick", function(d) {
+				var xClicked = d3.event.x;
+				var yClicked = d3.event.y;
+				if(xClicked < my.margin() 
+						|| yClicked < my.margin()
+						|| xClicked > window.innerWidth - my.margin()
+						|| yClicked > window.innerHeight - my.margin()){
+					my.zoom(my.root()); 
+				}
+			})
+			.on("click", function(d) {
+				var xClicked = d3.event.x;
+				var yClicked = d3.event.y;
+				if(xClicked < my.margin() 
+						|| yClicked < my.margin()
+						|| xClicked > window.innerWidth - my.margin()
+						|| yClicked > window.innerHeight - my.margin()){
+					my.endUpdateMove();
+				}
+			});
+		}
 		
 		return my;
 	};
@@ -216,7 +271,7 @@ function TreeMap(options) {
 		}
 		else {
 			graph.selectAll(".cell.child")
-			.on("click", function(d) {
+			.on("dblclick", function(d) {
 				var depth;
 				var nodeInt;
 				// On ne descend pas en profondeur si
@@ -411,6 +466,14 @@ function TreeMap(options) {
 			return pathinfo;
 		}
 		pathinfo = newPathinfo;
+		return my;
+	};
+	
+	my.event = function (newEventOn) {
+		if (!arguments.length) {
+			return eventOn;
+		}
+		eventOn = newEventOn;
 		return my;
 	};
 
@@ -612,7 +675,7 @@ function TreeMap(options) {
 		.text(function(d){
 			return d.name;
 		})
-		.attr("x", function(d) { return getWidth() / 2; })
+		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
 		.attr("y", function(d) { return my.margin() / 2; })
 		.style("display", function(d){
 			if(d.depth === 0){
@@ -630,7 +693,7 @@ function TreeMap(options) {
 	 */
 	my.updateTitleFirstParent = function(node){
 		d3.selectAll(".titleParent text")
-		.attr("x", function(d) { return getWidth() / 2; })
+		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
 		.attr("y", function(d) { return my.margin() / 2; })
 		.style("display", function(d){
 			if(d === node){
@@ -934,6 +997,33 @@ function TreeMap(options) {
         	// Evenement utilise uniquement sur ordinateurs
         	my.endUpdateMove();
         })
+    };
+    
+    my.onMoveMouse = function () {
+    	var args = Array.prototype.slice.call(arguments);
+    	var node = args[0];
+    	my.startUpdateMove(node);
+    };
+    
+    my.onMoveTouch = function () {
+    	var args = Array.prototype.slice.call(arguments);
+    	var node = args[0];
+		// Si le tooltip est affiche
+		if(my.tooltip().getIsDrawn()){
+			var opacity = my.graph().selectAll("g.cell.child") .filter(function(n) {
+				return n.allParents.indexOf(node.parent) !== -1;
+			}).style("opacity");
+			// Si le noeud sur lequel on a clique n'appartient
+			// pas au bloc de noeud qui etait selectionne
+			if(opacity != 1){
+				my.endUpdateMove();
+			}
+		}
+		my.startUpdateMove(node);
+    };
+    
+    my.endMove = function () {
+    	my.endUpdateMove();
     };
     
     /*

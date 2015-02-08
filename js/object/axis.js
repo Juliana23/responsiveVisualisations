@@ -10,21 +10,23 @@
  * Create a responsive axis
  * @param json object options :
  * g : graph
- * orientation : top, bottom, left, right
  * size : size of axis in px
+ * orientation : top, bottom, left, right
  * datatype : type of data to display on axis
  * domain : array of values to display on axis
  * cls : css class for axis
+ * autoresize : indicate if resize is automatically done
  */
 function ResponsiveAxis(options) {
     options = {
         g: options.g,
         size: 0,
-        orientation: options.orientation || _BOTTOM_,
+        orientation: options.orientation || $$ResponsiveUtil._BOTTOM_,
         datatype: options.datatype,
         domain: options.domain,
-        cls: options.cls.concat(" responsive"),
+        cls: options.cls ? options.cls.concat(" responsive") : "responsive",
         autoresize: options.autoresize || false,
+        fixedHeight: options.fixedHeight || false,
         events: {}
     };
 
@@ -33,7 +35,7 @@ function ResponsiveAxis(options) {
      */
     function my() {
         // Create getters and setters for options
-        generateAccessors(my, options);
+        $$ResponsiveUtil.generateAccessors(my, options);
 
         // Create d3js axis properties
         my.initProperties();
@@ -49,7 +51,7 @@ function ResponsiveAxis(options) {
         
         // Add resize event
         if(my.autoresize()){
-            addResizeEvent(my.resize);
+            $$ResponsiveUtil.addResizeEvent(my.draw);
         }
 
         return my;
@@ -118,11 +120,10 @@ function ResponsiveAxis(options) {
             data: data,
             axis: axis,
             container: container,
-            gapWidth: gap.gapWidth,
-            gapHeight: gap.gapHeight
+            gap: gap
         };
         // Generate getters and setters for properties
-        generateAccessors(my, properties);
+        $$ResponsiveUtil.generateAccessors(my, properties);
     };
     
     /**
@@ -146,9 +147,9 @@ function ResponsiveAxis(options) {
         var data;
 
         // Init scale
-        if (my.datatype() === _YEAR_
-                || my.datatype() === _MONTH_
-                || my.datatype() === _DAY_) {
+        if (my.datatype() === $$ResponsiveUtil._YEAR_
+                || my.datatype() === $$ResponsiveUtil._MONTH_
+                || my.datatype() === $$ResponsiveUtil._DAY_) {
             data = d3.time.scale().nice(d3.time[my.datatype()]);
         }
         else {
@@ -180,11 +181,22 @@ function ResponsiveAxis(options) {
     my.initRatio = function (container) {
         var height = d3.select(container).attr("height");
         var width = d3.select(container).attr("width");
+        console.log("==============================");
+        console.log(height);
+        console.log(my.g().attr("height"));
         var gap = {
-            gapHeight: (height ? height : container.clientHeight) - my.g().attr("height"),
-            gapWidth: (width ? width : container.clientWidth) - my.g().attr("width")
+            height: (height ? height : container.clientHeight) - my.g().attr("height"),
+            width: (width ? width : container.clientWidth) - my.g().attr("width")
         };
         return gap;
+    };
+    
+    /**
+     * Update gap
+     */
+    my.updateHeightRatio = function () {
+        var height = d3.select(my.container()).attr("height");
+        my.gap().height = (height ? height : my.container().clientHeight) - my.g().attr("height");
     };
 
     /**
@@ -192,8 +204,8 @@ function ResponsiveAxis(options) {
      */
     my.updateRange = function () {
         // Horizontal Axis
-        if (my.orientation() === _BOTTOM_
-                || my.orientation() === _TOP_) {
+        if (my.orientation() === $$ResponsiveUtil._BOTTOM_
+                || my.orientation() === $$ResponsiveUtil._TOP_) {
             my.data().range([0, my.size()]);
         }
         // Vertical Axis
@@ -205,12 +217,15 @@ function ResponsiveAxis(options) {
     /**
      * This method update axis size
      * in function of container size
+     * @param json size of container
      */
-    my.updateSize = function () {
-        var cSize = my.getContainerSize();
+    my.updateSize = function (cSize) {
+        if(!cSize){
+            cSize = my.getContainerSize();
+        }
         // Horizontal Axis
-        if (my.orientation() === _BOTTOM_
-                || my.orientation() === _TOP_) {
+        if (my.orientation() === $$ResponsiveUtil._BOTTOM_
+                || my.orientation() === $$ResponsiveUtil._TOP_) {
             my.size(cSize.width);
         }
         // Vertical Axis
@@ -224,16 +239,23 @@ function ResponsiveAxis(options) {
      * display on the axis
      */
     my.updateAxisTicks = function () {
-        if (getWidth() > 768) {
+        var size = $$ResponsiveUtil.getHeight();
+        // Horizontal
+        if (my.orientation() === $$ResponsiveUtil._BOTTOM_
+                || my.orientation() === $$ResponsiveUtil._TOP_) {
+            size = $$ResponsiveUtil.getWidth();
+        }
+        
+        if (size > 768) {
             my.axis().ticks(Math.max(my.size() / 100, 2));
         }
-        else if (getWidth() <= 768) {
+        else if (size <= 768) {
             my.axis().ticks(Math.max(my.size() / 150, 2));
         }
-        else if (getWidth() <= 480) {
+        else if (size <= 480) {
             my.axis().ticks(Math.max(my.size() / 200, 2));
         }
-        else if (getWidth() <= 320) {
+        else if (size <= 320) {
             my.axis().ticks(Math.max(my.size() / 300, 2));
         }
     };
@@ -246,8 +268,20 @@ function ResponsiveAxis(options) {
         var height = d3.select(my.container()).attr("height");
         var width = d3.select(my.container()).attr("width");
         return {
-            height: (height ? height : my.container().clientHeight) - my.gapHeight(),
-            width: (width ? width : my.container().clientWidth) - my.gapWidth()
+            height: (height ? height : my.container().clientHeight) - my.gap().height,
+            width: (width ? width : my.container().clientWidth) - my.gap().width
+        };
+    };
+    
+    /**
+     * Get the axis container size
+     * @returns json object
+     */
+    my.getGPosition = function () {
+        var pos = d3.transform(my.g().attr("transform")).translate;
+        return {
+            x: pos[0],
+            y: pos[1]
         };
     };
 
@@ -255,8 +289,14 @@ function ResponsiveAxis(options) {
      * Draw axis on g
      */
     my.draw = function () {
-        // Call resize
-        my.resize();
+        // Reset Sizes
+        if(my.fixedHeight()){
+            my.updateHeightRatio();
+        }
+        
+        var cSize = my.getContainerSize();
+        my.updateSize(cSize);
+        my.updateRange();
         
         // Get container
         var classes = my.cls().split(' ').join('.');
@@ -271,32 +311,21 @@ function ResponsiveAxis(options) {
         }
 
         // Transform axis
-        var cSize = my.getContainerSize();
         my.g().attr("width", cSize.width);
         my.g().attr("height", cSize.height);
-        my.updateSize();
         my.updateAxisTicks();
 
-        if (my.orientation() === _BOTTOM_) {
+        if (my.orientation() === $$ResponsiveUtil._BOTTOM_) {
             g.attr("transform", "translate(0," + cSize.height + ")");
         }
-        else if (my.orientation() === _LEFT_) {
+        else if (my.orientation() === $$ResponsiveUtil._LEFT_) {
             g.attr("transform", "rotate(0)");
         }
-        if (my.orientation() === _RIGHT_) {
+        if (my.orientation() === $$ResponsiveUtil._RIGHT_) {
             g.attr("transform", "rotate(-90) translate(" + cSize.width + ", 0)");
         }
         
         g.call(my.axis());
-    };
-
-    /**
-     * Method called on window resize event
-     */
-    my.resize = function () {
-        // Reset Sizes
-        my.updateSize();
-        my.updateRange();
     };
 
     return my;
