@@ -17,14 +17,12 @@ function ResponsiveSelector(options) {
     options = {
         g: options.g,
         titlePosition: options.titlePosition || 0,
-        depth: options.depth,
+        depth: options.depth || 1,
         layout : options.layout,
         parentsCls: options.parentsCls,
         childrenCls: options.childrenCls,
         node: options.node,
         root: options.root,
-        x: options.x,
-        y: options.y,
         autoresize: options.autoresize || false,
         events: {}
     };
@@ -98,6 +96,7 @@ function ResponsiveSelector(options) {
      */
     my.addDefaultEvents = function () {
     	my.on("draw", my.draw);
+    	my.on("drawOnNode", my.drawOnNode);
     	my.on("redraw", my.redraw);
         my.on("drawFirstParents", my.drawFirstParents);
         my.on("drawTitleFirstParents", my.drawTitleFirstParents);
@@ -105,6 +104,7 @@ function ResponsiveSelector(options) {
         my.on("updateTitleFirstParents", my.updateTitleFirstParents);
         my.on("updateNode", my.updateNode);
         my.on("hide", my.hide);
+        my.on("hideOnNode", my.hideOnNode);
     };
 
     /**
@@ -112,7 +112,7 @@ function ResponsiveSelector(options) {
      */
     my.initProperties = function () {
         var container = my.initContainer();
-        var parents = my.initParents();
+        var parents = my.initData();
 
         var properties = {
             parents: parents,
@@ -136,80 +136,33 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Init parents of data
+     * Init parents of data and put
+     * element allParents on children 
+     * if it doesn't exist
      * @returns {object} parents
      */
-    my.initParents = function() {
+    my.initData = function() {
+    	var classes = my.childrenCls().split(' ').join('.');
+    	d3.selectAll("." + classes)
+    		.each(function(d){
+    			if(!d.hasOwnProperty("allParents")){
+    				var allParents = $$ResponsiveTreeUtil.getAllParents(d);
+    	        	d["allParents"] = allParents;
+    			}
+    		});
         var parents = my.layout().nodes(my.root())
                 .filter(function (d) {
                     return d.children;
                 });
 
         parents.forEach(function (d) {
-            var allParents = getAllParents(d);
+            var allParents = $$ResponsiveTreeUtil.getAllParents(d);
             d["allParents"] = allParents;
         });
         
         return parents;
     };
     
-    /**
-     * Method to draw the outline
-     */
-    my.drawOutline = function(nameText, nameClassText){
-    	// Encadrement representant le parent
-		var pathinfo = [];
-		var nodeId;
-		
-		if(node.children){
-			nodeId = node.id;
-		}
-		else{
-			nodeId = node.parent.id;
-		}
-		
-		my.graph().select("#" + nodeId)
-		.attr("width", function(d) {
-			pathinfo.push({
-				x: d.x,
-				y: d.y
-			})
-			pathinfo.push({
-				x: d.x + d.dx,
-				y: d.y
-			})
-			pathinfo.push({
-				x: d.x + d.dx,
-				y: d.y + d.dy
-			})
-			pathinfo.push({
-				x: d.x,
-				y: d.y + d.dy
-			})
-			return d.dx - 1; 
-		})
-		.attr("height", function(d) { return d.dy - 1; })
-		.style("display", "");
-		
-		// Affichage du titre
-		var translationX;
-		var translationY;
-		translationX = (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
-		translationY = (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
-		
-		my.graph().append("text")
-		.attr("class", nameClassText)
-		.attr("text-anchor", "middle")
-		.text(nameText)
-		.attr("transform", "translate(" + translationX + "," + translationY + ")")
-		.style("opacity", function() { 
-			w = this.getComputedTextLength(); 
-			return pathinfo[1].x - pathinfo[0].x > w ? 1 : 0; 
-		});
-		
-		my.pathinfo(pathinfo);
-	};
-
     /**
      * Method to init first parents outline
      */
@@ -283,20 +236,6 @@ function ResponsiveSelector(options) {
      */
     my.updateFirstParents = function (x, y) {    	
     	 var classes = my.parentsCls().split(' ').join('.');
-    	 var cSize = my.getContainerSize();
-    	 var width = cSize.width;
-    	 var height = cSize.height;
-    	 // Reset rectangles
-    	 console.log(width + ' (((' + height);
-    	 var kx = width / my.node().dx;
-    	 var ky = height / my.node().dy;
-    	 x.domain([my.node().x, my.node().x + my.node().dx]);
-    	 y.domain([my.node().y, my.node().y + my.node().dy]);
-
-    	 d3.selectAll("." + classes).transition()
-    	 .attr("transform", function (d) {
-    		 return "translate(" + x(d.x) + "," + y(d.y) + ")";
-    	 });
          // Parents
          my.g().selectAll("." + classes)
                  .attr("transform", function (d) {
@@ -305,35 +244,27 @@ function ResponsiveSelector(options) {
 
          my.g().selectAll("." + classes + " rect")
 		         .attr("width", function (d) {
-		        	 return kx * d.dx - 1;
+		        	 return d.dx - 1;
 		         })
 		         .attr("height", function (d) {
-		        	 return ky * d.dy - 1;
+		        	 return d.dy - 1;
 		         })
                  .style("display", function (d) {
-                    if (my.node()) {
-                        if (d.allParents) {
-                            if (d.allParents.indexOf(my.node()) !== -1
-                                    && d.children && d.depth === my.depth()) {
-                                return "";
-                            }
-                            else {
-                                return "none";
-                            }
-                        }
-                        else {
-                            return "none";
-                        }
-                    }
-                    else {
-                        if (d.depth === my.depth()) {
-                            return "";
-                        }
-                        else {
-                            return "none";
-                        }
-                    }
-                });
+                     if (my.node()) {
+                         if (d.allParents) {
+                             if (d.allParents.indexOf(my.node()) !== -1
+                                     && d.children && d.depth === my.depth()) {
+                                 return "";
+                             }
+                         }
+                     }
+                     else {
+                         if (d.depth === my.depth()) {
+                             return "";
+                         }
+                     }
+                     return "none";
+                 });
 
          my.g().selectAll("." + classes + " text")
          		.attr("x", function (d) {
@@ -353,62 +284,15 @@ function ResponsiveSelector(options) {
                                      && d.children && d.depth === my.depth()) {
                                  return "";
                              }
-                             else {
-                                 return "none";
-                             }
-                         }
-                         else {
-                             return "none";
                          }
                      }
                      else {
                          if (d.depth === my.depth()) {
                              return "";
                          }
-                         else {
-                             return "none";
-                         }
                      }
+                     return "none";
                  });
-    };
-    
-    /**
-     * Method to update children
-     */
-    my.updateChildren = function () {
-        var classes = my.childrenCls().split(' ').join('.');
-        var cSize = my.getContainerSize();
-        var width = cSize.width;
-        var height = cSize.height;
-        // Reset rectangles
-        var kx = width / my.node().dx;
-        var ky = height / my.node().dy;
-        x.domain([my.node().x, my.node().x + my.node().dx]);
-        y.domain([my.node().y, my.node().y + my.node().dy]);
-
-        var t = d3.selectAll("." + classes).transition()
-                .attr("transform", function (d) {
-                    return "translate(" + x(d.x) + "," + y(d.y) + ")";
-                });
-
-        t.select("rect")
-                .attr("width", function (d) {
-                    return kx * d.dx - 1;
-                })
-                .attr("height", function (d) {
-                    return ky * d.dy - 1;
-                });
-
-        t.select("textChild")
-                .attr("x", function (d) {
-                    return kx * d.dx / 2;
-                })
-                .attr("y", function (d) {
-                    return ky * d.dy / 2;
-                })
-                .style("opacity", function (d) {
-                    return kx * d.dx > d.w ? 1 : 0;
-                });
     };
 
     /**
@@ -463,10 +347,8 @@ function ResponsiveSelector(options) {
                 });
     };
 
-    my.update = function (layout, node) {
-    	if(layout){
-    		my.layout(layout);
-    	}
+    my.update = function (node) {
+    	var cSize = my.getContainerSize();
     	if(node){
     		my.node(node);
     	}
@@ -493,6 +375,61 @@ function ResponsiveSelector(options) {
             width: (width ? width : my.container().clientWidth)
         };
     };
+    
+    /**
+     * Method to draw the outline
+     */
+    my.drawOutline = function(node, nameText, nameClassText){
+    	// Encadrement representant le parent
+		var pathinfo = [];
+		var nodeId;
+		
+		if(node.children){
+			nodeId = node.id;
+		}
+		else{
+			nodeId = node.parent.id;
+		}
+		
+		my.g().select("#" + nodeId)
+		.attr("width", function(d) {
+			pathinfo.push({
+				x: d.x,
+				y: d.y
+			})
+			pathinfo.push({
+				x: d.x + d.dx,
+				y: d.y
+			})
+			pathinfo.push({
+				x: d.x + d.dx,
+				y: d.y + d.dy
+			})
+			pathinfo.push({
+				x: d.x,
+				y: d.y + d.dy
+			})
+			return d.dx - 1; 
+		})
+		.attr("height", function(d) { return d.dy - 1; })
+		.style("display", "");
+		
+		// Affichage du titre
+		var translationX;
+		var translationY;
+		translationX = (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
+		translationY = (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
+		
+		my.g().append("text")
+		.attr("class", nameClassText)
+		.attr("text-anchor", "middle")
+		.text(nameText)
+		.attr("transform", "translate(" + translationX + "," + translationY + ")")
+		.style("opacity", function() { 
+			w = this.getComputedTextLength(); 
+			return pathinfo[1].x - pathinfo[0].x > w ? 1 : 0; 
+		});
+	};
 
     /**
      * Method to draw the tooltip
@@ -505,10 +442,38 @@ function ResponsiveSelector(options) {
     /**
      * Method to draw the tooltip
      */
-    my.redraw = function (layout, node, x, y) {
-    	my.update(layout, node);
+    my.redraw = function (node) {
+    	my.trigger("hideOnNode");
+    	my.update(node);
     	my.trigger("updateTitleFirstParents");
-		my.trigger("updateFirstParents", x, y);
+		my.trigger("updateFirstParents");
+    };
+    
+    my.drawOnNode = function (node) {
+    	my.trigger("hideOnNode");
+    	var classes = my.childrenCls().split(' ').join('.');
+    	if(node){
+    		if(node.children){
+    			my.drawOutline(node, node.name, "textOnNode");
+	    		my.g().selectAll("." + classes)
+	            .filter(function(n) {
+	            	var containParent = n.allParents.indexOf(node);
+	                return containParent === -1;
+	            })
+	            .style("opacity", "0.2");
+	    		
+//				if(my.leaf()){
+//	    			my.startUpdateMove(my.leaf());
+//	    		}
+    		}
+    		else{
+	    		my.g().selectAll("." + classes)
+	            .filter(function(n) {
+	                return n != node;
+	            })
+	            .style("opacity", "0.2");
+    		}
+		}
     };
 
     /**
@@ -518,6 +483,13 @@ function ResponsiveSelector(options) {
     	//d3.selectAll(".textParent").remove();
     	
     	my.g().selectAll(".textFirstParent")
+		.style("display", "none");
+    };
+    
+    my.hideOnNode = function () {
+    	//d3.selectAll(".textParent").remove();
+    	
+    	my.g().selectAll(".textOnNode")
 		.style("display", "none");
     };
 

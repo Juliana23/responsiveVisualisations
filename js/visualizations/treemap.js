@@ -19,6 +19,14 @@ function TreeMap(options) {
 			my.redraw();
 		}
 
+//		var timer = window.setTimeout(function() {}, 0);
+//		d3.select(window).on('resize', function() {
+//	        window.clearTimeout(timer);
+//	        timer = window.setTimeout(function() {
+//	        	resize();
+//	        }, 500);
+//	    });
+		
 		var timer = window.setTimeout(function() {}, 0);
 		d3.select(window).on('resize', function() {
 	        window.clearTimeout(timer);
@@ -212,12 +220,12 @@ function TreeMap(options) {
 				.filter(function(d) { return d.children; }));
 		
 		my.children().forEach(function(d) {
-        	var allParents = getAllParents(d);
+        	var allParents = $$ResponsiveTreeUtil.getAllParents(d);
         	d["allParents"] = allParents;
         });
 		
 		my.parents().forEach(function(d) {
-        	var allParents = getAllParents(d);
+        	var allParents = $$ResponsiveTreeUtil.getAllParents(d);
         	d["allParents"] = allParents;
         });
 		
@@ -282,10 +290,9 @@ function TreeMap(options) {
             depth: 1,
             layout : my.treemap(),
             parentsCls: "cell parent",
+            childrenCls: "cell child",
             node: node,
-            root: root,
-            x: my.x(),
-            y: my.y()
+            root: root
         })());
 		
 		// Initiliasation des cellules
@@ -575,12 +582,8 @@ function TreeMap(options) {
 	
 	my.remove = function(){
 		// Suppression du contour et du texte
-		//d3.selectAll(".textParent").remove();
 		d3.selectAll(".textChild").remove();
 		d3.selectAll(".numText").remove();
-		
-//		my.graph().selectAll(".textFirstParent")
-//		.style("display", "none");
 		
 		// Suppression de highlight
     	my.graph().selectAll("g.cell.child")//.transition().duration(0)
@@ -658,44 +661,13 @@ function TreeMap(options) {
 			})
 			.style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
 			
-			// Noeud sur lequel on a clique
 			if(my.nodeOutline()){
-				// On encadre l'enfant clique
-	    		if(my.nodeOutline().children){
-	    			my.drawOutline(my.nodeOutline(), my.nodeOutline().name, "textChild");
-	    			// Highlight representant le parent
-		    		my.graph().selectAll("g.cell.child")
-		    		// Si la liste des parents du noeud n courant 
-		            // contient le parent sur lequel on est alors on l'affiche
-		            .filter(function(n) {
-		            	var containParent = n.allParents.indexOf(my.nodeOutline());
-		                return containParent === -1;
-		            })
-		            .style("opacity", "0.2");
-		    		
-		    		//my.updateFirstParents(my.node().depth + 1, my.node());
-					if(my.leaf()){
-		    			my.startUpdateMove(my.leaf());
-		    		}
-	    		}
-	    		else{
-	    			// Highlight
-		    		my.graph().selectAll("g.cell.child")
-		    		// Si la liste des parents du noeud n courant 
-		            // contient le parent sur lequel on est alors on l'affiche
-		            .filter(function(n) {
-		                return n != my.nodeOutline();
-		            })
-		            .style("opacity", "0.2");
-		    		
-		    		//my.updateFirstParents(my.node().depth + 1, my.node());
-	    		}
+				my.selector().trigger("drawOnNode", my.nodeOutline());
 			}
 		}
-		else{
-			//my.updateFirstParents(1);
-		}
-		my.selector().trigger("redraw", my.treemap(), my.node(), my.x(), my.y());
+		
+		my.selector().trigger("redraw", my.node());
+		
 		//my.updateTitleFirstParent(my.node());
 		my.updateChildren();
 	};
@@ -725,266 +697,12 @@ function TreeMap(options) {
 	};
 	
 	/*
-	 * Cette methode affiche le titre du premier
-	 * parent
-	 */
-	my.drawTitleFirstParent = function(){
-//		var titleParent = d3.select("#graph")
-//		.append("g")
-//		.attr("class", "title");
-//		
-//		titleParent.selectAll(".titleParent")
-//		.data(parents)
-//		.enter().append("g")
-//		.attr("class", "titleParent");
-//
-//		titleParent.selectAll(".titleParent")
-//		.append("text")
-//		.attr("class", "textTitleParent")
-//		.attr("text-anchor", "middle")
-//		.text(function(d){
-//			return d.name;
-//		})
-//		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
-//		.attr("y", function(d) { return my.margin() / 2; })
-//		.style("display", function(d){
-//			if(d.depth === 0){
-//				return "";
-//			}
-//			else{
-//				return "none";
-//			}
-//		});
-	}
-	
-	/*
-	 * Cette methode met a jour le titre
-	 * du parent de la visualisation
-	 */
-	my.updateTitleFirstParent = function(node){
-//		d3.selectAll(".titleParent text")
-//		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
-//		.attr("y", function(d) { return my.margin() / 2; })
-//		.style("display", function(d){
-//			if(d === node){
-//				return "";
-//			}
-//			else{
-//				return "none";
-//			}
-//		});
-	}
-	
-	/*
-	 * Cette methode encadre et affiche le nom
-	 * des premiers parents
-	 */
-	my.drawFirstParents = function(parents){
-//		var graph = my.graph();
-//		
-//		// Parents
-//		var parents = graph.selectAll(".cell.parent")
-//		.data(parents)
-//		.enter().append("g")
-//		.attr("class", "cell parent")
-//		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-//		
-//		graph.selectAll(".cell.parent")
-//		.append("rect")
-//		.attr("id", function(d){
-//			d.id = d.name + "_" + (d.parent ? d.parent.name : "root");
-//			return d.id;
-//		})
-//		.attr("width", function(d) { return d.dx - 1; })
-//		.attr("height", function(d) { return d.dy - 1; })
-//		.style("stroke", "black")
-//		.style("fill", "none")
-//		.style("stroke-width", "border")
-//		.style("display", function(d){
-//			if(d.depth === 1){
-//				return "";
-//			}
-//			else{
-//				return "none";
-//			}
-//		});
-//		
-//		graph.selectAll(".cell.parent")
-//		.append("text")
-//		.attr("class", "textFirstParent")
-//		.attr("text-anchor", "middle")
-//		.text(function(d){
-//			return d.name;
-//		})
-//		.attr("x", function(d) { return d.dx - (d.name.length * 5); })
-//		.attr("y", function(d) { return d.dy - 5; })
-//		.style("opacity", function(d) { 
-//			w = this.getComputedTextLength(); 
-//			return (d.x + d.dx) - d.x > w ? 1 : 0; 
-//		})
-//		.style("display", function(d){
-//			if(d.depth === 1){
-//				return "";
-//			}
-//			else{
-//				return "none";
-//			}
-//		});
-		
-	};
-	
-	/*
-	 * Cette methode met a jour l'encadrement
-	 * et affichage le nom des premiers 
-	 * parents de la visualisation
-	 */
-	my.updateFirstParents = function (depth, node) {
-        // Redefinition des rectangles
-//        var kx = my.width() / my.node().dx;
-//        var ky = my.height() / my.node().dy;
-//        my.x().domain([my.node().x, my.node().x + my.node().dx]);
-//        my.y().domain([my.node().y, my.node().y + my.node().dy]);
-//
-//        var t = d3.selectAll(".cell.parent").transition()
-//                .attr("transform", function (d) {
-//                    return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")";
-//                });
-//
-//        d3.selectAll(".cell.parent rect")
-//                .attr("width", function (d) {
-//                    return kx * d.dx - 1;
-//                })
-//                .attr("height", function (d) {
-//                    return ky * d.dy - 1;
-//                })
-//                .style("display", function (d) {
-//                    if (node) {
-//                        if(d.allParents){
-//                            if(d.allParents.indexOf(node) !== -1
-//                                && d.children && d.depth === depth){
-//                                return "";
-//                            }
-//                            else{
-//                                return "none";
-//                            }
-//                        }
-//                        else{
-//                            return "none";
-//                        }
-//                    }
-//                    else{
-//                        if (d.depth === depth) {
-//                            return "";
-//                        }
-//                        else {
-//                            return "none";
-//                        }
-//                    }
-//                });
-//
-//        my.graph().selectAll(".textFirstParent")
-//        .attr("x", function (d) {
-//        	return kx * d.dx - (d.name.length * 5);
-//        })
-//        .attr("y", function (d) {
-//        	return ky * d.dy - 5;
-//        })
-//        .style("display", function (d) {
-//        	if (node) {
-//        		if(d.allParents){
-//        			if(d.allParents.indexOf(node) !== -1
-//        					&& d.children && d.depth === depth){
-//        				return "";
-//        			}
-//        			else{
-//        				return "none";
-//        			}
-//        		}
-//        		else{
-//        			return "none";
-//        		}
-//        	}
-//        	else{
-//        		if (d.depth === depth) {
-//        			return "";
-//        		}
-//        		else {
-//        			return "none";
-//        		}
-//        	}
-//        })
-//        .style("opacity", function (d) {
-//        	w = this.getComputedTextLength();
-//        	return (d.x + d.dx) - d.x > w ? 1 : 0;
-//        });
-    };
-			
-	/*
-     * Cette methode encadre et affiche le nom
-     * du parent de node passe en parametre
-     */
-	my.drawOutline = function(node, nameText, nameClassText){
-		// Encadrement representant le parent
-		var pathinfo = [];
-		var nodeId;
-		
-		if(node.children){
-			nodeId = node.id;
-		}
-		else{
-			nodeId = node.parent.id;
-		}
-		my.graph().select("#" + nodeId)
-		.attr("width", function(d) {
-			pathinfo.push({
-				x: d.x,
-				y: d.y
-			})
-			pathinfo.push({
-				x: d.x + d.dx,
-				y: d.y
-			})
-			pathinfo.push({
-				x: d.x + d.dx,
-				y: d.y + d.dy
-			})
-			pathinfo.push({
-				x: d.x,
-				y: d.y + d.dy
-			})
-			return d.dx - 1; 
-		})
-		.attr("height", function(d) { return d.dy - 1; })
-		.style("display", "");
-		
-		// Affichage du titre
-		var translationX;
-		var translationY;
-		translationX = (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
-		translationY = (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
-		
-		my.graph().append("text")
-		.attr("class", nameClassText)
-		.attr("text-anchor", "middle")
-		.text(nameText)
-		.attr("transform", "translate(" + translationX + "," + translationY + ")")
-		.style("opacity", function() { 
-			w = this.getComputedTextLength(); 
-			return pathinfo[1].x - pathinfo[0].x > w ? 1 : 0; 
-		});
-		
-		my.pathinfo(pathinfo);
-	};
-	
-	/*
      * Cette methode affiche une etiquette
      * associe au bloc clique et met des numeros 
      * dans les cellules pour les associer aux
      * etiquettes
      */
 	my.drawTooltip = function(node){
-		var pathinfo = my.pathinfo();
-		//my.tooltip().position(pathinfo);
 		var children = node.parent.children;
         var html = "<ol>";
         var i = 1;
@@ -1030,12 +748,6 @@ function TreeMap(options) {
                     	}
                     });
         
-        var position = {
-        	xMin: pathinfo[0].x,
-        	yMin: pathinfo[0].y,
-        	xMax: pathinfo[1].x,
-        	yMax: pathinfo[2].y
-        };
         my.tooltip().trigger("redraw", html);
 	}
 	
@@ -1118,7 +830,8 @@ function TreeMap(options) {
         .style("opacity", "0.2");
 		
 		// Information sur le parent du noeud courant
-		my.drawOutline(d, d.parent.name, "textParent");
+		//my.drawOutline(d, d.parent.name, "textParent");
+		my.selector().trigger("drawOnNode", d.parent);
 		
 		// On dessine le tooltip seulement si
 		// on n'est pas sur le zoom
@@ -1150,16 +863,9 @@ function TreeMap(options) {
 		
 		// Suppression du contour et du texte
 		d3.selectAll(".numText").remove();
-		d3.select(".textParent").remove();
 		
 		// On redessine les premiers parents
-//		if(my.node() === my.root()){
-//			my.updateFirstParents(1);
-//		}
-//		else{
-//			my.updateFirstParents(my.node().depth + 1, my.node());
-//		}
-		my.selector().trigger("redraw", my.treemap(), my.node(), my.x(), my.y());
+		my.selector().trigger("redraw");
 	};
 	
 	return my;
