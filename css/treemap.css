@@ -28,6 +28,7 @@
 	font-family: sans-serif;
 	display: block;
 	-webkit-padding-start: 0px;
+	padding-left: inherit;
 }
 .fixed_tooltip ol li {
 	padding-left: 10px;
