@@ -43,13 +43,13 @@ function ResponsiveEvent(options) {
      */
     my.initProperties = function() {
     	my.events().forEach(function(event){
-    		my.object().on(event, my.events()[event]);
     		if(event.extend){
-    			var mappedEvent = my.getMappedEvent(event);
+    			var mappedEvent = my.getMappedEvent(event.name);
     			if(mappedEvent !== ""){
-    				my.object().on(my.getMappedEvent(event), my.events()[event]);
+    				my.object().on(mappedEvent, event.func);
     			}
     		}
+    		my.object().on(event.name, event.func);
     	});
     };
 
@@ -61,16 +61,15 @@ function ResponsiveEvent(options) {
      */
     my.getMappedEvent = function(event) {
     	var mappedEvent = "";
-    	if(event in my.events()){
-    		mappedEvent = my.events()[event];
+		if(mapEvents.hasOwnProperty(event)){
+    		mappedEvent = mapEvents[event];
     	}
-    	else{
-    		for(var e in my.events()) {
-    			if(my.events().hasOwnProperty(e)){
-    				if(my.events()[e] === event){
-    					return e;
-    				}
-    			}
+		else{
+    		for(var e in mapEvents) {
+				if(mapEvents[e] === event){
+					mappedEvent = e;
+					break;
+				}
     		}
     	}
     	return mappedEvent;

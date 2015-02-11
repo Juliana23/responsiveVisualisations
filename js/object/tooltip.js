@@ -1,5 +1,6 @@
 /* 
  * Responsive Tooltip For d3js library
+
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
@@ -10,6 +11,7 @@
  * @param json object options :
  * g : graph
  * cls : css class for tooltip
+ * autoresize : indicate if resize is automatically done
  */
 function ResponsiveTooltip(options) {
     options = {
@@ -175,23 +177,6 @@ function ResponsiveTooltip(options) {
     };
 
     /**
-     * This method update axis size
-     * in function of container size
-     */
-    my.updateSize = function () {
-        var cSize = my.getContainerSize();
-        // Horizontal Axis
-        if (my.orientation() === $$ResponsiveUtil._BOTTOM_
-                || my.orientation() === $$ResponsiveUtil._TOP_) {
-            my.size(cSize.width);
-        }
-        // Vertical Axis
-        else {
-            my.size(cSize.height);
-        }
-    };
-
-    /**
      * Get the current height of the tooltip
      * @return int the height of tooltip
      */
@@ -233,24 +218,10 @@ function ResponsiveTooltip(options) {
             yMax = position.yMax;
         }
         else {
-        	var posX;
-            var posY;
-            if($$ResponsiveUtil.mobile()){
-            	// d3.js event
-            	if(e.changedTouches){
-            		posX = e.changedTouches[0].pageX;
-                	posY = e.changedTouches[0].pageY;
-            	}
-            	// Hammer.js event
-            	else{
-            		posX = e.gesture.touches[0].pageX;
-                	posY = e.gesture.touches[0].pageY;
-            	}
-            }
-            else{
-            	posX = e.clientX;
-                posY = e.clientY;
-            }
+        	var cursor = $$ResponsiveUtil.getCursorPosition();
+        	var posX = cursor.x;
+            var posY = cursor.y;
+            
             xMin = posX - my.width() - 50;
             xMax = posX + 50;
             yMin = posY;
@@ -292,7 +263,7 @@ function ResponsiveTooltip(options) {
     };
 
     /**
-     * Get the axis container size
+     * Get the graph container size
      * @returns json object
      */
     my.getContainerSize = function () {
@@ -328,13 +299,6 @@ function ResponsiveTooltip(options) {
      */
     my.hide = function () {
         my.tooltip().style("display", "none");
-    };
-
-    /**
-     * Method called on window resize event
-     */
-    my.resize = function () {
-        //my.draw();
     };
 
     return my;

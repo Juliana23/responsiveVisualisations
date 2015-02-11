@@ -181,9 +181,6 @@ function ResponsiveAxis(options) {
     my.initRatio = function (container) {
         var height = d3.select(container).attr("height");
         var width = d3.select(container).attr("width");
-        console.log("==============================");
-        console.log(height);
-        console.log(my.g().attr("height"));
         var gap = {
             height: (height ? height : container.clientHeight) - my.g().attr("height"),
             width: (width ? width : container.clientWidth) - my.g().attr("width")

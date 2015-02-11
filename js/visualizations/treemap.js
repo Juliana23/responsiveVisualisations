@@ -68,86 +68,130 @@ function TreeMap(options) {
         my.event(new ResponsiveEvent({
         	object : my.svg().selectAll(".cell.child"),
         	events : [
-        		{"mouseover": my.onMoveMouse, "extend": false},
-        		{"touchend": my.onMoveTouch, "extend": false},
-        		{"mouseout": my.endMove, "extend": false}	
+        		{"name": "mouseover", "func": my.onMoveMouse, "extend": false},
+        		{"name": "touchend", "func": my.onMoveTouch, "extend": false},
+        		{"name": "mouseout", "func": my.endMove, "extend": false}	
         	]
         })());
 
 		// Resize de la visualisation
-		my.resize(my.height(), my.width());
+		//my.resize(my.height(), my.width());
 
 		// Redessine le graphe de maniere responsive
-		my.redraw();
+		//my.redraw();
 		
 		// On met l'evenement si on clique
 		// en dehors de la visualisation
 		// pour faire un zoom out sur le root
-		d3.select(window)
-		.on("click", function() {
-			var xClicked = d3.event.x;
-			var yClicked = d3.event.y;
-			if(xClicked < my.margin() 
-					|| yClicked < my.margin()
-					|| xClicked > window.innerWidth - my.margin()
-					|| yClicked > window.innerHeight - my.margin()){
-				my.zoom(my.root()); 
-			}
-		});
+//		d3.select(window)
+//		.on("click", function() {
+//			var xClicked = d3.event.x;
+//			var yClicked = d3.event.y;
+//			if(xClicked < my.margin() 
+//					|| yClicked < my.margin()
+//					|| xClicked > window.innerWidth - my.margin()
+//					|| yClicked > window.innerHeight - my.margin()){
+//				my.zoom(my.root()); 
+//			}
+//		});
+		new ResponsiveEvent({
+        	object : d3.select(window),
+        	events : [
+        		{"name": "click", "func": my.mouseEndEvent, "extend": false},
+        		{"name": "dblclick", "func": my.mouseZoom, "extend": false}
+        	]
+        })();
 		
-		if(my.isMobile()){
-			d3.select(window).each(function(d,i){
-				// install handlers with hammer
-			    Hammer(this, {
-			      prevent_default: true,
-			      no_mouseevents: true
-			    }).on("doubletap", function(event){
-			    	var xClicked = event.gesture.touches[0].pageX;
-					var yClicked = event.gesture.touches[0].pageY;
-					if(xClicked < my.margin() 
-							|| yClicked < my.margin()
-							|| xClicked > window.innerWidth - my.margin()
-							|| yClicked > window.innerHeight - my.margin()){
-						my.zoom(my.root()); 
-					}
-			    })
-			    .on("tap", function(event){
-			    	var xClicked = event.gesture.touches[0].pageX;
-					var yClicked = event.gesture.touches[0].pageY;
-					if(xClicked < my.margin() 
-							|| yClicked < my.margin()
-							|| xClicked > window.innerWidth - my.margin()
-							|| yClicked > window.innerHeight - my.margin()){
-						my.endUpdateMove();
-					}
-			    });
-			});
-		}
-		else {
-			d3.select(window)
-			.on("dblclick", function(d) {
-				var xClicked = d3.event.x;
-				var yClicked = d3.event.y;
-				if(xClicked < my.margin() 
-						|| yClicked < my.margin()
-						|| xClicked > window.innerWidth - my.margin()
-						|| yClicked > window.innerHeight - my.margin()){
-					my.zoom(my.root()); 
-				}
-			})
-			.on("click", function(d) {
-				var xClicked = d3.event.x;
-				var yClicked = d3.event.y;
-				if(xClicked < my.margin() 
-						|| yClicked < my.margin()
-						|| xClicked > window.innerWidth - my.margin()
-						|| yClicked > window.innerHeight - my.margin()){
-					my.endUpdateMove();
-				}
-			});
-		}
+		new ResponsiveEvent({
+			object : d3.select(window).each(function(d,i){
+				Hammer(this, {
+					prevent_default: true,
+					no_mouseevents: true
+				})
+			}),
+        	events : [
+        		{"name": "doubletap", "func": my.touchZoom, "extend": false},
+        		{"name": "tap", "func": my.touchEndEvent, "extend": false}	
+        	]
+        })();
+		
+//		if(my.isMobile()){
+//			d3.select(window).each(function(d,i){
+//				// install handlers with hammer
+//			    Hammer(this, {
+//			      prevent_default: true,
+//			      no_mouseevents: true
+//			    }).on("doubletap", function(event){
+//			    	var xClicked = event.gesture.touches[0].pageX;
+//					var yClicked = event.gesture.touches[0].pageY;
+//					if(xClicked < my.margin() 
+//							|| yClicked < my.margin()
+//							|| xClicked > window.innerWidth - my.margin()
+//							|| yClicked > window.innerHeight - my.margin()){
+//						my.zoom(my.root()); 
+//					}
+//			    })
+//			    .on("tap", function(event){
+//			    	var xClicked = event.gesture.touches[0].pageX;
+//					var yClicked = event.gesture.touches[0].pageY;
+//					if(xClicked < my.margin() 
+//							|| yClicked < my.margin()
+//							|| xClicked > window.innerWidth - my.margin()
+//							|| yClicked > window.innerHeight - my.margin()){
+//						my.endUpdateMove();
+//					}
+//			    });
+//			});
+//		}
+//		else {
+//			d3.select(window)
+//			.on("dblclick", function(d) {
+//				var xClicked = d3.event.x;
+//				var yClicked = d3.event.y;
+//				if(xClicked < my.margin() 
+//						|| yClicked < my.margin()
+//						|| xClicked > window.innerWidth - my.margin()
+//						|| yClicked > window.innerHeight - my.margin()){
+//					my.zoom(my.root()); 
+//				}
+//			})
+//			.on("click", function(d) {
+//				var xClicked = d3.event.x;
+//				var yClicked = d3.event.y;
+//				if(xClicked < my.margin() 
+//						|| yClicked < my.margin()
+//						|| xClicked > window.innerWidth - my.margin()
+//						|| yClicked > window.innerHeight - my.margin()){
+//					my.endUpdateMove();
+//				}
+//			});
+//		}
 		
 		return my;
+	};
+	
+	my.mouseZoom = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.zoom(my.root()); 
+		}
+	};
+	
+	my.mouseEndEvent = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.endUpdateMove();
+		}
+	};
+	
+	my.touchZoom = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.zoom(my.root()); 
+		}
+	};
+	
+	my.touchEndEvent = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.endUpdateMove();
+		}
 	};
 
 	/*******************************
@@ -230,6 +274,19 @@ function TreeMap(options) {
         	g : graph,
             cls: "fixed_tooltip"
         })());
+        
+        // Initialisation de l'objet selector
+        my.selector(new ResponsiveSelector({
+        	g : graph,
+        	titlePosition : my.margin() / 2,
+            depth: 1,
+            layout : my.treemap(),
+            parentsCls: "cell parent",
+            node: node,
+            root: root,
+            x: my.x(),
+            y: my.y()
+        })());
 		
 		// Initiliasation des cellules
 		graph.selectAll(".cell.child")
@@ -289,8 +346,8 @@ function TreeMap(options) {
 		}
 		
 		my.graph(graph);
-		my.drawTitleFirstParent();
-		my.drawFirstParents(parents);
+		
+		my.selector().trigger("draw");
 	};
 
 	/************************
@@ -412,6 +469,14 @@ function TreeMap(options) {
         tooltip = newTooltip;
         return my;
     };
+    
+    my.selector = function (newSelector) {
+        if (!arguments.length) {
+            return selector;
+        }
+        selector = newSelector;
+        return my;
+    };
 
 	my.data = function (newData) {
 		if (!arguments.length) {
@@ -510,16 +575,18 @@ function TreeMap(options) {
 	
 	my.remove = function(){
 		// Suppression du contour et du texte
-		d3.selectAll(".textParent").remove();
+		//d3.selectAll(".textParent").remove();
 		d3.selectAll(".textChild").remove();
 		d3.selectAll(".numText").remove();
 		
-		my.graph().selectAll(".textFirstParent")
-		.style("display", "none");
+//		my.graph().selectAll(".textFirstParent")
+//		.style("display", "none");
 		
 		// Suppression de highlight
     	my.graph().selectAll("g.cell.child")//.transition().duration(0)
     	.style("opacity", "1");
+    	
+    	my.selector().trigger("hide");
 	}
 	
 	my.hide = function(){
@@ -535,6 +602,8 @@ function TreeMap(options) {
 	 * Cette methode redessine le graphe
 	 */
 	my.redraw = function () {
+		var depth;
+		var node;
 		my.remove();
 		my.hide();
 		
@@ -604,7 +673,7 @@ function TreeMap(options) {
 		            })
 		            .style("opacity", "0.2");
 		    		
-		    		my.updateFirstParents(my.node().depth + 1, my.node());
+		    		//my.updateFirstParents(my.node().depth + 1, my.node());
 					if(my.leaf()){
 		    			my.startUpdateMove(my.leaf());
 		    		}
@@ -619,14 +688,15 @@ function TreeMap(options) {
 		            })
 		            .style("opacity", "0.2");
 		    		
-		    		my.updateFirstParents(my.node().depth + 1, my.node());
+		    		//my.updateFirstParents(my.node().depth + 1, my.node());
 	    		}
 			}
 		}
 		else{
-			my.updateFirstParents(1);
+			//my.updateFirstParents(1);
 		}
-		my.updateTitleFirstParent(my.node());
+		my.selector().trigger("redraw", my.treemap(), my.node(), my.x(), my.y());
+		//my.updateTitleFirstParent(my.node());
 		my.updateChildren();
 	};
 	
@@ -659,32 +729,32 @@ function TreeMap(options) {
 	 * parent
 	 */
 	my.drawTitleFirstParent = function(){
-		var titleParent = d3.select("#graph")
-		.append("g")
-		.attr("class", "title");
-		
-		titleParent.selectAll(".titleParent")
-		.data(parents)
-		.enter().append("g")
-		.attr("class", "titleParent");
-
-		titleParent.selectAll(".titleParent")
-		.append("text")
-		.attr("class", "textTitleParent")
-		.attr("text-anchor", "middle")
-		.text(function(d){
-			return d.name;
-		})
-		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
-		.attr("y", function(d) { return my.margin() / 2; })
-		.style("display", function(d){
-			if(d.depth === 0){
-				return "";
-			}
-			else{
-				return "none";
-			}
-		});
+//		var titleParent = d3.select("#graph")
+//		.append("g")
+//		.attr("class", "title");
+//		
+//		titleParent.selectAll(".titleParent")
+//		.data(parents)
+//		.enter().append("g")
+//		.attr("class", "titleParent");
+//
+//		titleParent.selectAll(".titleParent")
+//		.append("text")
+//		.attr("class", "textTitleParent")
+//		.attr("text-anchor", "middle")
+//		.text(function(d){
+//			return d.name;
+//		})
+//		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
+//		.attr("y", function(d) { return my.margin() / 2; })
+//		.style("display", function(d){
+//			if(d.depth === 0){
+//				return "";
+//			}
+//			else{
+//				return "none";
+//			}
+//		});
 	}
 	
 	/*
@@ -692,17 +762,17 @@ function TreeMap(options) {
 	 * du parent de la visualisation
 	 */
 	my.updateTitleFirstParent = function(node){
-		d3.selectAll(".titleParent text")
-		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
-		.attr("y", function(d) { return my.margin() / 2; })
-		.style("display", function(d){
-			if(d === node){
-				return "";
-			}
-			else{
-				return "none";
-			}
-		});
+//		d3.selectAll(".titleParent text")
+//		.attr("x", function(d) { return $$ResponsiveUtil.getWidth() / 2; })
+//		.attr("y", function(d) { return my.margin() / 2; })
+//		.style("display", function(d){
+//			if(d === node){
+//				return "";
+//			}
+//			else{
+//				return "none";
+//			}
+//		});
 	}
 	
 	/*
@@ -710,56 +780,56 @@ function TreeMap(options) {
 	 * des premiers parents
 	 */
 	my.drawFirstParents = function(parents){
-		var graph = my.graph();
-		
-		// Parents
-		var parents = graph.selectAll(".cell.parent")
-		.data(parents)
-		.enter().append("g")
-		.attr("class", "cell parent")
-		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-		
-		graph.selectAll(".cell.parent")
-		.append("rect")
-		.attr("id", function(d){
-			d.id = d.name + "_" + (d.parent ? d.parent.name : "root");
-			return d.id;
-		})
-		.attr("width", function(d) { return d.dx - 1; })
-		.attr("height", function(d) { return d.dy - 1; })
-		.style("stroke", "black")
-		.style("fill", "none")
-		.style("stroke-width", "border")
-		.style("display", function(d){
-			if(d.depth === 1){
-				return "";
-			}
-			else{
-				return "none";
-			}
-		});
-		
-		graph.selectAll(".cell.parent")
-		.append("text")
-		.attr("class", "textFirstParent")
-		.attr("text-anchor", "middle")
-		.text(function(d){
-			return d.name;
-		})
-		.attr("x", function(d) { return d.dx - (d.name.length * 5); })
-		.attr("y", function(d) { return d.dy - 5; })
-		.style("opacity", function(d) { 
-			w = this.getComputedTextLength(); 
-			return (d.x + d.dx) - d.x > w ? 1 : 0; 
-		})
-		.style("display", function(d){
-			if(d.depth === 1){
-				return "";
-			}
-			else{
-				return "none";
-			}
-		});
+//		var graph = my.graph();
+//		
+//		// Parents
+//		var parents = graph.selectAll(".cell.parent")
+//		.data(parents)
+//		.enter().append("g")
+//		.attr("class", "cell parent")
+//		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+//		
+//		graph.selectAll(".cell.parent")
+//		.append("rect")
+//		.attr("id", function(d){
+//			d.id = d.name + "_" + (d.parent ? d.parent.name : "root");
+//			return d.id;
+//		})
+//		.attr("width", function(d) { return d.dx - 1; })
+//		.attr("height", function(d) { return d.dy - 1; })
+//		.style("stroke", "black")
+//		.style("fill", "none")
+//		.style("stroke-width", "border")
+//		.style("display", function(d){
+//			if(d.depth === 1){
+//				return "";
+//			}
+//			else{
+//				return "none";
+//			}
+//		});
+//		
+//		graph.selectAll(".cell.parent")
+//		.append("text")
+//		.attr("class", "textFirstParent")
+//		.attr("text-anchor", "middle")
+//		.text(function(d){
+//			return d.name;
+//		})
+//		.attr("x", function(d) { return d.dx - (d.name.length * 5); })
+//		.attr("y", function(d) { return d.dy - 5; })
+//		.style("opacity", function(d) { 
+//			w = this.getComputedTextLength(); 
+//			return (d.x + d.dx) - d.x > w ? 1 : 0; 
+//		})
+//		.style("display", function(d){
+//			if(d.depth === 1){
+//				return "";
+//			}
+//			else{
+//				return "none";
+//			}
+//		});
 		
 	};
 	
@@ -770,83 +840,83 @@ function TreeMap(options) {
 	 */
 	my.updateFirstParents = function (depth, node) {
         // Redefinition des rectangles
-        var kx = my.width() / my.node().dx;
-        var ky = my.height() / my.node().dy;
-        my.x().domain([my.node().x, my.node().x + my.node().dx]);
-        my.y().domain([my.node().y, my.node().y + my.node().dy]);
-
-        var t = d3.selectAll(".cell.parent").transition()
-                .attr("transform", function (d) {
-                    return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")";
-                });
-
-        d3.selectAll(".cell.parent rect")
-                .attr("width", function (d) {
-                    return kx * d.dx - 1;
-                })
-                .attr("height", function (d) {
-                    return ky * d.dy - 1;
-                })
-                .style("display", function (d) {
-                    if (node) {
-                        if(d.allParents){
-                            if(d.allParents.indexOf(node) !== -1
-                                && d.children && d.depth === depth){
-                                return "";
-                            }
-                            else{
-                                return "none";
-                            }
-                        }
-                        else{
-                            return "none";
-                        }
-                    }
-                    else{
-                        if (d.depth === depth) {
-                            return "";
-                        }
-                        else {
-                            return "none";
-                        }
-                    }
-                });
-
-        my.graph().selectAll(".textFirstParent")
-        .attr("x", function (d) {
-        	return kx * d.dx - (d.name.length * 5);
-        })
-        .attr("y", function (d) {
-        	return ky * d.dy - 5;
-        })
-        .style("display", function (d) {
-        	if (node) {
-        		if(d.allParents){
-        			if(d.allParents.indexOf(node) !== -1
-        					&& d.children && d.depth === depth){
-        				return "";
-        			}
-        			else{
-        				return "none";
-        			}
-        		}
-        		else{
-        			return "none";
-        		}
-        	}
-        	else{
-        		if (d.depth === depth) {
-        			return "";
-        		}
-        		else {
-        			return "none";
-        		}
-        	}
-        })
-        .style("opacity", function (d) {
-        	w = this.getComputedTextLength();
-        	return (d.x + d.dx) - d.x > w ? 1 : 0;
-        });
+//        var kx = my.width() / my.node().dx;
+//        var ky = my.height() / my.node().dy;
+//        my.x().domain([my.node().x, my.node().x + my.node().dx]);
+//        my.y().domain([my.node().y, my.node().y + my.node().dy]);
+//
+//        var t = d3.selectAll(".cell.parent").transition()
+//                .attr("transform", function (d) {
+//                    return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")";
+//                });
+//
+//        d3.selectAll(".cell.parent rect")
+//                .attr("width", function (d) {
+//                    return kx * d.dx - 1;
+//                })
+//                .attr("height", function (d) {
+//                    return ky * d.dy - 1;
+//                })
+//                .style("display", function (d) {
+//                    if (node) {
+//                        if(d.allParents){
+//                            if(d.allParents.indexOf(node) !== -1
+//                                && d.children && d.depth === depth){
+//                                return "";
+//                            }
+//                            else{
+//                                return "none";
+//                            }
+//                        }
+//                        else{
+//                            return "none";
+//                        }
+//                    }
+//                    else{
+//                        if (d.depth === depth) {
+//                            return "";
+//                        }
+//                        else {
+//                            return "none";
+//                        }
+//                    }
+//                });
+//
+//        my.graph().selectAll(".textFirstParent")
+//        .attr("x", function (d) {
+//        	return kx * d.dx - (d.name.length * 5);
+//        })
+//        .attr("y", function (d) {
+//        	return ky * d.dy - 5;
+//        })
+//        .style("display", function (d) {
+//        	if (node) {
+//        		if(d.allParents){
+//        			if(d.allParents.indexOf(node) !== -1
+//        					&& d.children && d.depth === depth){
+//        				return "";
+//        			}
+//        			else{
+//        				return "none";
+//        			}
+//        		}
+//        		else{
+//        			return "none";
+//        		}
+//        	}
+//        	else{
+//        		if (d.depth === depth) {
+//        			return "";
+//        		}
+//        		else {
+//        			return "none";
+//        		}
+//        	}
+//        })
+//        .style("opacity", function (d) {
+//        	w = this.getComputedTextLength();
+//        	return (d.x + d.dx) - d.x > w ? 1 : 0;
+//        });
     };
 			
 	/*
@@ -864,9 +934,8 @@ function TreeMap(options) {
 		else{
 			nodeId = node.parent.id;
 		}
-		
 		my.graph().select("#" + nodeId)
-		.attr("width", function(d) { 
+		.attr("width", function(d) {
 			pathinfo.push({
 				x: d.x,
 				y: d.y
@@ -891,10 +960,10 @@ function TreeMap(options) {
 		// Affichage du titre
 		var translationX;
 		var translationY;
-		translationX = margin + (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
-		translationY = margin + (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
+		translationX = (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
+		translationY = (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
 		
-		my.svg().append("svg:text")
+		my.graph().append("text")
 		.attr("class", nameClassText)
 		.attr("text-anchor", "middle")
 		.text(nameText)
@@ -1084,12 +1153,13 @@ function TreeMap(options) {
 		d3.select(".textParent").remove();
 		
 		// On redessine les premiers parents
-		if(my.node() === my.root()){
-			my.updateFirstParents(1);
-		}
-		else{
-			my.updateFirstParents(my.node().depth + 1, my.node());
-		}
+//		if(my.node() === my.root()){
+//			my.updateFirstParents(1);
+//		}
+//		else{
+//			my.updateFirstParents(my.node().depth + 1, my.node());
+//		}
+		my.selector().trigger("redraw", my.treemap(), my.node(), my.x(), my.y());
 	};
 	
 	return my;

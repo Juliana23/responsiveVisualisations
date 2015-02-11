@@ -64,8 +64,8 @@ function TimeLine(options) {
         my.event(new ResponsiveEvent({
         	object : my.rect(),
         	events : [
-        		{"mousemove": my.onMove, "extend": true},
-        		{"mouseout": my.endMove, "extend": true}	
+        		{"name" : "mousemove", "func": my.onMove, "extend": true},
+        		{"name" : "mouseout", "func": my.endMove, "extend": true}	
         	]
         })());
 
@@ -430,25 +430,28 @@ function TimeLine(options) {
     	var margin = my.margin();
     	var formatter = d3.time.format("%d/%m/%Y");
     	var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+    	
     	// Recuperation de la position X & Y
-    	var cursor;
-    	var cursor_x;
-    	if (!$$ResponsiveUtil.mobile()) {
-    		cursor = d3.mouse(this);
-    		cursor_x = d3.mouse(this)[0];
-    	}
-    	else {
-    		cursor = d3.touches(this)[0];
-    	}
+    	var cursor = $$ResponsiveUtil.getCursorPosition();
+    	var cursor_x = cursor.x - margin;
+    	var cursor_y = cursor.y;
 
-    	var cursor_x = parseInt(cursor[0]);
-    	var cursor_y = parseInt(cursor[1]);
-
-    	var x0 = my.x().data().invert(cursor_x),
-    	i = bisectDate(my.data(), x0, 1),
-    	d0 = my.data()[i - 1],
-    	d1 = my.data()[i],
-    	d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    	var x0 = my.x().data().invert(cursor_x);
+    	var i = bisectDate(my.data(), x0, 1);
+    	var d0 = my.data()[i - 1];
+    	var d1 = my.data()[i];
+    	var d;
+    	if(d0){
+    		if(d1){
+    			d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+    		}
+    		else{
+    			d = d0;
+    		}
+    	}
+    	else{
+    		d = d1;
+    	}
 
     	my.graph().select("circle.y")
     	.style("opacity", 1)
@@ -513,7 +516,7 @@ function TimeLine(options) {
     			cursor = d3.touches(this)[0];
     		}
 
-                var cursor_x = parseInt(cursor[0]);
+            var cursor_x = parseInt(cursor[0]);
     		var cursor_y = parseInt(cursor[1]);
     		
     		var x0 = my.x().data().invert(cursor_x),

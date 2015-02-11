@@ -1,13 +1,12 @@
 /* 
  * Responsive Brush For d3js library
-
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
  */
 
 /**
- * Create a responsive axis
+ * Create a responsive brush
  * @param json object options :
  * svg : the svg to add brush
  * area : area
@@ -115,7 +114,7 @@ function ResponsiveBrush(options) {
         // Init x axis
         var x = new ResponsiveAxis({
             g: graph,
-            cls: "brushx",
+            cls: "brushx axis",
             orientation: my.cX().orientation(),
             datatype: my.cX().datatype(),
             domain: my.cX().domain(),
@@ -126,7 +125,7 @@ function ResponsiveBrush(options) {
         // Init y axis
         var y = new ResponsiveAxis({
             g: graph,
-            cls: "brushy",
+            cls: "brushy axis",
             orientation: my.cY().orientation(),
             datatype: my.cY().datatype(),
             domain: my.cY().domain(),
