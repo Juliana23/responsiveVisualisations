@@ -24,9 +24,10 @@
 <script type="text/javascript" src="./lib/d3/d3.v3.min.js"></script>
 <script type="text/javascript" src="./lib/hammer.min.js"></script>
 
-<script type="text/javascript" src="./js/utils/less.js"></script>
 <script type="text/javascript" src="./js/utils/util.js"></script>
+<script type="text/javascript" src="./js/utils/less.js"></script>
 <script type="text/javascript" src="./js/utils/treeUtil.js"></script>
+<script type="text/javascript" src="./js/utils/constants.js"></script>
 
 <script type="text/javascript" src="./js/object/selector.js"></script>
 <script type="text/javascript" src="./js/object/brush.js"></script>
@@ -42,29 +43,41 @@
 </head>
 <body>
 <script>
-// var timer = window.setTimeout(function() {}, 0);
-// window.clearTimeout(timer);
-// timer = window.setTimeout(function() {
-// 	$$ResponsiveLess.phone_label_font_size('300px');
-// 	$$ResponsiveLess.phone_landscape_label_font_size('500px');
-// 	$$ResponsiveLess.tablet_label_font_size('300px');
-// 	$$ResponsiveLess.desktop_label_font_size('500px');
-// 	$$ResponsiveLess.large_label_font_size('300px');
-// 	$$ResponsiveLess.phone_portrait_strict_label_font_size('500px');
-// 	$$ResponsiveLess.phone_landscape_strict_label_font_size('300px');
-// 	$$ResponsiveLess.tablet_landscape_strict_label_font_size('500px');
-// 	$$ResponsiveLess.tablet_portrait_strict_label_font_size('300px');
-// 	$$ResponsiveLess.phone_tooltip_max_width('500px');
-// 	$$ResponsiveLess.phone_landscape_tooltip_max_width('300px');
-// 	$$ResponsiveLess.tablet_tooltip_max_width('500px');
-// 	$$ResponsiveLess.desktop_tooltip_max_width('300px');
-// 	$$ResponsiveLess.large_tooltip_max_width('500px');
-// 	$$ResponsiveLess.phone_portrait_strict_tooltip_max_width('300px');
-// 	$$ResponsiveLess.phone_landscape_strict_tooltip_max_width('500px');
-// 	$$ResponsiveLess.tablet_landscape_strict_tooltip_max_width('300px');
-// 	$$ResponsiveLess.tablet_portrait_strict_tooltip_max_width('500px');
-// 	less.refresh();
-// }, 5000);
+
+$$ResponsiveLess.phone_label_font_size('30px');
+$$ResponsiveLess.phone_landscape_label_font_size('50px');
+$$ResponsiveLess.tablet_label_font_size('30px');
+$$ResponsiveLess.desktop_label_font_size('50px');
+$$ResponsiveLess.large_label_font_size('30px');
+$$ResponsiveLess.phone_portrait_strict_label_font_size('50px');
+$$ResponsiveLess.phone_landscape_strict_label_font_size('30px');
+$$ResponsiveLess.tablet_landscape_strict_label_font_size('50px');
+$$ResponsiveLess.tablet_portrait_strict_label_font_size('30px');
+// $$ResponsiveLess.phone_tooltip_max_width('50px');
+// $$ResponsiveLess.phone_landscape_tooltip_max_width('30px');
+// $$ResponsiveLess.tablet_tooltip_max_width('50px');
+// $$ResponsiveLess.desktop_tooltip_max_width('30px');
+// $$ResponsiveLess.large_tooltip_max_width('50px');
+// $$ResponsiveLess.phone_portrait_strict_tooltip_max_width('30px');
+// $$ResponsiveLess.phone_landscape_strict_tooltip_max_width('50px');
+// $$ResponsiveLess.tablet_landscape_strict_tooltip_max_width('30px');
+// $$ResponsiveLess.tablet_portrait_strict_tooltip_max_width('50px');
+$$ResponsiveLess.xs_min("56px");
+// Commit less variables
+$$ResponsiveLess.updateVariables();
+// console.log($$ResponsiveLess.variables());
+// less.modifyVars({
+// 	'@phone_label_font_size': '10px',
+// 	'@phone_landscape_label_font_size': '10px',
+// 	'@tablet_label_font_size': '10px',
+// 	'@desktop_label_font_size': '10px',
+// 	'@large_label_font_size': '10px',
+// 	'@phone_portrait_strict_label_font_size': '10px',
+// 	'@phone_landscape_strict_label_font_size': '10px',
+// 	'@tablet_landscape_strict_label_font_size': '10px',
+// 	'@tablet_portrait_strict_label_font_size': '10px',
+// });
+// $$ResponsiveLess.attributeValueInitialToVars();
 
 //data(sp500);
 //data(dataProducts);

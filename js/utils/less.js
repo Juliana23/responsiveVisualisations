@@ -2,6 +2,12 @@
  * Utiliy Class For Less
  */
 function ResponsiveLess() {
+	options = {
+			variables: {}
+	};
+	
+	// Variable use to keep less variables modifcations before update them
+	prepareLessVariables = {};
 
     /**
      * Constructor
@@ -15,12 +21,11 @@ function ResponsiveLess() {
     	// Retrieve less variables
     	var lessVars = my.getLessVars("less");
     	
-    	console.log(lessVars);
-    	
     	// Generate accessors for less variables
     	my.generateAccessors(my, lessVars);
+    	$$ResponsiveUtil.generateAccessors(my, options);
     	
-    	console.log(my);
+    	my.variables(lessVars);
     	
     	return my;
     };
@@ -44,7 +49,7 @@ function ResponsiveLess() {
         }
         for (var o in options) {
             obj[o] = new Function("newValue",
-                    "if (!arguments.length) {return " + o + "_" + obj.id + ";} " + o + "_" + obj.id + " = newValue; less.modifyVars({'@" + o + "' : newValue});");
+            		"if (!arguments.length) {return " + o + "_" + obj.id + ";} " + o + "_" + obj.id + " = newValue; prepareLessVariables['@" + o + "'] = newValue;");
             obj[o](options[o]);
         }
     };
@@ -92,6 +97,34 @@ function ResponsiveLess() {
 			}
 		}
 		return oLess;
+	};
+	
+	/**
+	 * Method to retrieve the initial 
+	 * value of less vars
+	 */
+	my.attributeValueInitialToVars = function(){
+		var lessVars = {};
+		// Get initial variables
+		var variables = my.variables();
+		for(key in variables){
+			lessVars["@" + key] = variables[key];
+		}
+		// Modify less variables
+		less.modifyVars(function(){
+			for(key in lessVars){
+				return "'" + key + "': '" + lessVars[key] + "'";
+			}
+		});
+	};
+	
+	/**
+	 * Method to update less variables
+	 */
+	my.updateVariables = function() {
+		less.modifyVars(prepareLessVariables);
+		prepareLessVariables = {};
+		$$ResponsiveConstants.updateLessVariables();
 	};
 
 	return my;

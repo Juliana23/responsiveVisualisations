@@ -165,13 +165,13 @@ function ResponsiveTooltip(options) {
         var widthScreen = $$ResponsiveUtil.getWidth();
         var width;
 
-        if (((widthScreen > $$ResponsiveUtil._XSMIN_ && widthScreen < $$ResponsiveUtil._XSMAX_)
-                || (widthScreen > $$ResponsiveUtil._SMMIN_ && widthScreen < $$ResponsiveUtil._SMMAX_))
+        if (((widthScreen > $$ResponsiveConstants._XSMIN_() && widthScreen < $$ResponsiveConstants._XSMAX_())
+                || (widthScreen > $$ResponsiveConstants._SMMIN_() && widthScreen < $$ResponsiveConstants._SMMAX_()))
                 && isMobile) {
-            width = $$ResponsiveUtil._XSWIDTH_;
+            width = $$ResponsiveConstants._XSWIDTH_();
         }
         else {
-            width = $$ResponsiveUtil._SMWIDTH_;
+            width = $$ResponsiveConstants._SMWIDTH_();
         }
         return width;
     };
