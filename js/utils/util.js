@@ -97,68 +97,15 @@ function ResponsiveUtil() {
         return false;
     };
     
-    my.convertToMouseEvent = function (event) {
-    	if(event instanceof MouseEvent){
-    		return event;
-    	}
-    	
-    	var touches;
-    	
-    	// Touch Event
-    	if(event instanceof TouchEvent){
-    		touches = event.changedTouches;
-    	}
-    	// Hammer Event
-    	else if(event instanceof Event){
-    		touches = event.srcEvent.changedTouches;
-    	}
-    	
-    	var touchEvent = touches[0];
-    	var type = my.getMappedEvent(event.type);
-
-    	//initMouseEvent(type, canBubble, cancelable, view, clickCount, 
-    	//           screenX, screenY, clientX, clientY, ctrlKey, 
-    	//           altKey, shiftKey, metaKey, button, relatedTarget);
-
-    	var simulatedEvent = document.createEvent("MouseEvent");
-    	simulatedEvent.initMouseEvent(type, true, true, window, 1, 
-    			touchEvent.screenX, touchEvent.screenY, 
-    			touchEvent.clientX, touchEvent.clientY, false, 
-    			false, false, false, 0, null);
-    	
-    	// Add the initial event
-    	simulatedEvent.initialEvent = event;
-    	simulatedEvent.target = touchEvent.target;
-    };
-    
     /**
      * This method return the position of cursor
      * @return object
      */
     my.getCursorPosition = function () {
     	var e = window.event;
-    	//var parentPosition = my.getElementPosition(e.currentTarget);
-    	
-    	var posX;
-		var posY;
-    	if(my.mobile()){
-    		if(e.changedTouches){
-        		posX = e.changedTouches[0].pageX;
-            	posY = e.changedTouches[0].pageY;
-        	}
-        	// Hammer.js event
-        	else{
-        		posX = e.gesture.touches[0].pageX;
-            	posY = e.gesture.touches[0].pageY;
-        	}
-    	}
-    	else{
-    		posX = e.clientX;
-    		posY = e.clientY;
-    	}
 		return {
-			x : posX,
-			y : posY,
+			x : e.clientX,
+			y : e.clientY
 		};
     };
 
@@ -189,16 +136,9 @@ function ResponsiveUtil() {
      * @return boolean
      */
     my.isPositionOutsideContainer = function (margin) {
-    	var xClicked;
-		var yClicked;
-    	if(my.mobile()){
-    		xClicked = d3.event.gesture.touches[0].pageX;
-    		yClicked = d3.event.gesture.touches[0].pageY;
-    	}
-    	else{
-    		xClicked = d3.event.x;
-    		yClicked = d3.event.y;
-    	}
+    	var e = window.event;
+    	var xClicked = e.clientX;
+		var yClicked = e.clientY;
 		if(xClicked < margin 
 				|| yClicked < margin
 				|| xClicked > window.innerWidth - margin

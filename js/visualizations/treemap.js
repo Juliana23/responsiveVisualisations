@@ -27,13 +27,15 @@ function TreeMap(options) {
 //	        }, 500);
 //	    });
 		
-		var timer = window.setTimeout(function() {}, 0);
-		d3.select(window).on('resize', function() {
-	        window.clearTimeout(timer);
-	        timer = window.setTimeout(function() {
-	        	resize();
-	        }, 500);
-	    });
+//		var timer = window.setTimeout(function() {}, 0);
+//		// Add resize event
+//        $$ResponsiveUtil.addResizeEvent(function() {
+//	        window.clearTimeout(timer);
+//	        timer = window.setTimeout(function() {
+//	        	resize();
+//	        }, 500);
+//	    });
+		$$ResponsiveUtil.addResizeEvent(resize);
 	}
 
 	my.init = function (options) {
@@ -74,11 +76,18 @@ function TreeMap(options) {
 		// On met les evenements sur le graphe a jour
 		// Initialisation des evenements
         my.event(new ResponsiveEvent({
-        	object : my.svg().selectAll(".cell.child"),
+        	object : d3.selectAll(".cell.child").each(function(d,i){
+				Hammer(this, {
+					prevent_default: true,
+					no_mouseevents: true
+				})
+			}),
         	events : [
         		{"name": "mouseover", "func": my.onMoveMouse, "extend": false},
         		{"name": "touchend", "func": my.onMoveTouch, "extend": false},
-        		{"name": "mouseout", "func": my.endMove, "extend": false}	
+        		{"name": "mouseout", "func": my.endMove, "extend": false},
+        		{"name": "dblclick", "func": my.eventZoomIn, "extend": true}
+        		//{"name": "doubletap", "func": my.eventZoomIn, "extend": false}
         	]
         })());
 
@@ -103,14 +112,6 @@ function TreeMap(options) {
 //			}
 //		});
 		new ResponsiveEvent({
-        	object : d3.select(window),
-        	events : [
-        		{"name": "click", "func": my.mouseEndEvent, "extend": false},
-        		{"name": "dblclick", "func": my.mouseZoom, "extend": false}
-        	]
-        })();
-		
-		new ResponsiveEvent({
 			object : d3.select(window).each(function(d,i){
 				Hammer(this, {
 					prevent_default: true,
@@ -118,10 +119,25 @@ function TreeMap(options) {
 				})
 			}),
         	events : [
+        		{"name": "click", "func": my.mouseEndEvent, "extend": false},
+        		{"name": "dblclick", "func": my.mouseZoom, "extend": false},
         		{"name": "doubletap", "func": my.touchZoom, "extend": false},
-        		{"name": "tap", "func": my.touchEndEvent, "extend": false}	
+        		{"name": "tap", "func": my.touchEndEvent, "extend": false}
         	]
         })();
+		
+//		new ResponsiveEvent({
+//			object : d3.select(window).each(function(d,i){
+//				Hammer(this, {
+//					prevent_default: true,
+//					no_mouseevents: true
+//				})
+//			}),
+//        	events : [
+//        		{"name": "doubletap", "func": my.touchZoom, "extend": false},
+//        		{"name": "tap", "func": my.touchEndEvent, "extend": false}	
+//        	]
+//        })();
 		
 //		if(my.isMobile()){
 //			d3.select(window).each(function(d,i){
@@ -178,30 +194,6 @@ function TreeMap(options) {
 		return my;
 	};
 	
-	my.mouseZoom = function() {
-		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
-			my.zoom(my.root()); 
-		}
-	};
-	
-	my.mouseEndEvent = function() {
-		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
-			my.endUpdateMove();
-		}
-	};
-	
-	my.touchZoom = function() {
-		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
-			my.zoom(my.root()); 
-		}
-	};
-	
-	my.touchEndEvent = function() {
-		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
-			my.endUpdateMove();
-		}
-	};
-
 	/*******************************
 	 * Fonctions d'initialisation
 	 ********************************/
@@ -286,13 +278,13 @@ function TreeMap(options) {
         // Initialisation de l'objet selector
         my.selector(new ResponsiveSelector({
         	g : graph,
-        	titlePosition : my.margin() / 2,
             depth: 1,
             layout : my.treemap(),
             parentsCls: "cell parent",
             childrenCls: "cell child",
             node: node,
-            root: root
+            root: root,
+            autoresize: false
         })());
 		
 		// Initiliasation des cellules
@@ -310,53 +302,65 @@ function TreeMap(options) {
 		.style("stroke", function(d) { return color(d.parent.name); })
 		.style("stroke-opacity", "0.3");
 		
-		if(my.isMobile()){
-			graph.selectAll(".cell.child").each(function(d,i){
-				// install handlers with hammer
-			    Hammer(this, {
-			      prevent_default: true,
-			      no_mouseevents: true
-			    }).on("doubletap", function(event){
-			    	var depth;
-					var nodeInt;
-					// On ne descend pas en profondeur si
-					// le noeud a des enfants
-					if(d.parent.depth != 1){
-						depth = d.parent.parent;
-						nodeInt = d.parent;
-					}
-					else{
-						depth = d.parent;
-						nodeInt = d;
-					}
-					return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
-			    });
-			});
-		}
-		else {
-			graph.selectAll(".cell.child")
-			.on("dblclick", function(d) {
-				var depth;
-				var nodeInt;
-				// On ne descend pas en profondeur si
-				// le noeud a des enfants
-				if(d.parent.depth != 1){
-					depth = d.parent.parent;
-					nodeInt = d.parent;
-				}
-				else{
-					depth = d.parent;
-					nodeInt = d;
-				}
-				return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
-			});	
-		}
+//		my.zoomIn(new ResponsiveEvent({
+//			object : graph.selectAll(".cell.child").each(function(d,i){
+//				Hammer(this, {
+//					prevent_default: true,
+//					no_mouseevents: true
+//				})
+//			}),
+//        	events : [
+//        		{"name": "doubletap", "func": my.eventZoomIn, "extend": false}	
+//        	]
+//        })());
+		
+//		if(my.isMobile()){
+//			graph.selectAll(".cell.child").each(function(d,i){
+//				// install handlers with hammer
+//			    Hammer(this, {
+//			      prevent_default: true,
+//			      no_mouseevents: true
+//			    }).on("doubletap", function(event){
+//			    	var depth;
+//					var nodeInt;
+//					// On ne descend pas en profondeur si
+//					// le noeud a des enfants
+//					if(d.parent.depth != 1){
+//						depth = d.parent.parent;
+//						nodeInt = d.parent;
+//					}
+//					else{
+//						depth = d.parent;
+//						nodeInt = d;
+//					}
+//					return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
+//			    });
+//			});
+//		}
+//		else {
+//			graph.selectAll(".cell.child")
+//			.on("dblclick", function(d) {
+//				var depth;
+//				var nodeInt;
+//				// On ne descend pas en profondeur si
+//				// le noeud a des enfants
+//				if(d.parent.depth != 1){
+//					depth = d.parent.parent;
+//					nodeInt = d.parent;
+//				}
+//				else{
+//					depth = d.parent;
+//					nodeInt = d;
+//				}
+//				return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
+//			});	
+//		}
 		
 		my.graph(graph);
 		
 		my.selector().trigger("draw");
 	};
-
+	
 	/************************
 	 * Getters AND Setters
 	 ************************/
@@ -366,6 +370,14 @@ function TreeMap(options) {
 			return isMobile;
 		}
 		isMobile = newIsMobile;
+		return my;
+	};
+	
+	my.zoomIn = function (newZoomIn) {
+		if (!arguments.length) {
+			return zoomIn;
+		}
+		zoomIn = newZoomIn;
 		return my;
 	};
 	
@@ -780,15 +792,11 @@ function TreeMap(options) {
         })
     };
     
-    my.onMoveMouse = function () {
-    	var args = Array.prototype.slice.call(arguments);
-    	var node = args[0];
+    my.onMoveMouse = function (node) {
     	my.startUpdateMove(node);
     };
     
-    my.onMoveTouch = function () {
-    	var args = Array.prototype.slice.call(arguments);
-    	var node = args[0];
+    my.onMoveTouch = function (node) {
 		// Si le tooltip est affiche
 		if(my.tooltip().getIsDrawn()){
 			var opacity = my.graph().selectAll("g.cell.child") .filter(function(n) {
@@ -866,6 +874,46 @@ function TreeMap(options) {
 		
 		// On redessine les premiers parents
 		my.selector().trigger("redraw");
+	};
+	
+	my.eventZoomIn = function(node){
+		var depth;
+		var nodeInt;
+		// On ne descend pas en profondeur si
+		// le noeud a des enfants
+		if(node.parent.depth !== 1){
+			depth = node.parent.parent;
+			nodeInt = node.parent;
+		}
+		else{
+			depth = node.parent;
+			nodeInt = node;
+		}
+		my.zoom(node === node.parent ? root : depth, nodeInt, node); 
+	};
+	
+	my.mouseZoom = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.zoom(my.root()); 
+		}
+	};
+	
+	my.mouseEndEvent = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.endUpdateMove();
+		}
+	};
+	
+	my.touchZoom = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.zoom(my.root()); 
+		}
+	};
+	
+	my.touchEndEvent = function() {
+		if($$ResponsiveUtil.isPositionOutsideContainer(my.margin())){
+			my.endUpdateMove();
+		}
 	};
 	
 	return my;

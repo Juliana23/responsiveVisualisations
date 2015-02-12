@@ -1,6 +1,5 @@
 /* 
  * Responsive Selector For d3js library
- 
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
@@ -10,13 +9,17 @@
  * Create a responsive selector
  * @param json object options :
  * g : graph
- * cls : css class for tooltip
+ * depth : the initial depth
+ * layout : layout for data
+ * parentsCls : class name for parents
+ * childrenCls : children class name
+ * node : the current node
+ * root : the root of tree
  * autoresize : indicate if resize is automatically done
  */
 function ResponsiveSelector(options) {
     options = {
         g: options.g,
-        titlePosition: options.titlePosition || 0,
         depth: options.depth || 1,
         layout : options.layout,
         parentsCls: options.parentsCls,
@@ -34,7 +37,7 @@ function ResponsiveSelector(options) {
         // Create getters and setters for options
         $$ResponsiveUtil.generateAccessors(my, options);
 
-        // Create d3js tooltip properties
+        // Create d3js selector properties
         my.initProperties();
 
         // Add events to current object
@@ -42,7 +45,7 @@ function ResponsiveSelector(options) {
 
         // Add resize event
         if (my.autoresize()) {
-            addResizeEvent(my.resize);
+        	$$ResponsiveUtil.addResizeEvent(my.redraw);
         }
 
         return my;
@@ -113,17 +116,19 @@ function ResponsiveSelector(options) {
     my.initProperties = function () {
         var container = my.initContainer();
         var parents = my.initData();
+        var gap = my.initRatio(container);
 
         var properties = {
             parents: parents,
-            container: container
+            container: container,
+            gap: gap
         };
         // Generate getters and setters for properties
         $$ResponsiveUtil.generateAccessors(my, properties);
     };
     
     /**
-     * Retrieve the g element
+     * Retrieve the container element
      * @returns {object} container
      */
     my.initContainer = function () {
@@ -132,12 +137,27 @@ function ResponsiveSelector(options) {
             my.g().node().id = my.id;
         }
         var el = document.getElementById(my.g().node().id);
-        return el;
+        return el.parentNode;
     };
     
     /**
-     * Init parents of data and put
-     * element allParents on children 
+     * Init gap between the container parent
+     * and the container selector
+     * @return object gap
+     */
+    my.initRatio = function (container) {
+        var height = d3.select(container).attr("height");
+        var width = d3.select(container).attr("width");
+        var gap = {
+            height: (height ? height : container.clientHeight) - my.g().attr("height"),
+            width: (width ? width : container.clientWidth) - my.g().attr("width")
+        };
+        return gap;
+    };
+    
+    /**
+     * Init data and put element
+     * allParents on children 
      * if it doesn't exist
      * @returns {object} parents
      */
@@ -167,8 +187,10 @@ function ResponsiveSelector(options) {
      * Method to init first parents outline
      */
     my.drawFirstParents = function () {
+    	// Class of parents
         var classes = my.parentsCls().split(' ').join('.');
-        // Parents
+        
+        // Parents container
         my.g().selectAll("." + classes)
                 .data(my.parents())
                 .enter().append("g")
@@ -177,6 +199,7 @@ function ResponsiveSelector(options) {
                     return "translate(" + d.x + "," + d.y + ")";
                 });
 
+        // Parents rectangles
         my.g().selectAll("." + classes)
                 .append("rect")
                 .attr("id", function (d) {
@@ -201,6 +224,7 @@ function ResponsiveSelector(options) {
                     }
                 });
 
+        // Parents texts
         my.g().selectAll("." + classes)
                 .append("text")
                 .attr("class", "textFirstParent")
@@ -214,10 +238,6 @@ function ResponsiveSelector(options) {
                 .attr("y", function (d) {
                     return d.dy - 5;
                 })
-                .style("opacity", function (d) {
-                    w = this.getComputedTextLength();
-                    return (d.x + d.dx) - d.x > w ? 1 : 0;
-                })
                 .style("display", function (d) {
                     if (d.depth === my.depth()) {
                         return "";
@@ -225,81 +245,19 @@ function ResponsiveSelector(options) {
                     else {
                         return "none";
                     }
+                })
+                .style("opacity", function (d) {
+                    w = this.getComputedTextLength();
+                    return (d.x + d.dx) - d.x > w ? 1 : 0;
                 });
     };
 
     /**
-     * Method to update first parents outline
-     * and names
-     * @param depth
-     * @param node
-     */
-    my.updateFirstParents = function (x, y) {    	
-    	 var classes = my.parentsCls().split(' ').join('.');
-         // Parents
-         my.g().selectAll("." + classes)
-                 .attr("transform", function (d) {
-                     return "translate(" + d.x + "," + d.y + ")";
-                 });
-
-         my.g().selectAll("." + classes + " rect")
-		         .attr("width", function (d) {
-		        	 return d.dx - 1;
-		         })
-		         .attr("height", function (d) {
-		        	 return d.dy - 1;
-		         })
-                 .style("display", function (d) {
-                     if (my.node()) {
-                         if (d.allParents) {
-                             if (d.allParents.indexOf(my.node()) !== -1
-                                     && d.children && d.depth === my.depth()) {
-                                 return "";
-                             }
-                         }
-                     }
-                     else {
-                         if (d.depth === my.depth()) {
-                             return "";
-                         }
-                     }
-                     return "none";
-                 });
-
-         my.g().selectAll("." + classes + " text")
-         		.attr("x", function (d) {
-                    return d.dx - (d.name.length * 5);
-                })
-                .attr("y", function (d) {
-                    return d.dy - 5;
-                })
-                 .style("opacity", function (d) {
-                     w = this.getComputedTextLength();
-                     return (d.x + d.dx) - d.x > w ? 1 : 0;
-                 })
-                 .style("display", function (d) {
-                     if (my.node()) {
-                         if (d.allParents) {
-                             if (d.allParents.indexOf(my.node()) !== -1
-                                     && d.children && d.depth === my.depth()) {
-                                 return "";
-                             }
-                         }
-                     }
-                     else {
-                         if (d.depth === my.depth()) {
-                             return "";
-                         }
-                     }
-                     return "none";
-                 });
-    };
-
-    /**
-     * Method to draw title of first parents
+     * Method to draw title of first parent
      */
     my.drawTitleFirstParents = function () {
-        var titleParent = d3.select(my.container())
+    	var cSize = my.getContainerSize();
+        var titleParent = my.g()
                 .append("g")
                 .attr("class", "title");
 
@@ -316,10 +274,10 @@ function ResponsiveSelector(options) {
                     return d.name;
                 })
                 .attr("x", function () {
-                    return my.container().getBoundingClientRect().width / 2;
+                    return (cSize.width + my.gap().width) / 2;
                 })
                 .attr("y", function () {
-                    return - my.titlePosition();
+                    return - (my.gap().height / 4);
                 })
                 .style("display", function (d) {
                     if (d.depth === 0) {
@@ -330,13 +288,88 @@ function ResponsiveSelector(options) {
                     }
                 });
     };
+    
+    /**
+     * Method to update first parents outline
+     */
+    my.updateFirstParents = function () {    	
+    	// Class of parents
+    	var classes = my.parentsCls().split(' ').join('.');
+    	
+    	// Parents container
+    	my.g().selectAll("." + classes)
+    	.attr("transform", function (d) {
+    		return "translate(" + d.x + "," + d.y + ")";
+    	});
+
+    	// Parents rectangles
+    	my.g().selectAll("." + classes + " rect")
+    	.attr("width", function (d) {
+    		return d.dx - 1;
+    	})
+    	.attr("height", function (d) {
+    		return d.dy - 1;
+    	})
+    	.style("display", function (d) {
+    		if (my.node()) {
+    			if (d.allParents) {
+    				if (d.allParents.indexOf(my.node()) !== -1
+    						&& d.children && d.depth === my.depth()) {
+    					return "";
+    				}
+    			}
+    		}
+    		else {
+    			if (d.depth === my.depth()) {
+    				return "";
+    			}
+    		}
+    		return "none";
+    	});
+
+    	// Parents texts
+    	my.g().selectAll("." + classes + " text")
+    	.attr("x", function (d) {
+    		return d.dx - (d.name.length * 5);
+    	})
+    	.attr("y", function (d) {
+    		return d.dy - 5;
+    	})
+    	.style("display", function (d) {
+    		if (my.node()) {
+    			if (d.allParents) {
+    				if (d.allParents.indexOf(my.node()) !== -1
+    						&& d.children && d.depth === my.depth()) {
+    					return "";
+    				}
+    			}
+    		}
+    		else {
+    			if (d.depth === my.depth()) {
+    				return "";
+    			}
+    		}
+    		return "none";
+    	})
+    	.style("opacity", function (d) {
+    		w = this.getComputedTextLength();
+    		return (d.x + d.dx) - d.x > w ? 1 : 0;
+    	});
+    };
 
     /**
      * Method to update first parents title
      * @param node
      */
     my.updateTitleFirstParents = function () {
+    	var cSize = my.getContainerSize();
         d3.selectAll(".titleParent text")
+        		.attr("x", function () {
+                    return (cSize.width + my.gap().width) / 2;
+                })
+                .attr("y", function () {
+                    return - (my.gap().height / 4);
+                })
                 .style("display", function (d) {
                     if (d === my.node()) {
                         return "";
@@ -348,7 +381,6 @@ function ResponsiveSelector(options) {
     };
 
     my.update = function (node) {
-    	var cSize = my.getContainerSize();
     	if(node){
     		my.node(node);
     	}
@@ -364,15 +396,15 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Get the axis container size
+     * Get the selector container size
      * @returns json object
      */
     my.getContainerSize = function () {
         var height = d3.select(my.container()).attr("height");
         var width = d3.select(my.container()).attr("width");
         return {
-            height: (height ? height : my.container().clientHeight),
-            width: (width ? width : my.container().clientWidth)
+            height: (height ? height : my.container().clientHeight) - my.gap().height,
+            width: (width ? width : my.container().clientWidth) - my.gap().width
         };
     };
     
@@ -380,7 +412,6 @@ function ResponsiveSelector(options) {
      * Method to draw the outline
      */
     my.drawOutline = function(node, nameText, nameClassText){
-    	// Encadrement representant le parent
 		var pathinfo = [];
 		var nodeId;
 		
@@ -414,7 +445,7 @@ function ResponsiveSelector(options) {
 		.attr("height", function(d) { return d.dy - 1; })
 		.style("display", "");
 		
-		// Affichage du titre
+		// Draw the title
 		var translationX;
 		var translationY;
 		translationX = (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
@@ -432,7 +463,7 @@ function ResponsiveSelector(options) {
 	};
 
     /**
-     * Method to draw the tooltip
+     * Method to draw the selector
      */
     my.draw = function () {
 		my.trigger("drawTitleFirstParents");
@@ -440,15 +471,8 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Method to draw the tooltip
+     * Method to draw the outline of node
      */
-    my.redraw = function (node) {
-    	my.trigger("hideOnNode");
-    	my.update(node);
-    	my.trigger("updateTitleFirstParents");
-		my.trigger("updateFirstParents");
-    };
-    
     my.drawOnNode = function (node) {
     	my.trigger("hideOnNode");
     	var classes = my.childrenCls().split(' ').join('.');
@@ -475,6 +499,17 @@ function ResponsiveSelector(options) {
     		}
 		}
     };
+    
+    /**
+     * Method to redraw the selector
+     * on a changed node
+     */
+    my.redraw = function (node) {
+    	my.trigger("hide");
+    	my.update(node);
+    	my.trigger("updateTitleFirstParents");
+		my.trigger("updateFirstParents");
+    };
 
     /**
      * Method to hide
@@ -483,6 +518,9 @@ function ResponsiveSelector(options) {
     	//d3.selectAll(".textParent").remove();
     	
     	my.g().selectAll(".textFirstParent")
+		.style("display", "none");
+    	
+    	my.g().selectAll(".textOnNode")
 		.style("display", "none");
     };
     
@@ -497,7 +535,7 @@ function ResponsiveSelector(options) {
      * Method called on window resize event
      */
     my.resize = function () {
-        //my.draw();
+        my.redraw();
     };
 
     return my;
