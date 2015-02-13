@@ -164,6 +164,7 @@ function ResponsiveTooltip(options) {
         var isMobile = $$ResponsiveUtil.mobile();
         var widthScreen = $$ResponsiveUtil.getWidth();
         var width;
+        var regex = /([0-9]*)/;
 
         if (((widthScreen > $$ResponsiveConstants._XSMIN_() && widthScreen < $$ResponsiveConstants._XSMAX_())
                 || (widthScreen > $$ResponsiveConstants._SMMIN_() && widthScreen < $$ResponsiveConstants._SMMAX_()))
@@ -173,6 +174,7 @@ function ResponsiveTooltip(options) {
         else {
             width = $$ResponsiveConstants._SMWIDTH_();
         }
+        width = width.match(regex)[0];
         return width;
     };
 
@@ -202,7 +204,6 @@ function ResponsiveTooltip(options) {
      * @returns json object
      */
     my.getTooltipPosition = function (width, height, position) {
-        var e = window.event;
         var xMin;
         var xMax;
         var yMin;
@@ -221,7 +222,6 @@ function ResponsiveTooltip(options) {
         	var cursor = $$ResponsiveUtil.getCursorPosition();
         	var posX = cursor.x;
             var posY = cursor.y;
-            
             xMin = posX - my.width() - 50;
             xMax = posX + 50;
             yMin = posY;
