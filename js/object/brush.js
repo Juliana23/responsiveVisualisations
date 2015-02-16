@@ -206,7 +206,7 @@ function ResponsiveBrush(options) {
     my.brushed = function() {
         my.cX().data().domain(my.brush().empty() ? my.x().data().domain() : my.brush().extent());
         my.mainGraph().select(my.areaSelector()).attr("d", my.area());
-        my.mainGraph().select(my.cX().cls()).call(my.cX().axis());
+        my.mainGraph().select("." + my.cX().cls().split(' ').join('.')).call(my.cX().axis());
     };
     
     return my;
