@@ -1,0 +1,70 @@
+body {
+	font: 10px sans-serif;
+}
+
+g {
+    overflow: visible;
+}
+
+.area {
+    fill: none;
+    stroke: steelblue;
+    clip-path: url(#clip);
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+#graph {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.brush .extent {
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}
+
+
+.axis text {
+	fill: #555;
+}
+
+.line {
+	fill: none;
+	stroke: steelblue;
+	stroke-width: 1.5px;
+}
+
+.arc path {
+  stroke: #fff;
+}
+
+div {
+	position: absolute;
+	background-color: #000;
+	color: #FFF;
+	font: bold 11px verdana;
+	padding-left: 10px;
+	padding-top: 7px;
+	text-shadow: 1px 1px 0 #222;
+}
+
+div a {
+	color: #318DAD;
+	font: bold 11px verdana;
+	text-decoration: none;
+	text-shadow: none;
+}
+
+.verticalLine {
+	fill: none;
+	shape-rendering: crispEdges;
+	stroke: lightgrey;
+	stroke-width: 1px;
+}

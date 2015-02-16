@@ -1,0 +1,286 @@
+/* ----------- Namespace classes ----------- */
+@namespaceLabel: .responsive text;
+@namespaceTooltip: .fixed_tooltip ol;
+
+/* ----------- Sizes of Media ----------- */
+@xs_min: 321px;
+@sm_min: 768px;
+@md_min: 1024px;
+@lg_min: 1824px;
+
+@xs_max: 320px;
+@xs_max_o: 768px;
+@sm_max: 1024px;
+
+/* ----------- Different Media ----------- */
+@phone:          			~"only screen and (max-width: @{xs_max})";
+@phone_landscape:			~"only screen and (min-width: @{xs_min}) and (max-width: @{xs_max_o})";
+@tablet:         			~"only screen and (min-width: @{sm_min}) and (max-width: @{sm_max})";
+@desktop:        			~"only screen and (min-width: @{md_min})";
+@large:          			~"only screen and (min-width: @{lg_min})";
+@phone_portrait_strict:		~"only screen and (min-device-width: @{xs_min}) and (max-device-width: @{xs_max_o}) and (orientation: portrait)";
+@phone_landscape_strict:	~"only screen and (min-device-width: @{xs_min}) and (max-device-width: @{xs_max_o}) and (orientation: landscape)";
+@tablet_landscape_strict:	~"only screen and (min-device-width: @{sm_min}) and (max-device-width: @{sm_max}) and (orientation: landscape)";
+@tablet_portrait_strict:	~"only screen and (min-device-width: @{sm_min}) and (max-device-width: @{sm_max}) and (orientation: portrait)";
+
+/* ----------- Sizes of font-size label Media ----------- */
+@phone_label_font_size: 20px;
+@phone_landscape_label_font_size: 20px;
+@tablet_label_font_size: 16px;
+@desktop_label_font_size: 16px;
+@large_label_font_size: 16px;	
+@phone_portrait_strict_label_font_size: 18px;
+@phone_landscape_strict_label_font_size: 18px;
+@tablet_landscape_strict_label_font_size: 16px;
+@tablet_portrait_strict_label_font_size: 16px;
+
+/* ----------- Sizes of width tooltip Media ----------- */
+@phone_tooltip_width: 100px;
+@phone_landscape_tooltip_width: 100px;
+@tablet_tooltip_width: 100px;
+@desktop_tooltip_width: 100px;
+@large_tooltip_width: 100px;	
+@phone_portrait_strict_tooltip_width: 180px;
+@phone_landscape_strict_tooltip_width: 180px;
+@tablet_landscape_strict_tooltip_width: 180px;
+@tablet_portrait_strict_tooltip_width: 180px;
+
+/* ----------- Sizes of max-width tooltip Media ----------- */
+@phone_tooltip_max_width: 100px;
+@phone_landscape_tooltip_max_width: 100px;
+@tablet_tooltip_max_width: 100px;
+@desktop_tooltip_max_width: 100px;
+@large_tooltip_max_width: 100px;	
+@phone_portrait_strict_tooltip_max_width: 180px;
+@phone_landscape_strict_tooltip_max_width: 180px;
+@tablet_landscape_strict_tooltip_max_width: 180px;
+@tablet_portrait_strict_tooltip_max_width: 180px;
+
+/* ----------- Sizes of font-size tooltip Media ----------- */
+@phone_tooltip_font_size: 14px;
+@phone_landscape_tooltip_font_size: 14px;
+@tablet_tooltip_font_size: 14px;
+@desktop_tooltip_font_size: 12px;
+@large_tooltip_font_size: 12px;	
+@phone_portrait_strict_tooltip_font_size: 20px;
+@phone_landscape_strict_tooltip_font_size: 14px;
+@tablet_landscape_strict_tooltip_font_size: 14px;
+@tablet_portrait_strict_tooltip_font_size: 16px;
+
+/* ----------- Sizes of line-height tooltip Media ----------- */
+@phone_tooltip_line_height: 16px;
+@phone_landscape_tooltip_line_height: 16px;
+@tablet_tooltip_line_height: 16px;
+@desktop_tooltip_line_height: 16px;
+@large_tooltip_line_height: 16px;	
+@phone_portrait_strict_tooltip_line_height: 22px;
+@phone_landscape_strict_tooltip_line_height: 16px;
+@tablet_landscape_strict_tooltip_line_height: 16px;
+@tablet_portrait_strict_tooltip_line_height: 16px;
+
+
+/* ----------- RulesSet ----------- */
+.label-ruleset(@font_size) { 
+	font-size: @font_size;
+};
+
+.tooltip-ruleset(@width, @max-width, @font-size, @line-height) { 
+	width: @width;
+	max-width: @max-width;
+	font-size: @font-size;
+	line-height: @line-height; 
+};
+
+/* ----------- Tooltip ----------- */
+
+/* Smartphones (portrait and landscape) ----------- */
+@media @phone {
+	@{namespaceLabel}{ 
+		.label-ruleset(@phone_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @phone_tooltip_width, 
+                    @phone_tooltip_max_width, 
+                    @phone_tooltip_font_size, 
+                    @phone_tooltip_line_height
+                );
+	}
+};
+/* Smartphones (landscape) ----------- */
+@media @phone_landscape {
+	@{namespaceLabel}{ 
+		.label-ruleset(@phone_landscape_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @phone_landscape_tooltip_width, 
+                    @phone_landscape_tooltip_max_width, 
+                    @phone_landscape_tooltip_font_size, 
+                    @phone_landscape_tooltip_line_height
+                );
+	}
+};
+/* iPads (portrait and landscape) ----------- */
+@media @tablet {
+	@{namespaceLabel}{ 
+		.label-ruleset(@tablet_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @tablet_tooltip_width, 
+                    @tablet_tooltip_max_width, 
+                    @tablet_tooltip_font_size, 
+                    @tablet_tooltip_line_height
+                );
+	}
+};
+/* Desktops and laptops ----------- */
+@media @desktop {
+	@{namespaceLabel}{ 
+		.label-ruleset(@desktop_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @desktop_tooltip_width, 
+                    @desktop_tooltip_max_width, 
+                    @desktop_tooltip_font_size, 
+                    @desktop_tooltip_line_height
+                );
+	}
+};
+/* Large screens ----------- */
+@media @large {
+	@{namespaceLabel}{ 
+		.label-ruleset(@large_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @large_tooltip_width, 
+                    @large_tooltip_max_width, 
+                    @large_tooltip_font_size, 
+                    @large_tooltip_line_height
+                );
+	}
+};
+/* Smartphones (portrait) ----------- */
+@media @phone_portrait_strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(@phone_portrait_strict_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @phone_portrait_strict_tooltip_width, 
+                    @phone_portrait_strict_tooltip_max_width, 
+                    @phone_portrait_strict_tooltip_font_size, 
+                    @phone_portrait_strict_tooltip_line_height
+                );
+	}
+};
+/* Smartphones (landscape) ----------- */
+@media @phone_landscape_strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(@phone_landscape_strict_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @phone_landscape_strict_tooltip_width, 
+                    @phone_landscape_strict_tooltip_max_width, 
+                    @phone_landscape_strict_tooltip_font_size, 
+                    @phone_landscape_strict_tooltip_line_height
+                );
+	}
+};
+/* iPads (landscape) ----------- */
+@media @tablet_landscape_strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(@tablet_landscape_strict_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @tablet_landscape_strict_tooltip_width, 
+                    @tablet_landscape_strict_tooltip_max_width, 
+                    @tablet_landscape_strict_tooltip_font_size, 
+                    @tablet_landscape_strict_tooltip_line_height
+                );
+	}
+};
+/* iPads (portrait) ----------- */
+@media @tablet_portrait_strict {
+	@{namespaceLabel}{ 
+		.label-ruleset(@tablet_portrait_strict_label_font_size);
+	}
+	@{namespaceTooltip}{
+		.tooltip-ruleset(
+                    @tablet_portrait_strict_tooltip_width, 
+                    @tablet_portrait_strict_tooltip_max_width, 
+                    @tablet_portrait_strict_tooltip_font_size, 
+                    @tablet_portrait_strict_tooltip_line_height
+                );
+	}
+};
+
+/* ----------- Get Variables For JavaScript ----------- */
+#less {
+	.xs_min { width: @xs_min; }
+	.sm_min { width: @sm_min; }
+	.md_min { width: @md_min; }
+	.lg_min { width: @lg_min; }
+	.xs_max { width: @xs_max; }
+	.xs_max_o { width: @xs_max_o; }
+	.sm_max { width: @sm_max; }
+    /* ----------- Sizes of font-size label Media ----------- */
+    .phone_label_font_size { font-size: @phone_label_font_size };
+    .phone_landscape_label_font_size { font-size: @phone_landscape_label_font_size };
+    .tablet_label_font_size { font-size: @tablet_label_font_size };
+    .desktop_label_font_size { font-size: @desktop_label_font_size };
+    .large_label_font_size { font-size: @large_label_font_size };	
+    .phone_portrait_strict_label_font_size { font-size: @phone_portrait_strict_label_font_size };
+    .phone_landscape_strict_label_font_size { font-size: @phone_landscape_strict_label_font_size };
+    .tablet_landscape_strict_label_font_size { font-size: @tablet_landscape_strict_label_font_size };
+    .tablet_portrait_strict_label_font_size { font-size: @tablet_portrait_strict_label_font_size };
+
+    /* ----------- Sizes of width tooltip Media ----------- */
+    .phone_tooltip_width { width: @phone_tooltip_width };
+    .phone_landscape_tooltip_width { width: @phone_landscape_tooltip_width };
+    .tablet_tooltip_width { width: @tablet_tooltip_width };
+    .desktop_tooltip_width { width: @desktop_tooltip_width };
+    .large_tooltip_width { width: @large_tooltip_width };	
+    .phone_portrait_strict_tooltip_width { width: @phone_portrait_strict_tooltip_width };
+    .phone_landscape_strict_tooltip_width { width: @phone_landscape_strict_tooltip_width };
+    .tablet_landscape_strict_tooltip_width { width: @tablet_landscape_strict_tooltip_width };
+    .tablet_portrait_strict_tooltip_width { width: @tablet_portrait_strict_tooltip_width };
+
+    /* ----------- Sizes of max-width tooltip Media ----------- */
+    .phone_tooltip_max_width { width: @phone_tooltip_max_width };
+    .phone_landscape_tooltip_max_width { width: @phone_landscape_tooltip_max_width };
+    .tablet_tooltip_max_width { width: @tablet_tooltip_max_width };
+    .desktop_tooltip_max_width { width: @desktop_tooltip_max_width };
+    .large_tooltip_max_width { width: @large_tooltip_max_width };	
+    .phone_portrait_strict_tooltip_max_width { width: @phone_portrait_strict_tooltip_max_width };
+    .phone_landscape_strict_tooltip_max_width { width: @phone_landscape_strict_tooltip_max_width };
+    .tablet_landscape_strict_tooltip_max_width { width: @tablet_landscape_strict_tooltip_max_width };
+    .tablet_portrait_strict_tooltip_max_width { width: @tablet_portrait_strict_tooltip_max_width };
+
+    /* ----------- Sizes of font-size tooltip Media ----------- */
+    .phone_tooltip_font_size { font-size: @phone_tooltip_font_size };
+    .phone_landscape_tooltip_font_size { font-size: @phone_landscape_tooltip_font_size };
+    .tablet_tooltip_font_size { font-size: @tablet_tooltip_font_size };
+    .desktop_tooltip_font_size { font-size: @desktop_tooltip_font_size };
+    .large_tooltip_font_size { font-size: @large_tooltip_font_size };	
+    .phone_portrait_strict_tooltip_font_size { font-size: @phone_portrait_strict_tooltip_font_size };
+    .phone_landscape_strict_tooltip_font_size { font-size: @phone_landscape_strict_tooltip_font_size };
+    .tablet_landscape_strict_tooltip_font_size { font-size: @tablet_landscape_strict_tooltip_font_size };
+    .tablet_portrait_strict_tooltip_font_size { font-size: @tablet_portrait_strict_tooltip_font_size };
+
+    /* ----------- Sizes of line-height tooltip Media ----------- */
+    .phone_tooltip_line_height { width: @phone_tooltip_line_height };
+    .phone_landscape_tooltip_line_height { width: @phone_landscape_tooltip_line_height };
+    .tablet_tooltip_line_height { width: @tablet_tooltip_line_height };
+    .desktop_tooltip_line_height { width: @desktop_tooltip_line_height };
+    .large_tooltip_line_height { width: @large_tooltip_line_height };	
+    .phone_portrait_strict_tooltip_line_height { width: @phone_portrait_strict_tooltip_line_height };
+    .phone_landscape_strict_tooltip_line_height { width: @phone_landscape_strict_tooltip_line_height };
+    .tablet_landscape_strict_tooltip_line_height { width: @tablet_landscape_strict_tooltip_line_height };
+    .tablet_portrait_strict_tooltip_line_height { width: @tablet_portrait_strict_tooltip_line_height };
+}

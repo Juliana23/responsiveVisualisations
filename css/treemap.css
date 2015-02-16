@@ -1,0 +1,40 @@
+.treemap {
+    width: 100%;
+	height: 100%;
+	position: absolute;
+}
+.treemap text{
+	pointer-events: none;
+}
+
+.fixed_tooltip {
+    position: absolute;
+    width: auto;
+    height: auto;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+}
+
+.fixed_tooltip ol {
+	margin: 0;
+	font-family: sans-serif;
+	display: block;
+	-webkit-padding-start: 0px;
+	padding-left: inherit;
+}
+.fixed_tooltip ol li {
+	padding-left: 10px;
+	padding-right: 10px;
+	list-style-position: inside;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
