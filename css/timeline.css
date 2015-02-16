@@ -1,3 +1,6 @@
+html {
+	overflow: hidden;
+}
 
 .timeline {
 	width: 100%;

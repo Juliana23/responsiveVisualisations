@@ -726,7 +726,7 @@ function TreeMap(options) {
             child.ord = i;
             name = child.children ? child.name : child.parent.name;
             bgcolor = color(name);
-            textcolor = needLightColor(bgcolor) ? "#FFF" : "#000";
+            textcolor = $$ResponsiveTreeUtil.needLightColor(bgcolor) ? "#FFF" : "#000";
             html += "<li style='background-color : " + bgcolor + "; color:" + textcolor + "; opacity : " + opacity + "'>";
             html += child.name;
             html += "</li>";

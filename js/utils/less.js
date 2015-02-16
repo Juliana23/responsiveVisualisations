@@ -81,17 +81,18 @@ function ResponsiveLess() {
 			,oStyles = document.styleSheets;
 		for (var i=0,l=oStyles.length;i<l;i++) {
 			var oRules = oStyles[i].cssRules;
-			console.log(oRules);
-			for (var j=0,k=oRules.length;j<k;j++) {
-				var sRule = oRules[j].cssText
-					,aMatchId = sRule.match(rgId);
-				if (aMatchId&&aMatchId[0]==sId) {
-					var aKey = sRule.match(rgKey)
-						,aVal = sRule.match(rgValue);
-					if (aKey&&aVal) {
-						var sKey = aKey[1]
-							,oVal = aVal[1];
-						oLess[sKey] = oVal;
+			if(oRules !== null){
+				for (var j=0,k=oRules.length;j<k;j++) {
+					var sRule = oRules[j].cssText
+						,aMatchId = sRule.match(rgId);
+					if (aMatchId&&aMatchId[0]==sId) {
+						var aKey = sRule.match(rgKey)
+							,aVal = sRule.match(rgValue);
+						if (aKey&&aVal) {
+							var sKey = aKey[1]
+								,oVal = aVal[1];
+							oLess[sKey] = oVal;
+						}
 					}
 				}
 			}
