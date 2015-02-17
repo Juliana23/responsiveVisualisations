@@ -113,21 +113,20 @@ function ResponsiveUtil() {
      * This method return the position of element
      * @return object
      */
-    my.getElementPosition = function (element) {
+    my.getElementPosition = function (id) {
+    	var elem = document.getElementById(id);
     	var xPosition = 0;
     	var yPosition = 0;
-    	var width = 0;
-    	var height = 0;
-    	while(element){
-			xPosition += element.getBoundingClientRect().left;
-			yPosition += element.getBoundingClientRect().top;
-			if(element.offsetParent === null){
-				xPosition = element.getBoundingClientRect().left;
-				yPosition = element.getBoundingClientRect().top; 
-			}
-			element = element.offsetParent;
+    	var top=0;
+    	var left=0;
+
+    	while(elem) {
+    		top += parseInt(elem.offsetTop);
+    		left += parseInt(elem.offsetLeft);
+    		elem = elem.offsetParent;
     	}
-    	return { x: xPosition, y: yPosition };
+
+    	return {x: top, y: left};
     };
     
     /**

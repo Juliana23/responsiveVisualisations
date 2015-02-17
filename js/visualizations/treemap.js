@@ -91,26 +91,6 @@ function TreeMap(options) {
         	]
         })());
 
-		// Resize de la visualisation
-		//my.resize(my.height(), my.width());
-
-		// Redessine le graphe de maniere responsive
-		//my.redraw();
-		
-		// On met l'evenement si on clique
-		// en dehors de la visualisation
-		// pour faire un zoom out sur le root
-//		d3.select(window)
-//		.on("click", function() {
-//			var xClicked = d3.event.x;
-//			var yClicked = d3.event.y;
-//			if(xClicked < my.margin() 
-//					|| yClicked < my.margin()
-//					|| xClicked > window.innerWidth - my.margin()
-//					|| yClicked > window.innerHeight - my.margin()){
-//				my.zoom(my.root()); 
-//			}
-//		});
 		new ResponsiveEvent({
 			object : d3.select(window).each(function(d,i){
 				Hammer(this, {
@@ -125,71 +105,6 @@ function TreeMap(options) {
         		{"name": "tap", "func": my.touchEndEvent, "extend": false}
         	]
         })();
-		
-//		new ResponsiveEvent({
-//			object : d3.select(window).each(function(d,i){
-//				Hammer(this, {
-//					prevent_default: true,
-//					no_mouseevents: true
-//				})
-//			}),
-//        	events : [
-//        		{"name": "doubletap", "func": my.touchZoom, "extend": false},
-//        		{"name": "tap", "func": my.touchEndEvent, "extend": false}	
-//        	]
-//        })();
-		
-//		if(my.isMobile()){
-//			d3.select(window).each(function(d,i){
-//				// install handlers with hammer
-//			    Hammer(this, {
-//			      prevent_default: true,
-//			      no_mouseevents: true
-//			    }).on("doubletap", function(event){
-//			    	var xClicked = event.gesture.touches[0].pageX;
-//					var yClicked = event.gesture.touches[0].pageY;
-//					if(xClicked < my.margin() 
-//							|| yClicked < my.margin()
-//							|| xClicked > window.innerWidth - my.margin()
-//							|| yClicked > window.innerHeight - my.margin()){
-//						my.zoom(my.root()); 
-//					}
-//			    })
-//			    .on("tap", function(event){
-//			    	var xClicked = event.gesture.touches[0].pageX;
-//					var yClicked = event.gesture.touches[0].pageY;
-//					if(xClicked < my.margin() 
-//							|| yClicked < my.margin()
-//							|| xClicked > window.innerWidth - my.margin()
-//							|| yClicked > window.innerHeight - my.margin()){
-//						my.endUpdateMove();
-//					}
-//			    });
-//			});
-//		}
-//		else {
-//			d3.select(window)
-//			.on("dblclick", function(d) {
-//				var xClicked = d3.event.x;
-//				var yClicked = d3.event.y;
-//				if(xClicked < my.margin() 
-//						|| yClicked < my.margin()
-//						|| xClicked > window.innerWidth - my.margin()
-//						|| yClicked > window.innerHeight - my.margin()){
-//					my.zoom(my.root()); 
-//				}
-//			})
-//			.on("click", function(d) {
-//				var xClicked = d3.event.x;
-//				var yClicked = d3.event.y;
-//				if(xClicked < my.margin() 
-//						|| yClicked < my.margin()
-//						|| xClicked > window.innerWidth - my.margin()
-//						|| yClicked > window.innerHeight - my.margin()){
-//					my.endUpdateMove();
-//				}
-//			});
-//		}
 		
 		return my;
 	};
@@ -301,60 +216,6 @@ function TreeMap(options) {
 		.style("fill", function(d) { return color(d.parent.name); })
 		.style("stroke", function(d) { return color(d.parent.name); })
 		.style("stroke-opacity", "0.3");
-		
-//		my.zoomIn(new ResponsiveEvent({
-//			object : graph.selectAll(".cell.child").each(function(d,i){
-//				Hammer(this, {
-//					prevent_default: true,
-//					no_mouseevents: true
-//				})
-//			}),
-//        	events : [
-//        		{"name": "doubletap", "func": my.eventZoomIn, "extend": false}	
-//        	]
-//        })());
-		
-//		if(my.isMobile()){
-//			graph.selectAll(".cell.child").each(function(d,i){
-//				// install handlers with hammer
-//			    Hammer(this, {
-//			      prevent_default: true,
-//			      no_mouseevents: true
-//			    }).on("doubletap", function(event){
-//			    	var depth;
-//					var nodeInt;
-//					// On ne descend pas en profondeur si
-//					// le noeud a des enfants
-//					if(d.parent.depth != 1){
-//						depth = d.parent.parent;
-//						nodeInt = d.parent;
-//					}
-//					else{
-//						depth = d.parent;
-//						nodeInt = d;
-//					}
-//					return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
-//			    });
-//			});
-//		}
-//		else {
-//			graph.selectAll(".cell.child")
-//			.on("dblclick", function(d) {
-//				var depth;
-//				var nodeInt;
-//				// On ne descend pas en profondeur si
-//				// le noeud a des enfants
-//				if(d.parent.depth != 1){
-//					depth = d.parent.parent;
-//					nodeInt = d.parent;
-//				}
-//				else{
-//					depth = d.parent;
-//					nodeInt = d;
-//				}
-//				return my.zoom(node == d.parent ? root : depth, nodeInt, d); 
-//			});	
-//		}
 		
 		my.graph(graph);
 		
@@ -678,9 +539,7 @@ function TreeMap(options) {
 			}
 		}
 		
-		my.selector().trigger("redraw", my.node());
-		
-		//my.updateTitleFirstParent(my.node());
+		my.selector().trigger("redraw", my.node());		
 		my.updateChildren();
 	};
 	
@@ -762,35 +621,6 @@ function TreeMap(options) {
         
         my.tooltip().trigger("redraw", html);
 	}
-	
-	/*
-     * Cette methode applique les etiquettes
-     * lorsqu'on se deplace sur la visualisation
-     */
-    my.updateMove = function (container, event, eventEnd, onDesktop) {
-    	container
-    	.on(event, function (d) {
-    		// Cas SmartPhone, Tablette, ...
-    		if(my.isMobile()){
-    			// Si le tooltip est affiche
-    			if(my.tooltip().getIsDrawn()){
-    				var opacity = my.graph().selectAll("g.cell.child") .filter(function(n) {
-        				return n.allParents.indexOf(d.parent) !== -1;
-        			}).style("opacity");
-    				// Si le noeud sur lequel on a clique n'appartient
-    				// pas au bloc de noeud qui etait selectionne
-        			if(opacity != 1){
-        				my.endUpdateMove();
-        			}
-    			}
-    		}
-    		my.startUpdateMove(d);
-        })
-        .on(eventEnd, function () {
-        	// Evenement utilise uniquement sur ordinateurs
-        	my.endUpdateMove();
-        })
-    };
     
     my.onMoveMouse = function (node) {
     	my.startUpdateMove(node);

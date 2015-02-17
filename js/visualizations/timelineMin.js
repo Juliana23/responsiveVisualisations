@@ -59,8 +59,6 @@ function TimeLine(options) {
         }
 
         // On met les evenements sur le graphe a jour
-//        my.updateMove(my.rect(), "mousemove", "mouseout", true);
-//        my.updateMove(my.rect(), "touchmove", "touchend", false);
         my.event(new ResponsiveEvent({
         	object : my.rect(),
         	events : [
@@ -136,10 +134,6 @@ function TimeLine(options) {
                     return d.close;
                 })],
             autoresize: false
-        })());        // Initialisation du tooltip
-        my.tooltip(new ResponsiveTooltip({
-        	g : graph,
-        	cls: "fixed_tooltip"
         })());
 
         /*
@@ -407,7 +401,7 @@ function TimeLine(options) {
      * dans les cellules pour les associer aux
      * etiquettes
      */
-    my.drawTooltip = function(data, pathinfo){
+    my.drawTooltip = function(data){
         var html = "<ol>";
         var i = 1;
         var name = "";
@@ -463,107 +457,12 @@ function TimeLine(options) {
     			Date: formatter(d.date),
     			Valeur: d.close
     	};
-    	var pathinfo = [
-    	                {
-    	                	x: my.x().data()(d.date) - 50,
-    	                	y: my.y().data()(d.close)
-    	                },
-    	                {
-    	                	x: my.x().data()(d.date) + 50,
-    	                	y: my.y().data()(d.close)
-    	                }
-    	                ];
-    	my.drawTooltip(data, pathinfo);
+    	my.drawTooltip(data);
     };
     
     my.endMove = function(){
-    	if (!$$ResponsiveUtil.mobile()) {
-            var cursor = d3.mouse(this);
-            var cursor_x = parseInt(cursor[0]);
-            var cursor_y = parseInt(cursor[1]);
-            // Si la position de la souris est en dehors de la zone du graphique, 
-            // on masque la ligne et le tooltip
-            if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
-            	my.tooltip().trigger("hide");
-            	d3.select("circle").style("opacity", 0);
-            }
-        }
-        else {
-        	my.tooltip().trigger("hide");
-            d3.select("circle").style("opacity", 0);
-        }
-    };
-
-    /*
-     * Cette methode applique les etiquettes
-     * lorsqu'on se deplace sur la courbe
-     */
-    my.updateMove = function (container, event, eventEnd, onDesktop) {
-    	var width = my.width();
-    	var height = my.height();
-    	var margin = my.margin();
-    	var formatter = d3.time.format("%d/%m/%Y");
-    	var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-    	container.on(event, function () {
-    		// Recuperation de la position X & Y
-    		var cursor;
-    		var cursor_x;
-    		if (onDesktop) {
-    			cursor = d3.mouse(this);
-    			cursor_x = d3.mouse(this)[0];
-    		}
-    		else {
-    			cursor = d3.touches(this)[0];
-    		}
-
-            var cursor_x = parseInt(cursor[0]);
-    		var cursor_y = parseInt(cursor[1]);
-    		
-    		var x0 = my.x().data().invert(cursor_x),
-    		i = bisectDate(my.data(), x0, 1),
-    		d0 = my.data()[i - 1],
-    		d1 = my.data()[i],
-    		d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-
-                my.graph().select("circle.y")
-    		.style("opacity", 1)
-    		.attr("transform",
-    				"translate(" + my.x().data()(d.date) + "," +
-    				my.y().data()(d.close) + ")");
-    		// On affiche l'etiquette associee
-    		var data = {
-    				Date: formatter(d.date),
-    				Valeur: d.close
-    		};
-    		var pathinfo = [
-    		                {
-    		                	x: my.x().data()(d.date) - 50,
-    		                	y: my.y().data()(d.close)
-    		                },
-    		                {
-    		                	x: my.x().data()(d.date) + 50,
-    		                	y: my.y().data()(d.close)
-    		                }
-    		                ];
-    		my.drawTooltip(data, pathinfo);
-        })
-        .on(eventEnd, function () {
-            if (onDesktop) {
-                var cursor = d3.mouse(this);
-                var cursor_x = parseInt(cursor[0]);
-                var cursor_y = parseInt(cursor[1]);
-                // Si la position de la souris est en dehors de la zone du graphique, 
-                // on masque la ligne et le tooltip
-                if (cursor_x < margin || cursor_x > (width + margin) || cursor_y < margin || cursor_y > (height + margin)) {
-                	my.tooltip().trigger("hide");
-                	d3.select("circle").style("opacity", 0);
-                }
-            }
-            else {
-            	my.tooltip().trigger("hide");
-                d3.select("circle").style("opacity", 0);
-            }
-        });
+    	my.tooltip().trigger("hide");
+    	d3.select("circle").style("opacity", 0);
     };
 
     return my;
