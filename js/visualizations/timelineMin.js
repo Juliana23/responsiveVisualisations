@@ -63,7 +63,8 @@ function TimeLine(options) {
         	object : my.rect(),
         	events : [
         		{"name" : "mousemove", "func": my.onMove, "extend": true},
-        		{"name" : "mouseout", "func": my.endMove, "extend": true}	
+        		{"name" : "mouseout", "func": my.endMove, "extend": false},	
+        		{"name" : "touchend", "func": my.endMove, "extend": false}
         	]
         })());
 
