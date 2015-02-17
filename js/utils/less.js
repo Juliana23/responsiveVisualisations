@@ -120,6 +120,41 @@ function ResponsiveLess() {
 	};
 	
 	/**
+	 * Method to attribute value for less vars
+	 */
+//	my.changeTooltipWidth = function(variable, value){
+//		var phone = "phone_" + variable;
+//		var phone_landscape = "phone_landscape_" + variable;
+//		var tablet = "tablet_" + variable;
+//		var desktop = "desktop_" + variable;
+//		var large = "large_" + variable;
+//		var phone_portrait = "phone_portrait_" + variable;
+//		var phone_landscape = "phone_landscape_" + variable;
+//		var tablet_landscape = "tablet_landscape_" + variable;
+//		var tablet_portrait = "tablet_portrait_" + variable;
+//		my.phone_tooltip_width(value);
+//	  	my.phone_landscape_tooltip_width(value);
+//	  	my.tablet_tooltip_width(value);
+//	  	my.desktop_tooltip_width(value);
+//	  	my.large_tooltip_width(value);
+//	  	my.phone_portrait_strict_tooltip_width(value);
+//	  	my.phone_landscape_strict_tooltip_width(value);
+//	  	my.tablet_landscape_strict_tooltip_width(value);
+//	  	my.tablet_portrait_strict_tooltip_width(value);
+//	  	my.phone_tooltip_max_width(value);
+//	  	my.phone_landscape_tooltip_max_width(value);
+//	  	my.tablet_tooltip_max_width(value);
+//	  	my.desktop_tooltip_max_width(value);
+//	  	my.large_tooltip_max_width(value);
+//	  	my.phone_portrait_strict_tooltip_max_width(value);
+//	  	my.phone_landscape_strict_tooltip_max_width(value);
+//	  	my.tablet_landscape_strict_tooltip_max_width(value);
+//	  	my.tablet_portrait_strict_tooltip_max_width(value);
+//	  	// Commit less variables
+//	  	my.updateVariables();
+//	};
+	
+	/**
 	 * Method to update less variables
 	 */
 	my.updateVariables = function() {

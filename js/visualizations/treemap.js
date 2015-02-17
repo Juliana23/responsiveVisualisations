@@ -532,7 +532,12 @@ function TreeMap(options) {
 			.text(function(d) {
 					return d.name;
 			})
-			.style("opacity", function(d) { d.w = this.getComputedTextLength(); return d.dx > d.w ? 1 : 0; });
+			.style("font-size", function (d) {
+				d.w = this.getComputedTextLength();
+				if(d.w > d.dx) {
+					return 90 * (d.dx / d.w) + '%';
+				}
+			});
 			
 			if(my.nodeOutline()){
 				my.selector().trigger("drawOnNode", my.nodeOutline());
@@ -564,7 +569,12 @@ function TreeMap(options) {
 		t.select("textChild")
 		.attr("x", function(d) { return kx * d.dx / 2; })
 		.attr("y", function(d) { return ky * d.dy / 2; })
-		.style("opacity", function(d) { return kx * d.dx > d.w ? 1 : 0; });
+		.style("font-size", function (d) {
+			d.w = this.getComputedTextLength();
+			if(d.w > d.dx) {
+				return 90 * (d.dx / d.w) + '%';
+			}
+		});
 	};
 	
 	/*
