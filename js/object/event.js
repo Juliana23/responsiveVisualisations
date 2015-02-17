@@ -23,7 +23,7 @@ function ResponsiveEvent(options) {
         "mousedown": "touchstart",
         "mouseup": "touchend",
         "mouseover":"touchenter",
-        "mouseout": "touchend",
+        "mouseout": "touchleave",
         "mousemove": "touchmove",
         "click": "tap",
         "dblclick": "doubletap",
