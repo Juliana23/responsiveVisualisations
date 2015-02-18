@@ -114,10 +114,10 @@ function ResponsiveTooltip(options) {
      */
     my.initProperties = function () {
         var width = my.initWidth();
-
         var container = my.initContainer();
         var gap = my.initRatio(container);
         var tooltip = my.initTooltip(width);
+        
         var properties = {
             tooltip : tooltip,
             container : container,

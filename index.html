@@ -10,6 +10,12 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    
+    <script type="text/javascript" src="./lib/d3/d3.v3.min.js"></script>
+	<script type="text/javascript" src="./lib/hammer.min.js"></script>
+	<script type="text/javascript" src="./js/utils/util.js"></script>
+	<script type="text/javascript" src="./js/object/event.js"></script>
+
     <title>Responsive Visualizations</title>
 	<script type="text/javascript">
 		window.onresize = resizeIframe;
@@ -19,8 +25,9 @@
 		}
 		
 		function changeSrcIframe() {
-			console.log(document.getElementById("changeVisualization").innerHTML);
-			if(document.getElementById("changeVisualization").innerHTML === "Treemap"){
+			var name = document.getElementById("visualization").src.split( '/' );
+			var query = name[name.length-1].split( '.html' );
+			if(query[0].toUpperCase() === "timeline".toUpperCase()){
 				document.getElementById("visualization").src = "treemap.html";
 				document.getElementById("changeVisualization").innerHTML = "Timeline";
 			}
@@ -29,6 +36,18 @@
 				document.getElementById("changeVisualization").innerHTML = "Treemap";
 			}			
 		}
+		
+		new ResponsiveEvent({
+			object : d3.select(window).each(function(d,i){
+				Hammer(this, {
+					prevent_default: true,
+					no_mouseevents: true
+				})
+			}),
+        	events : [
+        		{"name": "swipe", "func": changeSrcIframe, "extend": false}
+        	]
+        })();
 	</script>
 </head>
 

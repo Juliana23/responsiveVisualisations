@@ -30,11 +30,11 @@ function TimeLine(options) {
                 .attr("class", "timeline")
                 .attr("width", window.innerWidth - my.margin() * 2)
                 .attr("height", window.innerHeight  - my.margin() * 2));
-        my.svg().append("defs").append("clipPath")
-                .attr("id", "clip")
-                .append("rect")
-                .attr("width", window.innerWidth - (2 * my.margin()))
-                .attr("height", window.innerHeight);
+//        my.svg().append("defs").append("clipPath")
+//                .attr("id", "clip")
+//                .append("rect")
+//                .attr("width", window.innerWidth - (2 * my.margin()))
+//                .attr("height", window.innerHeight);
 
         // Initialisation de la taille du graphe
         my.width(options.width || parseInt(d3.select("#graph").style("width")) - my.margin() * 2);
@@ -108,12 +108,6 @@ function TimeLine(options) {
             graph.attr("transform", "translate(" + margin + "," + margin + ")");
         }
 
-        // Initialisation du tooltip
-        my.tooltip(new ResponsiveTooltip({
-        	g : graph,
-        	cls: "fixed_tooltip"
-        })());
-        
         // Initialisation des axes
         // Axes des x
         my.x(new ResponsiveAxis({
@@ -135,6 +129,12 @@ function TimeLine(options) {
                     return d.close;
                 })],
             autoresize: false
+        })());
+        
+        // Initialisation du tooltip
+        my.tooltip(new ResponsiveTooltip({
+        	g : graph,
+        	cls: "fixed_tooltip"
         })());
 
         /*
