@@ -179,21 +179,40 @@ function ResponsiveAxis(options) {
      * @return object gap
      */
     my.initRatio = function (container) {
-        var height = d3.select(container).attr("height");
-        var width = d3.select(container).attr("width");
-        var gap = {
-            height: (height ? height : container.clientHeight) - my.g().attr("height"),
-            width: (width ? width : container.clientWidth) - my.g().attr("width")
+        var height = container.clientHeight;
+        var width = container.clientWidth;
+        return {
+            height: height - my.g().attr("height"),
+            width: width - my.g().attr("width")
         };
-        return gap;
+    };
+    
+    /**
+     * Init gap
+     * @param {boolean} updateHeight indicate if need to update height value of gap
+     * @param {int} value to add to gap
+     * @param {int} redraw indicate if axis need to be redraw
+     * @return object gap
+     */
+    my.updateRatio = function (updateHeight, value, redraw) {
+        if(updateHeight){
+        	my.gap().height = my.gap().height + value;
+        }
+        else {
+        	my.gap().width = my.gap().width + value;
+        }
+        
+        if(redraw){
+        	my.draw();
+        }
     };
     
     /**
      * Update gap
      */
     my.updateHeightRatio = function () {
-        var height = d3.select(my.container()).attr("height");
-        my.gap().height = (height ? height : my.container().clientHeight) - my.g().attr("height");
+    	var height = my.container().clientHeight;
+        my.gap().height = height - my.g().attr("height");
     };
 
     /**
@@ -258,30 +277,18 @@ function ResponsiveAxis(options) {
     };
 
     /**
-     * Get the axis container size
+     * Get the tooltip container size
      * @returns json object
      */
     my.getContainerSize = function () {
-        var height = d3.select(my.container()).attr("height");
-        var width = d3.select(my.container()).attr("width");
+        var height = my.container().clientHeight;
+        var width = my.container().clientWidth;
         return {
-            height: (height ? height : my.container().clientHeight) - my.gap().height,
-            width: (width ? width : my.container().clientWidth) - my.gap().width
+            height: height - my.gap().height,
+            width: width - my.gap().width
         };
     };
     
-    /**
-     * Get the axis container size
-     * @returns json object
-     */
-    my.getGPosition = function () {
-        var pos = d3.transform(my.g().attr("transform")).translate;
-        return {
-            x: pos[0],
-            y: pos[1]
-        };
-    };
-
     /**
      * Draw axis on g
      */

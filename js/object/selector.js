@@ -401,8 +401,8 @@ function ResponsiveSelector(options) {
         var height = my.container().clientHeight;
         var width = my.container().clientWidth;
         return {
-            height: (height ? height : d3.select(my.container()).attr("height")) - my.gap().height,
-            width: (width ? width : d3.select(my.container()).attr("width")) - my.gap().width
+            height: height - my.gap().height,
+            width: width - my.gap().width
         };
     };
     

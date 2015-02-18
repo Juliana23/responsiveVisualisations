@@ -24,19 +24,42 @@
 			document.getElementById("visualization").style.height = height + 'px';
 		}
 		
-		function changeSrcIframe() {
-			var name = document.getElementById("visualization").src.split( '/' );
-			var query = name[name.length-1].split( '.html' );
-			if(query[0].toUpperCase() === "timeline".toUpperCase()){
-				document.getElementById("visualization").src = "treemap.html";
-				document.getElementById("title_main_content").innerHTML = "Treemap";
-				document.getElementById("changeVisualization").innerHTML = "Timeline";
+		function changeSrcIframe(visualization) {
+			var nameVisualization;
+			var nameSource;
+			var titleSelected;
+			var titleRemove;
+			if(visualization){
+				nameVisualization = visualization;
+				if(nameVisualization.toUpperCase() === "treemap".toUpperCase()){
+					nameSource = "treemap.html";
+					titleSelected = "title2_main_content";
+					titleRemove = "title1_main_content";
+				}
+				else{
+					nameSource = "timeline.html";
+					titleSelected = "title1_main_content";
+					titleRemove = "title2_main_content";
+				}
 			}
 			else{
-				document.getElementById("visualization").src = "timeline.html";
-				document.getElementById("title_main_content").innerHTML = "Timeline";
-				document.getElementById("changeVisualization").innerHTML = "Treemap";
-			}			
+				var name = document.getElementById("visualization").src.split( '/' );
+				var query = name[name.length-1].split( '.html' );
+				nameVisualization = query[0];
+				if(nameVisualization.toUpperCase() === "treemap".toUpperCase()){
+					nameSource = "timeline.html";
+					titleSelected = "title1_main_content";
+					titleRemove = "title2_main_content";
+				}
+				else{
+					nameSource = "treemap.html";
+					titleSelected = "title2_main_content";
+					titleRemove = "title1_main_content";
+				}
+			}
+			document.getElementById("visualization").src = nameSource;
+			document.getElementById(titleSelected).className = "title_selected";
+			document.getElementById(titleRemove).className = "";
 		}
 		
 		new ResponsiveEvent({
@@ -58,13 +81,13 @@
 	    <div id="header" class="header">
 	    	<div class="tablecell">
 		    	<header class="inner">
-			    	<h1>Visualisations Responsives</h1>
-					<h2 id="title_main_content">Timeline</h2>
+			    	<h1>Responsivevisualisations</h1>
+					<div class="title_main_content">
+							<h2 id="title1_main_content" class="title_selected" onclick="changeSrcIframe('timeline')">Timeline</h2>
+							<h2 id="title2_main_content" onclick="changeSrcIframe('treemap')">Treemap</h2>
+					</div>
 		    	</header>
 		    	<hr>
-		    	<div>
-	    			<button id="changeVisualization" onclick="changeSrcIframe()">Treemap</button>
-	    		</div>
 	    	</div>
 	    </div>
 	

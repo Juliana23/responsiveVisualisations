@@ -36,6 +36,10 @@ function ResponsiveBrush(options) {
         // Create getters and setters for options
         $$ResponsiveUtil.generateAccessors(my, options);
         
+        // Need to update the ratio for container axis
+        my.cX().updateRatio(true, my.height() + my.margin().top, true);
+        my.cY().updateRatio(true, my.height() + my.margin().top, true);
+        
         // Create d3js brush properties
         my.initProperties();
         

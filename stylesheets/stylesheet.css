@@ -124,8 +124,27 @@ header h2 {
 	height: 70px;
 }
 
-#title_main_content {
+.title_main_content {
 	text-align: center;
+}
+
+#title1_main_content {
+	display: inline-block;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+#title2_main_content {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.title_selected {
+	text-shadow: 2px 1px 6px rgba(178, 160, 160, 1);
+	margin-bottom: 8px;
+	font-size: 22px;
+	font-weight: bold;
+	color: #303030;
 }
 
 #container .inner img {

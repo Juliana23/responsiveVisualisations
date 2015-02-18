@@ -187,8 +187,8 @@ function ResponsiveTooltip(options) {
         var height = container.clientHeight;
         var width = container.clientWidth;
         return {
-            height: (height ? height : d3.select(container).attr("height")) - my.g().attr("height"),
-            width: (width ? width : d3.select(container).attr("width")) - my.g().attr("width")
+            height: height - my.g().attr("height"),
+            width: width - my.g().attr("width")
         };
     };
 
@@ -212,6 +212,18 @@ function ResponsiveTooltip(options) {
         }
         return false;
     };
+    
+    /**
+     * Get the axis container size
+     * @returns json object
+     */
+    my.getGPosition = function () {
+        var pos = d3.transform(my.g().attr("transform")).translate;
+        return {
+            x: pos[0],
+            y: pos[1]
+        };
+    };
 
     /**
      * Get the tooltip position
@@ -225,6 +237,8 @@ function ResponsiveTooltip(options) {
 
         var tooltipTop;
         var tooltipLeft;
+        
+        var gPosition = my.getGPosition();
 
         if (position) {
             xMin = position.xMin - my.width();
@@ -236,7 +250,7 @@ function ResponsiveTooltip(options) {
         	var cursor = $$ResponsiveUtil.getCursorPosition();
         	var posX = cursor.x;
             var posY = cursor.y;
-            xMin = posX - my.width() - (my.gap().width / 2);
+            xMin = posX - my.width() - gPosition.x;
             xMax = posX + 50;
             yMin = posY;
             yMax = posY;
@@ -284,8 +298,8 @@ function ResponsiveTooltip(options) {
         var height = my.container().clientHeight;
         var width = my.container().clientWidth;
         return {
-            height: (height ? height : d3.select(my.container()).attr("height")) - my.gap().height,
-            width: (width ? width : d3.select(my.container()).attr("width")) - my.gap().width
+            height: height - my.gap().height,
+            width: width - my.gap().width
         };
     };
 
