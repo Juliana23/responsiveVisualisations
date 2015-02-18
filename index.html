@@ -29,10 +29,12 @@
 			var query = name[name.length-1].split( '.html' );
 			if(query[0].toUpperCase() === "timeline".toUpperCase()){
 				document.getElementById("visualization").src = "treemap.html";
+				document.getElementById("title_main_content").innerHTML = "Treemap";
 				document.getElementById("changeVisualization").innerHTML = "Timeline";
 			}
 			else{
 				document.getElementById("visualization").src = "timeline.html";
+				document.getElementById("title_main_content").innerHTML = "Timeline";
 				document.getElementById("changeVisualization").innerHTML = "Treemap";
 			}			
 		}
@@ -66,6 +68,8 @@
 						</div>
 					</section>
 		    	</header>
+		    	<hr>
+		    	<div id="title_main_content">Timeline</div>
 		    	<hr>
 		    	<div>
 	    			<button id="changeVisualization" onclick="changeSrcIframe()">Treemap</button>

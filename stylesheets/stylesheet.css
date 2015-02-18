@@ -124,6 +124,10 @@ header h2 {
 	height: 70px;
 }
 
+#title_main_content {
+	text-align: center;
+}
+
 #container .inner img {
 	max-width: 100%;
 }
