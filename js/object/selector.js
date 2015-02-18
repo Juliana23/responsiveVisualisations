@@ -141,18 +141,16 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Init gap between the container parent
-     * and the container selector
+     * Init gap
      * @return object gap
      */
     my.initRatio = function (container) {
-        var height = d3.select(container).attr("height");
-        var width = d3.select(container).attr("width");
-        var gap = {
-            height: (height ? height : container.clientHeight) - my.g().attr("height"),
-            width: (width ? width : container.clientWidth) - my.g().attr("width")
+        var height = container.clientHeight;
+        var width = container.clientWidth;
+        return {
+            height: (height ? height : d3.select(container).attr("height")) - my.g().attr("height"),
+            width: (width ? width : d3.select(container).attr("width")) - my.g().attr("width")
         };
-        return gap;
     };
     
     /**
@@ -274,7 +272,7 @@ function ResponsiveSelector(options) {
                     return d.name;
                 })
                 .attr("x", function () {
-                    return (cSize.width + my.gap().width) / 2;
+                    return (cSize.width / 2);
                 })
                 .attr("y", function () {
                     return - (my.gap().height / 4);
@@ -365,7 +363,7 @@ function ResponsiveSelector(options) {
     	var cSize = my.getContainerSize();
         d3.selectAll(".titleParent text")
         		.attr("x", function () {
-                    return (cSize.width + my.gap().width) / 2;
+                    return (cSize.width / 2);
                 })
                 .attr("y", function () {
                     return - (my.gap().height / 4);
@@ -400,11 +398,11 @@ function ResponsiveSelector(options) {
      * @returns json object
      */
     my.getContainerSize = function () {
-        var height = d3.select(my.container()).attr("height");
-        var width = d3.select(my.container()).attr("width");
+        var height = my.container().clientHeight;
+        var width = my.container().clientWidth;
         return {
-            height: (height ? height : my.container().clientHeight) - my.gap().height,
-            width: (width ? width : my.container().clientWidth) - my.gap().width
+            height: (height ? height : d3.select(my.container()).attr("height")) - my.gap().height,
+            width: (width ? width : d3.select(my.container()).attr("width")) - my.gap().width
         };
     };
     
