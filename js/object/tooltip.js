@@ -201,6 +201,16 @@ function ResponsiveTooltip(options) {
         var el = d3.select("." + classes).node();
         return el.clientHeight;
     };
+    
+    /**
+     * Get the current height of the tooltip
+     * @return int the height of tooltip
+     */
+    my.getWidth = function () {
+        var classes = my.cls().split(' ').join('.');
+        var el = d3.select("." + classes).node();
+        return el.clientWidth;
+    };
 
     /**
      * Function to know if the tooltip is drawn
@@ -229,35 +239,26 @@ function ResponsiveTooltip(options) {
      * Get the tooltip position
      * @returns json object
      */
-    my.getTooltipPosition = function (width, height, position) {
+    my.getTooltipPosition = function (width, height) {
         var xMin;
         var xMax;
         var yMin;
         var yMax;
-
         var tooltipTop;
         var tooltipLeft;
-        
         var gPosition = my.getGPosition();
+        var tooltipHeight = my.getHeight();
+        var tooltipWidth = my.width();
 
-        if (position) {
-            xMin = position.xMin - my.width();
-            xMax = position.xMax + 50;
-            yMin = position.yMin;
-            yMax = position.yMax;
-        }
-        else {
-        	var cursor = $$ResponsiveUtil.getCursorPosition();
-        	var posX = cursor.x;
-            var posY = cursor.y;
-            xMin = posX - my.width() - gPosition.x;
-            xMax = posX + 50;
-            yMin = posY;
-            yMax = posY;
-        }
+    	var cursor = $$ResponsiveUtil.getCursorPosition();
+    	var posX = cursor.x;
+        var posY = cursor.y;
+        xMin = posX - tooltipWidth - gPosition.x - 50;
+        xMax = posX + gPosition.x + 50;
+        yMin = posY;
+        yMax = posY;
 
         // Reset tooltip position
-        var tooltipHeight = my.getHeight();
 
         // Check if the tooltip can be displayed center to the cursor
         if (height - yMin >= tooltipHeight / 2 && yMin >= tooltipHeight / 2) {
@@ -274,6 +275,24 @@ function ResponsiveTooltip(options) {
         // Default case : displayed the tooltip to 0
         else {
             tooltipTop = 0;
+        }
+        
+        // Check if the tooltip height can be in visualization
+        if(tooltipHeight > height){
+        	var nbColumn = 1;
+        	while(tooltipHeight > height){
+        		nbColumn++;
+        		tooltipHeight = tooltipHeight / 2;
+        	}
+        	var classes = my.cls().split(' ').join('.');
+        	d3.select("." + classes)
+        	.style("-webkit-column-count", nbColumn)
+        	.style("-moz-column-count", nbColumn)
+        	.style("column-count", nbColumn);
+        	
+        	tooltipWidth = my.getWidth();
+        	xMin = posX - tooltipWidth - gPosition.x - 50;
+        	tooltipTop = 0;
         }
 
         // Reset tooltip position
@@ -315,6 +334,12 @@ function ResponsiveTooltip(options) {
     	
         my.tooltip().style("display", "");
         my.tooltip().html(my.data());
+        
+        var classes = my.cls().split(' ').join('.');
+        d3.select("." + classes)
+    	.style("-webkit-column-count", 1)
+    	.style("-moz-column-count", 1)
+    	.style("column-count", 1);
 
         var tooltipPosition = my.getTooltipPosition(width, height, position);
         my.tooltip()

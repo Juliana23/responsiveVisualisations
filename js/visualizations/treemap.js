@@ -156,19 +156,6 @@ function TreeMap(options) {
 		.range([0, height]);
 		my.y(y);
 	};
-	
-	 /*
-     * Initialisation de l'etiquette
-     */
-    my.initTooltip = function (width) {
-        var tooltip = d3.select("body")
-                .append("div")
-                .attr("class", "fixed_tooltip")
-                .attr("x", width)
-                .attr("y", 0)
-                .style("display", "none");
-        my.tooltip(tooltip);
-    };
 
 	/*
 	 * Initialisation du graphe
@@ -455,7 +442,6 @@ function TreeMap(options) {
 	
 	my.remove = function(){
 		// Suppression du contour et du texte
-		d3.selectAll(".textChild").remove();
 		d3.selectAll(".numText").remove();
 		
 		// Suppression de highlight
@@ -518,6 +504,28 @@ function TreeMap(options) {
 		my.graph()
 		.attr("transform", "translate(" + my.margin() + "," + my.margin() + ")");
 		
+		my.selector().trigger("redraw", my.node());		
+		my.updateChildren();
+	};
+	
+	/*
+	 * Cette methode met les cellules a la
+	 * bonne dimension
+	 */
+	my.updateChildren = function(){
+		// Redefinition des rectangles
+		var kx = my.width() / my.node().dx;
+		var ky = my.height() / my.node().dy;
+		my.x().domain([my.node().x, my.node().x + my.node().dx]);
+		my.y().domain([my.node().y, my.node().y + my.node().dy]);
+
+		var t = d3.selectAll(".cell.child").transition()
+		.attr("transform", function(d) { return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")"; });
+
+		t.select("rect")
+		.attr("width", function(d) { return kx * d.dx - 1; })
+		.attr("height", function(d) { return ky * d.dy - 1; });
+		
 		// Affichage des enfants si on zoom
 		if(my.node() != my.root()){
 			my.graph().selectAll(".cell.child")
@@ -543,38 +551,6 @@ function TreeMap(options) {
 				my.selector().trigger("drawOnNode", my.nodeOutline());
 			}
 		}
-		
-		my.selector().trigger("redraw", my.node());		
-		my.updateChildren();
-	};
-	
-	/*
-	 * Cette methode met les cellules a la
-	 * bonne dimension
-	 */
-	my.updateChildren = function(){
-		// Redefinition des rectangles
-		var kx = my.width() / my.node().dx;
-		var ky = my.height() / my.node().dy;
-		my.x().domain([my.node().x, my.node().x + my.node().dx]);
-		my.y().domain([my.node().y, my.node().y + my.node().dy]);
-
-		var t = d3.selectAll(".cell.child").transition()
-		.attr("transform", function(d) { return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")"; });
-
-		t.select("rect")
-		.attr("width", function(d) { return kx * d.dx - 1; })
-		.attr("height", function(d) { return ky * d.dy - 1; });
-
-		t.select("textChild")
-		.attr("x", function(d) { return kx * d.dx / 2; })
-		.attr("y", function(d) { return ky * d.dy / 2; })
-		.style("font-size", function (d) {
-			d.w = this.getComputedTextLength();
-			if(d.w > d.dx) {
-				return 90 * (d.dx / d.w) + '%';
-			}
-		});
 	};
 	
 	/*

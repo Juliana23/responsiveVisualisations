@@ -19,6 +19,22 @@ function TreeMap(options) {
 			my.redraw();
 		}
 
+//		var timer = window.setTimeout(function() {}, 0);
+//		d3.select(window).on('resize', function() {
+//	        window.clearTimeout(timer);
+//	        timer = window.setTimeout(function() {
+//	        	resize();
+//	        }, 500);
+//	    });
+		
+//		var timer = window.setTimeout(function() {}, 0);
+//		// Add resize event
+//        $$ResponsiveUtil.addResizeEvent(function() {
+//	        window.clearTimeout(timer);
+//	        timer = window.setTimeout(function() {
+//	        	resize();
+//	        }, 500);
+//	    });
 		$$ResponsiveUtil.addResizeEvent(resize);
 	}
 
@@ -90,6 +106,10 @@ function TreeMap(options) {
 		return my;
 	};
 	
+	my.hello = function (){
+		alert("ici");
+	}
+	
 	/*******************************
 	 * Fonctions d'initialisation
 	 ********************************/
@@ -137,19 +157,6 @@ function TreeMap(options) {
 		.range([0, height]);
 		my.y(y);
 	};
-	
-	 /*
-     * Initialisation de l'etiquette
-     */
-    my.initTooltip = function (width) {
-        var tooltip = d3.select("body")
-                .append("div")
-                .attr("class", "fixed_tooltip")
-                .attr("x", width)
-                .attr("y", 0)
-                .style("display", "none");
-        my.tooltip(tooltip);
-    };
 
 	/*
 	 * Initialisation du graphe
@@ -189,7 +196,7 @@ function TreeMap(options) {
 		.enter().append("g")
 		.attr("class", "cell child")
 		.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
+		
 		graph.selectAll(".cell.child")
 		.append("rect")
 		.attr("width", function(d) { return d.dx - 1; })
@@ -197,6 +204,14 @@ function TreeMap(options) {
 		.style("fill", function(d) { return color(d.parent.name); })
 		.style("stroke", function(d) { return color(d.parent.name); })
 		.style("stroke-opacity", "0.3");
+		
+		graph.selectAll(".cell.child")
+		.append('foreignObject')
+		.attr("class", "content")
+		.attr("width", function(d) { return d.dx - 1; })
+		.attr("height", function(d) { return d.dy - 1; })
+		.html(function(d) { return d.content; })
+		.style("display", "none");
 		
 		my.graph(graph);
 		
@@ -436,7 +451,6 @@ function TreeMap(options) {
 	
 	my.remove = function(){
 		// Suppression du contour et du texte
-		d3.selectAll(".textChild").remove();
 		d3.selectAll(".numText").remove();
 		
 		// Suppression de highlight
@@ -465,6 +479,9 @@ function TreeMap(options) {
 		my.hide();
 		
 		my.graph().selectAll(".cell.child text").remove();
+		my.graph().selectAll(".cell.child")
+		.select(".content")
+		.style("display", "none");
 		
 		// On affiche les enfants
 		my.graph().selectAll("g.cell.child")
@@ -499,32 +516,6 @@ function TreeMap(options) {
 		my.graph()
 		.attr("transform", "translate(" + my.margin() + "," + my.margin() + ")");
 		
-		// Affichage des enfants si on zoom
-		if(my.node() != my.root()){
-			my.graph().selectAll(".cell.child")
-			.filter(function(d){
-				return d.parent === my.node();
-			})
-			.append("text")
-			.attr("x", function(d) { return d.dx / 2; })
-			.attr("y", function(d) { return d.dy / 2; })
-			.attr("dy", ".35em")
-			.attr("text-anchor", "middle")
-			.text(function(d) {
-					return d.name;
-			})
-			.style("font-size", function (d) {
-				d.w = this.getComputedTextLength();
-				if(d.w > d.dx) {
-					return 90 * (d.dx / d.w) + '%';
-				}
-			});
-			
-			if(my.nodeOutline()){
-				my.selector().trigger("drawOnNode", my.nodeOutline());
-			}
-		}
-		
 		my.selector().trigger("redraw", my.node());		
 		my.updateChildren();
 	};
@@ -546,16 +537,22 @@ function TreeMap(options) {
 		t.select("rect")
 		.attr("width", function(d) { return kx * d.dx - 1; })
 		.attr("height", function(d) { return ky * d.dy - 1; });
+		
+		// Affichage des enfants si on zoom
+		if(my.node() != my.root()){
+			my.graph().selectAll(".cell.child")
+			.filter(function(d){
+				return d.parent === my.node();
+			})
+			.select(".content")
+			.attr("width", function(d) { return d.dx - 1; })
+			.attr("height", function(d) { return d.dy - 1; })
+			.style("display", "");
 
-		t.select("textChild")
-		.attr("x", function(d) { return kx * d.dx / 2; })
-		.attr("y", function(d) { return ky * d.dy / 2; })
-		.style("font-size", function (d) {
-			d.w = this.getComputedTextLength();
-			if(d.w > d.dx) {
-				return 90 * (d.dx / d.w) + '%';
+			if(my.nodeOutline()){
+				my.selector().trigger("drawOnNode", my.nodeOutline());
 			}
-		});
+		}
 	};
 	
 	/*

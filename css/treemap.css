@@ -11,6 +11,16 @@ html {
 	pointer-events: none;
 }
 
+.cell .child rect{
+	position: absolute;
+	z-index:-10;
+}
+
+.cell .child foreignObject{
+	position: absolute;
+	z-index:2;
+}
+
 .fixed_tooltip {
     position: absolute;
     width: auto;

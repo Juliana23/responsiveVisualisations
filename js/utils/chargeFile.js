@@ -41,6 +41,7 @@ var presentation = {
 
 function dataTreeMap(file){
 	d3.json(file.url, function(error, data) {
+		console.log(data);
 		if (error)
 			alert(error);
 		var options = {
