@@ -28,38 +28,101 @@
 			var nameVisualization;
 			var nameSource;
 			var titleSelected;
-			var titleRemove;
+			var titleRemove1;
+			var titleRemove2;
 			if(visualization){
 				nameVisualization = visualization;
 				if(nameVisualization.toUpperCase() === "treemap".toUpperCase()){
 					nameSource = "treemap.html";
 					titleSelected = "title2_main_content";
-					titleRemove = "title1_main_content";
+					titleRemove1 = "title1_main_content";
+					titleRemove2 = "title3_main_content";
 				}
-				else{
+				else if(nameVisualization.toUpperCase() === "timeline".toUpperCase()){
 					nameSource = "timeline.html";
 					titleSelected = "title1_main_content";
-					titleRemove = "title2_main_content";
-				}
-			}
-			else{
-				var name = document.getElementById("visualization").src.split( '/' );
-				var query = name[name.length-1].split( '.html' );
-				nameVisualization = query[0];
-				if(nameVisualization.toUpperCase() === "treemap".toUpperCase()){
-					nameSource = "timeline.html";
-					titleSelected = "title1_main_content";
-					titleRemove = "title2_main_content";
+					titleRemove1 = "title2_main_content";
+					titleRemove2 = "title3_main_content";
 				}
 				else{
-					nameSource = "treemap.html";
-					titleSelected = "title2_main_content";
-					titleRemove = "title1_main_content";
+					nameSource = "presentation.html";
+					titleSelected = "title3_main_content";
+					titleRemove1 = "title1_main_content";
+					titleRemove2 = "title2_main_content";
 				}
 			}
 			document.getElementById("visualization").src = nameSource;
 			document.getElementById(titleSelected).className = "title_selected";
-			document.getElementById(titleRemove).className = "";
+			document.getElementById(titleRemove1).className = "";
+			document.getElementById(titleRemove2).className = "";
+		}
+		
+		function changeSrcIframeRight() {
+			var nameVisualization;
+			var nameSource;
+			var titleSelected;
+			var titleRemove1;
+			var titleRemove2;
+			
+			var name = document.getElementById("visualization").src.split( '/' );
+			var query = name[name.length-1].split( '.html' );
+			nameVisualization = query[0];
+			if(nameVisualization.toUpperCase() === "timeline".toUpperCase()){
+				nameSource = "treemap.html";
+				titleSelected = "title2_main_content";
+				titleRemove1 = "title1_main_content";
+				titleRemove2 = "title3_main_content";
+			}
+			else if(nameVisualization.toUpperCase() === "treemap".toUpperCase()){
+				nameSource = "presentation.html";
+				titleSelected = "title3_main_content";
+				titleRemove1 = "title1_main_content";
+				titleRemove2 = "title2_main_content";
+			}
+			else{
+				nameSource = "timeline.html";
+				titleSelected = "title1_main_content";
+				titleRemove1 = "title2_main_content";
+				titleRemove2 = "title3_main_content";
+			}
+			document.getElementById("visualization").src = nameSource;
+			document.getElementById(titleSelected).className = "title_selected";
+			document.getElementById(titleRemove1).className = "";
+			document.getElementById(titleRemove2).className = "";
+		}
+		
+		function changeSrcIframeLeft() {
+			var nameVisualization;
+			var nameSource;
+			var titleSelected;
+			var titleRemove1;
+			var titleRemove2;
+			
+			var name = document.getElementById("visualization").src.split( '/' );
+			var query = name[name.length-1].split( '.html' );
+			nameVisualization = query[0];
+			if(nameVisualization.toUpperCase() === "timeline".toUpperCase()){
+				nameSource = "presentation.html";
+				titleSelected = "title3_main_content";
+				titleRemove1 = "title1_main_content";
+				titleRemove2 = "title2_main_content";
+			}
+			else if(nameVisualization.toUpperCase() === "treemap".toUpperCase()){
+				nameSource = "timeline.html";
+				titleSelected = "title1_main_content";
+				titleRemove1 = "title2_main_content";
+				titleRemove2 = "title3_main_content";
+			}
+			else{
+				nameSource = "treemap.html";
+				titleSelected = "title2_main_content";
+				titleRemove1 = "title1_main_content";
+				titleRemove2 = "title3_main_content";
+			}
+			document.getElementById("visualization").src = nameSource;
+			document.getElementById(titleSelected).className = "title_selected";
+			document.getElementById(titleRemove1).className = "";
+			document.getElementById(titleRemove2).className = "";
 		}
 		
 		new ResponsiveEvent({
@@ -70,7 +133,8 @@
 				})
 			}),
         	events : [
-        		{"name": "swipe", "func": changeSrcIframe, "extend": false}
+        		{"name": "swiperight", "func": changeSrcIframeRight, "extend": false},
+        		{"name": "swipeleft", "func": changeSrcIframeLeft, "extend": false}
         	]
         })();
 	</script>
@@ -85,6 +149,7 @@
 					<div class="title_main_content">
 							<h2 id="title1_main_content" class="title_selected" onclick="changeSrcIframe('timeline')">Timeline</h2>
 							<h2 id="title2_main_content" onclick="changeSrcIframe('treemap')">Treemap</h2>
+							<h2 id="title3_main_content" onclick="changeSrcIframe('presentation')">Presentation</h2>
 					</div>
 		    	</header>
 		    	<hr>

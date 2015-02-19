@@ -1,0 +1,86 @@
+{
+	"name": "Visualisation_Responsives",
+	"children": [
+		{
+			"name": "Contexte",
+			"children": [
+				{
+					"name": "Contexte",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Etat_de_l_art",
+			"children": [
+				{
+					"name": "Etat_de_l_art",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Problématiques",
+			"children": [
+				{
+					"name": "Problématiques",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Méthodes_de_recherches",
+			"children": [
+				{
+					"name": "Méthodes_de_recherches",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Données_collectées",
+			"children": [
+				{
+					"name": "Données_collectées",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Solutions_Généralisation",
+			"children": [
+				{
+					"name": "Solutions_Généralisation",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Conclusion",
+			"children": [
+				{
+					"name": "Conclusion",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Références",
+			"children": [
+				{
+					"name": "Références",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "Questions",
+			"children": [
+				{
+					"name": "Questions",
+					"size": 20000
+				}
+			]
+		}
+	]
+}

@@ -419,7 +419,9 @@ function ResponsiveSelector(options) {
 		else{
 			nodeId = node.parent.id;
 		}
-		
+		console.log(node);
+		console.log(nodeId);
+		console.log(my.g().select("#" + nodeId));
 		my.g().select("#" + nodeId)
 		.attr("width", function(d) {
 			pathinfo.push({

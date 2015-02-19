@@ -136,6 +136,12 @@ header h2 {
 
 #title2_main_content {
 	display: inline-block;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+#title3_main_content {
+	display: inline-block;
 	cursor: pointer;
 }
 
