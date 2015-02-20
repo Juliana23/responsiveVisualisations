@@ -3,11 +3,70 @@
  * <br/>
  * Responive less offers several tools for less file
  * <br/>
- * It already instanciate, to use it you have to use the variable: <br/>
- * - $$ResponsiveLess
+ * Already instanciated, to use it you have to use the variable: <br/>
+ * $$ResponsiveLess
  * <br/>
  * <b>Example:</b><br/>
- * $$ResponsiveLess.updateVariables();
+ * $$ResponsiveLess.phone_label_font_size("14px");<br/>
+ * $$ResponsiveLess.desktop_label_font_size("18px");<br/>
+ * $$ResponsiveLess.updateVariables();<br/>
+ * <br/>
+ * <b>List of less variables:</b><br>
+ * <table>
+ * <tr><th>Variable</th><th>Default value</th></tr>
+ * <tr><td>xs_min</td><td>321px</td></tr>
+ * <tr><td>sm_min</td><td>768px</td></tr>
+ * <tr><td>md_min</td><td>1024px</td></tr>
+ * <tr><td>lg_min</td><td>1824px</td></tr>
+ * <tr><td>xs_max</td><td>320px</td></tr>
+ * <tr><td>xs_max_o</td><td>768px</td></tr>
+ * <tr><td>sm_max</td><td>1024px</td></tr>
+ * <tr><td>phone_label_font_size</td><td>20px</td></tr>
+ * <tr><td>phone_landscape_label_font_size</td><td>20px</td></tr>
+ * <tr><td>tablet_label_font_size</td><td>16px</td></tr>
+ * <tr><td>desktop_label_font_size</td><td>16px</td></tr>
+ * <tr><td>large_label_font_size</td><td>16px</td></tr>
+ * <tr><td>phone_portrait_strict_label_font_size</td><td>18px</td></tr>
+ * <tr><td>phone_landscape_strict_label_font_size</td><td>18px</td></tr>
+ * <tr><td>tablet_landscape_strict_label_font_size</td><td>16px</td></tr>
+ * <tr><td>tablet_portrait_strict_label_font_size</td><td>16px</td></tr>
+ * <tr><td>phone_tooltip_width</td><td>100px</td></tr>
+ * <tr><td>phone_landscape_tooltip_width</td><td>100px</td></tr>
+ * <tr><td>tablet_tooltip_width</td><td>100px</td></tr>
+ * <tr><td>desktop_tooltip_width</td><td>100px</td></tr>
+ * <tr><td>large_tooltip_width</td><td>100px</td></tr>
+ * <tr><td>phone_portrait_strict_tooltip_width</td><td>180px</td></tr>
+ * <tr><td>phone_landscape_strict_tooltip_width</td><td>180px</td></tr>
+ * <tr><td>tablet_landscape_strict_tooltip_width</td><td>180px</td></tr>
+ * <tr><td>tablet_portrait_strict_tooltip_width</td><td>180px</td></tr>
+ * <tr><td>phone_tooltip_max_width</td><td>100px</td></tr>
+ * <tr><td>phone_landscape_tooltip_max_width</td><td>100px</td></tr>
+ * <tr><td>tablet_tooltip_max_width</td><td>100px</td></tr>
+ * <tr><td>desktop_tooltip_max_width</td><td>100px</td></tr>
+ * <tr><td>large_tooltip_max_width</td><td>100px</td></tr>
+ * <tr><td>phone_portrait_strict_tooltip_max_width</td><td>180px</td></tr>
+ * <tr><td>phone_landscape_strict_tooltip_max_width</td><td>180px</td></tr>
+ * <tr><td>tablet_landscape_strict_tooltip_max_width</td><td>180px</td></tr>
+ * <tr><td>tablet_portrait_strict_tooltip_max_width</td><td>180px</td></tr>
+ * <tr><td>phone_tooltip_font_size</td><td>14px</td></tr>
+ * <tr><td>phone_landscape_tooltip_font_size</td><td>14px</td></tr>
+ * <tr><td>tablet_tooltip_font_size</td><td>14px</td></tr>
+ * <tr><td>desktop_tooltip_font_size</td><td>12px</td></tr>
+ * <tr><td>large_tooltip_font_size</td><td>12px</td></tr>
+ * <tr><td>phone_portrait_strict_tooltip_font_size</td><td>20px</td></tr>
+ * <tr><td>phone_landscape_strict_tooltip_font_size</td><td>14px</td></tr>
+ * <tr><td>tablet_landscape_strict_tooltip_font_size</td><td>14px</td></tr>
+ * <tr><td>tablet_portrait_strict_tooltip_font_size</td><td>16px</td></tr>
+ * <tr><td>phone_tooltip_line_height</td><td>16px</td></tr>
+ * <tr><td>phone_landscape_tooltip_line_height</td><td>16px</td></tr>
+ * <tr><td>tablet_tooltip_line_height</td><td>16px</td></tr>
+ * <tr><td>desktop_tooltip_line_height</td><td>16px</td></tr>
+ * <tr><td>large_tooltip_line_height</td><td>16px</td></tr>
+ * <tr><td>phone_portrait_strict_tooltip_line_height</td><td>22px</td></tr>
+ * <tr><td>phone_landscape_strict_tooltip_line_height</td><td>16px</td></tr>
+ * <tr><td>tablet_landscape_strict_tooltip_line_height</td><td>16px</td></tr>
+ * <tr><td>tablet_portrait_strict_tooltip_line_height</td><td>16px</td></tr>
+ * </table>
  * <br/>
  * @class ResponsiveLess
  * @constructor

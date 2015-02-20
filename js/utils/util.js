@@ -1,8 +1,8 @@
 /**
  * <b>Responsive Util For d3js library :</b><br/>
  * <br/>
- * It already instanciate, to use it you have to use the variable: <br/>
- * - $$ResponsiveUtil
+ * Already instanciated, to use it you have to use the variable: <br/>
+ * $$ResponsiveUtil
  * <br/>
  * <b>Example:</b><br/>
  * var isMobile = $$ResponsiveUtil.mobile();
