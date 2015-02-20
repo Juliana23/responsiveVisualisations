@@ -36,6 +36,15 @@ function TreeMap(options) {
 //	        }, 500);
 //	    });
 		$$ResponsiveUtil.addResizeEvent(resize);
+		
+		window.parent.onkeyup = function (e) {
+			if(e.keyCode == "39"){
+				my.changeToNextChild();
+			}
+			else if(e.keyCode == "37"){
+				my.changeToPreviousChild();
+			}
+	    }
 	}
 
 	my.init = function (options) {
@@ -99,16 +108,14 @@ function TreeMap(options) {
         		{"name": "click", "func": my.mouseEndEvent, "extend": false},
         		{"name": "dblclick", "func": my.mouseZoom, "extend": false},
         		{"name": "doubletap", "func": my.touchZoom, "extend": false},
-        		{"name": "tap", "func": my.touchEndEvent, "extend": false}
+        		{"name": "tap", "func": my.touchEndEvent, "extend": false},
+        		{"name": "swiperight", "func": my.changeToPreviousChild, "extend": false},
+        		{"name": "swipeleft", "func": my.changeToNextChild, "extend": false}
         	]
         })();
 		
 		return my;
 	};
-	
-	my.hello = function (){
-		alert("ici");
-	}
 	
 	/*******************************
 	 * Fonctions d'initialisation
@@ -210,7 +217,19 @@ function TreeMap(options) {
 		.attr("class", "content")
 		.attr("width", function(d) { return d.dx - 1; })
 		.attr("height", function(d) { return d.dy - 1; })
-		.html(function(d) { return d.content; })
+		.html(function(d) { 
+			var url = d.url;
+			if(url){
+//				var content = $.get(url, function(data) {
+//					return data;
+//				});
+//				console.log(content);
+//				return content; 
+				$.get(url, function(data) {
+					$( ".content" ).html(data);
+				});
+			}
+		})
 		.style("display", "none");
 		
 		my.graph(graph);
@@ -454,7 +473,7 @@ function TreeMap(options) {
 		d3.selectAll(".numText").remove();
 		
 		// Suppression de highlight
-    	my.graph().selectAll("g.cell.child")//.transition().duration(0)
+    	my.graph().selectAll("g.cell.child")
     	.style("opacity", "1");
     	
     	my.selector().trigger("hide");
@@ -552,6 +571,56 @@ function TreeMap(options) {
 			if(my.nodeOutline()){
 				my.selector().trigger("drawOnNode", my.nodeOutline());
 			}
+		}
+	};
+	
+	/*
+	 * Cette methode selectionne le noeud
+	 * frere precedent
+	 */
+	my.changeToPreviousChild = function (){
+		var parent = my.node().parent;
+		if(parent.children){
+			var children = parent.children;
+			var i = 0;
+			var child = children[i];
+			var nextChild = child;
+			while(i < children.length && child !== my.node()){
+				i++;
+				child = children[i];
+			}
+			i--;
+			if(child === my.node() && i >= 0){
+				nextChild = children[i];
+			}
+			my.node(nextChild);
+			my.redraw();
+			my.endUpdateMove();
+		}
+	};
+	
+	/*
+	 * Cette methode selectionne le noeud
+	 * frere suivant
+	 */
+	my.changeToNextChild = function (){
+		var parent = my.node().parent;
+		if(parent){
+			var children = parent.children;
+			var i = 0;
+			var child = children[i];
+			var nextChild = child;
+			while(i < children.length && child !== my.node()){
+				i++;
+				child = children[i];
+			}
+			i++;
+			if(child === my.node() && i < children.length){
+				nextChild = children[i];
+			}
+			my.node(nextChild);
+			my.redraw();
+			my.endUpdateMove();
 		}
 	};
 	
@@ -684,7 +753,7 @@ function TreeMap(options) {
     my.endUpdateMove = function(){
 		my.tooltip().trigger("hide");
 		// Suppression de highlight
-		my.graph().selectAll("g.cell.child")//.transition().duration(0)
+		my.graph().selectAll("g.cell.child")
 		.style("opacity", "1");
 		
 		// Suppression du contour et du texte
