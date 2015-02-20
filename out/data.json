@@ -1,106 +1,115 @@
 {
     "project": {},
     "files": {
-        "js/object/axis.js": {
-            "name": "js/object/axis.js",
+        "js\\object\\axis.js": {
+            "name": "js\\object\\axis.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveAxis": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\object\\brush.js": {
+            "name": "js\\object\\brush.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveBrush": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\object\\event.js": {
+            "name": "js\\object\\event.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveEvent": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\object\\selector.js": {
+            "name": "js\\object\\selector.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "js/object/brush.js": {
-            "name": "js/object/brush.js",
+        "js\\object\\tooltip.js": {
+            "name": "js\\object\\tooltip.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveTooltip": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\utils\\constants.js": {
+            "name": "js\\utils\\constants.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveConstants": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\utils\\less.js": {
+            "name": "js\\utils\\less.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveLess": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\utils\\treeUtil.js": {
+            "name": "js\\utils\\treeUtil.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveTreeUtil": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\utils\\util.js": {
+            "name": "js\\utils\\util.js",
+            "modules": {},
+            "classes": {
+                "ResponsiveUtil": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "js\\visualizations\\presentation.js": {
+            "name": "js\\visualizations\\presentation.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "js/object/event.js": {
-            "name": "js/object/event.js",
+        "js\\visualizations\\timelineMin.js": {
+            "name": "js\\visualizations\\timelineMin.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "js/object/selector.js": {
-            "name": "js/object/selector.js",
+        "js\\visualizations\\treemap.js": {
+            "name": "js\\visualizations\\treemap.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "js/object/tooltip.js": {
-            "name": "js/object/tooltip.js",
+        "lib\\keyboard.js": {
+            "name": "lib\\keyboard.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "js/old/timeline.js": {
-            "name": "js/old/timeline.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/utils/treeUtil.js": {
-            "name": "js/utils/treeUtil.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/utils/util.js": {
-            "name": "js/utils/util.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/visualizations/TimeLineMin.js": {
-            "name": "js/visualizations/TimeLineMin.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/visualizations/initialTimeLine.js": {
-            "name": "js/visualizations/initialTimeLine.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/visualizations/oldTreemap.js": {
-            "name": "js/visualizations/oldTreemap.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/visualizations/reuse.js": {
-            "name": "js/visualizations/reuse.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/visualizations/timeline.js": {
-            "name": "js/visualizations/timeline.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "js/visualizations/treemap.js": {
-            "name": "js/visualizations/treemap.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
-        "lib/less.min.js": {
-            "name": "lib/less.min.js",
+        "lib\\less.min.js": {
+            "name": "lib\\less.min.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -108,275 +117,726 @@
         }
     },
     "modules": {},
-    "classes": {},
+    "classes": {
+        "ResponsiveAxis": {
+            "name": "ResponsiveAxis",
+            "shortname": "ResponsiveAxis",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\object\\axis.js",
+            "line": 1,
+            "description": "<b>Responsive Axis For d3js library :</b><br/>\n<br/>\nResponive axis allows you to create axis for timeline, line chart, ...\nThose axis will be responsive and you don't need to take care to\nthe size of them. <br/>\nTo instanciate one, you need to set the following parameters into a json object :<br/>\n<b>g</b> : g element used to draw chart (required)<br/>\n<b>orientation</b> : top, bottom, left, right (default bottom)<br/>\n<b>datatype</b> : type of data to display on axis<br/>\n<b>domain</b> : array of values to display on axis (required)<br/>\n<b>cls</b> : css class for axis<br/>\n<b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>\n<b>fixedHeight</b> : indicate if the size of y axis is not resizable (default false)<br/>\n<br/>\n<b>Example:</b><br/>\n var axis = new ResponsiveAxis({<br/>\n     &nbsp;&nbsp;&nbsp;g: graph,<br/>\n     &nbsp;&nbsp;&nbsp;orientation: $$ResponsiveUtil._BOTTOM_,<br/>\n     &nbsp;&nbsp;&nbsp;datatype: \"year\",<br/>\n     &nbsp;&nbsp;&nbsp;cls: \"x axis\",<br/>\n     &nbsp;&nbsp;&nbsp;domain: d3.extent(data, function (d) {<br/>\n         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return d.date;<br/>\n     &nbsp;&nbsp;&nbsp;}),<br/>\n     &nbsp;&nbsp;&nbsp;autoresize: false<br/>\n )();<br/>\n<br/>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        },
+        "ResponsiveBrush": {
+            "name": "ResponsiveBrush",
+            "shortname": "ResponsiveBrush",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\object\\brush.js",
+            "line": 1,
+            "description": "<b>Responsive Brush For d3js library :</b><br/>\n<br/>\nResponive brush allows you to create brush for timeline, line chart, ...\nBrush system allows you to zoom and navigate into your chart.\nBrush element will be responsive and you don't need to take care to\nthe size of them. <br/>\nTo instantiate one, you need to set the following parameters into a json object :<br/>\n<b>svg</b> : svg element (required)<br/>\n<b>area</b> : area element used to draw chart (required)<br/>\n<b>areaSelector</b> : d3js selector to retrieve area (required)<br/>\n<b>cX</b> : x axis of main chart (required)<br/>\n<b>cY</b> : y axis of main chart (required)<br/>\n<b>height</b> : height of the brush element (default 50)<br/>\n<b>margin</b> : margin to apply to brush element (default {top: 0, right: 0, bottom: 0, left: 0})<br/>\n<b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>\n<br/>\n<b>Example:</b><br/>\nvar brush = new ResponsiveBrush({<br/>\n     &nbsp;&nbsp;&nbsp;svg: svg,<br/>\n     &nbsp;&nbsp;&nbsp;area: area,<br/>\n     &nbsp;&nbsp;&nbsp;areaSelector: \".area\",<br/>\n     &nbsp;&nbsp;&nbsp;cX: aResponsiveAxis,<br/>\n     &nbsp;&nbsp;&nbsp;cY: aResponsiveAxis,<br/>\n     &nbsp;&nbsp;&nbsp;margin: {<br/>\n         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top: 50,<br/>\n         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left: 60<br/>\n     &nbsp;&nbsp;&nbsp;}<br/>\n })();<br/>\n <br/>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        },
+        "ResponsiveEvent": {
+            "name": "ResponsiveEvent",
+            "shortname": "ResponsiveEvent",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\object\\event.js",
+            "line": 1,
+            "description": "<b>Responsive Event For d3js library :</b><br/>\n<br/>\nResponive event allows you to define only one event for all devices by extension. <br/>\nTo instantiate one, you need to pass the following parameters into a json object :<br/>\n<b>object</b> : object which listen to events (required)<br/>\n<b>events</b> : list of events that can be extended\nassociated with function listen by the object (required)<br/>\n<br/>\n<b>Example:</b><br/>\nnew ResponsiveEvent({<br/>\n     &nbsp;&nbsp;&nbsp;object : window,<br/>\n     &nbsp;&nbsp;&nbsp;events : [<br/>\n         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{\"name\" : \"mousemove\", \"func\": function1, \"extend\": true},<br/>\n         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{\"name\" : \"mouseout\", \"func\": function2, \"extend\": false,<br/>\n         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{\"name\" : \"touchend\", \"func\": function3, \"extend\": false}<br/>\n     &nbsp;&nbsp;&nbsp;]<br/>\n})()<br/>\n<br/>\n<b>Mapped events</b>\n<table>\n<tr><th>Mouse</th><th>Touch</th><tr>\n<tr><td>mousedown</td><td>touchstart</td><tr>\n<tr><td>mouseup</td><td>touchenter</td><tr>\n<tr><td>mouseover</td><td>mouseover</td><tr>\n<tr><td>mouseout</td><td>touchleave</td><tr>\n<tr><td>mousemove</td><td>touchmove</td><tr>\n<tr><td>click</td><td>tap</td><tr>\n<tr><td>dblclick</td><td>doubletap</td><tr>\n<tr><td>mousecancel (fake)</td><td>touchcancel</td><tr>\n</table>\n</br>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        },
+        "ResponsiveTooltip": {
+            "name": "ResponsiveTooltip",
+            "shortname": "ResponsiveTooltip",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\object\\tooltip.js",
+            "line": 1,
+            "description": "<b>Responsive Tooltip For d3js library :</b><br/>\n<br/>\nResponive tooltip allows you to create tooltip to show details.\nTooltip element will be responsive and you don't need to take care to\nthe size and position of them. <br/>\nTo instantiate one, you need to set the following parameters into a json object :<br/>\n<b>g</b> : g element used to draw tooltip (required)<br/>\n<b>cls</b> : css class for axis<br/>\n<b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>\n<br/>\n<b>Example:</b><br/>\nvar tooltip = new ResponsiveTooltip({<br/>\n     &nbsp;&nbsp;&nbsp;g: g,<br/>\n     &nbsp;&nbsp;&nbsp;cls: \"fixed_tooltip\",<br/>\n })();<br/>\n <br/>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        },
+        "ResponsiveConstants": {
+            "name": "ResponsiveConstants",
+            "shortname": "ResponsiveConstants",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\utils\\constants.js",
+            "line": 1,
+            "description": "<b>Responsive Constants For d3js library :</b><br/>\n<br/>\nResponive constants offers several constants\n<br/>\nIt already instanciate, to use it you have to use the variable: <br/>\n- $$ResponsiveConstants\n<br/>\n<b>Example:</b><br/>\nvar xsmin = $$ResponsiveConstants._XSMIN_();\n<br/>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        },
+        "ResponsiveLess": {
+            "name": "ResponsiveLess",
+            "shortname": "ResponsiveLess",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\utils\\less.js",
+            "line": 1,
+            "description": "<b>Responsive Less For d3js library :</b><br/>\n<br/>\nResponive less offers several tools for less file\n<br/>\nIt already instanciate, to use it you have to use the variable: <br/>\n- $$ResponsiveLess\n<br/>\n<b>Example:</b><br/>\n$$ResponsiveLess.updateVariables();\n<br/>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        },
+        "ResponsiveTreeUtil": {
+            "name": "ResponsiveTreeUtil",
+            "shortname": "ResponsiveTreeUtil",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\utils\\treeUtil.js",
+            "line": 1,
+            "description": "<b>Responsive TreeUtil For d3js library :</b><br/>\n<br/>\nResponive treeUtil offers several tools for trees\n<br/>\nIt already instanciate, to use it you have to use the variable: <br/>\n- $$ResponsiveTreeUtil\n<br/>\n<b>Example:</b><br/>\nvar allParents = $$ResponsiveTreeUtil.getAllParents(d);\n<br/>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        },
+        "ResponsiveUtil": {
+            "name": "ResponsiveUtil",
+            "shortname": "ResponsiveUtil",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "js\\utils\\util.js",
+            "line": 1,
+            "description": "<b>Responsive Util For d3js library :</b><br/>\n<br/>\nIt already instanciate, to use it you have to use the variable: <br/>\n- $$ResponsiveUtil\n<br/>\n<b>Example:</b><br/>\nvar isMobile = $$ResponsiveUtil.mobile();\n<br/>",
+            "is_constructor": 1,
+            "version": "0.1",
+            "author": "Leclaire Juliana",
+            "support": "d3js v3"
+        }
+    },
     "classitems": [
         {
-            "file": "js/object/axis.js",
-            "line": 9,
-            "description": "Create a responsive axis",
-            "params": [
-                {
-                    "name": "json",
-                    "description": "object options :\ng : graph\nsize : size of axis in px\norientation : top, bottom, left, right\ndatatype : type of data to display on axis\ndomain : array of values to display on axis\ncls : css class for axis\nautoresize : indicate if resize is automatically done"
-                }
-            ],
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 37,
+            "description": "g element used to draw chart<br/>\nRead with : axis.g()<br/>\nWrite with : axis.g(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "g",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 33,
-            "description": "Constructor",
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 48,
+            "description": "Size of current axis in px<br/>\nRead with : axis.size()<br/>\nWrite with : axis.size(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "size",
+            "access": "private",
+            "tagname": "",
+            "type": "Integer",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 60,
-            "description": "Method to attach custom event",
-            "params": [
-                {
-                    "name": "the",
-                    "description": "event to add"
-                },
-                {
-                    "name": "the",
-                    "description": "function to call on event triggered"
-                }
-            ],
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 58,
+            "description": "Orientation of the axis<br/>\nEnable values : top, bottom, left, right<br/>\nRead with : axis.orientation()<br/>\nWrite with : axis.orientation(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "orientation",
+            "access": "public",
+            "tagname": "",
+            "type": "String",
+            "default": "bottom",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 73,
-            "description": "Method to trigger event",
-            "params": [
-                {
-                    "name": "the",
-                    "description": "event to trigger"
-                },
-                {
-                    "name": "the",
-                    "description": "args to apply to the function called"
-                }
-            ],
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 70,
+            "description": "Type of data to display on axis<br/>\nEnable values : year, month, day<br/>\nRead with : axis.datatype()<br/>\nWrite with : axis.datatype(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "datatype",
+            "access": "public",
+            "tagname": "",
+            "type": "String",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 91,
-            "description": "Method to remove event on function",
-            "params": [
-                {
-                    "name": "the",
-                    "description": "event to clear"
-                },
-                {
-                    "name": "the",
-                    "description": "function to remove"
-                }
-            ],
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 81,
+            "description": "Array of values to display on axis<br/>\nRead with : axis.domain()<br/>\nWrite with : axis.domain(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "domain",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Array",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 103,
-            "description": "Add default events to current object",
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 92,
+            "description": "Css class to apply on axis<br/>\nRead with : axis.cls()<br/>\nWrite with : axis.cls(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "cls",
+            "access": "public",
+            "tagname": "",
+            "type": "String",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 110,
-            "description": "This method init properties for axis",
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 102,
+            "description": "Indicate if resize is automatically done<br/>\nRead with : axis.autoresize()<br/>\nWrite with : axis.autoresize(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "autoresize",
+            "access": "public",
+            "tagname": "",
+            "type": "Boolean",
+            "default": "false",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 129,
-            "description": "Retrieve the parent container of g element",
-            "return": {
-                "description": "container",
-                "type": "Object"
-            },
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 113,
+            "description": "Indicate if the size of y axis is not resizable<br/>\nRead with : axis.fixedHeight()<br/>\nWrite with : axis.fixedHeight(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "fixedHeight",
+            "access": "public",
+            "tagname": "",
+            "type": "Boolean",
+            "default": "false",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
-            "line": 142,
-            "description": "Init data to display on axis",
-            "return": {
-                "description": "object data"
-            },
-            "class": ""
+            "file": "js\\object\\axis.js",
+            "line": 124,
+            "description": "List of events attached<br/>\nRead with : axis.events()<br/>",
+            "itemtype": "attribute",
+            "name": "events",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "readonly": "",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/axis.js",
+            "file": "js\\object\\axis.js",
+            "line": 136,
+            "description": "ResponsiveAxis Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
             "line": 167,
-            "description": "Init axis",
-            "params": [
-                {
-                    "name": "object",
-                    "description": "data"
-                }
-            ],
-            "return": {
-                "description": "object axis"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 177,
-            "description": "Init gap",
-            "return": {
-                "description": "object gap"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 191,
-            "description": "Update gap",
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 199,
-            "description": "This method update range of axis",
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 214,
-            "description": "This method update axis size\nin function of container size",
-            "params": [
-                {
-                    "name": "json",
-                    "description": "size of container"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 234,
-            "description": "This method update the quantity of information\ndisplay on the axis",
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 260,
-            "description": "Get the axis container size",
-            "return": {
-                "description": "json object"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 273,
-            "description": "Get the axis container size",
-            "return": {
-                "description": "json object"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/axis.js",
-            "line": 285,
-            "description": "Draw axis on g",
-            "class": ""
-        },
-        {
-            "file": "js/object/brush.js",
-            "line": 8,
-            "description": "Create a responsive brush",
-            "params": [
-                {
-                    "name": "json",
-                    "description": "object options :\nsvg : the svg to add brush\narea : area\nareaSelector : the d3js selector to get the area\ncX : container x ResponiveAxis\ncY : container y ResponiveAxis\nsize : size of axis in px\nmarginTop : the margin top to apply under the main graph"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "js/object/brush.js",
-            "line": 32,
-            "description": "Constructor",
-            "class": ""
-        },
-        {
-            "file": "js/object/brush.js",
-            "line": 56,
             "description": "Method to attach custom event",
+            "itemtype": "method",
+            "name": "on",
+            "access": "public",
+            "tagname": "",
             "params": [
                 {
-                    "name": "the",
-                    "description": "event to add"
+                    "name": "event",
+                    "description": "event to add",
+                    "type": "Object"
                 },
                 {
-                    "name": "the",
-                    "description": "function to call on event triggered"
+                    "name": "func",
+                    "description": "function to call on event triggered",
+                    "type": "Function"
                 }
             ],
-            "class": ""
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 69,
+            "file": "js\\object\\axis.js",
+            "line": 183,
             "description": "Method to trigger event",
+            "itemtype": "method",
+            "name": "trigger",
+            "access": "public",
+            "tagname": "",
             "params": [
                 {
-                    "name": "the",
-                    "description": "event to trigger"
+                    "name": "event",
+                    "description": "event to trigger",
+                    "type": "Object"
                 },
                 {
-                    "name": "the",
-                    "description": "args to apply to the function called"
+                    "name": "args",
+                    "description": "arguments to apply to the function called",
+                    "type": "Object"
                 }
             ],
-            "class": ""
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 87,
-            "description": "Method to remove event on function",
+            "file": "js\\object\\axis.js",
+            "line": 204,
+            "description": "Method to remove function on event",
+            "itemtype": "method",
+            "name": "remove",
+            "access": "public",
+            "tagname": "",
             "params": [
                 {
-                    "name": "the",
-                    "description": "event to clear"
+                    "name": "event",
+                    "description": "event to clear",
+                    "type": "Object"
                 },
                 {
-                    "name": "the",
-                    "description": "function to remove"
+                    "name": "func",
+                    "description": "function to remove",
+                    "type": "Function"
                 }
             ],
-            "class": ""
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 99,
+            "file": "js\\object\\axis.js",
+            "line": 219,
             "description": "Add default events to current object",
-            "class": ""
+            "itemtype": "method",
+            "name": "addDefaultEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 106,
+            "file": "js\\object\\axis.js",
+            "line": 229,
             "description": "This method init properties for axis",
-            "class": ""
+            "itemtype": "method",
+            "name": "initProperties",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 151,
-            "description": "Init graph",
+            "file": "js\\object\\axis.js",
+            "line": 251,
+            "description": "Retrieve the parent container of g element",
+            "itemtype": "method",
+            "name": "initContainer",
+            "access": "private",
+            "tagname": "",
             "return": {
-                "description": "grapph",
+                "description": "parent container of g element",
+                "type": "HTMLElement"
+            },
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 267,
+            "description": "Initialize data to display on axis",
+            "itemtype": "method",
+            "name": "initContainer",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "data created by the function",
                 "type": "Object"
             },
-            "class": ""
+            "class": "ResponsiveAxis"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 164,
-            "description": "Init brush",
+            "file": "js\\object\\axis.js",
+            "line": 295,
+            "description": "Initialize axis",
+            "itemtype": "method",
+            "name": "initAxis",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "the data returned by initData function",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "axis created by the function",
+                "type": "Object"
+            },
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 308,
+            "description": "Initialize gap : the difference between container size and current graph size",
+            "itemtype": "method",
+            "name": "initRatio",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "container",
+                    "description": "the g container",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "gap",
+                "type": "Object"
+            },
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 326,
+            "description": "This method allows to update gap proportion (height and width)",
+            "itemtype": "method",
+            "name": "updateRatio",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "updateHeight",
+                    "description": "indicate if need to update height value of gap",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "value",
+                    "description": "value to add to gap",
+                    "type": "Integer"
+                },
+                {
+                    "name": "redraw",
+                    "description": "indicate if axis need to be redraw",
+                    "type": "Integer"
+                }
+            ],
+            "return": {
+                "description": "gap into json object {heigh: h, width: w}",
+                "type": "Object"
+            },
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 349,
+            "description": "This method recalculates the height of gap\n(used for axis that have fixed height)",
+            "itemtype": "method",
+            "name": "updateHeightRatio",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 361,
+            "description": "This method update range of axis",
+            "itemtype": "method",
+            "name": "updateHeightRatio",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 379,
+            "description": "This method updates axis size with the size sets in parameter\nIf parameter is not set, the axis is resize to the complete of container",
+            "itemtype": "method",
+            "name": "updateHeightRatio",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "cSize",
+                    "description": "json size of container {height: h, width: w}",
+                    "type": "Object"
+                }
+            ],
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 402,
+            "description": "This method update the quantity of information\ndisplay on the axis",
+            "itemtype": "method",
+            "name": "updateAxisTicks",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 431,
+            "description": "Get the container size",
+            "itemtype": "method",
+            "name": "getContainerSize",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "size into json object {height: h, width: w}",
+                "type": "Object"
+            },
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\axis.js",
+            "line": 447,
+            "description": "Method that draws axis into g :<br/>\nUpdates :<br/>\n - the size of axis (automatically recalculated)\n - the range\n - the quantity of information to display",
+            "itemtype": "method",
+            "name": "draw",
+            "access": "public",
+            "tagname": "",
+            "class": "ResponsiveAxis"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 39,
+            "description": "Main svg element<br/>\nRead with : brush.svg()<br/>\nWrite with : brush.svg(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "g",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 50,
+            "description": "Area element used to draw chart<br/>\nRead with : brush.area()<br/>\nWrite with : brush.area(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "area",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 61,
+            "description": "d3js selector to retrieve area<br/>\nRead with : brush.areaSelector()<br/>\nWrite with : brush.areaSelector(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "areaSelector",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 72,
+            "description": "x axis of main chart<br/>\nRead with : brush.cX()<br/>\nWrite with : brush.cX(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "cX",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "ResponsiveAxis",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 83,
+            "description": "y axis of main chart<br/>\nRead with : brush.cY()<br/>\nWrite with : brush.cY(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "cY",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "ResponsiveAxis",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 94,
+            "description": "Meight of the brush element<br/>\nRead with : brush.height()<br/>\nWrite with : brush.height(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "height",
+            "access": "public",
+            "tagname": "",
+            "type": "Integer",
+            "default": "50",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 105,
+            "description": "Margin to apply to brush element<br/>\nRead with : brush.margin()<br/>\nWrite with : brush.margin(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "margin",
+            "access": "public",
+            "tagname": "",
+            "type": "Object",
+            "default": "{top: 0, right: 0, bottom: 0, left: 0}",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 116,
+            "description": "Indicate if resize is automatically done<br/>\nRead with : axis.autoresize()<br/>\nWrite with : axis.autoresize(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "autoresize",
+            "access": "public",
+            "tagname": "",
+            "type": "Boolean",
+            "default": "false",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 130,
+            "description": "ResponsiveBrush Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 162,
+            "description": "Method to attach custom event",
+            "itemtype": "method",
+            "name": "on",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "event to add",
+                    "type": "Object"
+                },
+                {
+                    "name": "func",
+                    "description": "function to call on event triggered",
+                    "type": "Function"
+                }
+            ],
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 178,
+            "description": "Method to trigger event",
+            "itemtype": "method",
+            "name": "trigger",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "event to trigger",
+                    "type": "Object"
+                },
+                {
+                    "name": "args",
+                    "description": "arguments to apply to the function called",
+                    "type": "Object"
+                }
+            ],
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 199,
+            "description": "Method to remove function on event",
+            "itemtype": "method",
+            "name": "remove",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "event event to clear",
+                    "type": "Object"
+                },
+                {
+                    "name": "func",
+                    "description": "function function to remove",
+                    "type": "Function"
+                }
+            ],
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 214,
+            "description": "Add default events to current object",
+            "itemtype": "method",
+            "name": "addDefaultEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 224,
+            "description": "This method init properties for axis",
+            "itemtype": "method",
+            "name": "initProperties",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 272,
+            "description": "Initialize g element to draw brush",
+            "itemtype": "method",
+            "name": "initGraph",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "g element create",
+                "type": "Object"
+            },
+            "class": "ResponsiveBrush"
+        },
+        {
+            "file": "js\\object\\brush.js",
+            "line": 288,
+            "description": "Initialize brush",
+            "itemtype": "method",
+            "name": "initBrush",
+            "access": "private",
+            "tagname": "",
             "params": [
                 {
                     "name": "ResponsiveAxis",
@@ -387,87 +847,225 @@
                 "description": "brush",
                 "type": "Object"
             },
-            "class": ""
+            "class": "ResponsiveBrush"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 180,
+            "file": "js\\object\\brush.js",
+            "line": 307,
             "description": "Construct the brush slider",
-            "class": ""
+            "itemtype": "method",
+            "name": "constructSlider",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveBrush"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 192,
-            "description": "Method that redraws the brush",
-            "class": ""
+            "file": "js\\object\\brush.js",
+            "line": 322,
+            "description": "Method that draws the brush :<br/>\nUpdate his size automatically",
+            "itemtype": "method",
+            "name": "draw",
+            "access": "public",
+            "tagname": "",
+            "class": "ResponsiveBrush"
         },
         {
-            "file": "js/object/brush.js",
-            "line": 203,
-            "description": "Brushed function",
-            "class": ""
+            "file": "js\\object\\brush.js",
+            "line": 337,
+            "description": "Method that brushes<br/>\nUpdate the domain of main chart",
+            "itemtype": "method",
+            "name": "brushed",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveBrush"
         },
         {
-            "file": "js/object/event.js",
-            "line": 8,
-            "description": "Create a responsive event",
-            "params": [
-                {
-                    "name": "json",
-                    "description": "object options :\nobject : object to apply events\nevents : events possible on object"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "js/object/event.js",
-            "line": 28,
-            "description": "Constructor",
-            "class": ""
-        },
-        {
-            "file": "js/object/event.js",
+            "file": "js\\object\\event.js",
             "line": 41,
-            "description": "Method to init event",
-            "class": ""
+            "description": "Object which listen to events<br/>\nRead with : object.g()<br/>\nWrite with : object.g(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "object",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveEvent"
         },
         {
-            "file": "js/object/event.js",
-            "line": 56,
-            "description": "Method that retrieves \nthe mapped event to event pass in parameter",
+            "file": "js\\object\\event.js",
+            "line": 52,
+            "description": "List of events that can be extended\nassociated with function listen by the object<br/>\nRead with : axis.events()<br/>\nWrite with : axis.events(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "events",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 64,
+            "itemtype": "attribute",
+            "name": "eventsId",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 86,
+            "description": "ResponsiveEvent Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 104,
+            "description": "This method init properties for axis",
+            "itemtype": "method",
+            "name": "initProperties",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 122,
+            "description": "Define event on current obj",
+            "itemtype": "method",
+            "name": "initEvent",
+            "access": "public",
+            "tagname": "",
             "params": [
                 {
                     "name": "event",
-                    "description": ""
+                    "description": "name of event to define",
+                    "type": "String"
+                },
+                {
+                    "name": "func",
+                    "description": "function to invoke when event is triggered",
+                    "type": "Function"
+                }
+            ],
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 142,
+            "description": "Intercept the touch event triggered by the user in order to transform it",
+            "itemtype": "method",
+            "name": "intercept",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 160,
+            "description": "Transform a touch event into mouse event and dispatch it",
+            "itemtype": "method",
+            "name": "transformEvent",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "Hammer Event or Touch Event to transform",
+                    "type": "Event"
+                },
+                {
+                    "name": "type",
+                    "description": "name of event",
+                    "type": "String"
+                }
+            ],
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 194,
+            "description": "Indicate if event name pass in parameter is mouse event",
+            "itemtype": "method",
+            "name": "isMouseEvent",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "to check",
+                    "type": "String"
                 }
             ],
             "return": {
-                "description": "the mapped event",
-                "type": "String"
+                "description": "true if event is mouse event",
+                "type": "Boolean"
             },
-            "class": ""
+            "class": "ResponsiveEvent"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 9,
+            "file": "js\\object\\event.js",
+            "line": 206,
+            "description": "Method that retrieves \nthe mapped event to event pass in parameter",
+            "itemtype": "method",
+            "name": "getMappedEvent",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "name of event to get the matching event",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "event name of mapped event",
+                "type": "String"
+            },
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\event.js",
+            "line": 231,
+            "description": "Method that generates unique id",
+            "itemtype": "method",
+            "name": "generateId",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "an unique id",
+                "type": "String"
+            },
+            "class": "ResponsiveEvent"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 8,
             "description": "Create a responsive selector",
             "params": [
                 {
                     "name": "json",
-                    "description": "object options :\ng : graph\ncls : css class for tooltip\nautoresize : indicate if resize is automatically done"
+                    "description": "object options :\ng : graph\ndepth : the initial depth\nlayout : layout for data\nparentsCls : class name for parents\nchildrenCls : children class name\nnode : the current node\nroot : the root of tree\nautoresize : indicate if resize is automatically done"
                 }
             ],
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 30,
+            "file": "js\\object\\selector.js",
+            "line": 33,
             "description": "Constructor",
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 51,
+            "file": "js\\object\\selector.js",
+            "line": 54,
             "description": "Method to attach custom event",
             "params": [
                 {
@@ -479,11 +1077,11 @@
                     "description": "function to call on event triggered"
                 }
             ],
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 64,
+            "file": "js\\object\\selector.js",
+            "line": 67,
             "description": "Method to trigger event",
             "params": [
                 {
@@ -495,11 +1093,11 @@
                     "description": "args to apply to the function called"
                 }
             ],
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 82,
+            "file": "js\\object\\selector.js",
+            "line": 85,
             "description": "Method to remove event on function",
             "params": [
                 {
@@ -511,71 +1109,70 @@
                     "description": "function to remove"
                 }
             ],
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 94,
+            "file": "js\\object\\selector.js",
+            "line": 97,
             "description": "Add default events to current object",
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 110,
+            "file": "js\\object\\selector.js",
+            "line": 113,
             "description": "Method to init properties for tooltip",
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 125,
-            "description": "Retrieve the g element",
+            "file": "js\\object\\selector.js",
+            "line": 130,
+            "description": "Retrieve the container element",
             "return": {
                 "description": "container",
                 "type": "Object"
             },
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 138,
-            "description": "Init parents of data and put\nelement allParents on children \nif it doesn't exist",
+            "file": "js\\object\\selector.js",
+            "line": 143,
+            "description": "Init gap",
+            "return": {
+                "description": "object gap"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 157,
+            "description": "Init data and put element\nallParents on children \nif it doesn't exist",
             "return": {
                 "description": "parents",
                 "type": "Object"
             },
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 166,
+            "file": "js\\object\\selector.js",
+            "line": 185,
             "description": "Method to init first parents outline",
-            "class": ""
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 231,
-            "description": "Method to update first parents outline\nand names",
-            "params": [
-                {
-                    "name": "depth",
-                    "description": ""
-                },
-                {
-                    "name": "node",
-                    "description": ""
-                }
-            ],
-            "class": ""
+            "file": "js\\object\\selector.js",
+            "line": 254,
+            "description": "Method to draw title of first parent",
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 298,
-            "description": "Method to draw title of first parents",
-            "class": ""
+            "file": "js\\object\\selector.js",
+            "line": 291,
+            "description": "Method to update first parents outline",
+            "class": "ResponsiveTooltip"
         },
         {
-            "file": "js/object/selector.js",
-            "line": 334,
+            "file": "js\\object\\selector.js",
+            "line": 359,
             "description": "Method to update first parents title",
             "params": [
                 {
@@ -583,274 +1180,1144 @@
                     "description": ""
                 }
             ],
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 397,
+            "description": "Get the selector container size",
+            "return": {
+                "description": "json object"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 411,
+            "description": "Method to draw the outline",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 465,
+            "description": "Method to draw the selector",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 473,
+            "description": "Method to draw the outline of node",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 503,
+            "description": "Method to redraw the selector\non a changed node",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 514,
+            "description": "Method to hide",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\selector.js",
+            "line": 534,
+            "description": "Method called on window resize event",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 26,
+            "description": "g element used to draw tooltip<br/>\nRead with : tooltip.g()<br/>\nWrite with : tooltip.g(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "g",
+            "access": "public",
+            "tagname": "",
+            "required": 1,
+            "type": "Object",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 38,
+            "description": "Css class to apply on tooltip<br/>\nRead with : tooltip.cls()<br/>\nWrite with : tooltip.cls(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "cls",
+            "access": "public",
+            "tagname": "",
+            "type": "String",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 48,
+            "description": "Indicate if resize is automatically done<br/>\nRead with : tooltip.autoresize()<br/>\nWrite with : tooltip.autoresize(newValue)<br/>",
+            "itemtype": "attribute",
+            "name": "autoresize",
+            "access": "public",
+            "tagname": "",
+            "type": "Boolean",
+            "default": "false",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 59,
+            "description": "List of events attached <br/>\nRead with : tooltip.events()<br/>",
+            "itemtype": "attribute",
+            "name": "events",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "readonly": "",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 71,
+            "description": "ResponsiveTooltip Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 96,
+            "description": "Method to attach custom event",
+            "itemtype": "method",
+            "name": "on",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "event to add",
+                    "type": "Object"
+                },
+                {
+                    "name": "func",
+                    "description": "function to call on event triggered",
+                    "type": "Function"
+                }
+            ],
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 112,
+            "description": "Method to trigger event",
+            "itemtype": "method",
+            "name": "trigger",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "event to trigger",
+                    "type": "Object"
+                },
+                {
+                    "name": "args",
+                    "description": "arguments to apply to the function called",
+                    "type": "Object"
+                }
+            ],
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 148,
+            "description": "Method to remove function on event",
+            "itemtype": "method",
+            "name": "remove",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "event to clear",
+                    "type": "Object"
+                },
+                {
+                    "name": "func",
+                    "description": "function to remove",
+                    "type": "Function"
+                }
+            ],
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 163,
+            "description": "Add default events to current object",
+            "itemtype": "method",
+            "name": "addDefaultEvents",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 174,
+            "description": "This method init properties for tooltip",
+            "itemtype": "method",
+            "name": "initProperties",
+            "access": "private",
+            "tagname": "",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 196,
+            "description": "Retrieve the parent container of g element",
+            "itemtype": "method",
+            "name": "initContainer",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "parent container of g element",
+                "type": "HTMLElement"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 212,
+            "description": "Initialize container for tooltip",
+            "itemtype": "method",
+            "name": "initTooltip",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "width of tooltip",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "tooltip container created",
+                "type": "Object"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 232,
+            "description": "Initialize width container for tooltip",
+            "itemtype": "method",
+            "name": "initWidth",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "tooltip width",
+                "type": "String"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 257,
+            "description": "Initialize gap : the difference between container size and current graph size",
+            "itemtype": "method",
+            "name": "initRatio",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "container",
+                    "description": "the g container",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "gap",
+                "type": "Object"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 274,
+            "description": "Get the container tooltip height",
+            "itemtype": "method",
+            "name": "getHeight",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "height of clientHeight tooltip container",
+                "type": "String"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 287,
+            "description": "Get the container tooltip width",
+            "itemtype": "method",
+            "name": "getWidth",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "width of clientWidth tooltip container",
+                "type": "String"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 300,
+            "description": "Get if the tooltip is drawn",
+            "itemtype": "method",
+            "name": "getIsDrawn",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "true if the tooltip is drawn",
+                "type": "Boolean"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 314,
+            "description": "Get the container g position",
+            "itemtype": "method",
+            "name": "getGPosition",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "position into json object {x: vx, y: vy}",
+                "type": "Object"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 329,
+            "description": "Get the container tooltip position",
+            "itemtype": "method",
+            "name": "getTooltipPosition",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "width of g",
+                    "type": "String"
+                },
+                {
+                    "name": "height",
+                    "description": "height of g",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "position into json object {tooltipLeft: tl, tooltipTop: tp}",
+                "type": "Object"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 408,
+            "description": "Get the container size",
+            "itemtype": "method",
+            "name": "getContainerSize",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "size into json object {height: h, width: w}",
+                "type": "Object"
+            },
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 424,
+            "description": "Method that draws tooltip :<br/>\nUpdates :<br/>\n - the data of tooltip\n - the tooltip position (automatically recalculated)",
+            "itemtype": "method",
+            "name": "draw",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "content of tooltip",
+                    "type": "String"
+                }
+            ],
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\object\\tooltip.js",
+            "line": 456,
+            "description": "Method to hide tooltip object",
+            "itemtype": "method",
+            "name": "hide",
+            "access": "public",
+            "tagname": "",
+            "class": "ResponsiveTooltip"
+        },
+        {
+            "file": "js\\utils\\constants.js",
+            "line": 41,
+            "description": "ResponsiveConstants Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveConstants"
+        },
+        {
+            "file": "js\\utils\\constants.js",
+            "line": 55,
+            "description": "Method to update less variables",
+            "itemtype": "method",
+            "name": "updateLessVariables",
+            "access": "public",
+            "tagname": "",
+            "class": "ResponsiveConstants"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 20,
+            "description": "List of less variables<br/>\nRead with : less.variables()<br/>",
+            "itemtype": "attribute",
+            "name": "variables",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "readonly": "",
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 32,
+            "description": "Variable use to keep less variables modifcations before update them",
+            "itemtype": "attribute",
+            "name": "prepareLessVariables",
+            "access": "private",
+            "tagname": "",
+            "type": "Object",
+            "readonly": "",
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 42,
+            "description": "ResponsiveLess Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 68,
+            "description": "Method that generates unique id",
+            "itemtype": "method",
+            "name": "generateId",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "an unique id",
+                "type": "String"
+            },
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 80,
+            "description": "This method generates getters and setters options for object obj",
+            "itemtype": "method",
+            "name": "generateAccessors",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "accessors for object obj",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "json object options",
+                    "type": "Object"
+                }
+            ],
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 99,
+            "description": "getLessVars parses your LESS variables to Javascript (provided you make a dummy node in LESS)",
+            "itemtype": "method",
+            "name": "getLessVars",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The CSS-id your variables are listed under.",
+                    "type": "String"
+                },
+                {
+                    "name": "parseNumbers",
+                    "description": "Try to parse units as numbers.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "true"
+                }
+            ],
+            "return": {
+                "description": "A value object containing your LESS variables.",
+                "type": "Object"
+            },
+            "example": [
+                "\nLESS:\n\t&#64;myLessVariable: 123px;\n\t#dummyLessId { width: @myLessVariable; }\nJavascript:\n\tgetLessVars('dummyLessId');\nreturns:\n\t{myLessVariable:123}"
+            ],
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 146,
+            "description": "Method to retrieve the initial \nvalue of less vars using the function less.modifyVars",
+            "itemtype": "method",
+            "name": "attributeValueInitialToVars",
+            "access": "public",
+            "tagname": "",
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\less.js",
+            "line": 168,
+            "description": "Method to update less variables",
+            "itemtype": "method",
+            "name": "updateVariables",
+            "access": "public",
+            "tagname": "",
+            "class": "ResponsiveLess"
+        },
+        {
+            "file": "js\\utils\\treeUtil.js",
+            "line": 20,
+            "description": "ResponsiveTreeUtil Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveTreeUtil"
+        },
+        {
+            "file": "js\\utils\\treeUtil.js",
+            "line": 35,
+            "description": "Get all parents on node",
+            "itemtype": "method",
+            "name": "getAllParents",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "node to get all parents",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "parents of node",
+                "type": "Array"
+            },
+            "class": "ResponsiveTreeUtil"
+        },
+        {
+            "file": "js\\utils\\treeUtil.js",
+            "line": 52,
+            "description": "To know if text needs \nto be in light color",
+            "itemtype": "method",
+            "name": "needLightColor",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "color to evaluate",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "true if the text needs light color",
+                "type": "Boolean"
+            },
+            "class": "ResponsiveTreeUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 18,
+            "description": "ResponsiveUtil Constructor",
+            "itemtype": "method",
+            "name": "my",
+            "access": "public",
+            "tagname": "",
+            "is_constructor": 1,
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 53,
+            "description": "Method that generates unique id",
+            "itemtype": "method",
+            "name": "generateId",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "an unique id",
+                "type": "String"
+            },
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 65,
+            "description": "This method generates getters and setters options for object obj",
+            "itemtype": "method",
+            "name": "generateAccessors",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "accessors for object obj",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "json object options",
+                    "type": "Object"
+                }
+            ],
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 84,
+            "description": "This method allow to add multiple resize events on window",
+            "itemtype": "method",
+            "name": "addResizeEvent",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "func",
+                    "description": "function to invoke when event resize is triggered",
+                    "type": "Function"
+                }
+            ],
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 101,
+            "description": "This method is use to detect whether the \nusers browser is an mobile browser",
+            "itemtype": "method",
+            "name": "mobile",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "true if the device is a mobile",
+                "type": "Boolean"
+            },
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 129,
+            "description": "This method return the position of cursor",
+            "itemtype": "method",
+            "name": "getCursorPosition",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "position into json object {x; vx, y: vy}",
+                "type": "Object"
+            },
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 144,
+            "description": "This method return the position of element",
+            "itemtype": "method",
+            "name": "getElementPosition",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "id for get element",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "position into json object {x; vx, y: vy}",
+                "type": "Object"
+            },
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 166,
+            "description": "This method is use to detect whether the \ncursor clicked is included",
+            "itemtype": "method",
+            "name": "isPositionOutsideContainer",
+            "access": "public",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "margin",
+                    "description": "margin for the outside zone",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "true if the event is outside",
+                "type": "Boolean"
+            },
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 188,
+            "description": "Calculate width of current screen",
+            "itemtype": "method",
+            "name": "getWidth",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "screen width",
+                "type": "String"
+            },
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\utils\\util.js",
+            "line": 209,
+            "description": "Calculate height of current screen",
+            "itemtype": "method",
+            "name": "getHeight",
+            "access": "public",
+            "tagname": "",
+            "return": {
+                "description": "screen height",
+                "type": "String"
+            },
+            "class": "ResponsiveUtil"
+        },
+        {
+            "file": "js\\visualizations\\presentation.js",
+            "line": 120,
+            "description": "Fonctions d'initialisation",
             "class": ""
         },
         {
-            "file": "js/object/selector.js",
-            "line": 366,
-            "description": "Get the axis container size",
+            "file": "js\\visualizations\\presentation.js",
+            "line": 240,
+            "description": "Getters AND Setters",
+            "class": ""
+        },
+        {
+            "file": "js\\visualizations\\presentation.js",
+            "line": 440,
+            "description": "Methods",
+            "class": ""
+        },
+        {
+            "file": "js\\visualizations\\timelineMin.js",
+            "line": 80,
+            "description": "Fonctions d'initialisation",
+            "class": ""
+        },
+        {
+            "file": "js\\visualizations\\timelineMin.js",
+            "line": 205,
+            "description": "Getters AND Setters",
+            "class": ""
+        },
+        {
+            "file": "js\\visualizations\\timelineMin.js",
+            "line": 348,
+            "description": "Methods",
+            "class": ""
+        },
+        {
+            "file": "js\\visualizations\\treemap.js",
+            "line": 112,
+            "description": "Fonctions d'initialisation",
+            "class": ""
+        },
+        {
+            "file": "js\\visualizations\\treemap.js",
+            "line": 212,
+            "description": "Getters AND Setters",
+            "class": ""
+        },
+        {
+            "file": "js\\visualizations\\treemap.js",
+            "line": 412,
+            "description": "Methods",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 1,
+            "description": "Title: KeyboardJS\nVersion: v0.4.1\nDescription: KeyboardJS is a flexible and easy to use keyboard binding\nlibrary.\nAuthor: Robert Hurst.\n\nCopyright 2011, Robert William Hurst\nLicenced under the BSD License.\nSee https://raw.github.com/RobertWHurst/KeyboardJS/master/license.txt",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 26,
+            "description": "Construct AMD version of the library",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 43,
+            "description": "Construct CommonJS version of the library",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 64,
+            "description": "Construct a Global version of the library",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 292,
+            "description": "Enables KeyboardJS",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 309,
+            "description": "Exits all active bindings and disables KeyboardJS",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 332,
+            "description": "Exits all active bindings. Optionally passes an event to all binding\n handlers.",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "[Optional]",
+                    "type": "KeyboardEvent"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 343,
+            "description": "Key down event handler.",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "KeyboardEvent"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 362,
+            "description": "Key up event handler.",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "KeyboardEvent"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 377,
+            "description": "Accepts a key code and returns the key names defined by the current\n locale.",
+            "params": [
+                {
+                    "name": "keyCode",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
             "return": {
-                "description": "json object"
+                "description": "keyNames\tAn array of key names defined for the key\n code as defined by the current locale.",
+                "type": "Array"
             },
             "class": ""
         },
         {
-            "file": "js/object/selector.js",
-            "line": 379,
-            "description": "Method to draw the outline",
-            "class": ""
-        },
-        {
-            "file": "js/object/selector.js",
-            "line": 434,
-            "description": "Method to draw the tooltip",
-            "class": ""
-        },
-        {
-            "file": "js/object/selector.js",
-            "line": 442,
-            "description": "Method to draw the tooltip",
-            "class": ""
-        },
-        {
-            "file": "js/object/selector.js",
-            "line": 479,
-            "description": "Method to hide",
-            "class": ""
-        },
-        {
-            "file": "js/object/selector.js",
-            "line": 496,
-            "description": "Method called on window resize event",
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 9,
-            "description": "Create a responsive tooltip",
+            "file": "lib\\keyboard.js",
+            "line": 388,
+            "description": "Accepts a key name and returns the key code defined by the current\n locale.",
             "params": [
                 {
-                    "name": "json",
-                    "description": "object options :\ng : graph\ncls : css class for tooltip\nautoresize : indicate if resize is automatically done"
+                    "name": "keyName",
+                    "description": "",
+                    "type": "Number"
                 }
             ],
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 25,
-            "description": "Constructor",
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 46,
-            "description": "Method to attach custom event",
-            "params": [
-                {
-                    "name": "the",
-                    "description": "event to add"
-                },
-                {
-                    "name": "the",
-                    "description": "function to call on event triggered"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 59,
-            "description": "Method to trigger event",
-            "params": [
-                {
-                    "name": "the",
-                    "description": "event to trigger"
-                },
-                {
-                    "name": "the",
-                    "description": "args to apply to the function called"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 92,
-            "description": "Method to remove event on function",
-            "params": [
-                {
-                    "name": "the",
-                    "description": "event to clear"
-                },
-                {
-                    "name": "the",
-                    "description": "function to remove"
-                }
-            ],
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 104,
-            "description": "Add default events to current object",
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 112,
-            "description": "Method to init properties for tooltip",
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 130,
-            "description": "Retrieve the parent container of g element",
             "return": {
-                "description": "container",
+                "description": "",
+                "type": "Number|false"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 408,
+            "description": "Accepts a key combo and an array of key names to inject once the key\n combo is satisfied.",
+            "params": [
+                {
+                    "name": "combo",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "injectedKeys",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 424,
+            "description": "Accepts a key combo and clears any and all macros bound to that key\ncombo.",
+            "params": [
+                {
+                    "name": "combo",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 442,
+            "description": "Executes macros against the active keys. Each macro's key combo is\n checked and if found to be satisfied, the macro's key names are injected\n into active keys.",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 460,
+            "description": "Prunes active macros. Checks each active macro's key combo and if found\n to no longer to be satisfied, each of the macro's key names are removed\n from active keys.",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 484,
+            "description": "Creates a binding object, and, if provided, binds a key down hander and\n a key up handler. Returns a binding object that emits keyup and\n keydown events.",
+            "params": [
+                {
+                    "name": "keyCombo",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "keyDownCallback",
+                    "description": "[Optional]",
+                    "type": "Function"
+                },
+                {
+                    "name": "keyUpCallback",
+                    "description": "[Optional]",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "binding",
                 "type": "Object"
             },
             "class": ""
         },
         {
-            "file": "js/object/tooltip.js",
-            "line": 143,
-            "description": "Function to init tooltip",
-            "return": {
-                "description": "object tooltip"
-            },
+            "file": "lib\\keyboard.js",
+            "line": 531,
+            "description": "Clears the binding",
             "class": ""
         },
         {
-            "file": "js/object/tooltip.js",
-            "line": 159,
-            "description": "Init width",
-            "return": {
-                "description": "object width"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 179,
-            "description": "Get the current height of the tooltip",
-            "return": {
-                "description": "int the height of tooltip"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 189,
-            "description": "Function to know if the tooltip is drawn",
-            "return": {
-                "description": "boolean"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 200,
-            "description": "Get the tooltip position",
-            "return": {
-                "description": "json object"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 265,
-            "description": "Get the graph container size",
-            "return": {
-                "description": "json object"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 278,
-            "description": "Method to draw the tooltip",
-            "class": ""
-        },
-        {
-            "file": "js/object/tooltip.js",
-            "line": 297,
-            "description": "Method to hide the tooltip",
-            "class": ""
-        },
-        {
-            "file": "js/old/timeline.js",
-            "line": 3,
-            "description": "Fonction show : appelle la fonction load en lui passant le tsv",
+            "file": "lib\\keyboard.js",
+            "line": 541,
+            "description": "Accepts an event name. and any number of callbacks. When the event is\n emitted, all callbacks are executed. Available events are key up and\n key down.",
             "params": [
                 {
-                    "name": "data",
-                    "description": ": les donnees"
+                    "name": "eventName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "subBinding",
+                "type": "Object"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 577,
+            "description": "Clears the binding",
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 599,
+            "description": "Clears all binding attached to a given key combo. Key name order does not\nmatter as long as the key combos equate.",
+            "params": [
+                {
+                    "name": "keyCombo",
+                    "description": "",
+                    "type": "String"
                 }
             ],
             "class": ""
         },
         {
-            "file": "js/old/timeline.js",
-            "line": 23,
-            "description": "Fonction load : ajoute les balises svg au conteneur pour afficher la vue",
+            "file": "lib\\keyboard.js",
+            "line": 614,
+            "description": "Clears all binding attached to key combos containing a given key name.",
             "params": [
                 {
-                    "name": "tsv",
-                    "description": ": fichier tsv"
+                    "name": "keyName",
+                    "description": "",
+                    "type": "String"
                 }
             ],
             "class": ""
         },
         {
-            "file": "js/old/timeline.js",
-            "line": 29,
-            "description": "Definition des variables generiques",
-            "class": ""
-        },
-        {
-            "file": "js/utils/treeUtil.js",
-            "line": 1,
-            "description": "Utiliy Class",
-            "class": ""
-        },
-        {
-            "file": "js/utils/treeUtil.js",
-            "line": 6,
-            "description": "Constructor",
-            "class": ""
-        },
-        {
-            "file": "js/utils/treeUtil.js",
-            "line": 17,
-            "description": "Function to get all parents \non node",
+            "file": "lib\\keyboard.js",
+            "line": 635,
+            "description": "Executes bindings that are active. Only allows the keys to be used once\n as to prevent binding overlap.",
             "params": [
                 {
-                    "name": "node",
-                    "description": "object"
+                    "name": "event",
+                    "description": "The keyboard event.",
+                    "type": "KeyboardEvent"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 685,
+            "description": "Removes bindings that are no longer satisfied by the active keys. Also\n fires the key up callbacks.",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "KeyboardEvent"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 715,
+            "description": "Compares two key combos returning true when they are functionally\n equivalent.",
+            "params": [
+                {
+                    "name": "keyComboArrayA",
+                    "description": "keyCombo A key combo string or array.",
+                    "type": "String"
+                },
+                {
+                    "name": "keyComboArrayB",
+                    "description": "keyCombo A key combo string or array.",
+                    "type": "String"
                 }
             ],
             "return": {
-                "description": "array parents"
+                "description": "",
+                "type": "Boolean"
             },
             "class": ""
         },
         {
-            "file": "js/utils/util.js",
-            "line": 1,
-            "description": "Utiliy Class",
+            "file": "lib\\keyboard.js",
+            "line": 739,
+            "description": "Checks to see if a key combo string or key array is satisfied by the\n currently active keys. It does not take into account spent keys.",
+            "params": [
+                {
+                    "name": "keyCombo",
+                    "description": "A key combo string or array.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
             "class": ""
         },
         {
-            "file": "js/utils/util.js",
-            "line": 6,
-            "description": "Constructor",
+            "file": "lib\\keyboard.js",
+            "line": 767,
+            "description": "Accepts a key combo array or string and returns a flat array containing all keys referenced by\nthe key combo.",
+            "params": [
+                {
+                    "name": "keyCombo",
+                    "description": "A key combo string or array.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
             "class": ""
         },
         {
-            "file": "js/utils/util.js",
-            "line": 37,
-            "description": "Method that generates unique id",
+            "file": "lib\\keyboard.js",
+            "line": 784,
+            "description": "Parses a key combo string into a 3 dimensional array.\n- Level 1 - sub combos.\n- Level 2 - combo stages. A stage is a set of key name pairs that must\n be satisfied in the order they are defined.\n- Level 3 - each key name to the stage.",
+            "params": [
+                {
+                    "name": "keyCombo",
+                    "description": "A key combo string.",
+                    "type": "String|Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 860,
+            "description": "Stringifys a key combo.",
+            "params": [
+                {
+                    "name": "keyComboArray",
+                    "description": "A key combo array. If a key\n combo string is given it will be returned.",
+                    "type": "Array|String"
+                }
+            ],
             "return": {
                 "description": "",
                 "type": "String"
@@ -858,674 +2325,418 @@
             "class": ""
         },
         {
-            "file": "js/utils/util.js",
-            "line": 46,
-            "description": "This method generates getters and setters options for object obj",
+            "file": "lib\\keyboard.js",
+            "line": 885,
+            "description": "Returns the a copy of the active keys array.",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 893,
+            "description": "Adds a key to the active keys array, but only if it has not already been\n added.",
             "params": [
                 {
-                    "name": "json",
-                    "description": "object options"
+                    "name": "keyName",
+                    "description": "The key name string.",
+                    "type": "String"
                 }
             ],
             "class": ""
         },
         {
-            "file": "js/utils/util.js",
-            "line": 61,
-            "description": "This method allow to add multiple resize events on window",
+            "file": "lib\\keyboard.js",
+            "line": 904,
+            "description": "Removes a key from the active keys array.",
             "params": [
                 {
-                    "name": "func",
-                    "description": "",
-                    "type": "Function"
+                    "name": "keyNames",
+                    "description": "The key name string.",
+                    "type": "String"
                 }
             ],
             "class": ""
         },
         {
-            "file": "js/utils/util.js",
-            "line": 75,
-            "description": "This method is use to detect whether the \nusers browser is an mobile browser",
+            "file": "lib\\keyboard.js",
+            "line": 919,
+            "description": "Registers a new locale. This is useful if you would like to add support for a new keyboard layout. It could also be useful for\nalternative key names. For example if you program games you could create a locale for your key mappings. Instead of key 65 mapped\nto 'a' you could map it to 'jump'.",
+            "params": [
+                {
+                    "name": "localeName",
+                    "description": "The name of the new locale.",
+                    "type": "String"
+                },
+                {
+                    "name": "localeMap",
+                    "description": "The locale map.",
+                    "type": "Object"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "lib\\keyboard.js",
+            "line": 938,
+            "description": "Swaps the current locale.",
+            "params": [
+                {
+                    "name": "localeName",
+                    "description": "The locale to activate.",
+                    "type": "String"
+                }
+            ],
             "return": {
-                "description": "boolean"
+                "description": "",
+                "type": "Object"
             },
             "class": ""
         },
         {
-            "file": "js/utils/util.js",
-            "line": 134,
-            "description": "This method return the position of cursor",
-            "return": {
-                "description": "object"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/utils/util.js",
-            "line": 165,
-            "description": "This method return the position of element",
-            "return": {
-                "description": "object"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/utils/util.js",
-            "line": 186,
-            "description": "This method is use to detect whether the \ncursor clicked is included",
-            "return": {
-                "description": "boolean"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/utils/util.js",
-            "line": 211,
-            "description": "Calculate width of current screen",
-            "return": {
-                "description": "int width"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/utils/util.js",
-            "line": 229,
-            "description": "Calculate height of current screen",
-            "return": {
-                "description": "int height"
-            },
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/TimeLineMin.js",
-            "line": 81,
-            "description": "Fonctions d'initialisation",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/TimeLineMin.js",
-            "line": 210,
-            "description": "Getters AND Setters",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/TimeLineMin.js",
-            "line": 353,
-            "description": "Methods",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/initialTimeLine.js",
-            "line": 96,
-            "description": "Fonctions d'initialisation",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/initialTimeLine.js",
-            "line": 313,
-            "description": "Getters AND Setters",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/initialTimeLine.js",
-            "line": 532,
-            "description": "Methods",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/oldTreemap.js",
-            "line": 105,
-            "description": "Fonctions d'initialisation",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/oldTreemap.js",
-            "line": 240,
-            "description": "Getters AND Setters",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/oldTreemap.js",
-            "line": 416,
-            "description": "Methods",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/reuse.js",
-            "line": 99,
-            "description": "Fonctions d'initialisation",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/reuse.js",
-            "line": 340,
-            "description": "Getters AND Setters",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/reuse.js",
-            "line": 551,
-            "description": "Methods",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/timeline.js",
-            "line": 88,
-            "description": "Fonctions d'initialisation",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/timeline.js",
-            "line": 297,
-            "description": "Getters AND Setters",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/timeline.js",
-            "line": 500,
-            "description": "Methods",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/treemap.js",
-            "line": 205,
-            "description": "Fonctions d'initialisation",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/treemap.js",
-            "line": 360,
-            "description": "Getters AND Setters",
-            "class": ""
-        },
-        {
-            "file": "js/visualizations/treemap.js",
-            "line": 552,
-            "description": "Methods",
-            "class": ""
-        },
-        {
-            "file": "lib/less.min.js",
+            "file": "lib\\less.min.js",
             "line": 10,
             "class": ""
         }
     ],
     "warnings": [
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/axis.js:129"
+            "message": "unknown tag: version",
+            "line": " js\\object\\axis.js:1"
+        },
+        {
+            "message": "unknown tag: support",
+            "line": " js\\object\\axis.js:1"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " js\\object\\brush.js:1"
+        },
+        {
+            "message": "unknown tag: support",
+            "line": " js\\object\\brush.js:1"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/axis.js:260"
+            "line": " js\\object\\brush.js:288"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " js\\object\\event.js:1"
+        },
+        {
+            "message": "unknown tag: support",
+            "line": " js\\object\\event.js:1"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/axis.js:273"
+            "line": " js\\object\\selector.js:130"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/brush.js:151"
+            "line": " js\\object\\selector.js:157"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/brush.js:164"
+            "line": " js\\object\\selector.js:397"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/selector.js:125"
+            "message": "unknown tag: version",
+            "line": " js\\object\\tooltip.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/selector.js:138"
+            "message": "unknown tag: support",
+            "line": " js\\object\\tooltip.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/selector.js:366"
+            "message": "unknown tag: version",
+            "line": " js\\utils\\constants.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/tooltip.js:130"
+            "message": "unknown tag: support",
+            "line": " js\\utils\\constants.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/tooltip.js:200"
+            "message": "unknown tag: version",
+            "line": " js\\utils\\less.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/object/tooltip.js:265"
+            "message": "unknown tag: support",
+            "line": " js\\utils\\less.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/utils/util.js:37"
+            "message": "unknown tag: version",
+            "line": " js\\utils\\treeUtil.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/utils/util.js:211"
+            "message": "unknown tag: support",
+            "line": " js\\utils\\treeUtil.js:1"
         },
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " js/utils/util.js:229"
+            "message": "unknown tag: version",
+            "line": " js\\utils\\util.js:1"
         },
         {
-            "message": "Missing item type\nCreate a responsive axis",
-            "line": " js/object/axis.js:9"
-        },
-        {
-            "message": "Missing item type\nConstructor",
-            "line": " js/object/axis.js:33"
-        },
-        {
-            "message": "Missing item type\nMethod to attach custom event",
-            "line": " js/object/axis.js:60"
-        },
-        {
-            "message": "Missing item type\nMethod to trigger event",
-            "line": " js/object/axis.js:73"
-        },
-        {
-            "message": "Missing item type\nMethod to remove event on function",
-            "line": " js/object/axis.js:91"
-        },
-        {
-            "message": "Missing item type\nAdd default events to current object",
-            "line": " js/object/axis.js:103"
-        },
-        {
-            "message": "Missing item type\nThis method init properties for axis",
-            "line": " js/object/axis.js:110"
-        },
-        {
-            "message": "Missing item type\nRetrieve the parent container of g element",
-            "line": " js/object/axis.js:129"
-        },
-        {
-            "message": "Missing item type\nInit data to display on axis",
-            "line": " js/object/axis.js:142"
-        },
-        {
-            "message": "Missing item type\nInit axis",
-            "line": " js/object/axis.js:167"
-        },
-        {
-            "message": "Missing item type\nInit gap",
-            "line": " js/object/axis.js:177"
-        },
-        {
-            "message": "Missing item type\nUpdate gap",
-            "line": " js/object/axis.js:191"
-        },
-        {
-            "message": "Missing item type\nThis method update range of axis",
-            "line": " js/object/axis.js:199"
-        },
-        {
-            "message": "Missing item type\nThis method update axis size\nin function of container size",
-            "line": " js/object/axis.js:214"
-        },
-        {
-            "message": "Missing item type\nThis method update the quantity of information\ndisplay on the axis",
-            "line": " js/object/axis.js:234"
-        },
-        {
-            "message": "Missing item type\nGet the axis container size",
-            "line": " js/object/axis.js:260"
-        },
-        {
-            "message": "Missing item type\nGet the axis container size",
-            "line": " js/object/axis.js:273"
-        },
-        {
-            "message": "Missing item type\nDraw axis on g",
-            "line": " js/object/axis.js:285"
-        },
-        {
-            "message": "Missing item type\nCreate a responsive brush",
-            "line": " js/object/brush.js:8"
-        },
-        {
-            "message": "Missing item type\nConstructor",
-            "line": " js/object/brush.js:32"
-        },
-        {
-            "message": "Missing item type\nMethod to attach custom event",
-            "line": " js/object/brush.js:56"
-        },
-        {
-            "message": "Missing item type\nMethod to trigger event",
-            "line": " js/object/brush.js:69"
-        },
-        {
-            "message": "Missing item type\nMethod to remove event on function",
-            "line": " js/object/brush.js:87"
-        },
-        {
-            "message": "Missing item type\nAdd default events to current object",
-            "line": " js/object/brush.js:99"
-        },
-        {
-            "message": "Missing item type\nThis method init properties for axis",
-            "line": " js/object/brush.js:106"
-        },
-        {
-            "message": "Missing item type\nInit graph",
-            "line": " js/object/brush.js:151"
-        },
-        {
-            "message": "Missing item type\nInit brush",
-            "line": " js/object/brush.js:164"
-        },
-        {
-            "message": "Missing item type\nConstruct the brush slider",
-            "line": " js/object/brush.js:180"
-        },
-        {
-            "message": "Missing item type\nMethod that redraws the brush",
-            "line": " js/object/brush.js:192"
-        },
-        {
-            "message": "Missing item type\nBrushed function",
-            "line": " js/object/brush.js:203"
-        },
-        {
-            "message": "Missing item type\nCreate a responsive event",
-            "line": " js/object/event.js:8"
-        },
-        {
-            "message": "Missing item type\nConstructor",
-            "line": " js/object/event.js:28"
-        },
-        {
-            "message": "Missing item type\nMethod to init event",
-            "line": " js/object/event.js:41"
-        },
-        {
-            "message": "Missing item type\nMethod that retrieves \nthe mapped event to event pass in parameter",
-            "line": " js/object/event.js:56"
+            "message": "unknown tag: support",
+            "line": " js\\utils\\util.js:1"
         },
         {
             "message": "Missing item type\nCreate a responsive selector",
-            "line": " js/object/selector.js:9"
+            "line": " js\\object\\selector.js:8"
         },
         {
             "message": "Missing item type\nConstructor",
-            "line": " js/object/selector.js:30"
+            "line": " js\\object\\selector.js:33"
         },
         {
             "message": "Missing item type\nMethod to attach custom event",
-            "line": " js/object/selector.js:51"
+            "line": " js\\object\\selector.js:54"
         },
         {
             "message": "Missing item type\nMethod to trigger event",
-            "line": " js/object/selector.js:64"
+            "line": " js\\object\\selector.js:67"
         },
         {
             "message": "Missing item type\nMethod to remove event on function",
-            "line": " js/object/selector.js:82"
+            "line": " js\\object\\selector.js:85"
         },
         {
             "message": "Missing item type\nAdd default events to current object",
-            "line": " js/object/selector.js:94"
+            "line": " js\\object\\selector.js:97"
         },
         {
             "message": "Missing item type\nMethod to init properties for tooltip",
-            "line": " js/object/selector.js:110"
+            "line": " js\\object\\selector.js:113"
         },
         {
-            "message": "Missing item type\nRetrieve the g element",
-            "line": " js/object/selector.js:125"
+            "message": "Missing item type\nRetrieve the container element",
+            "line": " js\\object\\selector.js:130"
         },
         {
-            "message": "Missing item type\nInit parents of data and put\nelement allParents on children \nif it doesn't exist",
-            "line": " js/object/selector.js:138"
+            "message": "Missing item type\nInit gap",
+            "line": " js\\object\\selector.js:143"
+        },
+        {
+            "message": "Missing item type\nInit data and put element\nallParents on children \nif it doesn't exist",
+            "line": " js\\object\\selector.js:157"
         },
         {
             "message": "Missing item type\nMethod to init first parents outline",
-            "line": " js/object/selector.js:166"
+            "line": " js\\object\\selector.js:185"
         },
         {
-            "message": "Missing item type\nMethod to update first parents outline\nand names",
-            "line": " js/object/selector.js:231"
+            "message": "Missing item type\nMethod to draw title of first parent",
+            "line": " js\\object\\selector.js:254"
         },
         {
-            "message": "Missing item type\nMethod to draw title of first parents",
-            "line": " js/object/selector.js:298"
+            "message": "Missing item type\nMethod to update first parents outline",
+            "line": " js\\object\\selector.js:291"
         },
         {
             "message": "Missing item type\nMethod to update first parents title",
-            "line": " js/object/selector.js:334"
+            "line": " js\\object\\selector.js:359"
         },
         {
-            "message": "Missing item type\nGet the axis container size",
-            "line": " js/object/selector.js:366"
+            "message": "Missing item type\nGet the selector container size",
+            "line": " js\\object\\selector.js:397"
         },
         {
             "message": "Missing item type\nMethod to draw the outline",
-            "line": " js/object/selector.js:379"
+            "line": " js\\object\\selector.js:411"
         },
         {
-            "message": "Missing item type\nMethod to draw the tooltip",
-            "line": " js/object/selector.js:434"
+            "message": "Missing item type\nMethod to draw the selector",
+            "line": " js\\object\\selector.js:465"
         },
         {
-            "message": "Missing item type\nMethod to draw the tooltip",
-            "line": " js/object/selector.js:442"
+            "message": "Missing item type\nMethod to draw the outline of node",
+            "line": " js\\object\\selector.js:473"
+        },
+        {
+            "message": "Missing item type\nMethod to redraw the selector\non a changed node",
+            "line": " js\\object\\selector.js:503"
         },
         {
             "message": "Missing item type\nMethod to hide",
-            "line": " js/object/selector.js:479"
+            "line": " js\\object\\selector.js:514"
         },
         {
             "message": "Missing item type\nMethod called on window resize event",
-            "line": " js/object/selector.js:496"
-        },
-        {
-            "message": "Missing item type\nCreate a responsive tooltip",
-            "line": " js/object/tooltip.js:9"
-        },
-        {
-            "message": "Missing item type\nConstructor",
-            "line": " js/object/tooltip.js:25"
-        },
-        {
-            "message": "Missing item type\nMethod to attach custom event",
-            "line": " js/object/tooltip.js:46"
-        },
-        {
-            "message": "Missing item type\nMethod to trigger event",
-            "line": " js/object/tooltip.js:59"
-        },
-        {
-            "message": "Missing item type\nMethod to remove event on function",
-            "line": " js/object/tooltip.js:92"
-        },
-        {
-            "message": "Missing item type\nAdd default events to current object",
-            "line": " js/object/tooltip.js:104"
-        },
-        {
-            "message": "Missing item type\nMethod to init properties for tooltip",
-            "line": " js/object/tooltip.js:112"
-        },
-        {
-            "message": "Missing item type\nRetrieve the parent container of g element",
-            "line": " js/object/tooltip.js:130"
-        },
-        {
-            "message": "Missing item type\nFunction to init tooltip",
-            "line": " js/object/tooltip.js:143"
-        },
-        {
-            "message": "Missing item type\nInit width",
-            "line": " js/object/tooltip.js:159"
-        },
-        {
-            "message": "Missing item type\nGet the current height of the tooltip",
-            "line": " js/object/tooltip.js:179"
-        },
-        {
-            "message": "Missing item type\nFunction to know if the tooltip is drawn",
-            "line": " js/object/tooltip.js:189"
-        },
-        {
-            "message": "Missing item type\nGet the tooltip position",
-            "line": " js/object/tooltip.js:200"
-        },
-        {
-            "message": "Missing item type\nGet the graph container size",
-            "line": " js/object/tooltip.js:265"
-        },
-        {
-            "message": "Missing item type\nMethod to draw the tooltip",
-            "line": " js/object/tooltip.js:278"
-        },
-        {
-            "message": "Missing item type\nMethod to hide the tooltip",
-            "line": " js/object/tooltip.js:297"
-        },
-        {
-            "message": "Missing item type\nFonction show : appelle la fonction load en lui passant le tsv",
-            "line": " js/old/timeline.js:3"
-        },
-        {
-            "message": "Missing item type\nFonction load : ajoute les balises svg au conteneur pour afficher la vue",
-            "line": " js/old/timeline.js:23"
-        },
-        {
-            "message": "Missing item type\nDefinition des variables generiques",
-            "line": " js/old/timeline.js:29"
-        },
-        {
-            "message": "Missing item type\nUtiliy Class",
-            "line": " js/utils/treeUtil.js:1"
-        },
-        {
-            "message": "Missing item type\nConstructor",
-            "line": " js/utils/treeUtil.js:6"
-        },
-        {
-            "message": "Missing item type\nFunction to get all parents \non node",
-            "line": " js/utils/treeUtil.js:17"
-        },
-        {
-            "message": "Missing item type\nUtiliy Class",
-            "line": " js/utils/util.js:1"
-        },
-        {
-            "message": "Missing item type\nConstructor",
-            "line": " js/utils/util.js:6"
-        },
-        {
-            "message": "Missing item type\nMethod that generates unique id",
-            "line": " js/utils/util.js:37"
-        },
-        {
-            "message": "Missing item type\nThis method generates getters and setters options for object obj",
-            "line": " js/utils/util.js:46"
-        },
-        {
-            "message": "Missing item type\nThis method allow to add multiple resize events on window",
-            "line": " js/utils/util.js:61"
-        },
-        {
-            "message": "Missing item type\nThis method is use to detect whether the \nusers browser is an mobile browser",
-            "line": " js/utils/util.js:75"
-        },
-        {
-            "message": "Missing item type\nThis method return the position of cursor",
-            "line": " js/utils/util.js:134"
-        },
-        {
-            "message": "Missing item type\nThis method return the position of element",
-            "line": " js/utils/util.js:165"
-        },
-        {
-            "message": "Missing item type\nThis method is use to detect whether the \ncursor clicked is included",
-            "line": " js/utils/util.js:186"
-        },
-        {
-            "message": "Missing item type\nCalculate width of current screen",
-            "line": " js/utils/util.js:211"
-        },
-        {
-            "message": "Missing item type\nCalculate height of current screen",
-            "line": " js/utils/util.js:229"
+            "line": " js\\object\\selector.js:534"
         },
         {
             "message": "Missing item type\nFonctions d'initialisation",
-            "line": " js/visualizations/TimeLineMin.js:81"
+            "line": " js\\visualizations\\presentation.js:120"
         },
         {
             "message": "Missing item type\nGetters AND Setters",
-            "line": " js/visualizations/TimeLineMin.js:210"
+            "line": " js\\visualizations\\presentation.js:240"
         },
         {
             "message": "Missing item type\nMethods",
-            "line": " js/visualizations/TimeLineMin.js:353"
+            "line": " js\\visualizations\\presentation.js:440"
         },
         {
             "message": "Missing item type\nFonctions d'initialisation",
-            "line": " js/visualizations/initialTimeLine.js:96"
+            "line": " js\\visualizations\\timelineMin.js:80"
         },
         {
             "message": "Missing item type\nGetters AND Setters",
-            "line": " js/visualizations/initialTimeLine.js:313"
+            "line": " js\\visualizations\\timelineMin.js:205"
         },
         {
             "message": "Missing item type\nMethods",
-            "line": " js/visualizations/initialTimeLine.js:532"
+            "line": " js\\visualizations\\timelineMin.js:348"
         },
         {
             "message": "Missing item type\nFonctions d'initialisation",
-            "line": " js/visualizations/oldTreemap.js:105"
+            "line": " js\\visualizations\\treemap.js:112"
         },
         {
             "message": "Missing item type\nGetters AND Setters",
-            "line": " js/visualizations/oldTreemap.js:240"
+            "line": " js\\visualizations\\treemap.js:212"
         },
         {
             "message": "Missing item type\nMethods",
-            "line": " js/visualizations/oldTreemap.js:416"
+            "line": " js\\visualizations\\treemap.js:412"
         },
         {
-            "message": "Missing item type\nFonctions d'initialisation",
-            "line": " js/visualizations/reuse.js:99"
+            "message": "Missing item type\nTitle: KeyboardJS\nVersion: v0.4.1\nDescription: KeyboardJS is a flexible and easy to use keyboard binding\nlibrary.\nAuthor: Robert Hurst.\n\nCopyright 2011, Robert William Hurst\nLicenced under the BSD License.\nSee https://raw.github.com/RobertWHurst/KeyboardJS/master/license.txt",
+            "line": " lib\\keyboard.js:1"
         },
         {
-            "message": "Missing item type\nGetters AND Setters",
-            "line": " js/visualizations/reuse.js:340"
+            "message": "Missing item type\nConstruct AMD version of the library",
+            "line": " lib\\keyboard.js:26"
         },
         {
-            "message": "Missing item type\nMethods",
-            "line": " js/visualizations/reuse.js:551"
+            "message": "Missing item type\nConstruct CommonJS version of the library",
+            "line": " lib\\keyboard.js:43"
         },
         {
-            "message": "Missing item type\nFonctions d'initialisation",
-            "line": " js/visualizations/timeline.js:88"
+            "message": "Missing item type\nConstruct a Global version of the library",
+            "line": " lib\\keyboard.js:64"
         },
         {
-            "message": "Missing item type\nGetters AND Setters",
-            "line": " js/visualizations/timeline.js:297"
+            "message": "Missing item type\nEnables KeyboardJS",
+            "line": " lib\\keyboard.js:292"
         },
         {
-            "message": "Missing item type\nMethods",
-            "line": " js/visualizations/timeline.js:500"
+            "message": "Missing item type\nExits all active bindings and disables KeyboardJS",
+            "line": " lib\\keyboard.js:309"
         },
         {
-            "message": "Missing item type\nFonctions d'initialisation",
-            "line": " js/visualizations/treemap.js:205"
+            "message": "Missing item type\nExits all active bindings. Optionally passes an event to all binding\n handlers.",
+            "line": " lib\\keyboard.js:332"
         },
         {
-            "message": "Missing item type\nGetters AND Setters",
-            "line": " js/visualizations/treemap.js:360"
+            "message": "Missing item type\nKey down event handler.",
+            "line": " lib\\keyboard.js:343"
         },
         {
-            "message": "Missing item type\nMethods",
-            "line": " js/visualizations/treemap.js:552"
+            "message": "Missing item type\nKey up event handler.",
+            "line": " lib\\keyboard.js:362"
+        },
+        {
+            "message": "Missing item type\nAccepts a key code and returns the key names defined by the current\n locale.",
+            "line": " lib\\keyboard.js:377"
+        },
+        {
+            "message": "Missing item type\nAccepts a key name and returns the key code defined by the current\n locale.",
+            "line": " lib\\keyboard.js:388"
+        },
+        {
+            "message": "Missing item type\nAccepts a key combo and an array of key names to inject once the key\n combo is satisfied.",
+            "line": " lib\\keyboard.js:408"
+        },
+        {
+            "message": "Missing item type\nAccepts a key combo and clears any and all macros bound to that key\ncombo.",
+            "line": " lib\\keyboard.js:424"
+        },
+        {
+            "message": "Missing item type\nExecutes macros against the active keys. Each macro's key combo is\n checked and if found to be satisfied, the macro's key names are injected\n into active keys.",
+            "line": " lib\\keyboard.js:442"
+        },
+        {
+            "message": "Missing item type\nPrunes active macros. Checks each active macro's key combo and if found\n to no longer to be satisfied, each of the macro's key names are removed\n from active keys.",
+            "line": " lib\\keyboard.js:460"
+        },
+        {
+            "message": "Missing item type\nCreates a binding object, and, if provided, binds a key down hander and\n a key up handler. Returns a binding object that emits keyup and\n keydown events.",
+            "line": " lib\\keyboard.js:484"
+        },
+        {
+            "message": "Missing item type\nClears the binding",
+            "line": " lib\\keyboard.js:531"
+        },
+        {
+            "message": "Missing item type\nAccepts an event name. and any number of callbacks. When the event is\n emitted, all callbacks are executed. Available events are key up and\n key down.",
+            "line": " lib\\keyboard.js:541"
+        },
+        {
+            "message": "Missing item type\nClears the binding",
+            "line": " lib\\keyboard.js:577"
+        },
+        {
+            "message": "Missing item type\nClears all binding attached to a given key combo. Key name order does not\nmatter as long as the key combos equate.",
+            "line": " lib\\keyboard.js:599"
+        },
+        {
+            "message": "Missing item type\nClears all binding attached to key combos containing a given key name.",
+            "line": " lib\\keyboard.js:614"
+        },
+        {
+            "message": "Missing item type\nExecutes bindings that are active. Only allows the keys to be used once\n as to prevent binding overlap.",
+            "line": " lib\\keyboard.js:635"
+        },
+        {
+            "message": "Missing item type\nRemoves bindings that are no longer satisfied by the active keys. Also\n fires the key up callbacks.",
+            "line": " lib\\keyboard.js:685"
+        },
+        {
+            "message": "Missing item type\nCompares two key combos returning true when they are functionally\n equivalent.",
+            "line": " lib\\keyboard.js:715"
+        },
+        {
+            "message": "Missing item type\nChecks to see if a key combo string or key array is satisfied by the\n currently active keys. It does not take into account spent keys.",
+            "line": " lib\\keyboard.js:739"
+        },
+        {
+            "message": "Missing item type\nAccepts a key combo array or string and returns a flat array containing all keys referenced by\nthe key combo.",
+            "line": " lib\\keyboard.js:767"
+        },
+        {
+            "message": "Missing item type\nParses a key combo string into a 3 dimensional array.\n- Level 1 - sub combos.\n- Level 2 - combo stages. A stage is a set of key name pairs that must\n be satisfied in the order they are defined.\n- Level 3 - each key name to the stage.",
+            "line": " lib\\keyboard.js:784"
+        },
+        {
+            "message": "Missing item type\nStringifys a key combo.",
+            "line": " lib\\keyboard.js:860"
+        },
+        {
+            "message": "Missing item type\nReturns the a copy of the active keys array.",
+            "line": " lib\\keyboard.js:885"
+        },
+        {
+            "message": "Missing item type\nAdds a key to the active keys array, but only if it has not already been\n added.",
+            "line": " lib\\keyboard.js:893"
+        },
+        {
+            "message": "Missing item type\nRemoves a key from the active keys array.",
+            "line": " lib\\keyboard.js:904"
+        },
+        {
+            "message": "Missing item type\nRegisters a new locale. This is useful if you would like to add support for a new keyboard layout. It could also be useful for\nalternative key names. For example if you program games you could create a locale for your key mappings. Instead of key 65 mapped\nto 'a' you could map it to 'jump'.",
+            "line": " lib\\keyboard.js:919"
+        },
+        {
+            "message": "Missing item type\nSwaps the current locale.",
+            "line": " lib\\keyboard.js:938"
         },
         {
             "message": "Missing item type",
-            "line": " lib/less.min.js:10"
+            "line": " lib\\less.min.js:10"
         }
     ]
 }

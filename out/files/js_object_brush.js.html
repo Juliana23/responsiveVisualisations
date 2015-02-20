@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js/object/brush.js</title>
+    <title>js\object\brush.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -38,6 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ResponsiveAxis.html">ResponsiveAxis</a></li>
+                                <li><a href="../classes/ResponsiveBrush.html">ResponsiveBrush</a></li>
+                                <li><a href="../classes/ResponsiveConstants.html">ResponsiveConstants</a></li>
+                                <li><a href="../classes/ResponsiveEvent.html">ResponsiveEvent</a></li>
+                                <li><a href="../classes/ResponsiveLess.html">ResponsiveLess</a></li>
+                                <li><a href="../classes/ResponsiveTooltip.html">ResponsiveTooltip</a></li>
+                                <li><a href="../classes/ResponsiveTreeUtil.html">ResponsiveTreeUtil</a></li>
+                                <li><a href="../classes/ResponsiveUtil.html">ResponsiveUtil</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -74,47 +82,153 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: js/object/brush.js</h1>
+<h1 class="file-heading">File: js\object\brush.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-/* 
- * Responsive Brush For d3js library
+/**
+ * &lt;b&gt;Responsive Brush For d3js library :&lt;/b&gt;&lt;br/&gt;
+ * &lt;br/&gt;
+ * Responive brush allows you to create brush for timeline, line chart, ...
+ * Brush system allows you to zoom and navigate into your chart.
+ * Brush element will be responsive and you don&#x27;t need to take care to
+ * the size of them. &lt;br/&gt;
+ * To instantiate one, you need to set the following parameters into a json object :&lt;br/&gt;
+ * &lt;b&gt;svg&lt;/b&gt; : svg element (required)&lt;br/&gt;
+ * &lt;b&gt;area&lt;/b&gt; : area element used to draw chart (required)&lt;br/&gt;
+ * &lt;b&gt;areaSelector&lt;/b&gt; : d3js selector to retrieve area (required)&lt;br/&gt;
+ * &lt;b&gt;cX&lt;/b&gt; : x axis of main chart (required)&lt;br/&gt;
+ * &lt;b&gt;cY&lt;/b&gt; : y axis of main chart (required)&lt;br/&gt;
+ * &lt;b&gt;height&lt;/b&gt; : height of the brush element (default 50)&lt;br/&gt;
+ * &lt;b&gt;margin&lt;/b&gt; : margin to apply to brush element (default {top: 0, right: 0, bottom: 0, left: 0})&lt;br/&gt;
+ * &lt;b&gt;autoresize&lt;/b&gt;  : indicate if resize is automatically done (default false)&lt;br/&gt;
+ * &lt;br/&gt;
+ * &lt;b&gt;Example:&lt;/b&gt;&lt;br/&gt;
+ * var brush = new ResponsiveBrush({&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;svg: svg,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;area: area,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;areaSelector: &quot;.area&quot;,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;cX: aResponsiveAxis,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;cY: aResponsiveAxis,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;margin: {&lt;br/&gt;
+ *          &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;top: 50,&lt;br/&gt;
+ *          &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;left: 60&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;}&lt;br/&gt;
+ *  })();&lt;br/&gt;
+ *  &lt;br/&gt;
+ * @class ResponsiveBrush
+ * @constructor
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
  */
-
-/**
- * Create a responsive brush
- * @param json object options :
- * svg : the svg to add brush
- * area : area
- * areaSelector : the d3js selector to get the area
- * cX : container x ResponiveAxis
- * cY : container y ResponiveAxis
- * size : size of axis in px
- * marginTop : the margin top to apply under the main graph
- */
 function ResponsiveBrush(options) {
     options = {
+        /**
+         * Main svg element&lt;br/&gt;
+         * Read with : brush.svg()&lt;br/&gt;
+         * Write with : brush.svg(newValue)&lt;br/&gt;
+         * 
+         * @attribute g
+         * @public
+         * @required
+         * @type Object
+         */
         svg: options.svg,
+        /**
+         * Area element used to draw chart&lt;br/&gt;
+         * Read with : brush.area()&lt;br/&gt;
+         * Write with : brush.area(newValue)&lt;br/&gt;
+         * 
+         * @attribute area
+         * @public
+         * @required
+         * @type Object
+         */
         area: options.area,
+        /**
+         * d3js selector to retrieve area&lt;br/&gt;
+         * Read with : brush.areaSelector()&lt;br/&gt;
+         * Write with : brush.areaSelector(newValue)&lt;br/&gt;
+         * 
+         * @attribute areaSelector
+         * @public
+         * @required
+         * @type Object
+         */
         areaSelector: options.areaSelector,
+        /**
+         * x axis of main chart&lt;br/&gt;
+         * Read with : brush.cX()&lt;br/&gt;
+         * Write with : brush.cX(newValue)&lt;br/&gt;
+         * 
+         * @attribute cX
+         * @public
+         * @required
+         * @type ResponsiveAxis
+         */
         cX: options.cX,
+        /**
+         * y axis of main chart&lt;br/&gt;
+         * Read with : brush.cY()&lt;br/&gt;
+         * Write with : brush.cY(newValue)&lt;br/&gt;
+         * 
+         * @attribute cY
+         * @public
+         * @required
+         * @type ResponsiveAxis
+         */
         cY: options.cY,
+        /**
+         * Meight of the brush element&lt;br/&gt;
+         * Read with : brush.height()&lt;br/&gt;
+         * Write with : brush.height(newValue)&lt;br/&gt;
+         * 
+         * @attribute height
+         * @public
+         * @type Integer
+         * @default 50
+         */
         height: options.height || 50,
+        /**
+         * Margin to apply to brush element&lt;br/&gt;
+         * Read with : brush.margin()&lt;br/&gt;
+         * Write with : brush.margin(newValue)&lt;br/&gt;
+         * 
+         * @attribute margin
+         * @public
+         * @type Object
+         * @default {top: 0, right: 0, bottom: 0, left: 0}
+         */
         margin: options.margin || {top: 0, right: 0, bottom: 0, left: 0},
+        /**
+         * Indicate if resize is automatically done&lt;br/&gt;
+         * Read with : axis.autoresize()&lt;br/&gt;
+         * Write with : axis.autoresize(newValue)&lt;br/&gt;
+         * 
+         * @attribute autoresize
+         * @public
+         * @type Boolean
+         * @default false
+         */
         autoresize: options.autoresize || false,
         events: {}
     };
     
     /**
-     * Constructor
+     * ResponsiveBrush Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
      */
     function my() {
         // Create getters and setters for options
         $$ResponsiveUtil.generateAccessors(my, options);
+        
+        // Need to update the ratio for container axis
+        my.cX().updateRatio(true, my.height() + my.margin().top, true);
+        my.cY().updateRatio(true, my.height() + my.margin().top, true);
         
         // Create d3js brush properties
         my.initProperties();
@@ -135,8 +249,11 @@ function ResponsiveBrush(options) {
     
     /**
      * Method to attach custom event
-     * @param the event to add
-     * @param the function to call on event triggered
+     * 
+     * @method on
+     * @public
+     * @param {Object} event event to add
+     * @param {Function} func function to call on event triggered
      */
     my.on = function (event, func) {
     	if(!my.events()[event]){
@@ -148,8 +265,11 @@ function ResponsiveBrush(options) {
     
     /**
      * Method to trigger event 
-     * @param the event to trigger
-     * @param the args to apply to the function called
+     * 
+     * @method trigger
+     * @public
+     * @param {Object} event event to trigger
+     * @param {Object} args arguments to apply to the function called
      */
     my.trigger = function () {
         if(arguments){
@@ -165,19 +285,25 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Method to remove event on function
-     * @param the event to clear
-     * @param the function to remove
+     * Method to remove function on event
+     * 
+     * @method remove
+     * @public
+     * @param {Object} event event event to clear
+     * @param {Function} func function function to remove
      */
     my.remove = function (event, func) {
     	if(my.events()[event].indexOf(func) !== -1){
-    		// Remove function on the event
+            // Remove function on the event
             my.events()[event].remove(func);
     	}
     };
     
     /**
      * Add default events to current object
+     * 
+     * @method addDefaultEvents
+     * @private
      */
     my.addDefaultEvents = function () {
         my.on(&quot;redraw&quot;, my.draw);
@@ -185,6 +311,9 @@ function ResponsiveBrush(options) {
     
     /**
      * This method init properties for axis
+     * 
+     * @method initProperties
+     * @private
      */
     my.initProperties = function () {
         
@@ -229,8 +358,11 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Init graph
-     * @returns {object} grapph
+     * Initialize g element to draw brush
+     * 
+     * @method initGraph
+     * @private
+     * @return {Object} g element create
      */
     my.initGraph = function() {
         var graph = my.svg().append(&quot;g&quot;)
@@ -242,7 +374,10 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Init brush
+     * Initialize brush
+     * 
+     * @method initBrush 
+     * @private
      * @param ResponsiveAxis x
      * @returns {object} brush
      */
@@ -259,6 +394,9 @@ function ResponsiveBrush(options) {
     
     /**
      * Construct the brush slider
+     * 
+     * @method constructSlider 
+     * @private
      */
     my.constructSlider = function() {
         my.graph().append(&quot;g&quot;)
@@ -270,7 +408,11 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Method that redraws the brush
+     * Method that draws the brush :&lt;br/&gt;
+     * Update his size automatically
+     * 
+     * @method draw
+     * @public
      */
     my.draw = function() {
         my.graph().attr(&quot;transform&quot;, &quot;translate(&quot; + my.margin().left + &quot;, &quot; + (my.cY().size() + my.height() + my.margin().top) + &quot;)&quot;);
@@ -281,12 +423,16 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Brushed function
+     * Method that brushes&lt;br/&gt;
+     * Update the domain of main chart
+     * 
+     * @method brushed
+     * @private
      */
     my.brushed = function() {
         my.cX().data().domain(my.brush().empty() ? my.x().data().domain() : my.brush().extent());
         my.mainGraph().select(my.areaSelector()).attr(&quot;d&quot;, my.area());
-        my.mainGraph().select(my.cX().cls()).call(my.cX().axis());
+        my.mainGraph().select(&quot;.&quot; + my.cX().cls().split(&#x27; &#x27;).join(&#x27;.&#x27;)).call(my.cX().axis());
     };
     
     return my;

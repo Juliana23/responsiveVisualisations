@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js/object/selector.js</title>
+    <title>js\object\selector.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -38,6 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ResponsiveAxis.html">ResponsiveAxis</a></li>
+                                <li><a href="../classes/ResponsiveBrush.html">ResponsiveBrush</a></li>
+                                <li><a href="../classes/ResponsiveConstants.html">ResponsiveConstants</a></li>
+                                <li><a href="../classes/ResponsiveEvent.html">ResponsiveEvent</a></li>
+                                <li><a href="../classes/ResponsiveLess.html">ResponsiveLess</a></li>
+                                <li><a href="../classes/ResponsiveTooltip.html">ResponsiveTooltip</a></li>
+                                <li><a href="../classes/ResponsiveTreeUtil.html">ResponsiveTreeUtil</a></li>
+                                <li><a href="../classes/ResponsiveUtil.html">ResponsiveUtil</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -74,13 +82,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: js/object/selector.js</h1>
+<h1 class="file-heading">File: js\object\selector.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /* 
  * Responsive Selector For d3js library
- 
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
@@ -90,13 +97,17 @@
  * Create a responsive selector
  * @param json object options :
  * g : graph
- * cls : css class for tooltip
+ * depth : the initial depth
+ * layout : layout for data
+ * parentsCls : class name for parents
+ * childrenCls : children class name
+ * node : the current node
+ * root : the root of tree
  * autoresize : indicate if resize is automatically done
  */
 function ResponsiveSelector(options) {
     options = {
         g: options.g,
-        titlePosition: options.titlePosition || 0,
         depth: options.depth || 1,
         layout : options.layout,
         parentsCls: options.parentsCls,
@@ -114,7 +125,7 @@ function ResponsiveSelector(options) {
         // Create getters and setters for options
         $$ResponsiveUtil.generateAccessors(my, options);
 
-        // Create d3js tooltip properties
+        // Create d3js selector properties
         my.initProperties();
 
         // Add events to current object
@@ -122,7 +133,7 @@ function ResponsiveSelector(options) {
 
         // Add resize event
         if (my.autoresize()) {
-            addResizeEvent(my.resize);
+        	$$ResponsiveUtil.addResizeEvent(my.redraw);
         }
 
         return my;
@@ -193,17 +204,19 @@ function ResponsiveSelector(options) {
     my.initProperties = function () {
         var container = my.initContainer();
         var parents = my.initData();
+        var gap = my.initRatio(container);
 
         var properties = {
             parents: parents,
-            container: container
+            container: container,
+            gap: gap
         };
         // Generate getters and setters for properties
         $$ResponsiveUtil.generateAccessors(my, properties);
     };
     
     /**
-     * Retrieve the g element
+     * Retrieve the container element
      * @returns {object} container
      */
     my.initContainer = function () {
@@ -212,12 +225,26 @@ function ResponsiveSelector(options) {
             my.g().node().id = my.id;
         }
         var el = document.getElementById(my.g().node().id);
-        return el;
+        return el.parentNode;
     };
     
     /**
-     * Init parents of data and put
-     * element allParents on children 
+     * Init gap
+     * @return object gap
+     */
+    my.initRatio = function (container) {
+        var height = container.clientHeight || container.getBoundingClientRect().height;
+        var width = container.clientWidth || container.getBoundingClientRect().width;
+        
+        return {
+            height: height - my.g().attr(&quot;height&quot;),
+            width: width - my.g().attr(&quot;width&quot;)
+        };
+    };
+    
+    /**
+     * Init data and put element
+     * allParents on children 
      * if it doesn&#x27;t exist
      * @returns {object} parents
      */
@@ -247,8 +274,10 @@ function ResponsiveSelector(options) {
      * Method to init first parents outline
      */
     my.drawFirstParents = function () {
+    	// Class of parents
         var classes = my.parentsCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
-        // Parents
+        
+        // Parents container
         my.g().selectAll(&quot;.&quot; + classes)
                 .data(my.parents())
                 .enter().append(&quot;g&quot;)
@@ -257,6 +286,7 @@ function ResponsiveSelector(options) {
                     return &quot;translate(&quot; + d.x + &quot;,&quot; + d.y + &quot;)&quot;;
                 });
 
+        // Parents rectangles
         my.g().selectAll(&quot;.&quot; + classes)
                 .append(&quot;rect&quot;)
                 .attr(&quot;id&quot;, function (d) {
@@ -281,6 +311,7 @@ function ResponsiveSelector(options) {
                     }
                 });
 
+        // Parents texts
         my.g().selectAll(&quot;.&quot; + classes)
                 .append(&quot;text&quot;)
                 .attr(&quot;class&quot;, &quot;textFirstParent&quot;)
@@ -294,10 +325,6 @@ function ResponsiveSelector(options) {
                 .attr(&quot;y&quot;, function (d) {
                     return d.dy - 5;
                 })
-                .style(&quot;opacity&quot;, function (d) {
-                    w = this.getComputedTextLength();
-                    return (d.x + d.dx) - d.x &gt; w ? 1 : 0;
-                })
                 .style(&quot;display&quot;, function (d) {
                     if (d.depth === my.depth()) {
                         return &quot;&quot;;
@@ -305,81 +332,19 @@ function ResponsiveSelector(options) {
                     else {
                         return &quot;none&quot;;
                     }
+                })
+                .style(&quot;opacity&quot;, function (d) {
+                    w = this.getComputedTextLength();
+                    return (d.x + d.dx) - d.x &gt; w ? 1 : 0;
                 });
     };
 
     /**
-     * Method to update first parents outline
-     * and names
-     * @param depth
-     * @param node
-     */
-    my.updateFirstParents = function (x, y) {    	
-    	 var classes = my.parentsCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
-         // Parents
-         my.g().selectAll(&quot;.&quot; + classes)
-                 .attr(&quot;transform&quot;, function (d) {
-                     return &quot;translate(&quot; + d.x + &quot;,&quot; + d.y + &quot;)&quot;;
-                 });
-
-         my.g().selectAll(&quot;.&quot; + classes + &quot; rect&quot;)
-		         .attr(&quot;width&quot;, function (d) {
-		        	 return d.dx - 1;
-		         })
-		         .attr(&quot;height&quot;, function (d) {
-		        	 return d.dy - 1;
-		         })
-                 .style(&quot;display&quot;, function (d) {
-                     if (my.node()) {
-                         if (d.allParents) {
-                             if (d.allParents.indexOf(my.node()) !== -1
-                                     &amp;&amp; d.children &amp;&amp; d.depth === my.depth()) {
-                                 return &quot;&quot;;
-                             }
-                         }
-                     }
-                     else {
-                         if (d.depth === my.depth()) {
-                             return &quot;&quot;;
-                         }
-                     }
-                     return &quot;none&quot;;
-                 });
-
-         my.g().selectAll(&quot;.&quot; + classes + &quot; text&quot;)
-         		.attr(&quot;x&quot;, function (d) {
-                    return d.dx - (d.name.length * 5);
-                })
-                .attr(&quot;y&quot;, function (d) {
-                    return d.dy - 5;
-                })
-                 .style(&quot;opacity&quot;, function (d) {
-                     w = this.getComputedTextLength();
-                     return (d.x + d.dx) - d.x &gt; w ? 1 : 0;
-                 })
-                 .style(&quot;display&quot;, function (d) {
-                     if (my.node()) {
-                         if (d.allParents) {
-                             if (d.allParents.indexOf(my.node()) !== -1
-                                     &amp;&amp; d.children &amp;&amp; d.depth === my.depth()) {
-                                 return &quot;&quot;;
-                             }
-                         }
-                     }
-                     else {
-                         if (d.depth === my.depth()) {
-                             return &quot;&quot;;
-                         }
-                     }
-                     return &quot;none&quot;;
-                 });
-    };
-
-    /**
-     * Method to draw title of first parents
+     * Method to draw title of first parent
      */
     my.drawTitleFirstParents = function () {
-        var titleParent = d3.select(my.container())
+    	var cSize = my.getContainerSize();
+        var titleParent = my.g()
                 .append(&quot;g&quot;)
                 .attr(&quot;class&quot;, &quot;title&quot;);
 
@@ -396,10 +361,10 @@ function ResponsiveSelector(options) {
                     return d.name;
                 })
                 .attr(&quot;x&quot;, function () {
-                    return my.container().getBoundingClientRect().width / 2;
+                    return (cSize.width / 2);
                 })
                 .attr(&quot;y&quot;, function () {
-                    return - my.titlePosition();
+                    return - (my.gap().height / 4);
                 })
                 .style(&quot;display&quot;, function (d) {
                     if (d.depth === 0) {
@@ -410,13 +375,88 @@ function ResponsiveSelector(options) {
                     }
                 });
     };
+    
+    /**
+     * Method to update first parents outline
+     */
+    my.updateFirstParents = function () {    	
+    	// Class of parents
+    	var classes = my.parentsCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
+    	
+    	// Parents container
+    	my.g().selectAll(&quot;.&quot; + classes)
+    	.attr(&quot;transform&quot;, function (d) {
+    		return &quot;translate(&quot; + d.x + &quot;,&quot; + d.y + &quot;)&quot;;
+    	});
+
+    	// Parents rectangles
+    	my.g().selectAll(&quot;.&quot; + classes + &quot; rect&quot;)
+    	.attr(&quot;width&quot;, function (d) {
+    		return d.dx - 1;
+    	})
+    	.attr(&quot;height&quot;, function (d) {
+    		return d.dy - 1;
+    	})
+    	.style(&quot;display&quot;, function (d) {
+    		if (my.node()) {
+    			if (d.allParents) {
+    				if (d.allParents.indexOf(my.node()) !== -1
+    						&amp;&amp; d.children &amp;&amp; d.depth === my.depth()) {
+    					return &quot;&quot;;
+    				}
+    			}
+    		}
+    		else {
+    			if (d.depth === my.depth()) {
+    				return &quot;&quot;;
+    			}
+    		}
+    		return &quot;none&quot;;
+    	});
+
+    	// Parents texts
+    	my.g().selectAll(&quot;.&quot; + classes + &quot; text&quot;)
+    	.attr(&quot;x&quot;, function (d) {
+    		return d.dx - (d.name.length * 5);
+    	})
+    	.attr(&quot;y&quot;, function (d) {
+    		return d.dy - 5;
+    	})
+    	.style(&quot;display&quot;, function (d) {
+    		if (my.node()) {
+    			if (d.allParents) {
+    				if (d.allParents.indexOf(my.node()) !== -1
+    						&amp;&amp; d.children &amp;&amp; d.depth === my.depth()) {
+    					return &quot;&quot;;
+    				}
+    			}
+    		}
+    		else {
+    			if (d.depth === my.depth()) {
+    				return &quot;&quot;;
+    			}
+    		}
+    		return &quot;none&quot;;
+    	})
+    	.style(&quot;opacity&quot;, function (d) {
+    		w = this.getComputedTextLength();
+    		return (d.x + d.dx) - d.x &gt; w ? 1 : 0;
+    	});
+    };
 
     /**
      * Method to update first parents title
      * @param node
      */
     my.updateTitleFirstParents = function () {
+    	var cSize = my.getContainerSize();
         d3.selectAll(&quot;.titleParent text&quot;)
+        		.attr(&quot;x&quot;, function () {
+                    return (cSize.width / 2);
+                })
+                .attr(&quot;y&quot;, function () {
+                    return - (my.gap().height / 4);
+                })
                 .style(&quot;display&quot;, function (d) {
                     if (d === my.node()) {
                         return &quot;&quot;;
@@ -428,7 +468,6 @@ function ResponsiveSelector(options) {
     };
 
     my.update = function (node) {
-    	var cSize = my.getContainerSize();
     	if(node){
     		my.node(node);
     	}
@@ -444,15 +483,16 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Get the axis container size
+     * Get the selector container size
      * @returns json object
      */
     my.getContainerSize = function () {
-        var height = d3.select(my.container()).attr(&quot;height&quot;);
-        var width = d3.select(my.container()).attr(&quot;width&quot;);
+        var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
+        var width = my.container().clientWidth || my.container().getBoundingClientRect().width;
+
         return {
-            height: (height ? height : my.container().clientHeight),
-            width: (width ? width : my.container().clientWidth)
+            height: height - my.gap().height,
+            width: width - my.gap().width
         };
     };
     
@@ -460,7 +500,6 @@ function ResponsiveSelector(options) {
      * Method to draw the outline
      */
     my.drawOutline = function(node, nameText, nameClassText){
-    	// Encadrement representant le parent
 		var pathinfo = [];
 		var nodeId;
 		
@@ -494,7 +533,7 @@ function ResponsiveSelector(options) {
 		.attr(&quot;height&quot;, function(d) { return d.dy - 1; })
 		.style(&quot;display&quot;, &quot;&quot;);
 		
-		// Affichage du titre
+		// Draw the title
 		var translationX;
 		var translationY;
 		translationX = (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
@@ -512,7 +551,7 @@ function ResponsiveSelector(options) {
 	};
 
     /**
-     * Method to draw the tooltip
+     * Method to draw the selector
      */
     my.draw = function () {
 		my.trigger(&quot;drawTitleFirstParents&quot;);
@@ -520,15 +559,8 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Method to draw the tooltip
+     * Method to draw the outline of node
      */
-    my.redraw = function (node) {
-    	my.trigger(&quot;hideOnNode&quot;);
-    	my.update(node);
-    	my.trigger(&quot;updateTitleFirstParents&quot;);
-		my.trigger(&quot;updateFirstParents&quot;);
-    };
-    
     my.drawOnNode = function (node) {
     	my.trigger(&quot;hideOnNode&quot;);
     	var classes = my.childrenCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
@@ -555,6 +587,17 @@ function ResponsiveSelector(options) {
     		}
 		}
     };
+    
+    /**
+     * Method to redraw the selector
+     * on a changed node
+     */
+    my.redraw = function (node) {
+    	my.trigger(&quot;hide&quot;);
+    	my.update(node);
+    	my.trigger(&quot;updateTitleFirstParents&quot;);
+		my.trigger(&quot;updateFirstParents&quot;);
+    };
 
     /**
      * Method to hide
@@ -563,6 +606,9 @@ function ResponsiveSelector(options) {
     	//d3.selectAll(&quot;.textParent&quot;).remove();
     	
     	my.g().selectAll(&quot;.textFirstParent&quot;)
+		.style(&quot;display&quot;, &quot;none&quot;);
+    	
+    	my.g().selectAll(&quot;.textOnNode&quot;)
 		.style(&quot;display&quot;, &quot;none&quot;);
     };
     
@@ -577,7 +623,7 @@ function ResponsiveSelector(options) {
      * Method called on window resize event
      */
     my.resize = function () {
-        //my.draw();
+        my.redraw();
     };
 
     return my;

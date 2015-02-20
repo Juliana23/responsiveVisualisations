@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js/utils/treeUtil.js</title>
+    <title>js\utils\treeUtil.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -38,6 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ResponsiveAxis.html">ResponsiveAxis</a></li>
+                                <li><a href="../classes/ResponsiveBrush.html">ResponsiveBrush</a></li>
+                                <li><a href="../classes/ResponsiveConstants.html">ResponsiveConstants</a></li>
+                                <li><a href="../classes/ResponsiveEvent.html">ResponsiveEvent</a></li>
+                                <li><a href="../classes/ResponsiveLess.html">ResponsiveLess</a></li>
+                                <li><a href="../classes/ResponsiveTooltip.html">ResponsiveTooltip</a></li>
+                                <li><a href="../classes/ResponsiveTreeUtil.html">ResponsiveTreeUtil</a></li>
+                                <li><a href="../classes/ResponsiveUtil.html">ResponsiveUtil</a></li>
                             </ul>
                 
                             <ul id="api-modules" class="apis modules">
@@ -74,17 +82,35 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: js/utils/treeUtil.js</h1>
+<h1 class="file-heading">File: js\utils\treeUtil.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
- * Utiliy Class
+ * &lt;b&gt;Responsive TreeUtil For d3js library :&lt;/b&gt;&lt;br/&gt;
+ * &lt;br/&gt;
+ * Responive treeUtil offers several tools for trees
+ * &lt;br/&gt;
+ * It already instanciate, to use it you have to use the variable: &lt;br/&gt;
+ * - $$ResponsiveTreeUtil
+ * &lt;br/&gt;
+ * &lt;b&gt;Example:&lt;/b&gt;&lt;br/&gt;
+ * var allParents = $$ResponsiveTreeUtil.getAllParents(d);
+ * &lt;br/&gt;
+ * @class ResponsiveTreeUtil
+ * @constructor
+ * @version 0.1
+ * @author Leclaire Juliana
+ * @support d3js v3
  */
 function ResponsiveTreeUtil() {
 
     /**
-     * Constructor
+     * ResponsiveTreeUtil Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
      */
     function my() {
         my.id = 0;
@@ -95,10 +121,12 @@ function ResponsiveTreeUtil() {
     };
     
     /**
-     * Function to get all parents 
-     * on node
-     * @param node object
-     * @return array parents
+     * Get all parents on node
+     * 
+     * @method getAllParents
+     * @public
+     * @param {Object} node node to get all parents
+     * @return {Array} parents of node
      */
     my.getAllParents = function (node){
         var parents = [];
@@ -107,7 +135,27 @@ function ResponsiveTreeUtil() {
             node = node.parent;
         }
         return parents;
-    }
+    };
+    
+    /**
+     * To know if text needs 
+     * to be in light color
+     * 
+     * @method needLightColor
+     * @public
+     * @param {Object} color color to evaluate
+     * @return {Boolean} true if the text needs light color
+     */
+    my.needLightColor = function(color){
+        var c = color.substring(1);      // strip #
+        var rgb = parseInt(c, 16);   // convert rrggbb to decimal
+        var r = (rgb &gt;&gt; 16) &amp; 0xff;  // extract red
+        var g = (rgb &gt;&gt;  8) &amp; 0xff;  // extract green
+        var b = (rgb &gt;&gt;  0) &amp; 0xff;  // extract blue
+
+        var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+        return luma &lt; 150;
+    };
 
     return my;
 }
