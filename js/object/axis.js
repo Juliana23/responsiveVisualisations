@@ -16,7 +16,7 @@
  * <b>Example:</b><br/>
  *  var axis = new ResponsiveAxis({<br/>
  *      &nbsp;&nbsp;&nbsp;g: graph,<br/>
- *      &nbsp;&nbsp;&nbsp;orientation: $$ResponsiveUtil._BOTTOM_,<br/>
+ *      &nbsp;&nbsp;&nbsp;orientation: $$ResponsiveConstants._BOTTOM_,<br/>
  *      &nbsp;&nbsp;&nbsp;datatype: "year",<br/>
  *      &nbsp;&nbsp;&nbsp;cls: "x axis",<br/>
  *      &nbsp;&nbsp;&nbsp;domain: d3.extent(data, function (d) {<br/>
@@ -66,7 +66,7 @@ function ResponsiveAxis(options) {
          * @type String
          * @default bottom
          */
-        orientation: options.orientation || $$ResponsiveUtil._BOTTOM_,
+        orientation: options.orientation || $$ResponsiveConstants._BOTTOM_,
         /**
          * Type of data to display on axis<br/>
          * Enable values : year, month, day<br/>
@@ -275,9 +275,9 @@ function ResponsiveAxis(options) {
         var data;
 
         // Init scale
-        if (my.datatype() === $$ResponsiveUtil._YEAR_
-                || my.datatype() === $$ResponsiveUtil._MONTH_
-                || my.datatype() === $$ResponsiveUtil._DAY_) {
+        if (my.datatype() === $$ResponsiveConstants._YEAR_
+                || my.datatype() === $$ResponsiveConstants._MONTH_
+                || my.datatype() === $$ResponsiveConstants._DAY_) {
             data = d3.time.scale().nice(d3.time[my.datatype()]);
         }
         else {
@@ -366,8 +366,8 @@ function ResponsiveAxis(options) {
      */
     my.updateRange = function () {
         // Horizontal Axis
-        if (my.orientation() === $$ResponsiveUtil._BOTTOM_
-                || my.orientation() === $$ResponsiveUtil._TOP_) {
+        if (my.orientation() === $$ResponsiveConstants._BOTTOM_
+                || my.orientation() === $$ResponsiveConstants._TOP_) {
             my.data().range([0, my.size()]);
         }
         // Vertical Axis
@@ -389,8 +389,8 @@ function ResponsiveAxis(options) {
             cSize = my.getContainerSize();
         }
         // Horizontal Axis
-        if (my.orientation() === $$ResponsiveUtil._BOTTOM_
-                || my.orientation() === $$ResponsiveUtil._TOP_) {
+        if (my.orientation() === $$ResponsiveConstants._BOTTOM_
+                || my.orientation() === $$ResponsiveConstants._TOP_) {
             my.size(cSize.width);
         }
         // Vertical Axis
@@ -409,8 +409,8 @@ function ResponsiveAxis(options) {
     my.updateAxisTicks = function () {
         var size = $$ResponsiveUtil.getHeight();
         // Horizontal
-        if (my.orientation() === $$ResponsiveUtil._BOTTOM_
-                || my.orientation() === $$ResponsiveUtil._TOP_) {
+        if (my.orientation() === $$ResponsiveConstants._BOTTOM_
+                || my.orientation() === $$ResponsiveConstants._TOP_) {
             size = $$ResponsiveUtil.getWidth();
         }
         
@@ -481,13 +481,13 @@ function ResponsiveAxis(options) {
         my.g().attr("height", cSize.height);
         my.updateAxisTicks();
 
-        if (my.orientation() === $$ResponsiveUtil._BOTTOM_) {
+        if (my.orientation() === $$ResponsiveConstants._BOTTOM_) {
             g.attr("transform", "translate(0," + cSize.height + ")");
         }
-        else if (my.orientation() === $$ResponsiveUtil._LEFT_) {
+        else if (my.orientation() === $$ResponsiveConstants._LEFT_) {
             g.attr("transform", "rotate(0)");
         }
-        if (my.orientation() === $$ResponsiveUtil._RIGHT_) {
+        if (my.orientation() === $$ResponsiveConstants._RIGHT_) {
             g.attr("transform", "rotate(-90) translate(" + cSize.width + ", 0)");
         }
         

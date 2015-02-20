@@ -17,16 +17,6 @@
  */
 function ResponsiveConstants() {
 	options = {
-            // Date
-            _YEAR_ : "year",
-            _MONTH_ : "month",
-            _DAY_ : "day",
-            // Orientation
-            _TOP_ : "top",
-            _BOTTOM_ : "bottom",
-            _LEFT_ : "left",
-            _RIGHT_ : "right",
-
             // Width Screen
             _XSMIN_ : $$ResponsiveLess.xs_min(),
             _XSMAX_ : $$ResponsiveLess.xs_max(),
@@ -46,6 +36,15 @@ function ResponsiveConstants() {
      * @constructor
      */
     function my() {    	
+    	// Date
+        my._YEAR_ = "year";
+        my._MONTH_ = "month";
+        my._DAY_ = "day";
+        // Orientation
+        my._TOP_ = "top";
+        my._BOTTOM_ = "bottom";
+        my._LEFT_ = "left";
+        my._RIGHT_ = "right";
     	// Generate accessors for less variables
     	$$ResponsiveUtil.generateAccessors(my, options);
     	
