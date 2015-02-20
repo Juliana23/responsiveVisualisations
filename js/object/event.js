@@ -1,21 +1,74 @@
-/* 
- * Responsive Event For d3js library
+/**
+ * <b>Responsive Event For d3js library :</b><br/>
+ * <br/>
+ * Responive event allows you to define only one event for all devices by extension. <br/>
+ * To instantiate one, you need to pass the following parameters into a json object :<br/>
+ * <b>object</b> : object which listen to events (required)<br/>
+ * <b>events</b> : list of events that can be extended
+ * associated with function listen by the object (required)<br/>
+ * <br/>
+ * <b>Example:</b><br/>
+ * new ResponsiveEvent({<br/>
+ *      &nbsp;&nbsp;&nbsp;object : window,<br/>
+ *      &nbsp;&nbsp;&nbsp;events : [<br/>
+ *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"name" : "mousemove", "func": function1, "extend": true},<br/>
+ *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"name" : "mouseout", "func": function2, "extend": false,<br/>
+ *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"name" : "touchend", "func": function3, "extend": false}<br/>
+ *      &nbsp;&nbsp;&nbsp;]<br/>
+ * })()<br/>
+ * <br/>
+ * <b>Mapped events</b>
+ * <table>
+ * <tr><th>Mouse</th><th>Touch</th><tr>
+ * <tr><td>mousedown</td><td>touchstart</td><tr>
+ * <tr><td>mouseup</td><td>touchenter</td><tr>
+ * <tr><td>mouseover</td><td>mouseover</td><tr>
+ * <tr><td>mouseout</td><td>touchleave</td><tr>
+ * <tr><td>mousemove</td><td>touchmove</td><tr>
+ * <tr><td>click</td><td>tap</td><tr>
+ * <tr><td>dblclick</td><td>doubletap</td><tr>
+ * <tr><td>mousecancel (fake)</td><td>touchcancel</td><tr>
+ * </table>
+ * </br>
+ * @class ResponsiveEvent
+ * @constructor
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
  */
-
-/**
- * Create a responsive event
- * @param json object options :
- * object : object to apply events
- * events : events possible on object
- * id : id to put a unique event on objects
- */
 function ResponsiveEvent(options) {
     options = {
+        /**
+         * Object which listen to events<br/>
+         * Read with : object.g()<br/>
+         * Write with : object.g(newValue)<br/>
+         * 
+         * @attribute object
+         * @public
+         * @required
+         * @type Object
+         */
         object: options.object,
+        /**
+         * List of events that can be extended
+         * associated with function listen by the object<br/>
+         * Read with : axis.events()<br/>
+         * Write with : axis.events(newValue)<br/>
+         * 
+         * @attribute events
+         * @public
+         * @required
+         * @type Object
+         */
         events: options.events,
+        /**
+         * 
+         * 
+         * @attribute eventsId
+         * @public
+         * @required
+         * @type Object
+         */
         eventsId: {}
     };
 
@@ -31,7 +84,11 @@ function ResponsiveEvent(options) {
     };
 
     /**
-     * Constructor
+     * ResponsiveEvent Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
      */
     function my() {
     	
@@ -45,7 +102,10 @@ function ResponsiveEvent(options) {
     }
 
     /**
-     * Method to init event
+     * This method init properties for axis
+     * 
+     * @method initProperties
+     * @private
      */
     my.initProperties = function () {
         my.events().forEach(function (event) {
@@ -61,8 +121,11 @@ function ResponsiveEvent(options) {
     
     /**
      * Define event on current obj
-     * @param {String} event
-     * @param {Function} func
+     * 
+     * @method initEvent
+     * @public
+     * @param {String} event name of event to define 
+     * @param {Function} func function to invoke when event is triggered
      */
     my.initEvent = function(event, func){
     	if(my.isMouseEvent(event)){
@@ -75,13 +138,15 @@ function ResponsiveEvent(options) {
             my.object().on(event + "_" + id, func); // Create a fake event
     	}
     };
-    
+
     /**
      * Intercept the touch event triggered by the user in order to transform it
+     * 
+     * @method intercept
+     * @private
      */
     my.intercept = function(){
     	var event = window.event;
-    	
         // Touch Event
         if(event instanceof TouchEvent){
             my.transformEvent(event, event.type);
@@ -94,7 +159,11 @@ function ResponsiveEvent(options) {
     
     /**
      * Transform a touch event into mouse event and dispatch it
-     * @param {TouchEvent} event
+     * 
+     * @method transformEvent
+     * @private
+     * @param {Event} event Hammer Event or Touch Event to transform
+     * @param {String} type name of event
      */
     my.transformEvent = function(event, type) {
         var touches = event.changedTouches;
@@ -124,7 +193,10 @@ function ResponsiveEvent(options) {
 
     /**
      * Indicate if event name pass in parameter is mouse event
-     * @param {String} event
+     * 
+     * @method isMouseEvent
+     * @private
+     * @param {String} event to check
      * @return {Boolean} true if event is mouse event
      */
     my.isMouseEvent = function (event) {
@@ -134,8 +206,11 @@ function ResponsiveEvent(options) {
     /**
      * Method that retrieves 
      * the mapped event to event pass in parameter
-     * @param {String} event
-     * @return {String} the mapped event
+     * 
+     * @method getMappedEvent
+     * @private
+     * @param {String} event name of event to get the matching event 
+     * @return {String} event name of mapped event
      */
     my.getMappedEvent = function (event) {
         var mappedEvent = "";
@@ -155,7 +230,10 @@ function ResponsiveEvent(options) {
     
     /**
      * Method that generates unique id
-     * @returns {String}
+     * 
+     * @method generateId
+     * @private
+     * @return {String} an unique id
      */
     my.generateId = function () {
     	var time = new Date().getTime();

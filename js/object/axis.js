@@ -1,37 +1,144 @@
-/* 
- * Responsive Axis For d3js library
-
+/**
+ * <b>Responsive Axis For d3js library :</b><br/>
+ * <br/>
+ * Responive axis allows you to create axis for timeline, line chart, ...
+ * Those axis will be responsive and you don't need to take care to
+ * the size of them. <br/>
+ * To instanciate one, you need to set the following parameters into a json object :<br/>
+ * <b>g</b> : g element used to draw chart (required)<br/>
+ * <b>orientation</b> : top, bottom, left, right (default bottom)<br/>
+ * <b>datatype</b> : type of data to display on axis<br/>
+ * <b>domain</b> : array of values to display on axis (required)<br/>
+ * <b>cls</b> : css class for axis<br/>
+ * <b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>
+ * <b>fixedHeight</b> : indicate if the size of y axis is not resizable (default false)<br/>
+ * <br/>
+ * <b>Example:</b><br/>
+ *  var axis = new ResponsiveAxis({<br/>
+ *      &nbsp;&nbsp;&nbsp;g: graph,<br/>
+ *      &nbsp;&nbsp;&nbsp;orientation: $$ResponsiveUtil._BOTTOM_,<br/>
+ *      &nbsp;&nbsp;&nbsp;datatype: "year",<br/>
+ *      &nbsp;&nbsp;&nbsp;cls: "x axis",<br/>
+ *      &nbsp;&nbsp;&nbsp;domain: d3.extent(data, function (d) {<br/>
+ *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return d.date;<br/>
+ *      &nbsp;&nbsp;&nbsp;}),<br/>
+ *      &nbsp;&nbsp;&nbsp;autoresize: false<br/>
+ *  )();<br/>
+ * <br/>
+ * @class ResponsiveAxis
+ * @constructor
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
  */
-
-/**
- * Create a responsive axis
- * @param json object options :
- * g : graph
- * size : size of axis in px
- * orientation : top, bottom, left, right
- * datatype : type of data to display on axis
- * domain : array of values to display on axis
- * cls : css class for axis
- * autoresize : indicate if resize is automatically done
- */
 function ResponsiveAxis(options) {
+    
     options = {
+        /**
+         * g element used to draw chart<br/>
+         * Read with : axis.g()<br/>
+         * Write with : axis.g(newValue)<br/>
+         * 
+         * @attribute g
+         * @public
+         * @required
+         * @type Object
+         */
         g: options.g,
+        /**
+         * Size of current axis in px<br/>
+         * Read with : axis.size()<br/>
+         * Write with : axis.size(newValue)<br/>
+         * 
+         * @attribute size
+         * @private
+         * @type Integer
+         */
         size: 0,
+        /**
+         * Orientation of the axis<br/>
+         * Enable values : top, bottom, left, right<br/>
+         * Read with : axis.orientation()<br/>
+         * Write with : axis.orientation(newValue)<br/>
+         * 
+         * @attribute orientation
+         * @public
+         * @type String
+         * @default bottom
+         */
         orientation: options.orientation || $$ResponsiveUtil._BOTTOM_,
+        /**
+         * Type of data to display on axis<br/>
+         * Enable values : year, month, day<br/>
+         * Read with : axis.datatype()<br/>
+         * Write with : axis.datatype(newValue)<br/>
+         * 
+         * @attribute datatype
+         * @public
+         * @type String
+         */
         datatype: options.datatype,
+        /**
+         * Array of values to display on axis<br/>
+         * Read with : axis.domain()<br/>
+         * Write with : axis.domain(newValue)<br/>
+         * 
+         * @attribute domain
+         * @public
+         * @required
+         * @type Array
+         */
         domain: options.domain,
+        /**
+         * Css class to apply on axis<br/>
+         * Read with : axis.cls()<br/>
+         * Write with : axis.cls(newValue)<br/>
+         * 
+         * @attribute cls
+         * @public
+         * @type String
+         */
         cls: options.cls ? options.cls.concat(" responsive") : "responsive",
+        /**
+         * Indicate if resize is automatically done<br/>
+         * Read with : axis.autoresize()<br/>
+         * Write with : axis.autoresize(newValue)<br/>
+         * 
+         * @attribute autoresize
+         * @public
+         * @type Boolean
+         * @default false
+         */
         autoresize: options.autoresize || false,
+        /**
+         * Indicate if the size of y axis is not resizable<br/>
+         * Read with : axis.fixedHeight()<br/>
+         * Write with : axis.fixedHeight(newValue)<br/>
+         * 
+         * @attribute fixedHeight
+         * @public
+         * @type Boolean
+         * @default false
+         */
         fixedHeight: options.fixedHeight || false,
+        /**
+         * List of events attached<br/>
+         * Read with : axis.events()<br/>
+         * 
+         * @attribute events
+         * @private
+         * @type Object
+         * @readonly
+         */
         events: {}
     };
 
     /**
-     * Constructor
+     * ResponsiveAxis Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
      */
     function my() {
         // Create getters and setters for options
@@ -59,8 +166,11 @@ function ResponsiveAxis(options) {
     
     /**
      * Method to attach custom event
-     * @param the event to add
-     * @param the function to call on event triggered
+     * 
+     * @method on
+     * @public
+     * @param {Object} event event to add
+     * @param {Function} func function to call on event triggered
      */
     my.on = function (event, func) {
     	if(!my.events()[event]){
@@ -72,8 +182,11 @@ function ResponsiveAxis(options) {
     
     /**
      * Method to trigger event 
-     * @param the event to trigger
-     * @param the args to apply to the function called
+     * 
+     * @method trigger
+     * @public
+     * @param {Object} event event to trigger
+     * @param {Object} args arguments to apply to the function called
      */
     my.trigger = function () {
         if(arguments){
@@ -89,9 +202,12 @@ function ResponsiveAxis(options) {
     };
     
     /**
-     * Method to remove event on function
-     * @param the event to clear
-     * @param the function to remove
+     * Method to remove function on event
+     * 
+     * @method remove
+     * @public
+     * @param {Object} event event to clear
+     * @param {Function} func function to remove
      */
     my.remove = function (event, func) {
     	if(my.events()[event].indexOf(func) !== -1){
@@ -102,6 +218,9 @@ function ResponsiveAxis(options) {
     
     /**
      * Add default events to current object
+     * 
+     * @method addDefaultEvents
+     * @private
      */
     my.addDefaultEvents = function () {
         my.on("redraw", my.draw);
@@ -109,6 +228,9 @@ function ResponsiveAxis(options) {
     
     /**
      * This method init properties for axis
+     * 
+     * @method initProperties
+     * @private
      */
     my.initProperties = function () {
         var data = my.initData();
@@ -128,7 +250,10 @@ function ResponsiveAxis(options) {
     
     /**
      * Retrieve the parent container of g element
-     * @returns {object} container
+     * 
+     * @method initContainer
+     * @private
+     * @return {HTMLElement} parent container of g element
      */
     my.initContainer = function () {
         // Set id to g element in order to select it
@@ -140,8 +265,11 @@ function ResponsiveAxis(options) {
     };
 
     /**
-     * Init data to display on axis
-     * @return object data
+     * Initialize data to display on axis
+     * 
+     * @method initContainer
+     * @private
+     * @return {Object} data created by the function
      */
     my.initData = function () {
         var data;
@@ -165,9 +293,12 @@ function ResponsiveAxis(options) {
     };
 
     /**
-     * Init axis
-     * @param object data
-     * @return object axis
+     * Initialize axis
+     * 
+     * @method initAxis
+     * @private
+     * @param {Object} data the data returned by initData function
+     * @return {Object} axis created by the function
      */
     my.initAxis = function (data) {
         var axis = d3.svg.axis().scale(data).orient(my.orientation());
@@ -175,12 +306,17 @@ function ResponsiveAxis(options) {
     };
 
     /**
-     * Init gap
-     * @return object gap
+     * Initialize gap : the difference between container size and current graph size
+     * 
+     * @method initRatio
+     * @private
+     * @param {Object} container the g container
+     * @return {Object} gap
      */
     my.initRatio = function (container) {
-        var height = container.clientHeight || container.scrollHeight;
-        var width = container.clientWidth || container.scrollWidth;
+        var height = container.clientHeight || container.getBoundingClientRect().height;
+        var width = container.clientWidth || container.getBoundingClientRect().width;
+ 
         return {
             height: height - my.g().attr("height"),
             width: width - my.g().attr("width")
@@ -188,35 +324,45 @@ function ResponsiveAxis(options) {
     };
     
     /**
-     * Init gap
-     * @param {boolean} updateHeight indicate if need to update height value of gap
-     * @param {int} value to add to gap
-     * @param {int} redraw indicate if axis need to be redraw
-     * @return object gap
+     * This method allows to update gap proportion (height and width)
+     * 
+     * @method updateRatio
+     * @public
+     * @param {Boolean} updateHeight indicate if need to update height value of gap
+     * @param {Integer} value value to add to gap
+     * @param {Integer} redraw indicate if axis need to be redraw
+     * @return {Object} gap into json object {heigh: h, width: w}
      */
     my.updateRatio = function (updateHeight, value, redraw) {
         if(updateHeight){
-        	my.gap().height = my.gap().height + value;
+            my.gap().height = my.gap().height + value;
         }
         else {
-        	my.gap().width = my.gap().width + value;
+            my.gap().width = my.gap().width + value;
         }
         
         if(redraw){
-        	my.draw();
+            my.draw();
         }
     };
     
     /**
-     * Update gap
+     * This method recalculates the height of gap
+     * (used for axis that have fixed height)
+     * 
+     * @method updateHeightRatio
+     * @private
      */
     my.updateHeightRatio = function () {
-    	var height = my.container().clientHeight || my.container().scrollHeight;
+    	var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
         my.gap().height = height - my.g().attr("height");
     };
 
     /**
      * This method update range of axis
+     * 
+     * @method updateHeightRatio
+     * @private
      */
     my.updateRange = function () {
         // Horizontal Axis
@@ -231,9 +377,12 @@ function ResponsiveAxis(options) {
     };
 
     /**
-     * This method update axis size
-     * in function of container size
-     * @param json size of container
+     * This method updates axis size with the size sets in parameter
+     * If parameter is not set, the axis is resize to the complete of container
+     * 
+     * @method updateHeightRatio
+     * @public
+     * @param {Object} cSize json size of container {height: h, width: w}
      */
     my.updateSize = function (cSize) {
         if(!cSize){
@@ -253,6 +402,9 @@ function ResponsiveAxis(options) {
     /**
      * This method update the quantity of information
      * display on the axis
+     * 
+     * @method updateAxisTicks
+     * @private
      */
     my.updateAxisTicks = function () {
         var size = $$ResponsiveUtil.getHeight();
@@ -277,12 +429,15 @@ function ResponsiveAxis(options) {
     };
 
     /**
-     * Get the tooltip container size
-     * @returns json object
+     * Get the container size
+     * 
+     * @method getContainerSize
+     * @public
+     * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
-        var height = my.container().clientHeight || my.container().scrollHeight;
-        var width = my.container().clientWidth || my.container().scrollWidth;
+        var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
+        var width = my.container().clientWidth || my.container().getBoundingClientRect().width;
         return {
             height: height - my.gap().height,
             width: width - my.gap().width
@@ -290,7 +445,14 @@ function ResponsiveAxis(options) {
     };
     
     /**
-     * Draw axis on g
+     * Method that draws axis into g :<br/>
+     * Updates :<br/>
+     *  - the size of axis (automatically recalculated)
+     *  - the range
+     *  - the quantity of information to display
+     * 
+     * @method draw
+     * @public
      */
     my.draw = function () {
         // Reset Sizes

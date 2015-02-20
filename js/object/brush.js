@@ -1,36 +1,138 @@
-/* 
- * Responsive Brush For d3js library
+/**
+ * <b>Responsive Brush For d3js library :</b><br/>
+ * <br/>
+ * Responive brush allows you to create brush for timeline, line chart, ...
+ * Brush system allows you to zoom and navigate into your chart.
+ * Brush element will be responsive and you don't need to take care to
+ * the size of them. <br/>
+ * To instantiate one, you need to set the following parameters into a json object :<br/>
+ * <b>svg</b> : svg element (required)<br/>
+ * <b>area</b> : area element used to draw chart (required)<br/>
+ * <b>areaSelector</b> : d3js selector to retrieve area (required)<br/>
+ * <b>cX</b> : x axis of main chart (required)<br/>
+ * <b>cY</b> : y axis of main chart (required)<br/>
+ * <b>height</b> : height of the brush element (default 50)<br/>
+ * <b>margin</b> : margin to apply to brush element (default {top: 0, right: 0, bottom: 0, left: 0})<br/>
+ * <b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>
+ * <br/>
+ * <b>Example:</b><br/>
+ * var brush = new ResponsiveBrush({<br/>
+ *      &nbsp;&nbsp;&nbsp;svg: svg,<br/>
+ *      &nbsp;&nbsp;&nbsp;area: area,<br/>
+ *      &nbsp;&nbsp;&nbsp;areaSelector: ".area",<br/>
+ *      &nbsp;&nbsp;&nbsp;cX: aResponsiveAxis,<br/>
+ *      &nbsp;&nbsp;&nbsp;cY: aResponsiveAxis,<br/>
+ *      &nbsp;&nbsp;&nbsp;margin: {<br/>
+ *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top: 50,<br/>
+ *          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;left: 60<br/>
+ *      &nbsp;&nbsp;&nbsp;}<br/>
+ *  })();<br/>
+ *  <br/>
+ * @class ResponsiveBrush
+ * @constructor
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
  */
-
-/**
- * Create a responsive brush
- * @param json object options :
- * svg : the svg to add brush
- * area : area
- * areaSelector : the d3js selector to get the area
- * cX : container x ResponiveAxis
- * cY : container y ResponiveAxis
- * size : size of axis in px
- * marginTop : the margin top to apply under the main graph
- */
 function ResponsiveBrush(options) {
     options = {
+        /**
+         * Main svg element<br/>
+         * Read with : brush.svg()<br/>
+         * Write with : brush.svg(newValue)<br/>
+         * 
+         * @attribute g
+         * @public
+         * @required
+         * @type Object
+         */
         svg: options.svg,
+        /**
+         * Area element used to draw chart<br/>
+         * Read with : brush.area()<br/>
+         * Write with : brush.area(newValue)<br/>
+         * 
+         * @attribute area
+         * @public
+         * @required
+         * @type Object
+         */
         area: options.area,
+        /**
+         * d3js selector to retrieve area<br/>
+         * Read with : brush.areaSelector()<br/>
+         * Write with : brush.areaSelector(newValue)<br/>
+         * 
+         * @attribute areaSelector
+         * @public
+         * @required
+         * @type Object
+         */
         areaSelector: options.areaSelector,
+        /**
+         * x axis of main chart<br/>
+         * Read with : brush.cX()<br/>
+         * Write with : brush.cX(newValue)<br/>
+         * 
+         * @attribute cX
+         * @public
+         * @required
+         * @type ResponsiveAxis
+         */
         cX: options.cX,
+        /**
+         * y axis of main chart<br/>
+         * Read with : brush.cY()<br/>
+         * Write with : brush.cY(newValue)<br/>
+         * 
+         * @attribute cY
+         * @public
+         * @required
+         * @type ResponsiveAxis
+         */
         cY: options.cY,
+        /**
+         * Meight of the brush element<br/>
+         * Read with : brush.height()<br/>
+         * Write with : brush.height(newValue)<br/>
+         * 
+         * @attribute height
+         * @public
+         * @type Integer
+         * @default 50
+         */
         height: options.height || 50,
+        /**
+         * Margin to apply to brush element<br/>
+         * Read with : brush.margin()<br/>
+         * Write with : brush.margin(newValue)<br/>
+         * 
+         * @attribute margin
+         * @public
+         * @type Object
+         * @default {top: 0, right: 0, bottom: 0, left: 0}
+         */
         margin: options.margin || {top: 0, right: 0, bottom: 0, left: 0},
+        /**
+         * Indicate if resize is automatically done<br/>
+         * Read with : axis.autoresize()<br/>
+         * Write with : axis.autoresize(newValue)<br/>
+         * 
+         * @attribute autoresize
+         * @public
+         * @type Boolean
+         * @default false
+         */
         autoresize: options.autoresize || false,
         events: {}
     };
     
     /**
-     * Constructor
+     * ResponsiveBrush Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
      */
     function my() {
         // Create getters and setters for options
@@ -59,8 +161,11 @@ function ResponsiveBrush(options) {
     
     /**
      * Method to attach custom event
-     * @param the event to add
-     * @param the function to call on event triggered
+     * 
+     * @method on
+     * @public
+     * @param {Object} event event to add
+     * @param {Function} func function to call on event triggered
      */
     my.on = function (event, func) {
     	if(!my.events()[event]){
@@ -72,8 +177,11 @@ function ResponsiveBrush(options) {
     
     /**
      * Method to trigger event 
-     * @param the event to trigger
-     * @param the args to apply to the function called
+     * 
+     * @method trigger
+     * @public
+     * @param {Object} event event to trigger
+     * @param {Object} args arguments to apply to the function called
      */
     my.trigger = function () {
         if(arguments){
@@ -89,19 +197,25 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Method to remove event on function
-     * @param the event to clear
-     * @param the function to remove
+     * Method to remove function on event
+     * 
+     * @method remove
+     * @public
+     * @param {Object} event event event to clear
+     * @param {Function} func function function to remove
      */
     my.remove = function (event, func) {
     	if(my.events()[event].indexOf(func) !== -1){
-    		// Remove function on the event
+            // Remove function on the event
             my.events()[event].remove(func);
     	}
     };
     
     /**
      * Add default events to current object
+     * 
+     * @method addDefaultEvents
+     * @private
      */
     my.addDefaultEvents = function () {
         my.on("redraw", my.draw);
@@ -109,6 +223,9 @@ function ResponsiveBrush(options) {
     
     /**
      * This method init properties for axis
+     * 
+     * @method initProperties
+     * @private
      */
     my.initProperties = function () {
         
@@ -153,8 +270,11 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Init graph
-     * @returns {object} grapph
+     * Initialize g element to draw brush
+     * 
+     * @method initGraph
+     * @private
+     * @return {Object} g element create
      */
     my.initGraph = function() {
         var graph = my.svg().append("g")
@@ -166,7 +286,10 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Init brush
+     * Initialize brush
+     * 
+     * @method initBrush 
+     * @private
      * @param ResponsiveAxis x
      * @returns {object} brush
      */
@@ -183,6 +306,9 @@ function ResponsiveBrush(options) {
     
     /**
      * Construct the brush slider
+     * 
+     * @method constructSlider 
+     * @private
      */
     my.constructSlider = function() {
         my.graph().append("g")
@@ -194,7 +320,11 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Method that redraws the brush
+     * Method that draws the brush :<br/>
+     * Update his size automatically
+     * 
+     * @method draw
+     * @public
      */
     my.draw = function() {
         my.graph().attr("transform", "translate(" + my.margin().left + ", " + (my.cY().size() + my.height() + my.margin().top) + ")");
@@ -205,7 +335,11 @@ function ResponsiveBrush(options) {
     };
     
     /**
-     * Brushed function
+     * Method that brushes<br/>
+     * Update the domain of main chart
+     * 
+     * @method brushed
+     * @private
      */
     my.brushed = function() {
         my.cX().data().domain(my.brush().empty() ? my.x().data().domain() : my.brush().extent());

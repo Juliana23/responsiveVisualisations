@@ -32,11 +32,11 @@ function data(file){
 };
 
 var flare = {
-		url: "./data/flare.json"
+	url: "./data/flare.json"
 };
 
 var presentation = {
-		url: "./data/presentation.json"
+	url: "./data/presentation.json"
 };
 
 function dataTreeMap(file){
