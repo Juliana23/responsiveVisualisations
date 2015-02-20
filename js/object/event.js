@@ -81,7 +81,7 @@ function ResponsiveEvent(options) {
      */
     my.intercept = function(){
     	var event = window.event;
-    	console.log(event);
+    	
         // Touch Event
         if(event instanceof TouchEvent){
             my.transformEvent(event, event.type);

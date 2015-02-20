@@ -20,7 +20,9 @@
 	<script type="text/javascript">
 		window.onresize = resizeIframe;
 		function resizeIframe() {
-			var height = window.innerHeight - document.getElementById("header").clientHeight - document.getElementById("footer").clientHeight;
+			var height = window.innerHeight - 
+			(document.getElementById("header").clientHeight || document.getElementById("header").offsetHeight) - 
+			(document.getElementById("footer").clientHeight|| document.getElementById("footer").offsetHeight);
 			document.getElementById("visualization").style.height = height + 'px';
 		}
 		

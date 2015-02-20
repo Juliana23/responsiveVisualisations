@@ -145,8 +145,8 @@ function ResponsiveSelector(options) {
      * @return object gap
      */
     my.initRatio = function (container) {
-        var height = container.clientHeight;
-        var width = container.clientWidth;
+        var height = container.clientHeight || container.scrollHeight;
+        var width = container.clientWidth || container.scrollWidth;
         return {
             height: (height ? height : d3.select(container).attr("height")) - my.g().attr("height"),
             width: (width ? width : d3.select(container).attr("width")) - my.g().attr("width")
@@ -398,8 +398,8 @@ function ResponsiveSelector(options) {
      * @returns json object
      */
     my.getContainerSize = function () {
-        var height = my.container().clientHeight;
-        var width = my.container().clientWidth;
+        var height = my.container().clientHeight || my.container().scrollHeight;
+        var width = my.container().clientWidth || my.container().scrollWidth;
         return {
             height: height - my.gap().height,
             width: width - my.gap().width

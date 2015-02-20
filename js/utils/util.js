@@ -103,6 +103,7 @@ function ResponsiveUtil() {
      */
     my.getCursorPosition = function () {
     	var e = window.event;
+
 		return {
 			x : e.clientX,
 			y : e.clientY
@@ -160,7 +161,7 @@ function ResponsiveUtil() {
             xWidth = window.innerWidth;
 
         if (document.body !== null)
-            xWidth = document.body.clientWidth;
+            xWidth = document.body.clientWidth || document.body.scrollWidth;
 
         return xWidth;
     };
@@ -178,7 +179,7 @@ function ResponsiveUtil() {
             xHeight = window.innerHeight;
 
         if (document.body !== null)
-            xHeight = document.body.clientHeight;
+            xHeight = document.body.clientHeight || document.body.scrollHeight;
 
         return xHeight;
     };
