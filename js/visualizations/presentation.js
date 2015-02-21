@@ -209,7 +209,7 @@ function TreeMap(options) {
 			.each(function(d) { 
 				var slide = d.slide;
 				if(slide){
-					var section = "#" + d.slide;
+					var section = "#slide" + d.slide;
 					var content =  $($.parseHTML(data)).filter(section)[0]; 
 					$(this).html(content);
 				}
@@ -519,7 +519,23 @@ function TreeMap(options) {
 		.value(function(d) { return d.size; });
 
 		my.children(my.treemap().nodes(my.node())
-				.filter(function(d) { return !d.children; }));
+				.filter(function(d) { 
+					$("#slide" + d.slide).height(d.dy);
+                    $("#slide" + d.slide + " table").height(d.dy);
+                    var h = d.dy - 80; // On enleve la height reserve pour le titre
+                    // On met a jour la height des colonnes restantes
+                    var count = $("#slide" + d.slide + " table tr").length - 1; // - Titre
+                    // On met a jour la hauteur de lignes et colonnes
+                    $("#slide" + d.slide + " table tr").each(function (i, row) {
+                        if(i > 0){
+                            $(row).height(h/count);
+                            $(row).children("td").each(function(){
+                                $(this).height(h/count);
+                            });
+                        }
+                    });
+					return !d.children; 
+				}));
 			
 		// Redefinition de la taille du svg
 		my.svg()
@@ -562,10 +578,6 @@ function TreeMap(options) {
 			.attr("width", function(d) { return d.dx - 1; })
 			.attr("height", function(d) { return d.dy - 1; })
 			.style("display", "");
-			
-			if(my.nodeOutline()){
-				my.selector().trigger("drawOnNode", my.nodeOutline());
-			}
 		}
 		else{
 			my.graph().selectAll(".cell.child")

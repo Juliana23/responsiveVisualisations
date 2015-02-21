@@ -416,10 +416,10 @@ function TimeLine(options) {
         }
         html += "</ol>";
 
-        my.tooltip().trigger("redraw", html);
+        my.tooltip().trigger("redraw", event, html);
     };
     
-    my.onMove = function(){
+    my.onMove = function(event){
     	var width = my.width();
     	var height = my.height();
     	var margin = my.margin();

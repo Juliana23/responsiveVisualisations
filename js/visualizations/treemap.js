@@ -34,7 +34,7 @@ function TreeMap(options) {
 //	        timer = window.setTimeout(function() {
 //	        	resize();
 //	        }, 500);
-//	    });
+//	    });		
 		$$ResponsiveUtil.addResizeEvent(resize);
 	}
 

@@ -1,0 +1,44 @@
+table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+table tr td.title {
+    height: 80px;
+    font-size: 4em;
+    font-weight: bold;
+    text-align: center;
+}
+
+table .font-size-2em {
+    line-height: 2em;
+    font-size: 2em;
+}
+
+table tr td.w50 {
+    width: 50%;
+}
+
+table tr td.center {
+    text-align: center;
+}
+
+table tr td img {
+    vertical-align: middle;
+    max-height: 90%;
+    max-width: 90%;
+}
+
+.page-number {
+    border: solid 1px;
+    font-size: 18px;
+    position: fixed;
+    width: 20px;
+    right: 5px;
+    bottom: 5px;
+    height: 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: white;
+}

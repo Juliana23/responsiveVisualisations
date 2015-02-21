@@ -446,7 +446,7 @@ function ResponsiveTooltip(options) {
     	.style("-webkit-column-count", 1)
     	.style("-moz-column-count", 1)
     	.style("column-count", 1);
-
+        
         var tooltipPosition = my.getTooltipPosition(width, height);
         my.tooltip()
                 .style("left", tooltipPosition.tooltipLeft + "px")
