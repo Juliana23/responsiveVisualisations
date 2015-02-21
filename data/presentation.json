@@ -4,107 +4,137 @@
 	"url": "./presentation/slides.html",
 	"children": [
 		{
-			"name": "1) Contexte",
-			"page": "1",
-			"children": [
-				{
-					"name": "Contexte",
-					"slide":  "1",
-					"size": 20000
-				}
-			]
-		},
+            "name": "Contexte",
+            "page": "1",
+            "children": [
+                {
+                    "name": "Contexte",
+                    "slide": "3",
+                    "size": 20000
+                }
+            ]
+        },
+        {
+            "name": "Problématiques",
+            "page": "2",
+            "children": [
+                {
+                    "name": "Problématiques",
+                    "slide": "4",
+                    "size": 20000
+                }
+            ]
+        },
+        {
+            "name": "Méthodes de recherches",
+            "page": "3",
+            "children": [
+                {
+                    "name": "Méthodes de recherches",
+                    "slide": "5",
+                    "size": 20000
+                }
+            ]
+        },
+        {
+            "name": "Etat de l'art",
+            "page": "4",
+            "children": [
+                {
+                    "name": "Etat de l'art",
+                    "page": "5",
+                    "slide": "6",
+                    "size": 20000
+                },
+                {
+                    "name": "Etat de l'art",
+                    "page": "6",
+                    "slide": "7",
+                    "size": 20000
+                },
+                {
+                    "name": "Etat de l'art",
+                    "page": "7",
+                    "slide": "8",
+                    "size": 20000
+                }
+            ]
+        },
+        {
+            "name": "Points Critiques",
+            "page": "8",
+            "children": [
+                {
+                    "name": "Points Critiques",
+                    "slide": "10",
+                    "size": 20000
+                }
+            ]
+        },
 		{
-			"name": "2) Etat de l'art",
-			"page": "2",
-			"children": [
-				{
-					"name": "Dominikus",
-					"slide":  "2",
-					"page": "3",
-					"size": 20000
-				},
-				{
-					"name": "Florit",
-					"slide":  "3",
-					"page": "4",
-					"size": 20000
-				}
-			]
-		},
-		{
-			"name": "3) Problématiques",
-			"page": "5",
-			"children": [
-				{
-					"name": "Problématiques",
-					"slide":  "4",
-					"size": 20000
-				}
-			]
-		},
-		{
-			"name": "4)Méthodes_de_recherches",
-			"page": "6",
-			"children": [
-				{
-					"name": "Méthodes_de_recherches",
-					"slide":  "5",
-					"size": 20000
-				}
-			]
-		},
-		{
-			"name": "5)Données_collectées",
-			"page": "7",
-			"children": [
-				{
-					"name": "Données_collectées",
-					"slide":  "6",
-					"size": 20000
-				}
-			]
-		},
-		{
-			"name": "6)Solutions_Généralisation",
-			"page": "8",
-			"children": [
-				{
-					"name": "Solutions_Généralisation",
-					"slide":  "7",
-					"size": 20000
-				}
-			]
-		},
-		{
-			"name": "7)Conclusion",
+			"name": "6) Solutions/Généralisation",
 			"page": "9",
 			"children": [
 				{
-					"name": "Conclusion",
-					"slide":  "8",
+					"name": "Solutions/Généralisation",
+					"page": "10",
+					"slide":  "11",
+					"size": 20000
+				},
+				{
+					"name": "Solutions/Généralisation",
+					"page": "11",
+					"slide":  "12",
+					"size": 20000
+				},
+				{
+					"name": "Solutions/Généralisation",
+					"page": "12",
+					"slide":  "13",
 					"size": 20000
 				}
 			]
 		},
 		{
-			"name": "8)Références",
-			"page": "10",
+			"name": "7) Conclusion",
+			"page": "13",
+			"children": [
+				{
+					"name": "Conclusion",
+					"slide":  "14",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "8) Références",
+			"page": "14",
 			"children": [
 				{
 					"name": "Références",
-					"slide":  "9",
+					"slide":  "15",
 					"size": 10000
 				}
 			]
 		},
 		{
-			"name": "9)Questions",
-			"page": "11",
+			"name": "9) Remerciements",
+			"page": "15",
+			"children": [
+				{
+					"name": "Remerciements",
+					"slide":  "16",
+					"size": 10000
+				}
+			]
+		},
+		{
+			"name": "10) Questions",
+			"page": "16",
 			"children": [
 				{
 					"name": "Questions",
-					"slide":  "10",
+					"slide":  "17",
 					"size": 10000
 				}
 			]

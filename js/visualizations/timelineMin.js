@@ -416,7 +416,7 @@ function TimeLine(options) {
         }
         html += "</ol>";
 
-        my.tooltip().trigger("redraw", event, html);
+        my.tooltip().trigger("redraw", html);
     };
     
     my.onMove = function(event){

@@ -15,8 +15,21 @@ table .font-size-2em {
     font-size: 2em;
 }
 
+table .lineheight-1em {
+    line-height: 1em !important;
+}
+
+table .font-size-09em {
+    line-height: 1.5em;
+    font-size: 0.9em;
+}
+
 table tr td.w50 {
     width: 50%;
+}
+
+table tr td.w33 {
+    width: 33.33%;
 }
 
 table tr td.center {
@@ -25,8 +38,8 @@ table tr td.center {
 
 table tr td img {
     vertical-align: middle;
-    max-height: 90%;
-    max-width: 90%;
+    max-height: 95%;
+    max-width: 95%;
 }
 
 .page-number {

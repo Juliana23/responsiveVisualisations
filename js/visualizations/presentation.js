@@ -524,13 +524,14 @@ function TreeMap(options) {
                     $("#slide" + d.slide + " table").height(d.dy);
                     var h = d.dy - 80; // On enleve la height reserve pour le titre
                     // On met a jour la height des colonnes restantes
-                    var count = $("#slide" + d.slide + " table tr").length - 1; // - Titre
+                    var nbRows = $("#slide" + d.slide + " table tr").length - 1; // - Titre
                     // On met a jour la hauteur de lignes et colonnes
                     $("#slide" + d.slide + " table tr").each(function (i, row) {
                         if(i > 0){
-                            $(row).height(h/count);
+                            $(row).height(h/nbRows);
                             $(row).children("td").each(function(){
-                                $(this).height(h/count);
+                            	var rowspan = $(this).attr("rowspan") || 1;
+                                $(this).height(rowspan*h/nbRows);
                             });
                         }
                     });
@@ -807,14 +808,12 @@ function TreeMap(options) {
         })
         .style("opacity", "0.2");
 		
-		// Information sur le parent du noeud courant
-		//my.drawOutline(d, d.parent.name, "textParent");
-		my.selector().trigger("drawOnNode", d.parent);
-		
 		// On dessine le tooltip seulement si
 		// on n'est pas sur le zoom
 		if(my.node() === my.root()){
 			my.drawTooltip(d);
+			// Information sur le parent du noeud courant
+			my.selector().trigger("drawOnNode", d.parent);
 		}
 		else{
 			if(d.parent !== my.node() && my.node().children){
