@@ -177,6 +177,9 @@ function ResponsiveSelector(options) {
         parents.forEach(function (d) {
             var allParents = $$ResponsiveTreeUtil.getAllParents(d);
             d["allParents"] = allParents;
+            var reg = new RegExp("[^A-Za-zàéèù]","g");
+            var id = d.name.replace(reg, "") + "_" + (d.parent ? d.parent.name.replace(reg, "") : "root");
+            d["id"] = id;
         });
         
         return parents;
@@ -202,7 +205,7 @@ function ResponsiveSelector(options) {
         my.g().selectAll("." + classes)
                 .append("rect")
                 .attr("id", function (d) {
-                    d.id = d.name + "_" + (d.parent ? d.parent.name : "root");
+                    d.id = d.id;
                     return d.id;
                 })
                 .attr("width", function (d) {
@@ -422,6 +425,9 @@ function ResponsiveSelector(options) {
 			nodeId = node.parent.id;
 		}
 		
+		d3.selectAll(".titleParent text")
+		.style("display", "none");
+		
 		my.g().select("#" + nodeId)
 		.attr("width", function(d) {
 			pathinfo.push({
@@ -514,9 +520,7 @@ function ResponsiveSelector(options) {
     /**
      * Method to hide
      */
-    my.hide = function () {
-    	//d3.selectAll(".textParent").remove();
-    	
+    my.hide = function () {    	
     	my.g().selectAll(".textFirstParent")
 		.style("display", "none");
     	
@@ -524,9 +528,7 @@ function ResponsiveSelector(options) {
 		.style("display", "none");
     };
     
-    my.hideOnNode = function () {
-    	//d3.selectAll(".textParent").remove();
-    	
+    my.hideOnNode = function () {    	
     	my.g().selectAll(".textOnNode")
 		.style("display", "none");
     };

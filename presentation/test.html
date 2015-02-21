@@ -1,0 +1,42 @@
+<section class="slide deck-after" id="1">
+<h2>Touch Events</h2>
+
+<h3>Exemple1</h3>
+<h4>Récupérer un événement touch et afficher ses coordonnées</h4>
+<pre><code>monElement.addEventListener('touchstart', afficheTouch, false);
+monElement.addEventListener('touchmove', afficheTouch, false);
+monElement.addEventListener('touchend', effaceTouch, false);
+
+function afficheTouch(ev) {
+	ev.preventDefault();
+
+	monAutreElement.innerHTML = ev.touches.item(0).screenX + "; " + ev.touches.item(0).screenY + "; ";
+}
+
+function effaceTouch(ev) {
+	document.getElementById('result').innerHTML="";
+}</code></pre>
+<h4>Testable <a href="../test/touch">ici</a></h4>
+
+</section>
+<section class="slide deck-after" id="2">
+<h2>Touch Events</h2>
+
+<h3>Exemple2</h3>
+<h4>Récupérer un événement touch et afficher ses coordonnées</h4>
+<pre><code>monElement.addEventListener('touchstart', afficheTouch, false);
+monElement.addEventListener('touchmove', afficheTouch, false);
+monElement.addEventListener('touchend', effaceTouch, false);
+
+function afficheTouch(ev) {
+	ev.preventDefault();
+
+	monAutreElement.innerHTML = ev.touches.item(0).screenX + "; " + ev.touches.item(0).screenY + "; ";
+}
+
+function effaceTouch(ev) {
+	document.getElementById('result').innerHTML="";
+}</code></pre>
+<h4>Testable <a href="../test/touch">ici</a></h4>
+
+</section>

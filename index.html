@@ -11,6 +11,7 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     
+    <script type="text/javascript" src="./lib/screenfull.min.js"></script>
     <script type="text/javascript" src="./lib/d3/d3.v3.min.js"></script>
 	<script type="text/javascript" src="./lib/hammer.min.js"></script>
 	<script type="text/javascript" src="./js/utils/util.js"></script>
@@ -139,6 +140,19 @@
         		{"name": "swipeleft", "func": changeSrcIframeRight, "extend": false}
         	]
         })();
+		
+		function enterFullScreen(){
+            var elem = document.getElementById('visualization');
+            if (screenfull.enabled) {
+                screenfull.request(elem);
+            }                    
+        }
+        
+        window.onkeypress = function (e) {
+            if(e.keyCode === 32){
+                enterFullScreen();
+            }
+        };
     </script>
 </head>
 
