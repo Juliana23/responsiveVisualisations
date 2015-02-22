@@ -345,12 +345,13 @@ function ResponsiveTooltip(options) {
         var gPosition = my.getGPosition();
         var tooltipHeight = my.getHeight();
         var tooltipWidth = my.width();
+        console.log(tooltipWidth);
 
     	var cursor = $$ResponsiveUtil.getCursorPosition();
     	var posX = cursor.x;
         var posY = cursor.y;
-        xMin = posX - tooltipWidth - gPosition.x - 50;
-        xMax = posX + gPosition.x + 50;
+        xMin = posX - tooltipWidth *2 - gPosition.x;
+        xMax = posX + gPosition.x + 100;
         yMin = posY - 100;
         yMax = posY;
 
