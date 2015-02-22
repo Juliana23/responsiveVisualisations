@@ -132,21 +132,21 @@ window.onresize = resizeIframe;
                 enterFullScreen();
             }
         };
-        
-        $(document).ready(function(){
-        	new ResponsiveEvent({
-    			object : d3.select("#title4_main_content").each(function(d,i){
-    				Hammer(this, {
-    					prevent_default: true,
-    					no_mouseevents: true
-    				})
-    			}),
-            	events : [
-            		{"name": "tap", "func": locationDoc, "extend": false}
-            	]
-            })();
-    		
-    		function locationDoc(){
-    			window.open("./doc", '_blank');
-    		}
-        });
+//        
+//        $(document).ready(function(){
+//        	new ResponsiveEvent({
+//    			object : d3.select("#title4_main_content").each(function(d,i){
+//    				Hammer(this, {
+//    					prevent_default: true,
+//    					no_mouseevents: true
+//    				})
+//    			}),
+//            	events : [
+//            		{"name": "tap", "func": locationDoc, "extend": false}
+//            	]
+//            })();
+//    		
+//    		function locationDoc(){
+//    			window.open("./doc", '_blank');
+//    		}
+//        });
