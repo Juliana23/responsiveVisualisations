@@ -134,7 +134,7 @@ function ResponsiveUtil() {
      * @return {Object} position into json object {x; vx, y: vy}
      */
     my.getCursorPosition = function () {
-    	var e = window.event;
+    	var e = window.event || d3.event;;
 		return {
 			x : e.clientX,
 			y : e.clientY
@@ -173,7 +173,7 @@ function ResponsiveUtil() {
      * @return {Boolean} true if the event is outside
      */
     my.isPositionOutsideContainer = function (margin) {
-    	var e = window.event;
+    	var e = window.event || d3.event;;
     	var xClicked = e.clientX;
 		var yClicked = e.clientY;
 		if(xClicked < margin 

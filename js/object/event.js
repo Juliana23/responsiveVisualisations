@@ -146,7 +146,7 @@ function ResponsiveEvent(options) {
      * @private
      */
     my.intercept = function(){
-    	var event = window.event;
+    	var event = window.event || d3.event;
         // Touch Event
         if(event instanceof TouchEvent){
             my.transformEvent(event, event.type);
