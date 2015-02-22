@@ -351,7 +351,7 @@ function ResponsiveTooltip(options) {
         var posY = cursor.y;
         xMin = posX - tooltipWidth - gPosition.x - 50;
         xMax = posX + gPosition.x + 50;
-        yMin = posY - 50;
+        yMin = posY - 100;
         yMax = posY;
 
         // Reset tooltip position
