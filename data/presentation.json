@@ -1,140 +1,158 @@
 {
-	"name": "Visualisation_Responsives",
+	"name": "Visualisation Responsives",
 	"page": "0",
 	"url": "./presentation/slides.html",
 	"children": [
 		{
-            "name": "Contexte",
+            "name": "1) Visualisation Responsives",
             "page": "1",
             "children": [
                 {
+                    "name": "Visualisation Responsive",
+                    "slide": "1",
+                    "size": 20000
+                }
+            ]
+        },
+		{
+            "name": "2) Contexte",
+            "page": "2",
+            "children": [
+                {
                     "name": "Contexte",
+                    "slide": "2",
+                    "size": 20000
+                }
+            ]
+        },
+        {
+            "name": "3) Problématiques",
+            "page": "3",
+            "children": [
+                {
+                    "name": "Problématiques",
                     "slide": "3",
                     "size": 20000
                 }
             ]
         },
         {
-            "name": "Problématiques",
-            "page": "2",
+            "name": "4) Méthodes de recherches",
+            "page": "4",
             "children": [
                 {
-                    "name": "Problématiques",
+                    "name": "Méthodes de recherches",
                     "slide": "4",
                     "size": 20000
                 }
             ]
         },
         {
-            "name": "Méthodes de recherches",
-            "page": "3",
+            "name": "5) Etat de l'art",
+            "page": "5",
             "children": [
                 {
-                    "name": "Méthodes de recherches",
+                    "name": "Visualisation mobiles",
+                    "page": "6",
                     "slide": "5",
                     "size": 20000
-                }
-            ]
-        },
-        {
-            "name": "Etat de l'art",
-            "page": "4",
-            "children": [
+                },
                 {
-                    "name": "Etat de l'art",
-                    "page": "5",
+                    "name": "Visualisation responsives",
+                    "page": "7",
                     "slide": "6",
                     "size": 20000
                 },
                 {
-                    "name": "Etat de l'art",
-                    "page": "6",
+                    "name": "Zoomable Treemap",
+                    "page": "8",
                     "slide": "7",
-                    "size": 20000
-                },
-                {
-                    "name": "Etat de l'art",
-                    "page": "7",
-                    "slide": "8",
                     "size": 20000
                 }
             ]
         },
         {
-            "name": "Points Critiques",
-            "page": "8",
+            "name": "6) Points Critiques",
+            "page": "9",
             "children": [
                 {
                     "name": "Points Critiques",
-                    "slide": "10",
+                    "page": "10",
+                    "slide": "8",
+                    "size": 20000
+                },
+                {
+                    "name": "Exemple",
+                    "page": "11",
+                    "slide": "9",
                     "size": 20000
                 }
             ]
         },
 		{
 			"name": "6) Solutions/Généralisation",
-			"page": "9",
+			"page": "12",
 			"children": [
 				{
-					"name": "Solutions/Généralisation",
-					"page": "10",
+					"name": "Solutions Timeline",
+					"page": "13",
+					"slide":  "10",
+					"size": 20000
+				},
+				{
+					"name": "Solutions Treemap",
+					"page": "14",
 					"slide":  "11",
 					"size": 20000
 				},
 				{
-					"name": "Solutions/Généralisation",
-					"page": "11",
+					"name": "Généralisation",
+					"page": "15",
 					"slide":  "12",
-					"size": 20000
-				},
-				{
-					"name": "Solutions/Généralisation",
-					"page": "12",
-					"slide":  "13",
 					"size": 20000
 				}
 			]
 		},
 		{
 			"name": "7) Conclusion",
-			"page": "13",
+			"page": "16",
 			"children": [
 				{
 					"name": "Conclusion",
-					"slide":  "14",
+					"slide":  "13",
 					"size": 20000
 				}
 			]
 		},
 		{
 			"name": "8) Références",
-			"page": "14",
+			"page": "17",
 			"children": [
 				{
 					"name": "Références",
-					"slide":  "15",
+					"slide":  "14",
 					"size": 10000
 				}
 			]
 		},
 		{
 			"name": "9) Remerciements",
-			"page": "15",
+			"page": "18",
 			"children": [
 				{
 					"name": "Remerciements",
-					"slide":  "16",
+					"slide":  "15",
 					"size": 10000
 				}
 			]
 		},
 		{
 			"name": "10) Questions",
-			"page": "16",
+			"page": "19",
 			"children": [
 				{
 					"name": "Questions",
-					"slide":  "17",
+					"slide":  "16",
 					"size": 10000
 				}
 			]

@@ -520,23 +520,23 @@ function TreeMap(options) {
 
 		my.children(my.treemap().nodes(my.node())
 				.filter(function(d) { 
-					$("#slide" + d.slide).height(d.dy);
-                    $("#slide" + d.slide + " table").height(d.dy);
+                    $("#slide" + d.slide).height(d.dy);
+                    $("#slide" + d.slide + " > table").height(d.dy);
                     var h = d.dy - 80; // On enleve la height reserve pour le titre
                     // On met a jour la height des colonnes restantes
-                    var nbRows = $("#slide" + d.slide + " table tr").length - 1; // - Titre
+                    var count = $("#slide" + d.slide + " > table > tbody > tr").length - 1; // - Titre
                     // On met a jour la hauteur de lignes et colonnes
-                    $("#slide" + d.slide + " table tr").each(function (i, row) {
+                    $("#slide" + d.slide + " > table > tbody > tr").each(function (i, row) {
                         if(i > 0){
-                            $(row).height(h/nbRows);
+                            $(row).height(h/count);
                             $(row).children("td").each(function(){
-                            	var rowspan = $(this).attr("rowspan") || 1;
-                                $(this).height(rowspan*h/nbRows);
+                                var rowspan = $(this).attr("rowspan") || 1;
+                                $(this).height(rowspan*h/count);
                             });
                         }
                     });
-					return !d.children; 
-				}));
+                    return !d.children;
+                }));
 			
 		// Redefinition de la taille du svg
 		my.svg()

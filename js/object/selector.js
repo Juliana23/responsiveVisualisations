@@ -235,7 +235,8 @@ function ResponsiveSelector(options) {
                     return d.name;
                 })
                 .attr("x", function (d) {
-                    return d.dx - (d.name.length * 5);
+                	w = this.getComputedTextLength();
+                    return d.dx - (w/2);
                 })
                 .attr("y", function (d) {
                     return d.dy - 5;
@@ -331,12 +332,6 @@ function ResponsiveSelector(options) {
 
     	// Parents texts
     	my.g().selectAll("." + classes + " text")
-    	.attr("x", function (d) {
-    		return d.dx - (d.name.length * 5);
-    	})
-    	.attr("y", function (d) {
-    		return d.dy - 5;
-    	})
     	.style("display", function (d) {
     		if (my.node()) {
     			if (d.allParents) {
@@ -352,6 +347,13 @@ function ResponsiveSelector(options) {
     			}
     		}
     		return "none";
+    	})
+    	.attr("x", function (d) {
+    		w = this.getComputedTextLength();
+            return d.dx - (w/2);
+    	})
+    	.attr("y", function (d) {
+    		return d.dy - 5;
     	})
     	.style("opacity", function (d) {
     		w = this.getComputedTextLength();
