@@ -1,3 +1,33 @@
+@media screen and (min-width: 1824px) {
+	table tr td.title {
+	    font-size: 5em;
+	}
+	
+	table .font-size-2em {
+	    font-size: 3em;
+	}
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1823px) {
+	table tr td.title {
+	    font-size: 4em;
+	}
+	
+	table .font-size-2em {
+	    font-size: 2em;
+	}
+}
+
+@media screen and (max-width: 1023px) {
+	table tr td.title {
+	    font-size: 3em;
+	}
+	
+	table .font-size-2em {
+	    font-size: 1em;
+	}
+}
+
 table {
     table-layout: fixed;
     width: 100%;
@@ -7,7 +37,6 @@ table {
 
 table tr td.title {
     height: 80px;
-    font-size: 4em;
     font-weight: bold;
     text-align: center;
 }
@@ -19,10 +48,6 @@ table tr td ul {
 
 table tr td ul li {
 	margin-top: 10px;
-}
-
-table .font-size-2em {
-    font-size: 2em;
 }
 
 table .font-size-09em {
