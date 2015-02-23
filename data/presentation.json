@@ -90,7 +90,7 @@
             ]
         },
 		{
-			"name": "6) Solutions/Généralisation",
+			"name": "7) Solutions/Généralisation",
 			"page": "12",
 			"children": [
 				{
@@ -114,7 +114,7 @@
 			]
 		},
 		{
-			"name": "7) Conclusion",
+			"name": "8) Conclusion",
 			"page": "16",
 			"children": [
 				{
@@ -125,7 +125,7 @@
 			]
 		},
 		{
-			"name": "8) Références",
+			"name": "9) Références",
 			"page": "17",
 			"children": [
 				{
@@ -136,7 +136,7 @@
 			]
 		},
 		{
-			"name": "9) Remerciements",
+			"name": "10) Remerciements",
 			"page": "18",
 			"children": [
 				{
@@ -147,7 +147,7 @@
 			]
 		},
 		{
-			"name": "10) Questions",
+			"name": "11) Questions",
 			"page": "19",
 			"children": [
 				{
