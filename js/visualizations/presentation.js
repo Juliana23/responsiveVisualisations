@@ -55,7 +55,9 @@ function TreeMap(options) {
 				.sticky(true)
 				.value(function(d) { return d.size; }));
 
-		my.color(d3.scale.category20c());
+		var colors = d3.scale.ordinal()
+						.range(["#e6f5dc", "#dcf5e1", "#dcf5f0", "#dcebf5", "#dcdcf5", "#ebdcf5", "#f5dcf0", "#f5dce1", "#f5e6dc", "#eaeab7"]);
+		my.color(colors);
 		
 		// Initialisation des donnees
 		my.initData(options.data);
