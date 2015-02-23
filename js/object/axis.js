@@ -267,7 +267,7 @@ function ResponsiveAxis(options) {
     /**
      * Initialize data to display on axis
      * 
-     * @method initContainer
+     * @method initData
      * @private
      * @return {Object} data created by the function
      */

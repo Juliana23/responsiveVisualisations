@@ -18,23 +18,7 @@ function TreeMap(options) {
 			// Redessine la visualisation de maniere reponsive
 			my.redraw();
 		}
-
-//		var timer = window.setTimeout(function() {}, 0);
-//		d3.select(window).on('resize', function() {
-//	        window.clearTimeout(timer);
-//	        timer = window.setTimeout(function() {
-//	        	resize();
-//	        }, 500);
-//	    });
-		
-//		var timer = window.setTimeout(function() {}, 0);
-//		// Add resize event
-//        $$ResponsiveUtil.addResizeEvent(function() {
-//	        window.clearTimeout(timer);
-//	        timer = window.setTimeout(function() {
-//	        	resize();
-//	        }, 500);
-//	    });		
+	
 		$$ResponsiveUtil.addResizeEvent(resize);
 	}
 
@@ -63,9 +47,6 @@ function TreeMap(options) {
 				.value(function(d) { return d.size; }));
 
 		my.color(d3.scale.category20c());
-		
-		// Initialisation du tooltip
-        //my.initTooltip(my.width());
 		
 		// Initialisation des donnees
 		my.initData(options.data);

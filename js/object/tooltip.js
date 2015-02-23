@@ -6,7 +6,7 @@
  * the size and position of them. <br/>
  * To instantiate one, you need to set the following parameters into a json object :<br/>
  * <b>g</b> : g element used to draw tooltip (required)<br/>
- * <b>cls</b> : css class for axis<br/>
+ * <b>cls</b> : css class for tooltip<br/>
  * <b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>
  * <br/>
  * <b>Example:</b><br/>

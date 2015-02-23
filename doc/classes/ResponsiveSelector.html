@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ResponsiveAxis</title>
+    <title>ResponsiveSelector</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -83,12 +83,12 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>ResponsiveAxis Class</h1>
+<h1>ResponsiveSelector Class</h1>
 <div class="box meta">
 
 
         <div class="foundat">
-            Defined in: <a href="../files/js_object_axis.js.html#l1"><code>js\object\axis.js:1</code></a>
+            Defined in: <a href="../files/js_object_selector.js.html#l1"><code>js\object\selector.js:1</code></a>
         </div>
 
 
@@ -96,39 +96,39 @@
 
 
 <div class="box intro">
-    <p><b>Responsive Axis For d3js library :</b><br/>
+    <p><b>Responsive Selector For d3js library :</b><br/>
 <br/>
-Responive axis allows you to create axis for timeline, line chart, ...
-Those axis will be responsive and you don&#39;t need to take care to
-the size of them. <br/>
-To instanciate one, you need to set the following parameters into a json object :<br/>
-<b>g</b> : g element used to draw chart (required)<br/>
-<b>orientation</b> : top, bottom, left, right (default bottom)<br/>
-<b>datatype</b> : type of data to display on axis<br/>
-<b>domain</b> : array of values to display on axis (required)<br/>
-<b>cls</b> : css class for axis<br/>
+Responive selector allows you to create selector to show details.
+Selector element will be responsive and you don&#39;t need to take care to
+the size and position of them. <br/>
+To instantiate one, you need to set the following parameters into a json object :<br/>
+<b>g</b> : g element used to draw selector (required)<br/>
+<b>depth</b> : depth of visualization (default 1)<br/>
+<b>layout</b> : layout treemap (required)<br/>
+<b>parentsCls</b> : css class for parents nodes (default cell parent)<br/>
+<b>childrenCls</b> : css class for children nodes (required)<br/>
+<b>node</b> : current node (required)<br/>
+<b>root</b> : root node of data (required)<br/>
 <b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>
-<b>fixedHeight</b> : indicate if the size of y axis is not resizable (default false)<br/>
 <br/>
 <b>Example:</b><br/>
- var axis = new ResponsiveAxis({<br/>
-     &nbsp;&nbsp;&nbsp;g: graph,<br/>
-     &nbsp;&nbsp;&nbsp;orientation: $$ResponsiveConstants.<em>BOTTOM</em>(),<br/>
-     &nbsp;&nbsp;&nbsp;datatype: $$ResponsiveConstants.<em>YEAR</em>(),<br/>
-     &nbsp;&nbsp;&nbsp;cls: &quot;x axis&quot;,<br/>
-     &nbsp;&nbsp;&nbsp;domain: d3.extent(data, function (d) {<br/>
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return d.date;<br/>
-     &nbsp;&nbsp;&nbsp;}),<br/>
-     &nbsp;&nbsp;&nbsp;autoresize: false<br/>
- )();<br/>
-<br/></p>
+var selector = new ResponsiveSelector({<br/>
+     &nbsp;&nbsp;&nbsp;g: g,<br/>
+     &nbsp;&nbsp;&nbsp;layout: my.treemap(),<br/>
+     &nbsp;&nbsp;&nbsp;parentsCls: &quot;cell parent&quot;,<br/>
+     &nbsp;&nbsp;&nbsp;childrenCls: &quot;cell child&quot;,<br/>
+     &nbsp;&nbsp;&nbsp;node: node,<br/>
+     &nbsp;&nbsp;&nbsp;root: root,<br/>
+     &nbsp;&nbsp;&nbsp;autoresize: false,<br/>
+ })();<br/>
+ <br/></p>
 
 </div>
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_ResponsiveAxis" class="method item">
-            <h3 class="name"><code>ResponsiveAxis</code></h3>
+        <div id="method_ResponsiveSelector" class="method item">
+            <h3 class="name"><code>ResponsiveSelector</code></h3>
         
                 <span class="paren">()</span>
         
@@ -142,7 +142,7 @@ To instanciate one, you need to set the following parameters into a json object 
             <div class="meta">
                         <p>
                         Defined in
-                <a href="../files/js_object_axis.js.html#l1"><code>js\object\axis.js:1</code></a>
+                <a href="../files/js_object_selector.js.html#l1"><code>js\object\selector.js:1</code></a>
                 </p>
         
         
@@ -184,11 +184,35 @@ To instanciate one, you need to set the following parameters into a json object 
 
                             </li>
                             <li class="index-item method public">
+                                <a href="#method_drawFirstParents">drawFirstParents</a>
+
+                            </li>
+                            <li class="index-item method public">
+                                <a href="#method_drawOnNode">drawOnNode</a>
+
+                            </li>
+                            <li class="index-item method public">
+                                <a href="#method_drawOutline">drawOutline</a>
+
+                            </li>
+                            <li class="index-item method public">
+                                <a href="#method_drawTitleFirstParents">drawTitleFirstParents</a>
+
+                            </li>
+                            <li class="index-item method public">
                                 <a href="#method_getContainerSize">getContainerSize</a>
 
                             </li>
-                            <li class="index-item method private">
-                                <a href="#method_initAxis">initAxis</a>
+                            <li class="index-item method public">
+                                <a href="#method_hide">hide</a>
+
+                            </li>
+                            <li class="index-item method public">
+                                <a href="#method_hide">hide</a>
+
+                            </li>
+                            <li class="index-item method public">
+                                <a href="#method_hideOnNode">hideOnNode</a>
 
                             </li>
                             <li class="index-item method private">
@@ -216,6 +240,10 @@ To instanciate one, you need to set the following parameters into a json object 
 
                             </li>
                             <li class="index-item method public">
+                                <a href="#method_redraw">redraw</a>
+
+                            </li>
+                            <li class="index-item method public">
                                 <a href="#method_remove">remove</a>
 
                             </li>
@@ -223,24 +251,16 @@ To instanciate one, you need to set the following parameters into a json object 
                                 <a href="#method_trigger">trigger</a>
 
                             </li>
-                            <li class="index-item method private">
-                                <a href="#method_updateAxisTicks">updateAxisTicks</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method_updateHeightRatio">updateHeightRatio</a>
-
-                            </li>
-                            <li class="index-item method private">
-                                <a href="#method_updateHeightRatio">updateHeightRatio</a>
+                            <li class="index-item method public">
+                                <a href="#method_update">update</a>
 
                             </li>
                             <li class="index-item method public">
-                                <a href="#method_updateHeightRatio">updateHeightRatio</a>
+                                <a href="#method_updateFirstParents">updateFirstParents</a>
 
                             </li>
                             <li class="index-item method public">
-                                <a href="#method_updateRatio">updateRatio</a>
+                                <a href="#method_updateTitleFirstParents">updateTitleFirstParents</a>
 
                             </li>
                     </ul>
@@ -255,28 +275,28 @@ To instanciate one, you need to set the following parameters into a json object 
                                 <a href="#attr_autoresize">autoresize</a>
                             </li>
                             <li class="index-item attr public">
-                                <a href="#attr_cls">cls</a>
+                                <a href="#attr_childrenCls">childrenCls</a>
                             </li>
                             <li class="index-item attr public">
-                                <a href="#attr_datatype">datatype</a>
-                            </li>
-                            <li class="index-item attr public">
-                                <a href="#attr_domain">domain</a>
+                                <a href="#attr_depth">depth</a>
                             </li>
                             <li class="index-item attr private">
                                 <a href="#attr_events">events</a>
                             </li>
                             <li class="index-item attr public">
-                                <a href="#attr_fixedHeight">fixedHeight</a>
-                            </li>
-                            <li class="index-item attr public">
                                 <a href="#attr_g">g</a>
                             </li>
                             <li class="index-item attr public">
-                                <a href="#attr_orientation">orientation</a>
+                                <a href="#attr_layout">layout</a>
                             </li>
-                            <li class="index-item attr private">
-                                <a href="#attr_size">size</a>
+                            <li class="index-item attr public">
+                                <a href="#attr_node">node</a>
+                            </li>
+                            <li class="index-item attr public">
+                                <a href="#attr_parentsCls">parentsCls</a>
+                            </li>
+                            <li class="index-item attr public">
+                                <a href="#attr_root">root</a>
                             </li>
                     </ul>
                 </div>
@@ -302,7 +322,7 @@ To instanciate one, you need to set the following parameters into a json object 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l219"><code>js\object\axis.js:219</code></a>
+        <a href="../files/js_object_selector.js.html#l213"><code>js\object\selector.js:213</code></a>
         </p>
 
 
@@ -334,7 +354,7 @@ To instanciate one, you need to set the following parameters into a json object 
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l447"><code>js\object\axis.js:447</code></a>
+        <a href="../files/js_object_selector.js.html#l630"><code>js\object\selector.js:630</code></a>
         </p>
 
 
@@ -342,13 +362,195 @@ To instanciate one, you need to set the following parameters into a json object 
     </div>
 
     <div class="description">
-        <p>Method that draws axis into g :<br/>
-Updates :<br/></p>
-<ul>
-<li>the size of axis (automatically recalculated)</li>
-<li>the range</li>
-<li>the quantity of information to display</li>
-</ul>
+        <p>Method to draw the selector</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_drawFirstParents" class="method item public">
+    <h3 class="name"><code>drawFirstParents</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+        <span class="flag public">public</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l318"><code>js\object\selector.js:318</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Method to init first parents outline</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_drawOnNode" class="method item public">
+    <h3 class="name"><code>drawOnNode</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>node</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag public">public</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l641"><code>js\object\selector.js:641</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Method to draw the outline of node</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">node</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>node to draw the outline</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_drawOutline" class="method item public">
+    <h3 class="name"><code>drawOutline</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>node</code>
+                </li>
+                <li class="arg">
+                        <code>nameText</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag public">public</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l567"><code>js\object\selector.js:567</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Method to draw the outline</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">node</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>node to draw the outline</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">nameText</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>text for the outline</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_drawTitleFirstParents" class="method item public">
+    <h3 class="name"><code>drawTitleFirstParents</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+        <span class="flag public">public</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l391"><code>js\object\selector.js:391</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Method to draw title of first parent</p>
 
     </div>
 
@@ -375,7 +577,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l431"><code>js\object\axis.js:431</code></a>
+        <a href="../files/js_object_selector.js.html#l550"><code>js\object\selector.js:550</code></a>
         </p>
 
 
@@ -400,23 +602,14 @@ Updates :<br/></p>
 
 
 </div>
-<div id="method_initAxis" class="method item private">
-    <h3 class="name"><code>initAxis</code></h3>
+<div id="method_hide" class="method item public">
+    <h3 class="name"><code>hide</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>data</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
+        <span class="paren">()</span>
 
 
-        <span class="flag private">private</span>
+
+        <span class="flag public">public</span>
 
 
 
@@ -425,7 +618,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l295"><code>js\object\axis.js:295</code></a>
+        <a href="../files/js_object_selector.js.html#l711"><code>js\object\selector.js:711</code></a>
         </p>
 
 
@@ -433,37 +626,75 @@ Updates :<br/></p>
     </div>
 
     <div class="description">
-        <p>Initialize axis</p>
+        <p>Method called on window resize event</p>
 
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">data</code>
-                        <span class="type">Object</span>
 
 
-                    <div class="param-description">
-                        <p>the data returned by initData function</p>
 
-                    </div>
+</div>
+<div id="method_hide" class="method item public">
+    <h3 class="name"><code>hide</code></h3>
 
-                </li>
-            </ul>
-        </div>
+        <span class="paren">()</span>
 
-        <div class="returns">
-            <h4>Returns:</h4>
 
-            <div class="returns-description">
-                        <span class="type">Object</span>:
-                    <p>axis created by the function</p>
 
-            </div>
-        </div>
+        <span class="flag public">public</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l686"><code>js\object\selector.js:686</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Method to hide all on selector</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_hideOnNode" class="method item public">
+    <h3 class="name"><code>hideOnNode</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+        <span class="flag public">public</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l700"><code>js\object\selector.js:700</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Method to hide all on node</p>
+
+    </div>
+
+
 
 
 </div>
@@ -486,7 +717,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l251"><code>js\object\axis.js:251</code></a>
+        <a href="../files/js_object_selector.js.html#l252"><code>js\object\selector.js:252</code></a>
         </p>
 
 
@@ -530,7 +761,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l267"><code>js\object\axis.js:267</code></a>
+        <a href="../files/js_object_selector.js.html#l286"><code>js\object\selector.js:286</code></a>
         </p>
 
 
@@ -538,7 +769,7 @@ Updates :<br/></p>
     </div>
 
     <div class="description">
-        <p>Initialize data to display on axis</p>
+        <p>Initialize data to put element allParents on children</p>
 
     </div>
 
@@ -571,7 +802,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l229"><code>js\object\axis.js:229</code></a>
+        <a href="../files/js_object_selector.js.html#l232"><code>js\object\selector.js:232</code></a>
         </p>
 
 
@@ -579,7 +810,7 @@ Updates :<br/></p>
     </div>
 
     <div class="description">
-        <p>This method init properties for axis</p>
+        <p>This method init properties for selector</p>
 
     </div>
 
@@ -612,7 +843,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l308"><code>js\object\axis.js:308</code></a>
+        <a href="../files/js_object_selector.js.html#l268"><code>js\object\selector.js:268</code></a>
         </p>
 
 
@@ -670,7 +901,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l136"><code>js\object\axis.js:136</code></a>
+        <a href="../files/js_object_selector.js.html#l136"><code>js\object\selector.js:136</code></a>
         </p>
 
 
@@ -678,7 +909,7 @@ Updates :<br/></p>
     </div>
 
     <div class="description">
-        <p>ResponsiveAxis Constructor</p>
+        <p>ResponsiveTooltip Constructor</p>
 
     </div>
 
@@ -711,7 +942,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l167"><code>js\object\axis.js:167</code></a>
+        <a href="../files/js_object_selector.js.html#l161"><code>js\object\selector.js:161</code></a>
         </p>
 
 
@@ -755,6 +986,62 @@ Updates :<br/></p>
 
 
 </div>
+<div id="method_redraw" class="method item public">
+    <h3 class="name"><code>redraw</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>node</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+        <span class="flag public">public</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l671"><code>js\object\selector.js:671</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>Method to redraw the selector
+on a changed node</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">node</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>node to draw the selector</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_remove" class="method item public">
     <h3 class="name"><code>remove</code></h3>
 
@@ -780,7 +1067,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l204"><code>js\object\axis.js:204</code></a>
+        <a href="../files/js_object_selector.js.html#l198"><code>js\object\selector.js:198</code></a>
         </p>
 
 
@@ -849,7 +1136,7 @@ Updates :<br/></p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l183"><code>js\object\axis.js:183</code></a>
+        <a href="../files/js_object_selector.js.html#l177"><code>js\object\selector.js:177</code></a>
         </p>
 
 
@@ -893,111 +1180,13 @@ Updates :<br/></p>
 
 
 </div>
-<div id="method_updateAxisTicks" class="method item private">
-    <h3 class="name"><code>updateAxisTicks</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/js_object_axis.js.html#l402"><code>js\object\axis.js:402</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>This method update the quantity of information
-display on the axis</p>
-
-    </div>
-
-
-
-
-</div>
-<div id="method_updateHeightRatio" class="method item private">
-    <h3 class="name"><code>updateHeightRatio</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/js_object_axis.js.html#l349"><code>js\object\axis.js:349</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>This method recalculates the height of gap
-(used for axis that have fixed height)</p>
-
-    </div>
-
-
-
-
-</div>
-<div id="method_updateHeightRatio" class="method item private">
-    <h3 class="name"><code>updateHeightRatio</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-        <span class="flag private">private</span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/js_object_axis.js.html#l361"><code>js\object\axis.js:361</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        <p>This method update range of axis</p>
-
-    </div>
-
-
-
-
-</div>
-<div id="method_updateHeightRatio" class="method item public">
-    <h3 class="name"><code>updateHeightRatio</code></h3>
+<div id="method_update" class="method item public">
+    <h3 class="name"><code>update</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>cSize</code>
+                        <code>node</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
@@ -1013,7 +1202,7 @@ display on the axis</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l379"><code>js\object\axis.js:379</code></a>
+        <a href="../files/js_object_selector.js.html#l528"><code>js\object\selector.js:528</code></a>
         </p>
 
 
@@ -1021,8 +1210,7 @@ display on the axis</p>
     </div>
 
     <div class="description">
-        <p>This method updates axis size with the size sets in parameter
-If parameter is not set, the axis is resize to the complete of container</p>
+        <p>Method to update attribute depth, node</p>
 
     </div>
 
@@ -1031,12 +1219,12 @@ If parameter is not set, the axis is resize to the complete of container</p>
 
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">cSize</code>
+                        <code class="param-name">node</code>
                         <span class="type">Object</span>
 
 
                     <div class="param-description">
-                        <p>json size of container {height: h, width: w}</p>
+                        <p>node to update</p>
 
                     </div>
 
@@ -1047,26 +1235,11 @@ If parameter is not set, the axis is resize to the complete of container</p>
 
 
 </div>
-<div id="method_updateRatio" class="method item public">
-    <h3 class="name"><code>updateRatio</code></h3>
+<div id="method_updateFirstParents" class="method item public">
+    <h3 class="name"><code>updateFirstParents</code></h3>
 
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>updateHeight</code>
-                </li>
-                <li class="arg">
-                        <code>value</code>
-                </li>
-                <li class="arg">
-                        <code>redraw</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
+        <span class="paren">()</span>
 
-        <span class="returns-inline">
-            <span class="type">Object</span>
-        </span>
 
 
         <span class="flag public">public</span>
@@ -1078,7 +1251,7 @@ If parameter is not set, the axis is resize to the complete of container</p>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/js_object_axis.js.html#l326"><code>js\object\axis.js:326</code></a>
+        <a href="../files/js_object_selector.js.html#l431"><code>js\object\selector.js:431</code></a>
         </p>
 
 
@@ -1086,59 +1259,43 @@ If parameter is not set, the axis is resize to the complete of container</p>
     </div>
 
     <div class="description">
-        <p>This method allows to update gap proportion (height and width)</p>
+        <p>Method to update first parents outline</p>
 
     </div>
 
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">updateHeight</code>
-                        <span class="type">Boolean</span>
 
 
-                    <div class="param-description">
-                        <p>indicate if need to update height value of gap</p>
 
-                    </div>
+</div>
+<div id="method_updateTitleFirstParents" class="method item public">
+    <h3 class="name"><code>updateTitleFirstParents</code></h3>
 
-                </li>
-                <li class="param">
-                        <code class="param-name">value</code>
-                        <span class="type">Integer</span>
+        <span class="paren">()</span>
 
 
-                    <div class="param-description">
-                        <p>value to add to gap</p>
 
-                    </div>
-
-                </li>
-                <li class="param">
-                        <code class="param-name">redraw</code>
-                        <span class="type">Integer</span>
+        <span class="flag public">public</span>
 
 
-                    <div class="param-description">
-                        <p>indicate if axis need to be redraw</p>
 
-                    </div>
 
-                </li>
-            </ul>
-        </div>
 
-        <div class="returns">
-            <h4>Returns:</h4>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/js_object_selector.js.html#l503"><code>js\object\selector.js:503</code></a>
+        </p>
 
-            <div class="returns-description">
-                        <span class="type">Object</span>:
-                    <p>gap into json object {heigh: h, width: w}</p>
 
-            </div>
-        </div>
+
+    </div>
+
+    <div class="description">
+        <p>Method to update first parents title</p>
+
+    </div>
+
+
 
 
 </div>
@@ -1164,7 +1321,7 @@ If parameter is not set, the axis is resize to the complete of container</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/js_object_axis.js.html#l102"><code>js\object\axis.js:102</code></a>
+                            <a href="../files/js_object_selector.js.html#l113"><code>js\object\selector.js:113</code></a>
                             </p>
                     
                     
@@ -1172,8 +1329,8 @@ If parameter is not set, the axis is resize to the complete of container</p>
                     
                         <div class="description">
                             <p>Indicate if resize is automatically done<br/>
-                    Read with : axis.autoresize()<br/>
-                    Write with : axis.autoresize(newValue)<br/></p>
+                    Read with : selector.autoresize()<br/>
+                    Write with : selector.autoresize(newValue)<br/></p>
                     
                         </div>
                     
@@ -1181,75 +1338,10 @@ If parameter is not set, the axis is resize to the complete of container</p>
                     
                     
                     </div>
-                    <div id="attr_cls" class="attr item public">
-                        <a name="config_cls"></a> 
-                        <h3 class="name"><code>cls</code></h3>
+                    <div id="attr_childrenCls" class="attr item public">
+                        <a name="config_childrenCls"></a> 
+                        <h3 class="name"><code>childrenCls</code></h3>
                         <span class="type">String</span>
-                    
-                    
-                            <span class="flag public">public</span>
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/js_object_axis.js.html#l92"><code>js\object\axis.js:92</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Css class to apply on axis<br/>
-                    Read with : axis.cls()<br/>
-                    Write with : axis.cls(newValue)<br/></p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="attr_datatype" class="attr item public">
-                        <a name="config_datatype"></a> 
-                        <h3 class="name"><code>datatype</code></h3>
-                        <span class="type">String</span>
-                    
-                    
-                            <span class="flag public">public</span>
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/js_object_axis.js.html#l70"><code>js\object\axis.js:70</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Type of data to display on axis<br/>
-                    Enable values : year, month, day<br/>
-                    Read with : axis.datatype()<br/>
-                    Write with : axis.datatype(newValue)<br/></p>
-                    
-                        </div>
-                    
-                    
-                    
-                    </div>
-                    <div id="attr_domain" class="attr item public">
-                        <a name="config_domain"></a> 
-                        <h3 class="name"><code>domain</code></h3>
-                        <span class="type">Array</span>
                     
                     
                             <span class="flag public">public</span>
@@ -1263,16 +1355,49 @@ If parameter is not set, the axis is resize to the complete of container</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/js_object_axis.js.html#l81"><code>js\object\axis.js:81</code></a>
+                            <a href="../files/js_object_selector.js.html#l80"><code>js\object\selector.js:80</code></a>
                             </p>
                     
                     
                         </div>
                     
                         <div class="description">
-                            <p>Array of values to display on axis<br/>
-                    Read with : axis.domain()<br/>
-                    Write with : axis.domain(newValue)<br/></p>
+                            <p>ChildrenCls class to apply on children nodes<br/>
+                    Read with : selector.childrenCls()<br/>
+                    Write with : selector.childrenCls(newValue)<br/></p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="attr_depth" class="attr item public">
+                        <a name="config_depth"></a> 
+                        <h3 class="name"><code>depth</code></h3>
+                        <span class="type">Integer</span>
+                    
+                    
+                            <span class="flag public">public</span>
+                    
+                    
+                    
+                    
+                            <span class="flag required">required</span>
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_object_selector.js.html#l47"><code>js\object\selector.js:47</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Depth of current parents node<br/>
+                    Read with : selector.depth()<br/>
+                    Write with : selector.depth(newValue)<br/></p>
                     
                         </div>
                     
@@ -1296,7 +1421,7 @@ If parameter is not set, the axis is resize to the complete of container</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/js_object_axis.js.html#l124"><code>js\object\axis.js:124</code></a>
+                            <a href="../files/js_object_selector.js.html#l124"><code>js\object\selector.js:124</code></a>
                             </p>
                     
                     
@@ -1304,43 +1429,10 @@ If parameter is not set, the axis is resize to the complete of container</p>
                     
                         <div class="description">
                             <p>List of events attached<br/>
-                    Read with : axis.events()<br/></p>
+                    Read with : selector.events()<br/></p>
                     
                         </div>
                     
-                    
-                    
-                    </div>
-                    <div id="attr_fixedHeight" class="attr item public">
-                        <a name="config_fixedHeight"></a> 
-                        <h3 class="name"><code>fixedHeight</code></h3>
-                        <span class="type">Boolean</span>
-                    
-                    
-                            <span class="flag public">public</span>
-                    
-                    
-                    
-                    
-                    
-                    
-                        <div class="meta">
-                                    <p>
-                                    Defined in
-                            <a href="../files/js_object_axis.js.html#l113"><code>js\object\axis.js:113</code></a>
-                            </p>
-                    
-                    
-                        </div>
-                    
-                        <div class="description">
-                            <p>Indicate if the size of y axis is not resizable<br/>
-                    Read with : axis.fixedHeight()<br/>
-                    Write with : axis.fixedHeight(newValue)<br/></p>
-                    
-                        </div>
-                    
-                            <p><strong>Default:</strong> false</p>
                     
                     
                     </div>
@@ -1361,25 +1453,91 @@ If parameter is not set, the axis is resize to the complete of container</p>
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/js_object_axis.js.html#l37"><code>js\object\axis.js:37</code></a>
+                            <a href="../files/js_object_selector.js.html#l36"><code>js\object\selector.js:36</code></a>
                             </p>
                     
                     
                         </div>
                     
                         <div class="description">
-                            <p>g element used to draw chart<br/>
-                    Read with : axis.g()<br/>
-                    Write with : axis.g(newValue)<br/></p>
+                            <p>g element used to draw selector<br/>
+                    Read with : selector.g()<br/>
+                    Write with : selector.g(newValue)<br/></p>
                     
                         </div>
                     
                     
                     
                     </div>
-                    <div id="attr_orientation" class="attr item public">
-                        <a name="config_orientation"></a> 
-                        <h3 class="name"><code>orientation</code></h3>
+                    <div id="attr_layout" class="attr item public">
+                        <a name="config_layout"></a> 
+                        <h3 class="name"><code>layout</code></h3>
+                        <span class="type">Object</span>
+                    
+                    
+                            <span class="flag public">public</span>
+                    
+                    
+                    
+                    
+                            <span class="flag required">required</span>
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_object_selector.js.html#l58"><code>js\object\selector.js:58</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Layout to get data<br/>
+                    Read with : selector.layout()<br/>
+                    Write with : selector.layout(newValue)<br/></p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="attr_node" class="attr item public">
+                        <a name="config_node"></a> 
+                        <h3 class="name"><code>node</code></h3>
+                        <span class="type">Object</span>
+                    
+                    
+                            <span class="flag public">public</span>
+                    
+                    
+                    
+                    
+                            <span class="flag required">required</span>
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/js_object_selector.js.html#l91"><code>js\object\selector.js:91</code></a>
+                            </p>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Node element used to draw selector<br/>
+                    Read with : selector.node()<br/>
+                    Write with : selector.node(newValue)<br/></p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="attr_parentsCls" class="attr item public">
+                        <a name="config_parentsCls"></a> 
+                        <h3 class="name"><code>parentsCls</code></h3>
                         <span class="type">String</span>
                     
                     
@@ -1388,55 +1546,55 @@ If parameter is not set, the axis is resize to the complete of container</p>
                     
                     
                     
+                            <span class="flag required">required</span>
                     
                     
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/js_object_axis.js.html#l58"><code>js\object\axis.js:58</code></a>
+                            <a href="../files/js_object_selector.js.html#l69"><code>js\object\selector.js:69</code></a>
                             </p>
                     
                     
                         </div>
                     
                         <div class="description">
-                            <p>Orientation of the axis<br/>
-                    Enable values : top, bottom, left, right<br/>
-                    Read with : axis.orientation()<br/>
-                    Write with : axis.orientation(newValue)<br/></p>
+                            <p>ParentCls class to apply on parent nodes<br/>
+                    Read with : selector.parentsCls()<br/>
+                    Write with : selector.parentsCls(newValue)<br/></p>
                     
                         </div>
                     
-                            <p><strong>Default:</strong> bottom</p>
                     
                     
                     </div>
-                    <div id="attr_size" class="attr item private">
-                        <a name="config_size"></a> 
-                        <h3 class="name"><code>size</code></h3>
-                        <span class="type">Integer</span>
+                    <div id="attr_root" class="attr item public">
+                        <a name="config_root"></a> 
+                        <h3 class="name"><code>root</code></h3>
+                        <span class="type">Object</span>
                     
                     
-                            <span class="flag private">private</span>
+                            <span class="flag public">public</span>
                     
                     
                     
                     
+                            <span class="flag required">required</span>
                     
                     
                         <div class="meta">
                                     <p>
                                     Defined in
-                            <a href="../files/js_object_axis.js.html#l48"><code>js\object\axis.js:48</code></a>
+                            <a href="../files/js_object_selector.js.html#l102"><code>js\object\selector.js:102</code></a>
                             </p>
                     
                     
                         </div>
                     
                         <div class="description">
-                            <p>Size of current axis in px<br/>
-                    Read with : axis.size()<br/>
-                    Write with : axis.size(newValue)<br/></p>
+                            <p>Root element used to draw selector<br/>
+                    Read with : selector.root()<br/>
+                    Write with : selector.root(newValue)<br/></p>
                     
                         </div>
                     

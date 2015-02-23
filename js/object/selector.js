@@ -1,37 +1,144 @@
-/* 
- * Responsive Selector For d3js library
+/**
+ * <b>Responsive Selector For d3js library :</b><br/>
+ * <br/>
+ * Responive selector allows you to create selector to show details.
+ * Selector element will be responsive and you don't need to take care to
+ * the size and position of them. <br/>
+ * To instantiate one, you need to set the following parameters into a json object :<br/>
+ * <b>g</b> : g element used to draw selector (required)<br/>
+ * <b>depth</b> : depth of visualization (default 1)<br/>
+ * <b>layout</b> : layout treemap (required)<br/>
+ * <b>parentsCls</b> : css class for parents nodes (default cell parent)<br/>
+ * <b>childrenCls</b> : css class for children nodes (required)<br/>
+ * <b>node</b> : current node (required)<br/>
+ * <b>root</b> : root node of data (required)<br/>
+ * <b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>
+ * <br/>
+ * <b>Example:</b><br/>
+ * var selector = new ResponsiveSelector({<br/>
+ *      &nbsp;&nbsp;&nbsp;g: g,<br/>
+ *      &nbsp;&nbsp;&nbsp;layout: my.treemap(),<br/>
+ *      &nbsp;&nbsp;&nbsp;parentsCls: "cell parent",<br/>
+ *      &nbsp;&nbsp;&nbsp;childrenCls: "cell child",<br/>
+ *      &nbsp;&nbsp;&nbsp;node: node,<br/>
+ *      &nbsp;&nbsp;&nbsp;root: root,<br/>
+ *      &nbsp;&nbsp;&nbsp;autoresize: false,<br/>
+ *  })();<br/>
+ *  <br/>
+ * @class ResponsiveSelector
+ * @constructor
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
  */
-
-/**
- * Create a responsive selector
- * @param json object options :
- * g : graph
- * depth : the initial depth
- * layout : layout for data
- * parentsCls : class name for parents
- * childrenCls : children class name
- * node : the current node
- * root : the root of tree
- * autoresize : indicate if resize is automatically done
- */
 function ResponsiveSelector(options) {
     options = {
+		/**
+         * g element used to draw selector<br/>
+         * Read with : selector.g()<br/>
+         * Write with : selector.g(newValue)<br/>
+         * 
+         * @attribute g
+         * @public
+         * @required
+         * @type Object
+         */
         g: options.g,
+        /**
+         * Depth of current parents node<br/>
+         * Read with : selector.depth()<br/>
+         * Write with : selector.depth(newValue)<br/>
+         * 
+         * @attribute depth
+         * @public
+         * @required
+         * @type Integer
+         */
         depth: options.depth || 1,
+        /**
+         * Layout to get data<br/>
+         * Read with : selector.layout()<br/>
+         * Write with : selector.layout(newValue)<br/>
+         * 
+         * @attribute layout
+         * @public
+         * @required
+         * @type Object
+         */
         layout : options.layout,
-        parentsCls: options.parentsCls,
+        /**
+         * ParentCls class to apply on parent nodes<br/>
+         * Read with : selector.parentsCls()<br/>
+         * Write with : selector.parentsCls(newValue)<br/>
+         * 
+         * @attribute parentsCls
+         * @public
+         * @required
+         * @type String
+         */
+        parentsCls: options.parentsCls || "cell parent",
+        /**
+         * ChildrenCls class to apply on children nodes<br/>
+         * Read with : selector.childrenCls()<br/>
+         * Write with : selector.childrenCls(newValue)<br/>
+         * 
+         * @attribute childrenCls
+         * @public
+         * @required
+         * @type String
+         */
         childrenCls: options.childrenCls,
+        /**
+         * Node element used to draw selector<br/>
+         * Read with : selector.node()<br/>
+         * Write with : selector.node(newValue)<br/>
+         * 
+         * @attribute node
+         * @public
+         * @required
+         * @type Object
+         */
         node: options.node,
+        /**
+         * Root element used to draw selector<br/>
+         * Read with : selector.root()<br/>
+         * Write with : selector.root(newValue)<br/>
+         * 
+         * @attribute root
+         * @public
+         * @required
+         * @type Object
+         */
         root: options.root,
+        /**
+         * Indicate if resize is automatically done<br/>
+         * Read with : selector.autoresize()<br/>
+         * Write with : selector.autoresize(newValue)<br/>
+         * 
+         * @attribute autoresize
+         * @public
+         * @type Boolean
+         * @default false
+         */
         autoresize: options.autoresize || false,
+        /**
+         * List of events attached<br/>
+         * Read with : selector.events()<br/>
+         * 
+         * @attribute events
+         * @private
+         * @type Object
+         * @readonly
+         */
         events: {}
     };
 
     /**
-     * Constructor
+     * ResponsiveTooltip Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
      */
     function my() {
         // Create getters and setters for options
@@ -53,8 +160,11 @@ function ResponsiveSelector(options) {
 
     /**
      * Method to attach custom event
-     * @param the event to add
-     * @param the function to call on event triggered
+     * 
+     * @method on
+     * @public
+     * @param {Object} event event to add
+     * @param {Function} func function to call on event triggered
      */
     my.on = function (event, func) {
         if (!my.events()[event]) {
@@ -66,8 +176,11 @@ function ResponsiveSelector(options) {
 
     /**
      * Method to trigger event 
-     * @param the event to trigger
-     * @param the args to apply to the function called
+     * 
+     * @method trigger
+     * @public
+     * @param {Object} event event to trigger
+     * @param {Object} args arguments to apply to the function called
      */
     my.trigger = function () {
         if(arguments){
@@ -83,9 +196,12 @@ function ResponsiveSelector(options) {
     };
 
     /**
-     * Method to remove event on function
-     * @param the event to clear
-     * @param the function to remove
+     * Method to remove function on event
+     * 
+     * @method remove
+     * @public
+     * @param {Object} event event to clear
+     * @param {Function} func function to remove
      */
     my.remove = function (event, func) {
         if (my.events()[event].indexOf(func) !== -1) {
@@ -96,6 +212,9 @@ function ResponsiveSelector(options) {
 
     /**
      * Add default events to current object
+     * 
+     * @method addDefaultEvents
+     * @private
      */
     my.addDefaultEvents = function () {
     	my.on("draw", my.draw);
@@ -111,7 +230,10 @@ function ResponsiveSelector(options) {
     };
 
     /**
-     * Method to init properties for tooltip
+     * This method init properties for selector
+     * 
+     * @method initProperties
+     * @private
      */
     my.initProperties = function () {
         var container = my.initContainer();
@@ -128,8 +250,11 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Retrieve the container element
-     * @returns {object} container
+     * Retrieve the parent container of g element
+     * 
+     * @method initContainer
+     * @private
+     * @return {HTMLElement} parent container of g element
      */
     my.initContainer = function () {
         // Set id to g element in order to select it
@@ -141,8 +266,12 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Init gap
-     * @return object gap
+     * Initialize gap : the difference between container size and current graph size
+     * 
+     * @method initRatio
+     * @private
+     * @param {Object} container the g container
+     * @return {Object} gap
      */
     my.initRatio = function (container) {
         var height = container.clientHeight || container.getBoundingClientRect().height;
@@ -155,10 +284,11 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Init data and put element
-     * allParents on children 
-     * if it doesn't exist
-     * @returns {object} parents
+     * Initialize data to put element allParents on children
+     * 
+     * @method initData
+     * @private
+     * @return {Object} data created by the function
      */
     my.initData = function() {
     	var classes = my.childrenCls().split(' ').join('.');
@@ -187,6 +317,9 @@ function ResponsiveSelector(options) {
     
     /**
      * Method to init first parents outline
+     * 
+     * @method drawFirstParents
+     * @public
      */
     my.drawFirstParents = function () {
     	// Class of parents
@@ -257,6 +390,9 @@ function ResponsiveSelector(options) {
 
     /**
      * Method to draw title of first parent
+     * 
+     * @method drawTitleFirstParents
+     * @public
      */
     my.drawTitleFirstParents = function () {
     	var cSize = my.getContainerSize();
@@ -294,6 +430,9 @@ function ResponsiveSelector(options) {
     
     /**
      * Method to update first parents outline
+     * 
+     * @method updateFirstParents
+     * @public
      */
     my.updateFirstParents = function () {    	
     	// Class of parents
@@ -363,7 +502,9 @@ function ResponsiveSelector(options) {
 
     /**
      * Method to update first parents title
-     * @param node
+     * 
+     * @method updateTitleFirstParents
+     * @public
      */
     my.updateTitleFirstParents = function () {
     	var cSize = my.getContainerSize();
@@ -384,6 +525,13 @@ function ResponsiveSelector(options) {
                 });
     };
 
+    /**
+     * Method to update attribute depth, node
+     * 
+     * @method update
+     * @param {Object} node node to update
+     * @public
+     */
     my.update = function (node) {
     	if(node){
     		my.node(node);
@@ -400,8 +548,11 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Get the selector container size
-     * @returns json object
+     * Get the container size
+     * 
+     * @method getContainerSize
+     * @public
+     * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
         var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
@@ -415,6 +566,12 @@ function ResponsiveSelector(options) {
     
     /**
      * Method to draw the outline
+     * 
+     * @method drawOutline
+     * @param {Object} node node to draw the outline
+     * @param {String} nameText text for the outline
+     * @pram {String} nameClassText class to apply
+     * @public
      */
     my.drawOutline = function(node, nameText, nameClassText){
 		var pathinfo = [];
@@ -470,8 +627,11 @@ function ResponsiveSelector(options) {
 		});
 	};
 
-    /**
+	/**
      * Method to draw the selector
+     * 
+     * @method draw
+     * @public
      */
     my.draw = function () {
 		my.trigger("drawTitleFirstParents");
@@ -480,6 +640,10 @@ function ResponsiveSelector(options) {
     
     /**
      * Method to draw the outline of node
+     * 
+     * @method drawOnNode
+     * @param {Object} node node to draw the outline
+     * @public
      */
     my.drawOnNode = function (node) {
     	my.trigger("hideOnNode");
@@ -493,10 +657,6 @@ function ResponsiveSelector(options) {
 	                return containParent === -1;
 	            })
 	            .style("opacity", "0.2");
-	    		
-//				if(my.leaf()){
-//	    			my.startUpdateMove(my.leaf());
-//	    		}
     		}
     		else{
 	    		my.g().selectAll("." + classes)
@@ -511,6 +671,10 @@ function ResponsiveSelector(options) {
     /**
      * Method to redraw the selector
      * on a changed node
+     * 
+     * @method redraw
+     * @param {Object} node node to draw the selector
+     * @public
      */
     my.redraw = function (node) {
     	my.trigger("hide");
@@ -520,7 +684,10 @@ function ResponsiveSelector(options) {
     };
 
     /**
-     * Method to hide
+     * Method to hide all on selector
+     * 
+     * @method hide
+     * @public
      */
     my.hide = function () {    	
     	my.g().selectAll(".textFirstParent")
@@ -530,6 +697,12 @@ function ResponsiveSelector(options) {
 		.style("display", "none");
     };
     
+    /**
+     * Method to hide all on node
+     * 
+     * @method hideOnNode
+     * @public
+     */
     my.hideOnNode = function () {    	
     	my.g().selectAll(".textOnNode")
 		.style("display", "none");
@@ -537,6 +710,9 @@ function ResponsiveSelector(options) {
 
     /**
      * Method called on window resize event
+     * 
+     * @method hide
+     * @public
      */
     my.resize = function () {
         my.redraw();

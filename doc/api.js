@@ -6,6 +6,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "ResponsiveConstants",
         "ResponsiveEvent",
         "ResponsiveLess",
+        "ResponsiveSelector",
         "ResponsiveTooltip",
         "ResponsiveTreeUtil",
         "ResponsiveUtil"

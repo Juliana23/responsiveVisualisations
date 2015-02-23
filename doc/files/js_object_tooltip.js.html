@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>js/object/tooltip.js</title>
+    <title>js\object\tooltip.js</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -43,6 +43,7 @@
                                 <li><a href="../classes/ResponsiveConstants.html">ResponsiveConstants</a></li>
                                 <li><a href="../classes/ResponsiveEvent.html">ResponsiveEvent</a></li>
                                 <li><a href="../classes/ResponsiveLess.html">ResponsiveLess</a></li>
+                                <li><a href="../classes/ResponsiveSelector.html">ResponsiveSelector</a></li>
                                 <li><a href="../classes/ResponsiveTooltip.html">ResponsiveTooltip</a></li>
                                 <li><a href="../classes/ResponsiveTreeUtil.html">ResponsiveTreeUtil</a></li>
                                 <li><a href="../classes/ResponsiveUtil.html">ResponsiveUtil</a></li>
@@ -82,7 +83,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1 class="file-heading">File: js/object/tooltip.js</h1>
+<h1 class="file-heading">File: js\object\tooltip.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -94,7 +95,7 @@
  * the size and position of them. &lt;br/&gt;
  * To instantiate one, you need to set the following parameters into a json object :&lt;br/&gt;
  * &lt;b&gt;g&lt;/b&gt; : g element used to draw tooltip (required)&lt;br/&gt;
- * &lt;b&gt;cls&lt;/b&gt; : css class for axis&lt;br/&gt;
+ * &lt;b&gt;cls&lt;/b&gt; : css class for tooltip&lt;br/&gt;
  * &lt;b&gt;autoresize&lt;/b&gt;  : indicate if resize is automatically done (default false)&lt;br/&gt;
  * &lt;br/&gt;
  * &lt;b&gt;Example:&lt;/b&gt;&lt;br/&gt;
@@ -433,13 +434,14 @@ function ResponsiveTooltip(options) {
         var gPosition = my.getGPosition();
         var tooltipHeight = my.getHeight();
         var tooltipWidth = my.width();
+        console.log(tooltipWidth);
 
     	var cursor = $$ResponsiveUtil.getCursorPosition();
     	var posX = cursor.x;
         var posY = cursor.y;
-        xMin = posX - tooltipWidth - gPosition.x - 50;
-        xMax = posX + gPosition.x + 50;
-        yMin = posY;
+        xMin = posX - tooltipWidth *2 - gPosition.x;
+        xMax = posX + gPosition.x + 100;
+        yMin = posY - 50;
         yMax = posY;
 
         // Reset tooltip position
@@ -534,7 +536,7 @@ function ResponsiveTooltip(options) {
     	.style(&quot;-webkit-column-count&quot;, 1)
     	.style(&quot;-moz-column-count&quot;, 1)
     	.style(&quot;column-count&quot;, 1);
-
+        
         var tooltipPosition = my.getTooltipPosition(width, height);
         my.tooltip()
                 .style(&quot;left&quot;, tooltipPosition.tooltipLeft + &quot;px&quot;)
