@@ -72,11 +72,11 @@
             ]
         },
         {
-            "name": "6) Points Critiques",
+            "name": "6) Points Essentiels",
             "page": "9",
             "children": [
                 {
-                    "name": "Points Critiques",
+                    "name": "Points Essentiels",
                     "page": "10",
                     "slide": "8",
                     "size": 20000
