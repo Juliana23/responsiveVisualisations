@@ -697,11 +697,24 @@ function TreeMap(options) {
                     .style("cursor", "default")
                     .text(function (d) {
                         if(children.indexOf(d) !== -1){
-                            return d.ord;
+                        	if(((d.x + d.dx) - d.x) > (d.name.length + d.ord.toString().length) * 5){
+                        		d.w = true;
+                        		return d.ord + "." + d.name;
+                        	}
+                        	else{
+                        		d.w = false;
+                        		return d.ord;
+                        	}
                         }
                     })
                     .style("font-size", function (d) {
-                        return 0.50 * Math.sqrt(d.dx * d.dy) + 'px';
+                    	if(!d.w){
+                    		return 0.50 * Math.sqrt(d.dx * d.dy) + 'px';
+                    	}
+                    	else{
+                    		w = this.getComputedTextLength();
+                    		return 100 * (d.dx / w) + '%';
+                    	}
                     })
                     .style("opacity", function(d){
                     	if(d != node){
