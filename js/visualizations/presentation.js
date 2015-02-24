@@ -56,7 +56,7 @@ function TreeMap(options) {
 				.value(function(d) { return d.size; }));
 
 		var colors = d3.scale.ordinal()
-						.range(["#e6f5dc", "#dcf5e1", "#dcf5f0", "#dcebf5", "#dcdcf5", "#ebdcf5", "#f5dcf0", "#f5dce1", "#f5e6dc", "#eaeab7"]);
+						.range(["#e6f5dc", "#dcf5e1", "#dcf5f0", "#dcebf5", "#dcdcf5", "#ebdcf5", "#f5e6dc", "#f5dce1", "#f5dcf0", "#eaeab7", "#e0ffc2", "#ffcccc", "#f5E0eb"]);
 		my.color(colors);
 		
 		// Initialisation des donnees
@@ -665,23 +665,24 @@ function TreeMap(options) {
      */
 	my.drawTooltip = function(node){
 		var children = node.parent.children;
-        var html = "<ol>";
-        var i = 1;
+        var html = "";
+        var i = 0;
         var name = "";
         var bgcolor = "";
         var textcolor = "";
         children.forEach(function (child) {
         	var opacity = child != node ? "0.5" : "";
-            child.ord = i;
+            child.ord = children.length - i;
             name = child.children ? child.name : child.parent.name;
             bgcolor = color(name);
             textcolor = $$ResponsiveTreeUtil.needLightColor(bgcolor) ? "#FFF" : "#000";
-            html += "<li style='background-color : " + bgcolor + "; color:" + textcolor + "; opacity : " + opacity + "'>";
-            html += child.name;
-            html += "</li>";
+            var li = "<li style='background-color : " + bgcolor + "; color:" + textcolor + "; opacity : " + opacity + "'>";
+            li += child.name;
+            li += "</li>";
+            html = li + html;
             i++;
         });
-        html += "</ol>";
+        html = "<ol>" + html + "</ol>";
         
         my.graph().selectAll(".cell.child")
                     .append("text")

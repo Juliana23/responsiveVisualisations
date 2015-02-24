@@ -1,158 +1,194 @@
-{
+	{
 	"name": "Visualisations Responsives",
 	"page": "0",
 	"url": "./presentation/slides.html",
 	"children": [
 		{
-            "name": "1) Visualisations Responsives",
-            "page": "1",
-            "children": [
-                {
-                    "name": "Visualisations Responsives",
-                    "slide": "1",
-                    "size": 20000
-                }
-            ]
+      "name": "1) Visualisations Responsives",
+      "page": "1",
+      "children": [
+        {
+          "name": "Visualisations Responsives",
+          "slide": "1",
+          "size": 20000
+        }
+      ]
+    },
+	{
+      "name": "2) Contexte",
+      "page": "2",
+      "children": [
+        {
+          "name": "Contexte",
+          "slide": "2",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "3) Problématiques",
+      "page": "3",
+      "children": [
+        {
+          "name": "Problématiques",
+          "slide": "3",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "4) Méthodes de recherches",
+      "page": "4",
+      "children": [
+        {
+          "name": "Méthodes de recherches",
+          "slide": "4",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "5) Etat de l'art",
+      "page": "5",
+      "children": [
+      	{
+          "name": "Zoomable Treemap",
+          "page": "8",
+          "slide": "7",
+          "size": 20000
         },
+        {
+          "name": "Visualisation responsives",
+          "page": "7",
+          "slide": "6",
+          "size": 20000
+        },
+        {
+          "name": "Visualisation mobiles",
+          "page": "6",
+          "slide": "5",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "6) Points Essentiels",
+      "page": "9",
+      "children": [
+      	{
+          "name": "Exemple",
+          "page": "11",
+          "slide": "9",
+          "size": 20000
+        },
+        {
+          "name": "Points Essentiels",
+          "page": "10",
+          "slide": "8",
+          "size": 20000
+        }
+      ]
+    },
 		{
-            "name": "2) Contexte",
-            "page": "2",
-            "children": [
-                {
-                    "name": "Contexte",
-                    "slide": "2",
-                    "size": 20000
-                }
-            ]
-        },
-        {
-            "name": "3) Problématiques",
-            "page": "3",
-            "children": [
-                {
-                    "name": "Problématiques",
-                    "slide": "3",
-                    "size": 20000
-                }
-            ]
-        },
-        {
-            "name": "4) Méthodes de recherches",
-            "page": "4",
-            "children": [
-                {
-                    "name": "Méthodes de recherches",
-                    "slide": "4",
-                    "size": 20000
-                }
-            ]
-        },
-        {
-            "name": "5) Etat de l'art",
-            "page": "5",
-            "children": [
-            	{
-                    "name": "Zoomable Treemap",
-                    "page": "8",
-                    "slide": "7",
-                    "size": 20000
-                },
-                {
-                    "name": "Visualisation responsives",
-                    "page": "7",
-                    "slide": "6",
-                    "size": 20000
-                },
-                {
-                    "name": "Visualisation mobiles",
-                    "page": "6",
-                    "slide": "5",
-                    "size": 20000
-                }
-            ]
-        },
-        {
-            "name": "6) Points Essentiels",
-            "page": "9",
-            "children": [
-            	{
-                    "name": "Exemple",
-                    "page": "11",
-                    "slide": "9",
-                    "size": 20000
-                },
-                {
-                    "name": "Points Essentiels",
-                    "page": "10",
-                    "slide": "8",
-                    "size": 20000
-                }
-            ]
-        },
-		{
-			"name": "7) Solutions/Généralisation",
+			"name": "7) Solutions - Timeline",
 			"page": "12",
 			"children": [
 				{
-					"name": "Généralisation",
+					"name": "Solutions Timeline (3)",
 					"page": "15",
-					"slide":  "12",
+					"slide": "12",
 					"size": 20000
 				},
 				{
-					"name": "Solutions Treemap",
+					"name": "Solutions Timeline (2)",
 					"page": "14",
-					"slide":  "11",
+					"slide": "11",
 					"size": 20000
 				},
 				{
-					"name": "Solutions Timeline",
+					"name": "Solutions Timeline (1)",
 					"page": "13",
-					"slide":  "10",
+					"slide": "10",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "8) Solutions - Treemap",
+			"page": "16",
+			"children": [
+				{
+					"name": "Solutions Treemap (3)",
+					"page": "19",
+					"slide": "15",
+					"size": 20000
+				},
+				{
+					"name": "Solutions Treemap (2)",
+					"page": "18",
+					"slide": "14",
+					"size": 20000
+				},
+				{
+					"name": "Solutions Treemap (1)",
+					"page": "17",
+					"slide": "13",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "9) Généralisation",
+			"page": "20",
+			"children": [
+				{
+					"name": "Généralisation",
+					"page": "21",
+					"slide": "16",
 					"size": 20000
 				}
 			]
 		},
 		{
 			"name": "8) Conclusion",
-			"page": "16",
+			"page": "22",
 			"children": [
 				{
 					"name": "Conclusion",
-					"slide":  "13",
+					"slide": "17",
 					"size": 20000
 				}
 			]
 		},
 		{
 			"name": "9) Références",
-			"page": "17",
+			"page": "23",
 			"children": [
 				{
 					"name": "Références",
-					"slide":  "14",
+					"slide": "18",
 					"size": 10000
 				}
 			]
 		},
 		{
 			"name": "10) Remerciements",
-			"page": "18",
+			"page": "24",
 			"children": [
 				{
 					"name": "Remerciements",
-					"slide":  "15",
+					"slide": "19",
 					"size": 10000
 				}
 			]
 		},
 		{
 			"name": "11) Questions",
-			"page": "19",
+			"page": "25",
 			"children": [
 				{
 					"name": "Questions",
-					"slide":  "16",
+					"slide": "20",
 					"size": 10000
 				}
 			]
