@@ -564,7 +564,7 @@ function TreeMap(options) {
 		my.x().domain([my.node().x, my.node().x + my.node().dx]);
 		my.y().domain([my.node().y, my.node().y + my.node().dy]);
 
-		var t = d3.selectAll(".cell.child").transition()
+		var t = d3.selectAll(".cell.child")
 		.attr("transform", function(d) { return "translate(" + my.x()(d.x) + "," + my.y()(d.y) + ")"; });
 
 		t.select("rect")

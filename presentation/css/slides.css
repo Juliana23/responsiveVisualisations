@@ -93,7 +93,6 @@ figcaption {
 }
 
 .page-number {
-    border: solid 1px;
     font-size: 20px;
     position: fixed;
     width: 50px;

@@ -51,10 +51,10 @@
             "name": "5) Etat de l'art",
             "page": "5",
             "children": [
-                {
-                    "name": "Visualisation mobiles",
-                    "page": "6",
-                    "slide": "5",
+            	{
+                    "name": "Zoomable Treemap",
+                    "page": "8",
+                    "slide": "7",
                     "size": 20000
                 },
                 {
@@ -64,9 +64,9 @@
                     "size": 20000
                 },
                 {
-                    "name": "Zoomable Treemap",
-                    "page": "8",
-                    "slide": "7",
+                    "name": "Visualisation mobiles",
+                    "page": "6",
+                    "slide": "5",
                     "size": 20000
                 }
             ]
@@ -75,16 +75,16 @@
             "name": "6) Points Essentiels",
             "page": "9",
             "children": [
+            	{
+                    "name": "Exemple",
+                    "page": "11",
+                    "slide": "9",
+                    "size": 20000
+                },
                 {
                     "name": "Points Essentiels",
                     "page": "10",
                     "slide": "8",
-                    "size": 20000
-                },
-                {
-                    "name": "Exemple",
-                    "page": "11",
-                    "slide": "9",
                     "size": 20000
                 }
             ]
@@ -94,9 +94,9 @@
 			"page": "12",
 			"children": [
 				{
-					"name": "Solutions Timeline",
-					"page": "13",
-					"slide":  "10",
+					"name": "Généralisation",
+					"page": "15",
+					"slide":  "12",
 					"size": 20000
 				},
 				{
@@ -106,9 +106,9 @@
 					"size": 20000
 				},
 				{
-					"name": "Généralisation",
-					"page": "15",
-					"slide":  "12",
+					"name": "Solutions Timeline",
+					"page": "13",
+					"slide":  "10",
 					"size": 20000
 				}
 			]
