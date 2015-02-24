@@ -599,24 +599,6 @@ function TreeMap(options) {
 	 * frere precedent
 	 */
 	my.changeToPreviousChild = function (){
-//		var parent = my.node().parent;
-//		if(parent.children){
-//			var children = parent.children;
-//			var i = 0;
-//			var child = children[i];
-//			var nextChild = child;
-//			while(i < children.length && child !== my.node()){
-//				i++;
-//				child = children[i];
-//			}
-//			i--;
-//			if(child === my.node() && i >= 0){
-//				nextChild = children[i];
-//			}
-//			my.node(nextChild);
-//			my.redraw();
-//			my.endUpdateMove();
-//		}
 		var page = my.node().page;
 		if(page){
 			var nextPage = parseInt(page) - 1;
@@ -637,41 +619,6 @@ function TreeMap(options) {
 	 * frere suivant
 	 */
 	my.changeToNextChild = function (){
-//		console.log(my.node());
-//		console.log(my.node().children);
-//		if(my.node().children && my.node().children.length !== 1){
-//			my.zoom(my.node().children[0]); 
-//		}
-//		else{
-//			var parent = my.node().parent;
-//			if(parent){
-//				var children = parent.children;
-//				var i = 0;
-//				var child = children[i];
-//				var nextChild = child;
-//				while(i < children.length && child !== my.node()){
-//					i++;
-//					child = children[i];
-//				}
-//				i++;
-//				if(child === my.node() && i < children.length){
-//					nextChild = children[i];
-//					my.node(nextChild);
-//					my.redraw();
-//					my.endUpdateMove();
-//				}
-//				else{
-//					var nextChild = my.getNextChild(my.node().parent);
-//					console.log(nextChild);
-//					if(nextChild !== ""){
-//						my.zoom(nextChild);
-//					}
-//					else{
-//						my.zoom(my.node().parent);
-//					}
-//				}
-//			}
-//		}
 		var page = my.node().page;
 		if(page){
 			var nextPage = parseInt(page) + 1;

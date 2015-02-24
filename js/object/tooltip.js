@@ -345,7 +345,6 @@ function ResponsiveTooltip(options) {
         var gPosition = my.getGPosition();
         var tooltipHeight = my.getHeight();
         var tooltipWidth = my.width();
-        console.log(tooltipWidth);
 
     	var cursor = $$ResponsiveUtil.getCursorPosition();
     	var posX = cursor.x;
