@@ -263,8 +263,8 @@ function ResponsiveTooltip(options) {
      * @return {Object} gap
      */
     my.initRatio = function (container) {
-        var height = container.clientHeight || container.getBoundingClientRect().height;
-        var width = container.clientWidth || container.getBoundingClientRect().width;
+        var height = window.innerHeight;//container.clientHeight || container.getBoundingClientRect().height;
+        var width = window.innerWidth;//container.clientWidth || container.getBoundingClientRect().width;
         return {
             height: height - my.g().attr("height"),
             width: width - my.g().attr("width")
@@ -349,7 +349,7 @@ function ResponsiveTooltip(options) {
     	var cursor = $$ResponsiveUtil.getCursorPosition();
     	var posX = cursor.x;
         var posY = cursor.y;
-        xMin = posX - tooltipWidth *2 - gPosition.x;
+        xMin = posX - tooltipWidth - gPosition.x;
         xMax = posX + gPosition.x + 100;
         yMin = posY - 50;
         yMax = posY;
@@ -413,8 +413,8 @@ function ResponsiveTooltip(options) {
      * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
-        var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
-        var width = my.container().clientWidth || my.container().getBoundingClientRect().width;
+        var height = window.innerHeight;//my.container().clientHeight || my.container().getBoundingClientRect().height;
+        var width = window.innerWidth;//my.container().clientWidth || my.container().getBoundingClientRect().width;
         return {
             height: height - my.gap().height,
             width: width - my.gap().width

@@ -314,8 +314,8 @@ function ResponsiveAxis(options) {
      * @return {Object} gap
      */
     my.initRatio = function (container) {
-        var height = container.clientHeight || container.getBoundingClientRect().height;
-        var width = container.clientWidth || container.getBoundingClientRect().width;
+        var height = window.innerHeight;//container.clientHeight || container.getBoundingClientRect().height;
+        var width = window.innerWidth;//container.clientWidth || container.getBoundingClientRect().width;
  
         return {
             height: height - my.g().attr("height"),
@@ -354,7 +354,7 @@ function ResponsiveAxis(options) {
      * @private
      */
     my.updateHeightRatio = function () {
-    	var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
+    	var height = window.innerHeight;//my.container().clientHeight || my.container().getBoundingClientRect().height;
         my.gap().height = height - my.g().attr("height");
     };
 
@@ -436,8 +436,10 @@ function ResponsiveAxis(options) {
      * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
-        var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
-        var width = my.container().clientWidth || my.container().getBoundingClientRect().width;
+        var height = window.innerHeight;//my.container().clientHeight || my.container().getBoundingClientRect().height;
+        var width = window.innerWidth;//my.container().clientWidth || my.container().getBoundingClientRect().width;
+        console.log(height + " " + window.innerHeight);
+        console.log(my.container().clientHeight - my.g().attr("height") + " " + my.gap().height);
         return {
             height: height - my.gap().height,
             width: width - my.gap().width
