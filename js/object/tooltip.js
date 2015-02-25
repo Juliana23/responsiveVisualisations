@@ -349,7 +349,12 @@ function ResponsiveTooltip(options) {
     	var cursor = $$ResponsiveUtil.getCursorPosition();
     	var posX = cursor.x;
         var posY = cursor.y;
-        xMin = posX - tooltipWidth - gPosition.x;
+        if($$ResponsiveUtil.mobile()){
+        	xMin = posX - tooltipWidth * 2 - gPosition.x;
+        }
+        else{
+        	xMin = posX - tooltipWidth - gPosition.x;
+        }
         xMax = posX + gPosition.x + 100;
         yMin = posY - 50;
         yMax = posY;
