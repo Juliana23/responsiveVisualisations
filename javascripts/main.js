@@ -1,4 +1,6 @@
-document.addEventListener("keydown", onkeypress, false);
+$(document).keyup(function(e) {
+  onkeypress(e);
+});
 window.onresize = resizeIframe;
 function resizeIframe() {
 	var height = window.innerHeight - 
@@ -129,6 +131,7 @@ function enterFullScreen(){
 }
 
 function onkeypress(e){
+	console.log(e.keyCode);
 	if (e.keyCode === 27) {
 		resizeIframe();
     }
