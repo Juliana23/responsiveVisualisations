@@ -622,7 +622,7 @@ function TreeMap(options) {
 		var page = my.node().page;
 		if(page){
 			var nextPage = parseInt(page) + 1;
-			var nextNode = my.node();
+			var nextNode = my.root();
 			my.nodes().forEach(function(node){
 				if(node.page == nextPage){
 					nextNode = node;
