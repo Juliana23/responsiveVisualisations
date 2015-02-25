@@ -70,6 +70,10 @@ table tr td.w50 {
     width: 50%;
 }
 
+table tr td.w33 {
+    width: 33.33%;
+}
+
 table tr td.center {
     text-align: center;
 }

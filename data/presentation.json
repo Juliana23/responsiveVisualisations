@@ -90,23 +90,17 @@
       ]
     },
 		{
-			"name": "7) Solutions - Timeline",
+			"name": "7) Les étiquettes",
 			"page": "12",
 			"children": [
 				{
-					"name": "Solutions Timeline (3)",
-					"page": "15",
-					"slide": "12",
-					"size": 20000
-				},
-				{
-					"name": "Solutions Timeline (2)",
+					"name": "Les étiquettes - Treemap",
 					"page": "14",
 					"slide": "11",
 					"size": 20000
 				},
 				{
-					"name": "Solutions Timeline (1)",
+					"name": "Les étiquettes - Timeline",
 					"page": "13",
 					"slide": "10",
 					"size": 20000
@@ -114,43 +108,54 @@
 			]
 		},
 		{
-			"name": "8) Solutions - Treemap",
-			"page": "16",
+			"name": "8) Le zoom",
+			"page": "15",
 			"children": [
 				{
-					"name": "Solutions Treemap (3)",
-					"page": "19",
-					"slide": "15",
-					"size": 20000
-				},
-				{
-					"name": "Solutions Treemap (2)",
-					"page": "18",
-					"slide": "14",
-					"size": 20000
-				},
-				{
-					"name": "Solutions Treemap (1)",
+					"name": "Le zoom - Treemap",
 					"page": "17",
 					"slide": "13",
+					"size": 20000
+				},
+				{
+					"name": "Le zoom - Timeline",
+					"page": "16",
+					"slide": "12",
 					"size": 20000
 				}
 			]
 		},
 		{
-			"name": "9) Généralisation",
-			"page": "20",
+			"name": "9) Les media queries",
+			"page": "18",
+			"children": [
+				{
+					"name": "Les media queries - Treemap",
+					"page": "20",
+					"slide": "15",
+					"size": 20000
+				},
+				{
+					"name": "Les media queries - Timeline",
+					"page": "19",
+					"slide": "14",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "10) Généralisation",
+			"page": "21",
 			"children": [
 				{
 					"name": "Généralisation",
-					"page": "21",
 					"slide": "16",
 					"size": 20000
 				}
 			]
 		},
 		{
-			"name": "8) Conclusion",
+			"name": "11) Conclusion",
 			"page": "22",
 			"children": [
 				{
@@ -161,7 +166,7 @@
 			]
 		},
 		{
-			"name": "9) Références",
+			"name": "12) Références",
 			"page": "23",
 			"children": [
 				{
@@ -172,7 +177,7 @@
 			]
 		},
 		{
-			"name": "10) Remerciements",
+			"name": "13) Remerciements",
 			"page": "24",
 			"children": [
 				{
@@ -183,7 +188,7 @@
 			]
 		},
 		{
-			"name": "11) Questions",
+			"name": "14) Questions",
 			"page": "25",
 			"children": [
 				{

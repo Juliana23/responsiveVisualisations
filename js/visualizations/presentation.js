@@ -56,7 +56,7 @@ function TreeMap(options) {
 				.value(function(d) { return d.size; }));
 
 		var colors = d3.scale.ordinal()
-						.range(["#e6f5dc", "#dcf5e1", "#dcf5f0", "#dcebf5", "#dcdcf5", "#ebdcf5", "#f5e6dc", "#f5dce1", "#f5dcf0", "#eaeab7", "#e0ffc2", "#ffcccc", "#f5E0eb"]);
+						.range(["#e6f5dc", "#dcf5e1", "#dcf5f0", "#dcebf5", "#dcdcf5", "#ebdcf5", "#f5e6dc", "#f5dce1", "#eaeab7", "#f5dcf0", "#e0ffc2", "#ffcccc", "#f5E0eb"]);
 		my.color(colors);
 		
 		// Initialisation des donnees
