@@ -351,11 +351,11 @@ function ResponsiveTooltip(options) {
         var posY = cursor.y;
         if($$ResponsiveUtil.mobile()){
         	xMin = posX - tooltipWidth * 2 - gPosition.x;
-        	xMax = posX + gPosition.x + 100;
+        	xMax = posX + gPosition.x * 2;
         }
         else{
         	xMin = posX - tooltipWidth - gPosition.x;
-        	xMax = posX + gPosition.x + 50;
+        	xMax = posX + gPosition.x;
         }
         yMin = posY - 50;
         yMax = posY;
