@@ -180,7 +180,7 @@ function ResponsiveTooltip(options) {
     my.initProperties = function () {
         var width = my.initWidth();
         var container = my.initContainer();
-        var gap = my.initRatio(container);
+        var gap = my.initRatio();
         var tooltip = my.initTooltip(width);
         
         var properties = {
@@ -255,16 +255,15 @@ function ResponsiveTooltip(options) {
     };
     
     /**
-     * Initialize gap : the difference between container size and current graph size
+     * Initialize gap : the difference between container size and screen size
      * 
      * @method initRatio
      * @private
-     * @param {Object} container the g container
      * @return {Object} gap
      */
-    my.initRatio = function (container) {
-        var height = window.innerHeight;//container.clientHeight || container.getBoundingClientRect().height;
-        var width = window.innerWidth;//container.clientWidth || container.getBoundingClientRect().width;
+    my.initRatio = function () {
+        var height = window.innerHeight;
+        var width = window.innerWidth;
         return {
             height: height - my.g().attr("height"),
             width: width - my.g().attr("width")
@@ -419,8 +418,8 @@ function ResponsiveTooltip(options) {
      * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
-        var height = window.innerHeight;//my.container().clientHeight || my.container().getBoundingClientRect().height;
-        var width = window.innerWidth;//my.container().clientWidth || my.container().getBoundingClientRect().width;
+        var height = window.innerHeight;
+        var width = window.innerWidth;
         return {
             height: height - my.gap().height,
             width: width - my.gap().width

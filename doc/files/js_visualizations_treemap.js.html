@@ -631,23 +631,24 @@ function TreeMap(options) {
      */
 	my.drawTooltip = function(node){
 		var children = node.parent.children;
-        var html = &quot;&lt;ol&gt;&quot;;
-        var i = 1;
+        var html = &quot;&quot;;
+        var i = 0;
         var name = &quot;&quot;;
         var bgcolor = &quot;&quot;;
         var textcolor = &quot;&quot;;
         children.forEach(function (child) {
         	var opacity = child != node ? &quot;0.5&quot; : &quot;&quot;;
-            child.ord = i;
+            child.ord = children.length - i;
             name = child.children ? child.name : child.parent.name;
             bgcolor = color(name);
             textcolor = $$ResponsiveTreeUtil.needLightColor(bgcolor) ? &quot;#FFF&quot; : &quot;#000&quot;;
-            html += &quot;&lt;li style=&#x27;background-color : &quot; + bgcolor + &quot;; color:&quot; + textcolor + &quot;; opacity : &quot; + opacity + &quot;&#x27;&gt;&quot;;
-            html += child.name;
-            html += &quot;&lt;/li&gt;&quot;;
+            var li = &quot;&lt;li style=&#x27;background-color : &quot; + bgcolor + &quot;; color:&quot; + textcolor + &quot;; opacity : &quot; + opacity + &quot;&#x27;&gt;&quot;;
+            li += child.name;
+            li += &quot;&lt;/li&gt;&quot;;
+            html = li + html;
             i++;
         });
-        html += &quot;&lt;/ol&gt;&quot;;
+        html = &quot;&lt;ol&gt;&quot; + html + &quot;&lt;/ol&gt;&quot;;
         
         my.graph().selectAll(&quot;.cell.child&quot;)
                     .append(&quot;text&quot;)
@@ -663,11 +664,24 @@ function TreeMap(options) {
                     .style(&quot;cursor&quot;, &quot;default&quot;)
                     .text(function (d) {
                         if(children.indexOf(d) !== -1){
-                            return d.ord;
+                        	if(((d.x + d.dx) - d.x) &gt; (d.name.length + d.ord.toString().length) * 5){
+                        		d.w = true;
+                        		return d.ord + &quot;.&quot; + d.name;
+                        	}
+                        	else{
+                        		d.w = false;
+                        		return d.ord;
+                        	}
                         }
                     })
                     .style(&quot;font-size&quot;, function (d) {
-                        return 0.50 * Math.sqrt(d.dx * d.dy) + &#x27;px&#x27;;
+                    	if(!d.w){
+                    		return 0.50 * Math.sqrt(d.dx * d.dy) + &#x27;px&#x27;;
+                    	}
+                    	else{
+                    		w = this.getComputedTextLength();
+                    		return 100 * (d.dx / w) + &#x27;%&#x27;;
+                    	}
                     })
                     .style(&quot;opacity&quot;, function(d){
                     	if(d != node){

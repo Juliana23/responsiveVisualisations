@@ -236,7 +236,7 @@ function ResponsiveAxis(options) {
         var data = my.initData();
         var axis = my.initAxis(data);
         var container = my.initContainer();
-        var gap = my.initRatio(container);
+        var gap = my.initRatio();
 
         var properties = {
             data: data,
@@ -306,16 +306,15 @@ function ResponsiveAxis(options) {
     };
 
     /**
-     * Initialize gap : the difference between container size and current graph size
+     * Initialize gap : the difference between container size and screen size
      * 
      * @method initRatio
      * @private
-     * @param {Object} container the g container
      * @return {Object} gap
      */
-    my.initRatio = function (container) {
-        var height = window.innerHeight;//container.clientHeight || container.getBoundingClientRect().height;
-        var width = window.innerWidth;//container.clientWidth || container.getBoundingClientRect().width;
+    my.initRatio = function () {
+        var height = window.innerHeight;
+        var width = window.innerWidth;
  
         return {
             height: height - my.g().attr("height"),
@@ -354,7 +353,7 @@ function ResponsiveAxis(options) {
      * @private
      */
     my.updateHeightRatio = function () {
-    	var height = window.innerHeight;//my.container().clientHeight || my.container().getBoundingClientRect().height;
+    	var height = window.innerHeight;
         my.gap().height = height - my.g().attr("height");
     };
 
@@ -436,10 +435,8 @@ function ResponsiveAxis(options) {
      * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
-        var height = window.innerHeight;//my.container().clientHeight || my.container().getBoundingClientRect().height;
-        var width = window.innerWidth;//my.container().clientWidth || my.container().getBoundingClientRect().width;
-        console.log(height + " " + window.innerHeight);
-        console.log(my.container().clientHeight - my.g().attr("height") + " " + my.gap().height);
+        var height = window.innerHeight;
+        var width = window.innerWidth;
         return {
             height: height - my.gap().height,
             width: width - my.gap().width

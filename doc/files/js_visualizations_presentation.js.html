@@ -144,7 +144,9 @@ function TreeMap(options) {
 				.sticky(true)
 				.value(function(d) { return d.size; }));
 
-		my.color(d3.scale.category20c());
+		var colors = d3.scale.ordinal()
+						.range([&quot;#e6f5dc&quot;, &quot;#dcf5e1&quot;, &quot;#dcf5f0&quot;, &quot;#dcebf5&quot;, &quot;#dcdcf5&quot;, &quot;#ebdcf5&quot;, &quot;#f5e6dc&quot;, &quot;#f5dce1&quot;, &quot;#f5dcf0&quot;, &quot;#eaeab7&quot;, &quot;#e0ffc2&quot;, &quot;#ffcccc&quot;, &quot;#f5E0eb&quot;]);
+		my.color(colors);
 		
 		// Initialisation des donnees
 		my.initData(options.data);
@@ -651,7 +653,7 @@ function TreeMap(options) {
 		my.x().domain([my.node().x, my.node().x + my.node().dx]);
 		my.y().domain([my.node().y, my.node().y + my.node().dy]);
 
-		var t = d3.selectAll(&quot;.cell.child&quot;).transition()
+		var t = d3.selectAll(&quot;.cell.child&quot;)
 		.attr(&quot;transform&quot;, function(d) { return &quot;translate(&quot; + my.x()(d.x) + &quot;,&quot; + my.y()(d.y) + &quot;)&quot;; });
 
 		t.select(&quot;rect&quot;)
@@ -686,24 +688,6 @@ function TreeMap(options) {
 	 * frere precedent
 	 */
 	my.changeToPreviousChild = function (){
-//		var parent = my.node().parent;
-//		if(parent.children){
-//			var children = parent.children;
-//			var i = 0;
-//			var child = children[i];
-//			var nextChild = child;
-//			while(i &lt; children.length &amp;&amp; child !== my.node()){
-//				i++;
-//				child = children[i];
-//			}
-//			i--;
-//			if(child === my.node() &amp;&amp; i &gt;= 0){
-//				nextChild = children[i];
-//			}
-//			my.node(nextChild);
-//			my.redraw();
-//			my.endUpdateMove();
-//		}
 		var page = my.node().page;
 		if(page){
 			var nextPage = parseInt(page) - 1;
@@ -724,45 +708,10 @@ function TreeMap(options) {
 	 * frere suivant
 	 */
 	my.changeToNextChild = function (){
-//		console.log(my.node());
-//		console.log(my.node().children);
-//		if(my.node().children &amp;&amp; my.node().children.length !== 1){
-//			my.zoom(my.node().children[0]); 
-//		}
-//		else{
-//			var parent = my.node().parent;
-//			if(parent){
-//				var children = parent.children;
-//				var i = 0;
-//				var child = children[i];
-//				var nextChild = child;
-//				while(i &lt; children.length &amp;&amp; child !== my.node()){
-//					i++;
-//					child = children[i];
-//				}
-//				i++;
-//				if(child === my.node() &amp;&amp; i &lt; children.length){
-//					nextChild = children[i];
-//					my.node(nextChild);
-//					my.redraw();
-//					my.endUpdateMove();
-//				}
-//				else{
-//					var nextChild = my.getNextChild(my.node().parent);
-//					console.log(nextChild);
-//					if(nextChild !== &quot;&quot;){
-//						my.zoom(nextChild);
-//					}
-//					else{
-//						my.zoom(my.node().parent);
-//					}
-//				}
-//			}
-//		}
 		var page = my.node().page;
 		if(page){
 			var nextPage = parseInt(page) + 1;
-			var nextNode = my.node();
+			var nextNode = my.root();
 			my.nodes().forEach(function(node){
 				if(node.page == nextPage){
 					nextNode = node;
@@ -805,23 +754,24 @@ function TreeMap(options) {
      */
 	my.drawTooltip = function(node){
 		var children = node.parent.children;
-        var html = &quot;&lt;ol&gt;&quot;;
-        var i = 1;
+        var html = &quot;&quot;;
+        var i = 0;
         var name = &quot;&quot;;
         var bgcolor = &quot;&quot;;
         var textcolor = &quot;&quot;;
         children.forEach(function (child) {
         	var opacity = child != node ? &quot;0.5&quot; : &quot;&quot;;
-            child.ord = i;
+            child.ord = children.length - i;
             name = child.children ? child.name : child.parent.name;
             bgcolor = color(name);
             textcolor = $$ResponsiveTreeUtil.needLightColor(bgcolor) ? &quot;#FFF&quot; : &quot;#000&quot;;
-            html += &quot;&lt;li style=&#x27;background-color : &quot; + bgcolor + &quot;; color:&quot; + textcolor + &quot;; opacity : &quot; + opacity + &quot;&#x27;&gt;&quot;;
-            html += child.name;
-            html += &quot;&lt;/li&gt;&quot;;
+            var li = &quot;&lt;li style=&#x27;background-color : &quot; + bgcolor + &quot;; color:&quot; + textcolor + &quot;; opacity : &quot; + opacity + &quot;&#x27;&gt;&quot;;
+            li += child.name;
+            li += &quot;&lt;/li&gt;&quot;;
+            html = li + html;
             i++;
         });
-        html += &quot;&lt;/ol&gt;&quot;;
+        html = &quot;&lt;ol&gt;&quot; + html + &quot;&lt;/ol&gt;&quot;;
         
         my.graph().selectAll(&quot;.cell.child&quot;)
                     .append(&quot;text&quot;)
@@ -837,11 +787,24 @@ function TreeMap(options) {
                     .style(&quot;cursor&quot;, &quot;default&quot;)
                     .text(function (d) {
                         if(children.indexOf(d) !== -1){
-                            return d.ord;
+                        	if(((d.x + d.dx) - d.x) &gt; (d.name.length + d.ord.toString().length) * 5){
+                        		d.w = true;
+                        		return d.ord + &quot;.&quot; + d.name;
+                        	}
+                        	else{
+                        		d.w = false;
+                        		return d.ord;
+                        	}
                         }
                     })
                     .style(&quot;font-size&quot;, function (d) {
-                        return 0.50 * Math.sqrt(d.dx * d.dy) + &#x27;px&#x27;;
+                    	if(!d.w){
+                    		return 0.50 * Math.sqrt(d.dx * d.dy) + &#x27;px&#x27;;
+                    	}
+                    	else{
+                    		w = this.getComputedTextLength();
+                    		return 100 * (d.dx / w) + &#x27;%&#x27;;
+                    	}
                     })
                     .style(&quot;opacity&quot;, function(d){
                     	if(d != node){

@@ -238,7 +238,7 @@ function ResponsiveSelector(options) {
     my.initProperties = function () {
         var container = my.initContainer();
         var parents = my.initData();
-        var gap = my.initRatio(container);
+        var gap = my.initRatio();
 
         var properties = {
             parents: parents,
@@ -266,16 +266,15 @@ function ResponsiveSelector(options) {
     };
     
     /**
-     * Initialize gap : the difference between container size and current graph size
+     * Initialize gap : the difference between container size and screen size
      * 
      * @method initRatio
      * @private
-     * @param {Object} container the g container
      * @return {Object} gap
      */
-    my.initRatio = function (container) {
-        var height = container.clientHeight || container.getBoundingClientRect().height;
-        var width = container.clientWidth || container.getBoundingClientRect().width;
+    my.initRatio = function () {
+        var height = window.innerHeight;
+        var width = window.innerWidth;
         
         return {
             height: height - my.g().attr("height"),
@@ -555,8 +554,8 @@ function ResponsiveSelector(options) {
      * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
-        var height = my.container().clientHeight || my.container().getBoundingClientRect().height;
-        var width = my.container().clientWidth || my.container().getBoundingClientRect().width;
+        var height = window.innerHeight;
+        var width = window.innerWidth;
 
         return {
             height: height - my.gap().height,

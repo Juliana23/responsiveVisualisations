@@ -520,18 +520,11 @@
         {
             "file": "js\\object\\axis.js",
             "line": 308,
-            "description": "Initialize gap : the difference between container size and current graph size",
+            "description": "Initialize gap : the difference between container size and screen size",
             "itemtype": "method",
             "name": "initRatio",
             "access": "private",
             "tagname": "",
-            "params": [
-                {
-                    "name": "container",
-                    "description": "the g container",
-                    "type": "Object"
-                }
-            ],
             "return": {
                 "description": "gap",
                 "type": "Object"
@@ -540,7 +533,7 @@
         },
         {
             "file": "js\\object\\axis.js",
-            "line": 326,
+            "line": 325,
             "description": "This method allows to update gap proportion (height and width)",
             "itemtype": "method",
             "name": "updateRatio",
@@ -571,7 +564,7 @@
         },
         {
             "file": "js\\object\\axis.js",
-            "line": 349,
+            "line": 348,
             "description": "This method recalculates the height of gap\n(used for axis that have fixed height)",
             "itemtype": "method",
             "name": "updateHeightRatio",
@@ -581,7 +574,7 @@
         },
         {
             "file": "js\\object\\axis.js",
-            "line": 361,
+            "line": 360,
             "description": "This method update range of axis",
             "itemtype": "method",
             "name": "updateHeightRatio",
@@ -591,7 +584,7 @@
         },
         {
             "file": "js\\object\\axis.js",
-            "line": 379,
+            "line": 378,
             "description": "This method updates axis size with the size sets in parameter\nIf parameter is not set, the axis is resize to the complete of container",
             "itemtype": "method",
             "name": "updateHeightRatio",
@@ -608,7 +601,7 @@
         },
         {
             "file": "js\\object\\axis.js",
-            "line": 402,
+            "line": 401,
             "description": "This method update the quantity of information\ndisplay on the axis",
             "itemtype": "method",
             "name": "updateAxisTicks",
@@ -618,7 +611,7 @@
         },
         {
             "file": "js\\object\\axis.js",
-            "line": 431,
+            "line": 430,
             "description": "Get the container size",
             "itemtype": "method",
             "name": "getContainerSize",
@@ -632,7 +625,7 @@
         },
         {
             "file": "js\\object\\axis.js",
-            "line": 447,
+            "line": 446,
             "description": "Method that draws axis into g :<br/>\nUpdates :<br/>\n - the size of axis (automatically recalculated)\n - the range\n - the quantity of information to display",
             "itemtype": "method",
             "name": "draw",
@@ -1285,18 +1278,11 @@
         {
             "file": "js\\object\\selector.js",
             "line": 268,
-            "description": "Initialize gap : the difference between container size and current graph size",
+            "description": "Initialize gap : the difference between container size and screen size",
             "itemtype": "method",
             "name": "initRatio",
             "access": "private",
             "tagname": "",
-            "params": [
-                {
-                    "name": "container",
-                    "description": "the g container",
-                    "type": "Object"
-                }
-            ],
             "return": {
                 "description": "gap",
                 "type": "Object"
@@ -1305,7 +1291,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 286,
+            "line": 285,
             "description": "Initialize data to put element allParents on children",
             "itemtype": "method",
             "name": "initData",
@@ -1319,7 +1305,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 318,
+            "line": 317,
             "description": "Method to init first parents outline",
             "itemtype": "method",
             "name": "drawFirstParents",
@@ -1329,7 +1315,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 391,
+            "line": 390,
             "description": "Method to draw title of first parent",
             "itemtype": "method",
             "name": "drawTitleFirstParents",
@@ -1339,7 +1325,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 431,
+            "line": 430,
             "description": "Method to update first parents outline",
             "itemtype": "method",
             "name": "updateFirstParents",
@@ -1349,7 +1335,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 503,
+            "line": 502,
             "description": "Method to update first parents title",
             "itemtype": "method",
             "name": "updateTitleFirstParents",
@@ -1359,7 +1345,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 528,
+            "line": 527,
             "description": "Method to update attribute depth, node",
             "itemtype": "method",
             "name": "update",
@@ -1376,7 +1362,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 550,
+            "line": 549,
             "description": "Get the container size",
             "itemtype": "method",
             "name": "getContainerSize",
@@ -1390,7 +1376,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 567,
+            "line": 566,
             "description": "Method to draw the outline",
             "itemtype": "method",
             "name": "drawOutline",
@@ -1413,7 +1399,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 630,
+            "line": 629,
             "description": "Method to draw the selector",
             "itemtype": "method",
             "name": "draw",
@@ -1423,7 +1409,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 641,
+            "line": 640,
             "description": "Method to draw the outline of node",
             "itemtype": "method",
             "name": "drawOnNode",
@@ -1440,7 +1426,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 671,
+            "line": 670,
             "description": "Method to redraw the selector\non a changed node",
             "itemtype": "method",
             "name": "redraw",
@@ -1457,7 +1443,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 686,
+            "line": 685,
             "description": "Method to hide all on selector",
             "itemtype": "method",
             "name": "hide",
@@ -1467,7 +1453,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 700,
+            "line": 699,
             "description": "Method to hide all on node",
             "itemtype": "method",
             "name": "hideOnNode",
@@ -1477,7 +1463,7 @@
         },
         {
             "file": "js\\object\\selector.js",
-            "line": 711,
+            "line": 710,
             "description": "Method called on window resize event",
             "itemtype": "method",
             "name": "hide",
@@ -1681,18 +1667,11 @@
         {
             "file": "js\\object\\tooltip.js",
             "line": 257,
-            "description": "Initialize gap : the difference between container size and current graph size",
+            "description": "Initialize gap : the difference between container size and screen size",
             "itemtype": "method",
             "name": "initRatio",
             "access": "private",
             "tagname": "",
-            "params": [
-                {
-                    "name": "container",
-                    "description": "the g container",
-                    "type": "Object"
-                }
-            ],
             "return": {
                 "description": "gap",
                 "type": "Object"
@@ -1701,7 +1680,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 274,
+            "line": 273,
             "description": "Get the container tooltip height",
             "itemtype": "method",
             "name": "getHeight",
@@ -1715,7 +1694,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 287,
+            "line": 286,
             "description": "Get the container tooltip width",
             "itemtype": "method",
             "name": "getWidth",
@@ -1729,7 +1708,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 300,
+            "line": 299,
             "description": "Get if the tooltip is drawn",
             "itemtype": "method",
             "name": "getIsDrawn",
@@ -1743,7 +1722,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 314,
+            "line": 313,
             "description": "Get the container g position",
             "itemtype": "method",
             "name": "getGPosition",
@@ -1757,7 +1736,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 329,
+            "line": 328,
             "description": "Get the container tooltip position",
             "itemtype": "method",
             "name": "getTooltipPosition",
@@ -1783,7 +1762,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 409,
+            "line": 413,
             "description": "Get the container size",
             "itemtype": "method",
             "name": "getContainerSize",
@@ -1797,7 +1776,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 425,
+            "line": 429,
             "description": "Method that draws tooltip :<br/>\nUpdates :<br/>\n - the data of tooltip\n - the tooltip position (automatically recalculated)",
             "itemtype": "method",
             "name": "draw",
@@ -1814,7 +1793,7 @@
         },
         {
             "file": "js\\object\\tooltip.js",
-            "line": 457,
+            "line": 461,
             "description": "Method to hide tooltip object",
             "itemtype": "method",
             "name": "hide",
@@ -2336,19 +2315,19 @@
         },
         {
             "file": "js\\visualizations\\presentation.js",
-            "line": 104,
+            "line": 106,
             "description": "Fonctions d'initialisation",
             "class": ""
         },
         {
             "file": "js\\visualizations\\presentation.js",
-            "line": 225,
+            "line": 227,
             "description": "Getters AND Setters",
             "class": ""
         },
         {
             "file": "js\\visualizations\\presentation.js",
-            "line": 425,
+            "line": 427,
             "description": "Methods",
             "class": ""
         },
@@ -2854,7 +2833,7 @@
         },
         {
             "message": "unknown tag: pram",
-            "line": " js\\object\\selector.js:567"
+            "line": " js\\object\\selector.js:566"
         },
         {
             "message": "unknown tag: version",
@@ -2898,15 +2877,15 @@
         },
         {
             "message": "Missing item type\nFonctions d'initialisation",
-            "line": " js\\visualizations\\presentation.js:104"
+            "line": " js\\visualizations\\presentation.js:106"
         },
         {
             "message": "Missing item type\nGetters AND Setters",
-            "line": " js\\visualizations\\presentation.js:225"
+            "line": " js\\visualizations\\presentation.js:227"
         },
         {
             "message": "Missing item type\nMethods",
-            "line": " js\\visualizations\\presentation.js:425"
+            "line": " js\\visualizations\\presentation.js:427"
         },
         {
             "message": "Missing item type\nFonctions d'initialisation",
