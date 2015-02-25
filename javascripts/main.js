@@ -129,7 +129,7 @@ function enterFullScreen(){
 }
 
 function onkeypress(e){
-	if (e.keyCode == 27) {
+	if (e.keyCode === 27) {
 		resizeIframe();
     }
 	else if(e.keyCode === 32){
