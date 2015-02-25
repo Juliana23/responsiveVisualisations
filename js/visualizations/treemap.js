@@ -542,23 +542,24 @@ function TreeMap(options) {
      */
 	my.drawTooltip = function(node){
 		var children = node.parent.children;
-        var html = "<ol>";
-        var i = 1;
+        var html = "";
+        var i = 0;
         var name = "";
         var bgcolor = "";
         var textcolor = "";
         children.forEach(function (child) {
         	var opacity = child != node ? "0.5" : "";
-            child.ord = i;
+            child.ord = children.length - i;
             name = child.children ? child.name : child.parent.name;
             bgcolor = color(name);
             textcolor = $$ResponsiveTreeUtil.needLightColor(bgcolor) ? "#FFF" : "#000";
-            html += "<li style='background-color : " + bgcolor + "; color:" + textcolor + "; opacity : " + opacity + "'>";
-            html += child.name;
-            html += "</li>";
+            var li = "<li style='background-color : " + bgcolor + "; color:" + textcolor + "; opacity : " + opacity + "'>";
+            li += child.name;
+            li += "</li>";
+            html = li + html;
             i++;
         });
-        html += "</ol>";
+        html = "<ol>" + html + "</ol>";
         
         my.graph().selectAll(".cell.child")
                     .append("text")
@@ -574,11 +575,24 @@ function TreeMap(options) {
                     .style("cursor", "default")
                     .text(function (d) {
                         if(children.indexOf(d) !== -1){
-                            return d.ord;
+                        	if(((d.x + d.dx) - d.x) > (d.name.length + d.ord.toString().length) * 5){
+                        		d.w = true;
+                        		return d.ord + "." + d.name;
+                        	}
+                        	else{
+                        		d.w = false;
+                        		return d.ord;
+                        	}
                         }
                     })
                     .style("font-size", function (d) {
-                        return 0.50 * Math.sqrt(d.dx * d.dy) + 'px';
+                    	if(!d.w){
+                    		return 0.50 * Math.sqrt(d.dx * d.dy) + 'px';
+                    	}
+                    	else{
+                    		w = this.getComputedTextLength();
+                    		return 100 * (d.dx / w) + '%';
+                    	}
                     })
                     .style("opacity", function(d){
                     	if(d != node){
