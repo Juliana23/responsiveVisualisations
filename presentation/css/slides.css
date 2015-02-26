@@ -74,6 +74,10 @@ table tr td.w33 {
     width: 33.33%;
 }
 
+table tr td.w25 {
+    width: 25%;
+}
+
 table tr td.center {
     text-align: center;
 }
