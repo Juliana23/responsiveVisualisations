@@ -523,12 +523,12 @@ function TreeMap(options) {
 		my.children(my.treemap().nodes(my.node())
 				.filter(function(d) { 
                     $("#slide" + d.slide).height(d.dy);
-                    $("#slide" + d.slide + " > table").height(d.dy);
+                    $("#slide" + d.slide + " > div > table").height(d.dy);
                     var h = d.dy - 80; // On enleve la height reserve pour le titre
                     // On met a jour la height des colonnes restantes
-                    var count = $("#slide" + d.slide + " > table > tbody > tr").length - 1; // - Titre
+                    var count = $("#slide" + d.slide + " > div > table > tbody > tr").length - 1; // - Titre
                     // On met a jour la hauteur de lignes et colonnes
-                    $("#slide" + d.slide + " > table > tbody > tr").each(function (i, row) {
+                    $("#slide" + d.slide + " > div > table > tbody > tr").each(function (i, row) {
                         if(i > 0){
                             $(row).height(h/count);
                             $(row).children("td").each(function(){

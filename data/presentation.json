@@ -131,12 +131,18 @@
 			"children": [
 				{
 					"name": "Les media queries - Treemap",
+					"page": "21",
+					"slide": "16",
+					"size": 20000
+				},
+				{
+					"name": "Les media queries - Timeline",
 					"page": "20",
 					"slide": "15",
 					"size": 20000
 				},
 				{
-					"name": "Les media queries - Timeline",
+					"name": "Les media queries",
 					"page": "19",
 					"slide": "14",
 					"size": 20000
@@ -145,55 +151,55 @@
 		},
 		{
 			"name": "10) Objets réutilisables",
-			"page": "21",
-			"children": [
-				{
-					"name": "Objets réutilisables",
-					"slide": "16",
-					"size": 20000
-				}
-			]
-		},
-		{
-			"name": "11) Conclusion",
 			"page": "22",
 			"children": [
 				{
-					"name": "Conclusion",
+					"name": "Objets réutilisables",
 					"slide": "17",
 					"size": 20000
 				}
 			]
 		},
 		{
-			"name": "12) Références",
+			"name": "11) Conclusion",
 			"page": "23",
 			"children": [
 				{
-					"name": "Références",
+					"name": "Conclusion",
 					"slide": "18",
-					"size": 10000
+					"size": 20000
 				}
 			]
 		},
 		{
-			"name": "13) Remerciements",
+			"name": "12) Références",
 			"page": "24",
 			"children": [
 				{
-					"name": "Remerciements",
+					"name": "Références",
 					"slide": "19",
 					"size": 10000
 				}
 			]
 		},
 		{
-			"name": "14) Questions",
+			"name": "13) Remerciements",
 			"page": "25",
 			"children": [
 				{
-					"name": "Questions",
+					"name": "Remerciements",
 					"slide": "20",
+					"size": 10000
+				}
+			]
+		},
+		{
+			"name": "14) Questions",
+			"page": "26",
+			"children": [
+				{
+					"name": "Questions",
+					"slide": "21",
 					"size": 10000
 				}
 			]

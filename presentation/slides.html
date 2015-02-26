@@ -1,590 +1,653 @@
 <div id="slide1">
-    <table>
-        <tr>
-            <td class="title">
-                Visualisations Responsives
-            </td>
-            <tr>
-            <td class="center font-size-2em">
-            	Juliana Leclaire <br/>
-            	<b>Tuteur:</b> Aur&eacute;lien Tabard <br/>
-            	<b>Universit&eacute;:</b> Universit&eacute; Claude Bernard Lyon 1
-            </td>
-        </tr>
-        <tr>
-            <td class="center font-size-2em">
-                <b>Site Web:</b> http://juliana23.github.io/responsiveVisualisations/
-            </td>
-        </tr> 
-    </table>
-    <div class="page-number">1/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td class="title">
+	                Visualisations Responsives
+	            </td>
+	            <tr>
+	            <td class="center font-size-2em">
+	            	Juliana Leclaire <br/>
+	            	<b>Tuteur:</b> Aur&eacute;lien Tabard <br/>
+	            	<b>Universit&eacute;:</b> Universit&eacute; Claude Bernard Lyon 1
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="center font-size-2em">
+	                <b>Site Web:</b> http://juliana23.github.io/responsiveVisualisations/
+	            </td>
+	        </tr> 
+	    </table>
+	    <div class="page-number">1/21</div>
+    </div>
 </div>
 
 <div id="slide2">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Contexte
-            </td>
-        </tr>
-        <tr>
-            <td class="w50">
-                <ul>
-                    <li class="font-size-2em">Responsive : Adaptation</li>
-                </ul>
-            </td>
-            <td class="w50 center">
-                <figure>
-                    <img src="./presentation/images/responsive.jpg" alt="responsive" />
-                    <figcaption>Illustration du principe de responsivit&eacute;</figcaption>
-                </figure>
-            </td>
-        </tr>
-        <tr>
-        	<td class="w50">
-                <ul>
-                    <li class="font-size-2em">
-                        Pourquoi visualisations responsive?
-                        <ul>
-                            <li class="font-size-09em">Accroissement de donn&eacute;es</li>
-                            <li class="font-size-09em">Visualisation de donn&eacute;es</li>
-                            <li class="font-size-09em">Supports multiples</li>
-                        </ul>
-                    </li>
-                </ul>
-            </td>
-            <td class="w50 center">
-                <figure>
-                    <img src="./presentation/images/context.png" alt="context" />
-                    <figcaption>Visualisations d3.js</figcaption>
-                </figure>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">2/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Contexte
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50">
+	                <ul>
+	                    <li class="font-size-2em">Responsive : Adaptation</li>
+	                </ul>
+	            </td>
+	            <td class="w50 center">
+	                <figure>
+	                    <img src="./presentation/images/responsiveExemple.png" alt="responsive" />
+	                    <figcaption>Site Web responsive - RTL</figcaption>
+	                </figure>
+	            </td>
+	        </tr>
+	        <tr>
+	        	<td class="w50">
+	                <ul>
+	                    <li class="font-size-2em">
+	                        Pourquoi visualisations responsive?
+	                        <ul>
+	                            <li class="font-size-09em">Accroissement de donn&eacute;es</li>
+	                            <li class="font-size-09em">Visualisation de donn&eacute;es</li>
+	                            <li class="font-size-09em">Supports multiples</li>
+	                        </ul>
+	                    </li>
+	                </ul>
+	            </td>
+	            <td class="w50 center">
+	                <figure>
+	                    <img src="./presentation/images/context.png" alt="context" />
+	                    <figcaption>Visualisations d3.js</figcaption>
+	                </figure>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">2/21</div>
+    </div>
 </div>
 
 <div id="slide3">
-    <table>
-        <tr>
-            <td colspan="3" class="title">
-                Probl&eacute;matique
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" class="w50 font-size-2em center">
-                Comment des visualisations Web pourraient &ecirc;tre adapt&eacute;es aux 
-                dispositifs sur lesquelles elles s'affichent en utilisant 
-                un unique code source?
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-                <figure>
-                    <img src="./presentation/images/criticaltreemap.png" alt="nonResponsive" />
-                    <figcaption>Visualisation non responsive</figcaption>
-                </figure>
-            </td>
-            <td class="w50 center">
-                <img src="./presentation/images/arrow.png" alt="arrow" />
-            </td>
-            <td class="w50 center">
-                <figure>
-                    <img src="./presentation/images/devices.png" alt="responsive" />
-                    <figcaption>Visualisation responsive</figcaption>
-                </figure>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">3/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="3" class="title">
+	                Probl&eacute;matique
+	            </td>
+	        </tr>
+	        <tr>
+	            <td colspan="3" class="w50 font-size-2em center">
+	                Comment des visualisations Web pourraient &ecirc;tre adapt&eacute;es aux 
+	                dispositifs sur lesquelles elles s'affichent en utilisant 
+	                un unique code source?
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	                <figure>
+	                    <img src="./presentation/images/criticaltreemap.png" alt="nonResponsive" />
+	                    <figcaption>Visualisation non responsive</figcaption>
+	                </figure>
+	            </td>
+	            <td class="w50 center">
+	                <img src="./presentation/images/arrow.png" alt="arrow" />
+	            </td>
+	            <td class="w50 center">
+	                <figure>
+	                    <img src="./presentation/images/devices.png" alt="responsive" />
+	                    <figcaption>Visualisation responsive</figcaption>
+	                </figure>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">3/21</div>
+    </div>
 </div>
 
 <div id="slide4">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                M&eacute;thode de recherche
-            </td>
-        </tr>
-        <tr>
-            <td class="w50" rowspan="2">
-                <ul>
-                    <li class="font-size-2em">Etat de l'art</li>
-                    <li class="font-size-2em">
-                        Travail pr&eacute;liminaire
-                        <ul>
-                            <li class="font-size-09em">Librairie utilis&eacute;e: D3.js</li>
-                            <li class="font-size-09em">Visualisation Treemap</li>
-                            <li class="font-size-09em">Visualisation Timeline</li>
-                        </ul>
-                    <li class="font-size-2em">Extraire les probl&egrave;mes</li>
-                    <li class="font-size-2em">R&eacute;sultats: Premi&egrave;re version d'une librairie</li>
-                </ul>
-            </td>
-            <td class="w50 center">
-                <figure>
-                	<img src="./presentation/images/timelineSolution1.png" alt="timelineSolution1" />
-                	<figcaption>Timeline</figcaption>
-                </figure>
-	        </td>
-	    </tr>
-	    <tr>
-	        <td class="center">
-                <figure>
-                	<img src="./presentation/images/treemapSolution1.png" alt="treemapSolution3" />
-                	<figcaption>Treemap</figcaption>
-                </figure>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">4/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                M&eacute;thode de recherche
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50" rowspan="2">
+	                <ul>
+	                    <li class="font-size-2em">Etat de l'art</li>
+	                    <li class="font-size-2em">
+	                        Travail pr&eacute;liminaire
+	                        <ul>
+	                            <li class="font-size-09em">Librairie utilis&eacute;e: D3.js</li>
+	                            <li class="font-size-09em">Visualisation Treemap</li>
+	                            <li class="font-size-09em">Visualisation Timeline</li>
+	                        </ul>
+	                    <li class="font-size-2em">Extraire les probl&egrave;mes</li>
+	                    <li class="font-size-2em">R&eacute;sultats: Premi&egrave;re version d'une librairie</li>
+	                </ul>
+	            </td>
+	            <td class="w50 center">
+	                <figure>
+	                	<img src="./presentation/images/timelineSolution1.png" alt="timelineSolution1" />
+	                	<figcaption>Timeline</figcaption>
+	                </figure>
+		        </td>
+		    </tr>
+		    <tr>
+		        <td class="center">
+	                <figure>
+	                	<img src="./presentation/images/treemapSolution1.png" alt="treemapSolution3" />
+	                	<figcaption>Treemap</figcaption>
+	                </figure>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">4/21</div>
+    </div>
 </div>
 
 <div id="slide5">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Etat de l'art
-            </td>
-        </tr>
-        <tr>
-            <td class="w50">
-                <div class="font-size-2em">
-                    Visualisations pour tactile (D. Baur)
-                    <ul>
-                        <li class="font-size-09em">Interactions</li>
-                        <li class="font-size-09em">&laquo;Gros doigts&raquo;</li>
-                        <li class="font-size-09em">Etiquettes</li>
-                        <li class="font-size-09em">Zone invisible interactive</li>
-                    </ul>
-                </div>
-            </td>
-            <td class="w50 center">
-            	<figure>
-	                <img src="./presentation/images/tooltip.png" alt="Etiquettes" />
-	                <figcaption>Etiquette</figcaption>
-	            </figure>
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<figure>
-                	<img src="./presentation/images/fatfinger.png" alt="Gros Doigts" />
-                	<figcaption>Taille minimale boutons (Apple)</figcaption>
-               	</figure>
-            </td>
-            <td class="w50 center">
-            	<figure>
-                	<img src="./presentation/images/interaction.png" alt="Interaction" />
-                	<figcaption>Zone invisible pour interagir</figcaption>
-                </figure>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">5/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Etat de l'art
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50">
+	                <div class="font-size-2em">
+	                    Visualisations interactives pour tactile (D. Baur)
+	                    <ul>
+	                        <li class="font-size-09em">&laquo;Gros doigts&raquo;</li>
+	                        <li class="font-size-09em">Etiquettes</li>
+	                        <li class="font-size-09em">Zone invisible interactive</li>
+	                    </ul>
+	                </div>
+	            </td>
+	            <td class="w50 center">
+	            	<figure>
+		                <img src="./presentation/images/tooltip.png" alt="Etiquettes" />
+		                <figcaption>Etiquette</figcaption>
+		            </figure>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<figure>
+	                	<img src="./presentation/images/fatfinger.png" alt="Gros Doigts" />
+	                	<figcaption>Taille minimale boutons (Apple)</figcaption>
+	               	</figure>
+	            </td>
+	            <td class="w50 center">
+	            	<figure>
+	                	<img src="./presentation/images/interaction.png" alt="Interaction" />
+	                	<figcaption>Zone invisible pour interagir</figcaption>
+	                </figure>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">5/21</div>
+    </div>
 </div>
 
 <div id="slide6">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Etat de l'art
-            </td>
-        </tr>
-        <tr>
-            <td class="w50" rowspan="2">
-                <div class="font-size-2em">
-                    Visualisations Responsives (G. Florit)
-                    <ul>
-                        <li class="font-size-09em">Adaptation de la visualisation</li>
-                        <li class="font-size-09em">Graphe nuage de points</li>
-                        <li class="font-size-09em">Navigation entre les points</li>
-                    </ul>
-                </div>
-            </td>
-            <td class="w50 center">
-            	<figure>
-	                <img src="./presentation/images/gllarge.png" alt="Boston Globe Investigation" />
-	                <figcaption>Boston Globe Investigation</figcaption>
-	            </figure>
-            </td>
-        </tr>
-        <tr>
-            <td class="center">
-            	<figure>
-	                <img src="./presentation/images/glsmall.png" alt="Boston Globe Investigation 2" />
-	                <figcaption>Boston Globe Investigation</figcaption>
-	            </figure>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">6/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Etat de l'art
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50">
+	                <div class="font-size-2em">
+	                    Visualisations Responsives (G. Florit)
+	                    <ul>
+	                        <li class="font-size-09em">Adaptation de la visualisation</li>
+	                        <li class="font-size-09em">Graphe nuage de points</li>
+	                        <li class="font-size-09em">Navigation entre les points</li>
+	                    </ul>
+	                </div>
+	            </td>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+			                <img src="./presentation/images/floritVisu.png" alt="Boston Globe Investigation" />
+			                <figcaption>Boston Globe Investigation</figcaption>
+			            </figure>
+			        </div>
+	            </td>
+	    </table>
+	    <div class="page-number">6/21</div>
+	</div>
 </div>
 
 <div id="slide7">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Etat de l'art
-            </td>
-        </tr>
-        <tr>
-            <td class="w50">
-                <div class="font-size-2em">
-                    Zoomable Treemaps (R. Blanch et E. Lecolinet)
-                    <ul>
-                        <li class="font-size-09em">Couleurs</li>
-                        <li class="font-size-09em">Affichage texte lisible</li>
-                        <li class="font-size-09em">Toujours avoir un n&oelig;ud courant</li>
-                        <li class="font-size-09em">Cibler les informations</li>
-                        <li class="font-size-1em">
-                            Adaptation
-                            <ul>
-                                <li class="font-size-09em">Zoom menu</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </td>
-            <td class="w50 center">
-            	<div class="vertical-align-middle">
-	            	<figure>
-	                	<img src="./presentation/images/zoomabletreemap.png" alt="Zoomable Treemap" />
-	                	<figcaption>Fonctionnalit&eacute; de zoom</figcaption>
-	                </figure>
-	            </div>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">7/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Etat de l'art
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50">
+	                <div class="font-size-2em">
+	                    Zoomable Treemaps (R. Blanch et E. Lecolinet)
+	                    <ul>
+	                        <li class="font-size-09em">Couleurs</li>
+	                        <li class="font-size-09em">Affichage texte lisible</li>
+	                        <li class="font-size-09em">Toujours avoir un n&oelig;ud courant</li>
+	                        <li class="font-size-09em">Cibler les informations</li>
+	                        <li class="font-size-1em">
+	                            Adaptation
+	                            <ul>
+	                                <li class="font-size-09em">Zoom menu</li>
+	                            </ul>
+	                        </li>
+	                    </ul>
+	                </div>
+	            </td>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		                	<img src="./presentation/images/zoomabletreemap.png" alt="Zoomable Treemap" />
+		                	<figcaption>Fonctionnalit&eacute; de zoom</figcaption>
+		                </figure>
+		            </div>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">7/21</div>
+	</div>
 </div>
 
 <div id="slide8">
-    <table>
-        <tr>
-            <td class="title">
-                Points essentiels
-            </td>
-        </tr>
-        <tr>
-            <td class="center">
-                <img src="./presentation/images/criticalPoints.png" alt="Critical points" />
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">8/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td class="title">
+	                Points essentiels
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="center">
+	                <img src="./presentation/images/criticalPoints.png" alt="Critical points" />
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">8/21</div>
+    </div>
 </div>
 
 <div id="slide9">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Points Essentiels (Exemples)
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<figure>
-                	<img src="./presentation/images/criticaltimeline.png" alt="Critical Timeline" />
-                	<figcaption>Visualisation Timeline propos&eacute;e par d3.js</figcaption>
-                </figure>
-            </td>
-            <td class="w50 center">
-            	<figure>
-                	<img src="./presentation/images/criticaltreemap.png" alt="Critical Treemap" />
-                	<figcaption>Visualisation Treemap propos&eacute;e par d3.js</figcaption>
-                </figure>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" class="center">
-            	<figure>
-                	<img src="./presentation/images/objectifs.png" alt="Objectifs" />
-                	<figcaption>Objectifs : Respect des points essentiels</figcaption>
-                </figure>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">9/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Points Essentiels (Exemples)
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<figure>
+	                	<img src="./presentation/images/criticaltimeline.png" alt="Critical Timeline" />
+	                	<figcaption>Visualisation Timeline propos&eacute;e par d3.js</figcaption>
+	                </figure>
+	            </td>
+	            <td class="w50 center">
+	            	<figure>
+	                	<img src="./presentation/images/criticaltreemap.png" alt="Critical Treemap" />
+	                	<figcaption>Visualisation Treemap propos&eacute;e par d3.js</figcaption>
+	                </figure>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td colspan="2" class="center">
+	            	<figure>
+	                	<img src="./presentation/images/objectifs.png" alt="Objectifs" />
+	                </figure>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">9/21</div>
+    </div>
 </div>
 
 <div id="slide10">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Les &eacute;tiquettes (Timeline)
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<div class="vertical-align-middle">
-	            	<figure>
-	                	<img src="./presentation/images/timelineSolution1.gif" alt="timelineSolution1" />
-	                	<figcaption>Timeline - Etiquette</figcaption>
-	                </figure>
-                </div>
-            </td>
-            <td class="w50 center">
-            	<img src="./presentation/images/objectifsTooltip.png" alt="Objectifs Tooltip" />
-            </td>
-		</tr>
-    </table>
-    <div class="page-number">10/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Les &eacute;tiquettes (Timeline)
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		                	<img src="./presentation/images/timelineSolution1.gif" alt="timelineSolution1" />
+		                	<figcaption>Timeline - Etiquette</figcaption>
+		                </figure>
+	                </div>
+	            </td>
+	            <td class="w50 center">
+	            	<img src="./presentation/images/objectifsTooltip.png" alt="Objectifs Tooltip" />
+	            </td>
+			</tr>
+	    </table>
+	    <div class="page-number">10/21</div>
+    </div>
 </div>
 
 <div id="slide11">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Les &eacute;tiquettes (Treemap)
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<div class="vertical-align-middle">
-	            	<figure>
-	                	<img src="./presentation/images/treemapSolution1.gif" alt="treemapSolution1" />
-	                	<figcaption>Treemap - Etiquette, Highlight</figcaption>
-	                </figure>
-	         	</div>
-            </td>
-            <td class="w50 center">
-            	<img src="./presentation/images/objectifsTooltip.png" alt="Objectifs Tooltip" />
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">11/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Les &eacute;tiquettes (Treemap)
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		                	<img src="./presentation/images/treemapSolution1.gif" alt="treemapSolution1" />
+		                	<figcaption>Treemap - Etiquette, Highlight</figcaption>
+		                </figure>
+		         	</div>
+	            </td>
+	            <td class="w50 center">
+	            	<img src="./presentation/images/objectifsTooltip.png" alt="Objectifs Tooltip" />
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">11/21</div>
+    </div>
 </div>
 
 <div id="slide12">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Le zoom (Timeline)
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<div class="vertical-align-middle">
-	            	<figure>
-	                	<img src="./presentation/images/timelineSolution2.gif" alt="timelineSolution2" />
-	                	<figcaption>Timeline - Zoom</figcaption>
-	                </figure>
-                </div>
-            </td>
-            <td class="w50 center">
-            	<img src="./presentation/images/objectifsZoom.png" alt="Objectifs Zoom" />
-            </td>
-		</tr>
-    </table>
-    <div class="page-number">12/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Le zoom (Timeline)
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		                	<img src="./presentation/images/timelineSolution2.gif" alt="timelineSolution2" />
+		                	<figcaption>Timeline - Zoom</figcaption>
+		                </figure>
+	                </div>
+	            </td>
+	            <td class="w50 center">
+	            	<img src="./presentation/images/objectifsZoom.png" alt="Objectifs Zoom" />
+	            </td>
+			</tr>
+	    </table>
+	    <div class="page-number">12/21</div>
+    </div>
 </div>
 
 <div id="slide13">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Le zoom (Treemap)
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<div class="vertical-align-middle">
-	            	<figure>
-	                	<img src="./presentation/images/treemapSolution2.gif" alt="treemapSolution2" />
-	                	<figcaption>Treemap - Zoom</figcaption>
-	                </figure>
-	         	</div>
-            </td>
-            <td class="w50 center">
-            	<img src="./presentation/images/objectifsZoom.png" alt="Objectifs Zoom" />
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">13/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Le zoom (Treemap)
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		                	<img src="./presentation/images/treemapSolution2.gif" alt="treemapSolution2" />
+		                	<figcaption>Treemap - Zoom</figcaption>
+		                </figure>
+		         	</div>
+	            </td>
+	            <td class="w50 center">
+	            	<img src="./presentation/images/objectifsZoom.png" alt="Objectifs Zoom" />
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">13/21</div>
+    </div>
 </div>
 
 <div id="slide14">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Les media queries (Timeline)
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<div class="vertical-align-middle">
-	            	<figure>
-	                	<img src="./presentation/images/timelineSolution3.gif" alt="timelineSolution3" />
-	                	<figcaption>Timeline - Media queries</figcaption>
-	                </figure>
-                </div>
-            </td>
-            <td class="w50 center">
-            	<img src="./presentation/images/objectifsMediaQueries.png" alt="Objectifs Media Queries" />
-            </td>
-		</tr>
-    </table>
-    <div class="page-number">14/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Les media queries
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50">
+	            	<div class="font-size-2em">
+	                    Utilisation
+	                    <ul>
+	                        <li class="font-size-09em">Changements des feuilles de styles</li>
+	                        <li class="font-size-09em">Changements en fonction des p&eacute;riph&eacute;riques</li>
+	                    </ul>
+	                </div>
+	            </td>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		            		<img src="./presentation/images/example.png" alt="Exemple Media Queries" />
+		            		<figcaption>Exemple d'utilisation des Media queries</figcaption>
+		            	</figure>
+		            </div>
+	            </td>
+			</tr>
+	    </table>
+	    <div class="page-number">14/21</div>
+    </div>
 </div>
 
 <div id="slide15">
-    <table>
-        <tr>
-            <td colspan="2" class="title">
-                Les media queries (Treemap)
-            </td>
-        </tr>
-        <tr>
-            <td class="w50 center">
-            	<div class="vertical-align-middle">
-	            	<figure>
-	                	<img src="./presentation/images/treemapSolution3.gif" alt="treemapSolution3" />
-	                	<figcaption>Treemap - Media queries</figcaption>
-	                </figure>
-	         	</div>
-            </td>
-            <td class="w50 center">
-            	<img src="./presentation/images/objectifsMediaQueries.png" alt="Objectifs Media Queries" />
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">15/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Les media queries (Timeline)
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		                	<img src="./presentation/images/timelineSolution3.gif" alt="timelineSolution3" />
+		                	<figcaption>Timeline - Media queries</figcaption>
+		                </figure>
+	                </div>
+	            </td>
+	            <td class="w50 center">
+	            	<img src="./presentation/images/objectifsMediaQueries.png" alt="Objectifs Media Queries" />
+	            </td>
+			</tr>
+	    </table>
+	    <div class="page-number">15/21</div>
+    </div>
 </div>
 
 <div id="slide16">
-    <table>
-        <tr>
-            <td colspan="4" class="title">
-                Objets r&eacute;utilisables
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4" class="center">
-            	<figure>
-                	<img src="./presentation/images/summarytable.png" alt="Summary Table" />
-                	<figcaption>Fonctionnalit&eacute;s r&eacute;alis&eacute;es</figcaption>
-                </figure>
-            </td>
-        </tr>
-        <tr>
-            <td class="w25 center">
-            	<figure>
-	                <img src="./presentation/images/multitreemap.png" alt="Media Queries" />
-	                <img src="./presentation/images/multitimeline.png" alt="Media Queries" />
-	                <figcaption>Objet Less - Media Queries</figcaption>
-	            </figure>
-            </td>
-            <td class="w25 center">
-            	<figure>
-	                <img src="./presentation/images/objetEtiquette.png" alt="Etiquette" />
-	                <figcaption>Objet Tooltip - Etiquette</figcaption>
-	           </figure>
-            </td>
-            <td class="w25 center">
-            	<figure>
-                	<img src="./presentation/images/objetBrush.png" alt="Brush" />
-                	<figcaption>Objet Brush - Zoom Graphe</figcaption>
-               	<figure>
-            </td>
-            <td class="w25 center">
-            	<figure>
-                	<img src="./presentation/images/objetAxis.png" alt="Axis" />
-                	<figcaption>Objet Axis - Axes</figcaption>
-               	<figure>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">16/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="2" class="title">
+	                Les media queries (Treemap)
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w50 center">
+	            	<div class="vertical-align-middle">
+		            	<figure>
+		                	<img src="./presentation/images/treemapSolution3.gif" alt="treemapSolution3" />
+		                	<figcaption>Treemap - Media queries</figcaption>
+		                </figure>
+		         	</div>
+	            </td>
+	            <td class="w50 center">
+	            	<img src="./presentation/images/objectifsMediaQueries.png" alt="Objectifs Media Queries" />
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">16/21</div>
+    </div>
 </div>
 
 <div id="slide17">
-    <table>
-        <tr>
-            <td class="title">
-                Conclusion
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <ul class="font-size-2em">
-                    <li>Librairie test&eacute;e pour Timeline et Treemap</li>
-                    <li>Extension pour visualisations de types graphes et treemap</li>
-                    <li>Ne couvre pas l'ensemble des visualisations de d3.js</li>
-                    <li>Possibilit&eacute; d'ajouter d'autres objets</li>
-                </ul>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">17/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td colspan="4" class="title">
+	                Objets r&eacute;utilisables
+	            </td>
+	        </tr>
+	        <tr>
+	            <td colspan="4" class="center">
+	            	<figure>
+	                	<img src="./presentation/images/summarytable.png" alt="Summary Table" />
+	                	<figcaption>Fonctionnalit&eacute;s r&eacute;alis&eacute;es</figcaption>
+	                </figure>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td class="w25 center">
+	            	<figure>
+		                <img src="./presentation/images/multitreemap.png" alt="Media Queries" />
+		                <img src="./presentation/images/multitimeline.png" alt="Media Queries" />
+		                <figcaption>Objet Resize - Media Queries</figcaption>
+		            </figure>
+	            </td>
+	            <td class="w25 center">
+	            	<figure>
+		                <img src="./presentation/images/objetEtiquette.png" alt="Etiquette" />
+		                <figcaption>Objet Tooltip - Etiquette</figcaption>
+		           </figure>
+	            </td>
+	            <td class="w25 center">
+	            	<figure>
+	                	<img src="./presentation/images/objetBrush.png" alt="Brush" />
+	                	<figcaption>Objet Brush - Zoom Graphe</figcaption>
+	               	</figure>
+	            </td>
+	            <td class="w25 center">
+	            	<figure>
+	                	<img src="./presentation/images/objetAxis.png" alt="Axis" />
+	                	<figcaption>Objet Axis - Axes</figcaption>
+	               	</figure>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">17/21</div>
+    </div>
 </div>
 
 <div id="slide18">
-    <table>
-        <tr>
-            <td class="title">
-                R&eacute;f&eacute;rences
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <ul class="font-size-17em">
-                    <li><b>Dominikus Baur</b>, Vid&eacute;o: http://do.minik.us/blog/jsconf_talk</li>
-                    <li><b>Gabriel Florit</b>, Vid&eacute;o: https://www.youtube.com/watch?v=BrmwjVdaxMM</li>
-                    <li><b>Blanch, R., &amp; Lecolinet, E. (2007).</b> 
-	                    Browsing zoomable treemaps: Structure-aware multi-scale navigation techniques.
-					</li>
-					<li>
-						<b>Baur, D., Lee, B., &amp; Carpendale, S. (2012, November).</b> TouchWave: kinetic multi-touch manipulation for hierarchical stacked graphs.
-					</li>
-					<li>
-						<b>Rzeszotarski, J. M., &amp; Kittur, A. (2014, April).</b> Kinetica: Naturalistic multi-touch data visualization.
-					</li>
-					<li>
-						<b>Sadowski, S., &amp; Heidmann, F.</b> A Visual Survey of Information Visualizations on Smartphones.
-					</li>
-					<li>
-						<b>Calvary, G., &amp; Coutaz, J. (2002).</b> Plasticit&eacute; des Interfaces: une n&eacute;cessit&eacute;.
-					</li>
-					<li>
-						<b>Bostock, M., Ogievetsky, V., &amp; Heer, J.</b> (2011). D3 data-driven documents.
-					</li>
-					<li>
-						<b>Boring, S., Ledo, D., Chen, X. A., Marquardt, N., Tang, A., &amp; Greenberg, S. (2012, September).</b> The fat thumb: using the thumb's contact size for single-handed mobile interaction.
-					</li>
-                </ul>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">18/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td class="title">
+	                Conclusion
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>
+	                <ul class="font-size-2em">
+	                    <li>Librairie test&eacute;e pour Timeline et Treemap</li>
+	                    <li>Extension pour visualisations de types graphes et treemap</li>
+	                    <li>Ne couvre pas l'ensemble des visualisations de d3.js</li>
+	                    <li>Possibilit&eacute; d'ajouter d'autres objets</li>
+	                </ul>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">18/21</div>
+    </div>
 </div>
 
 <div id="slide19">
-    <table>
-        <tr>
-            <td class="title">
-                Remerciements
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <ul class="font-size-2em">
-                    <li>Aur&eacute;lien Tabard</li>
-                    <li>Universit&eacute; Claude Bernard Lyon 1</li>
-                </ul>
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">19/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td class="title">
+	                R&eacute;f&eacute;rences
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>
+	                <ul class="font-size-17em">
+	                    <li><b>Dominikus Baur</b>, Vid&eacute;o: http://do.minik.us/blog/jsconf_talk</li>
+	                    <li><b>Gabriel Florit</b>, Vid&eacute;o: https://www.youtube.com/watch?v=BrmwjVdaxMM</li>
+	                    <li><b>Blanch, R., &amp; Lecolinet, E. (2007).</b> 
+		                    Browsing zoomable treemaps: Structure-aware multi-scale navigation techniques.
+						</li>
+						<li>
+							<b>Baur, D., Lee, B., &amp; Carpendale, S. (2012, November).</b> TouchWave: kinetic multi-touch manipulation for hierarchical stacked graphs.
+						</li>
+						<li>
+							<b>Rzeszotarski, J. M., &amp; Kittur, A. (2014, April).</b> Kinetica: Naturalistic multi-touch data visualization.
+						</li>
+						<li>
+							<b>Sadowski, S., &amp; Heidmann, F.</b> A Visual Survey of Information Visualizations on Smartphones.
+						</li>
+						<li>
+							<b>Calvary, G., &amp; Coutaz, J. (2002).</b> Plasticit&eacute; des Interfaces: une n&eacute;cessit&eacute;.
+						</li>
+						<li>
+							<b>Bostock, M., Ogievetsky, V., &amp; Heer, J.</b> (2011). D3 data-driven documents.
+						</li>
+						<li>
+							<b>Boring, S., Ledo, D., Chen, X. A., Marquardt, N., Tang, A., &amp; Greenberg, S. (2012, September).</b> The fat thumb: using the thumb's contact size for single-handed mobile interaction.
+						</li>
+	                </ul>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">19/21</div>
+	</div>
 </div>
 
 <div id="slide20">
-    <table>
-        <tr>
-            <td class="title">
-                Questions ?
-            </td>
-        </tr>
-    </table>
-    <div class="page-number">20/20</div>
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td class="title">
+	                Remerciements
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>
+	                <ul class="font-size-2em">
+	                    <li>Aur&eacute;lien Tabard</li>
+	                    <li>Universit&eacute; Claude Bernard Lyon 1</li>
+	                </ul>
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">20/21</div>
+	</div>
+</div>
+
+<div id="slide21">
+	<div class="slide">
+	    <table>
+	        <tr>
+	            <td class="title">
+	                Questions ?
+	            </td>
+	        </tr>
+	    </table>
+	    <div class="page-number">21/21</div>
+	</div>
 </div>
