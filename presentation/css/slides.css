@@ -36,7 +36,11 @@
 	}
 	
 	table .font-size-17em {
-	    font-size: 1.4em;
+	    font-size: 1em;
+	}
+	
+	table figcaption {
+	    font-size: 1em;
 	}
 }
 
