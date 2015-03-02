@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js\object\selector.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ResponsiveAxis.html">ResponsiveAxis</a></li>
+                                <li><a href="../classes/ResponsiveBrush.html">ResponsiveBrush</a></li>
+                                <li><a href="../classes/ResponsiveConstants.html">ResponsiveConstants</a></li>
+                                <li><a href="../classes/ResponsiveEvent.html">ResponsiveEvent</a></li>
+                                <li><a href="../classes/ResponsiveLess.html">ResponsiveLess</a></li>
+                                <li><a href="../classes/ResponsiveSelector.html">ResponsiveSelector</a></li>
+                                <li><a href="../classes/ResponsiveTooltip.html">ResponsiveTooltip</a></li>
+                                <li><a href="../classes/ResponsiveTreeUtil.html">ResponsiveTreeUtil</a></li>
+                                <li><a href="../classes/ResponsiveUtil.html">ResponsiveUtil</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: js\object\selector.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * &lt;b&gt;Responsive Selector For d3js library :&lt;/b&gt;&lt;br/&gt;
+ * &lt;br/&gt;
+ * Responive selector allows you to create selector to show details.
+ * Selector element will be responsive and you don&#x27;t need to take care to
+ * the size and position of them. &lt;br/&gt;
+ * To instantiate one, you need to set the following parameters into a json object :&lt;br/&gt;
+ * &lt;b&gt;g&lt;/b&gt; : g element used to draw selector (required)&lt;br/&gt;
+ * &lt;b&gt;depth&lt;/b&gt; : depth of visualization (default 1)&lt;br/&gt;
+ * &lt;b&gt;layout&lt;/b&gt; : layout treemap (required)&lt;br/&gt;
+ * &lt;b&gt;parentsCls&lt;/b&gt; : css class for parents nodes (default cell parent)&lt;br/&gt;
+ * &lt;b&gt;childrenCls&lt;/b&gt; : css class for children nodes (required)&lt;br/&gt;
+ * &lt;b&gt;node&lt;/b&gt; : current node (required)&lt;br/&gt;
+ * &lt;b&gt;root&lt;/b&gt; : root node of data (required)&lt;br/&gt;
+ * &lt;b&gt;autoresize&lt;/b&gt;  : indicate if resize is automatically done (default false)&lt;br/&gt;
+ * &lt;br/&gt;
+ * &lt;b&gt;Example:&lt;/b&gt;&lt;br/&gt;
+ * var selector = new ResponsiveSelector({&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;g: g,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;layout: my.treemap(),&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;parentsCls: &quot;cell parent&quot;,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;childrenCls: &quot;cell child&quot;,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;node: node,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;root: root,&lt;br/&gt;
+ *      &amp;nbsp;&amp;nbsp;&amp;nbsp;autoresize: false,&lt;br/&gt;
+ *  })();&lt;br/&gt;
+ *  &lt;br/&gt;
+ * @class ResponsiveSelector
+ * @constructor
+ * @version 0.1
+ * @author Leclaire Juliana
+ * @support d3js v3
+ */
+function ResponsiveSelector(options) {
+    options = {
+		/**
+         * g element used to draw selector&lt;br/&gt;
+         * Read with : selector.g()&lt;br/&gt;
+         * Write with : selector.g(newValue)&lt;br/&gt;
+         * 
+         * @attribute g
+         * @public
+         * @required
+         * @type Object
+         */
+        g: options.g,
+        /**
+         * Depth of current parents node&lt;br/&gt;
+         * Read with : selector.depth()&lt;br/&gt;
+         * Write with : selector.depth(newValue)&lt;br/&gt;
+         * 
+         * @attribute depth
+         * @public
+         * @required
+         * @type Integer
+         */
+        depth: options.depth || 1,
+        /**
+         * Layout to get data&lt;br/&gt;
+         * Read with : selector.layout()&lt;br/&gt;
+         * Write with : selector.layout(newValue)&lt;br/&gt;
+         * 
+         * @attribute layout
+         * @public
+         * @required
+         * @type Object
+         */
+        layout : options.layout,
+        /**
+         * ParentCls class to apply on parent nodes&lt;br/&gt;
+         * Read with : selector.parentsCls()&lt;br/&gt;
+         * Write with : selector.parentsCls(newValue)&lt;br/&gt;
+         * 
+         * @attribute parentsCls
+         * @public
+         * @required
+         * @type String
+         */
+        parentsCls: options.parentsCls || &quot;cell parent&quot;,
+        /**
+         * ChildrenCls class to apply on children nodes&lt;br/&gt;
+         * Read with : selector.childrenCls()&lt;br/&gt;
+         * Write with : selector.childrenCls(newValue)&lt;br/&gt;
+         * 
+         * @attribute childrenCls
+         * @public
+         * @required
+         * @type String
+         */
+        childrenCls: options.childrenCls,
+        /**
+         * Node element used to draw selector&lt;br/&gt;
+         * Read with : selector.node()&lt;br/&gt;
+         * Write with : selector.node(newValue)&lt;br/&gt;
+         * 
+         * @attribute node
+         * @public
+         * @required
+         * @type Object
+         */
+        node: options.node,
+        /**
+         * Root element used to draw selector&lt;br/&gt;
+         * Read with : selector.root()&lt;br/&gt;
+         * Write with : selector.root(newValue)&lt;br/&gt;
+         * 
+         * @attribute root
+         * @public
+         * @required
+         * @type Object
+         */
+        root: options.root,
+        /**
+         * Indicate if resize is automatically done&lt;br/&gt;
+         * Read with : selector.autoresize()&lt;br/&gt;
+         * Write with : selector.autoresize(newValue)&lt;br/&gt;
+         * 
+         * @attribute autoresize
+         * @public
+         * @type Boolean
+         * @default false
+         */
+        autoresize: options.autoresize || false,
+        /**
+         * List of events attached&lt;br/&gt;
+         * Read with : selector.events()&lt;br/&gt;
+         * 
+         * @attribute events
+         * @private
+         * @type Object
+         * @readonly
+         */
+        events: {}
+    };
+
+    /**
+     * ResponsiveTooltip Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
+     */
+    function my() {
+        // Create getters and setters for options
+        $$ResponsiveUtil.generateAccessors(my, options);
+
+        // Create d3js selector properties
+        my.initProperties();
+
+        // Add events to current object
+        my.addDefaultEvents();
+
+        // Add resize event
+        if (my.autoresize()) {
+        	$$ResponsiveUtil.addResizeEvent(my.redraw);
+        }
+
+        return my;
+    }
+
+    /**
+     * Method to attach custom event
+     * 
+     * @method on
+     * @public
+     * @param {Object} event event to add
+     * @param {Function} func function to call on event triggered
+     */
+    my.on = function (event, func) {
+        if (!my.events()[event]) {
+            my.events()[event] = [];
+        }
+        // Attach several function on the same event
+        my.events()[event].push(func);
+    };
+
+    /**
+     * Method to trigger event 
+     * 
+     * @method trigger
+     * @public
+     * @param {Object} event event to trigger
+     * @param {Object} args arguments to apply to the function called
+     */
+    my.trigger = function () {
+        if(arguments){
+            // Get the event triggered
+            var event = Array.prototype.shift.apply(arguments);
+            if(my.events()[event]){
+            	for(var i = 0; i &lt; my.events()[event].length; i++){
+                    // Call the function related to the event
+                    my.events()[event][i].apply(my.events()[event][i], arguments);
+            	}
+            }
+        }
+    };
+
+    /**
+     * Method to remove function on event
+     * 
+     * @method remove
+     * @public
+     * @param {Object} event event to clear
+     * @param {Function} func function to remove
+     */
+    my.remove = function (event, func) {
+        if (my.events()[event].indexOf(func) !== -1) {
+            // Remove function on the event
+            my.events()[event].remove(func);
+        }
+    };
+
+    /**
+     * Add default events to current object
+     * 
+     * @method addDefaultEvents
+     * @private
+     */
+    my.addDefaultEvents = function () {
+    	my.on(&quot;draw&quot;, my.draw);
+    	my.on(&quot;drawOnNode&quot;, my.drawOnNode);
+    	my.on(&quot;redraw&quot;, my.redraw);
+        my.on(&quot;drawFirstParents&quot;, my.drawFirstParents);
+        my.on(&quot;drawTitleFirstParents&quot;, my.drawTitleFirstParents);
+        my.on(&quot;updateFirstParents&quot;, my.updateFirstParents);
+        my.on(&quot;updateTitleFirstParents&quot;, my.updateTitleFirstParents);
+        my.on(&quot;updateNode&quot;, my.updateNode);
+        my.on(&quot;hide&quot;, my.hide);
+        my.on(&quot;hideOnNode&quot;, my.hideOnNode);
+    };
+
+    /**
+     * This method init properties for selector
+     * 
+     * @method initProperties
+     * @private
+     */
+    my.initProperties = function () {
+        var container = my.initContainer();
+        var parents = my.initData();
+        var gap = my.initRatio();
+
+        var properties = {
+            parents: parents,
+            container: container,
+            gap: gap
+        };
+        // Generate getters and setters for properties
+        $$ResponsiveUtil.generateAccessors(my, properties);
+    };
+    
+    /**
+     * Retrieve the parent container of g element
+     * 
+     * @method initContainer
+     * @private
+     * @return {HTMLElement} parent container of g element
+     */
+    my.initContainer = function () {
+        // Set id to g element in order to select it
+        if(!my.g().node().id){
+            my.g().node().id = my.id;
+        }
+        var el = document.getElementById(my.g().node().id);
+        return el.parentNode;
+    };
+    
+    /**
+     * Initialize gap : the difference between container size and screen size
+     * 
+     * @method initRatio
+     * @private
+     * @return {Object} gap
+     */
+    my.initRatio = function () {
+        var height = window.innerHeight;
+        var width = window.innerWidth;
+        
+        return {
+            height: height - my.g().attr(&quot;height&quot;),
+            width: width - my.g().attr(&quot;width&quot;)
+        };
+    };
+    
+    /**
+     * Initialize data to put element allParents on children
+     * 
+     * @method initData
+     * @private
+     * @return {Object} data created by the function
+     */
+    my.initData = function() {
+    	var classes = my.childrenCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
+    	d3.selectAll(&quot;.&quot; + classes)
+    		.each(function(d){
+    			if(!d.hasOwnProperty(&quot;allParents&quot;)){
+    				var allParents = $$ResponsiveTreeUtil.getAllParents(d);
+    	        	d[&quot;allParents&quot;] = allParents;
+    			}
+    		});
+        var parents = my.layout().nodes(my.root())
+                .filter(function (d) {
+                    return d.children;
+                });
+
+        parents.forEach(function (d) {
+            var allParents = $$ResponsiveTreeUtil.getAllParents(d);
+            d[&quot;allParents&quot;] = allParents;
+            var reg = new RegExp(&quot;[^A-Za-zàéèù]&quot;,&quot;g&quot;);
+            var id = d.name.replace(reg, &quot;&quot;) + &quot;_&quot; + (d.parent ? d.parent.name.replace(reg, &quot;&quot;) : &quot;root&quot;);
+            d[&quot;id&quot;] = id;
+        });
+        
+        return parents;
+    };
+    
+    /**
+     * Method to init first parents outline
+     * 
+     * @method drawFirstParents
+     * @public
+     */
+    my.drawFirstParents = function () {
+    	// Class of parents
+        var classes = my.parentsCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
+        
+        // Parents container
+        my.g().selectAll(&quot;.&quot; + classes)
+                .data(my.parents())
+                .enter().append(&quot;g&quot;)
+                .attr(&quot;class&quot;, my.parentsCls())
+                .attr(&quot;transform&quot;, function (d) {
+                    return &quot;translate(&quot; + d.x + &quot;,&quot; + d.y + &quot;)&quot;;
+                });
+
+        // Parents rectangles
+        my.g().selectAll(&quot;.&quot; + classes)
+                .append(&quot;rect&quot;)
+                .attr(&quot;id&quot;, function (d) {
+                    d.id = d.id;
+                    return d.id;
+                })
+                .attr(&quot;width&quot;, function (d) {
+                    return d.dx - 1;
+                })
+                .attr(&quot;height&quot;, function (d) {
+                    return d.dy - 1;
+                })
+                .style(&quot;stroke&quot;, &quot;black&quot;)
+                .style(&quot;fill&quot;, &quot;none&quot;)
+                .style(&quot;stroke-width&quot;, &quot;border&quot;)
+                .style(&quot;display&quot;, function (d) {
+                    if (d.depth === my.depth()) {
+                        return &quot;&quot;;
+                    }
+                    else {
+                        return &quot;none&quot;;
+                    }
+                });
+
+        // Parents texts
+        my.g().selectAll(&quot;.&quot; + classes)
+                .append(&quot;text&quot;)
+                .attr(&quot;class&quot;, &quot;textFirstParent&quot;)
+                .attr(&quot;text-anchor&quot;, &quot;middle&quot;)
+                .text(function (d) {
+                    return d.name;
+                })
+                .attr(&quot;x&quot;, function (d) {
+                	w = this.getComputedTextLength();
+                    return d.dx - (w/2);
+                })
+                .attr(&quot;y&quot;, function (d) {
+                    return d.dy - 5;
+                })
+                .style(&quot;display&quot;, function (d) {
+                    if (d.depth === my.depth()) {
+                        return &quot;&quot;;
+                    }
+                    else {
+                        return &quot;none&quot;;
+                    }
+                })
+                .style(&quot;opacity&quot;, function (d) {
+                    w = this.getComputedTextLength();
+                    return (d.x + d.dx) - d.x &gt; w ? 1 : 0;
+                });
+    };
+
+    /**
+     * Method to draw title of first parent
+     * 
+     * @method drawTitleFirstParents
+     * @public
+     */
+    my.drawTitleFirstParents = function () {
+    	var cSize = my.getContainerSize();
+        var titleParent = my.g()
+                .append(&quot;g&quot;)
+                .attr(&quot;class&quot;, &quot;title&quot;);
+
+        titleParent.selectAll(&quot;.titleParent&quot;)
+                .data(my.parents())
+                .enter().append(&quot;g&quot;)
+                .attr(&quot;class&quot;, &quot;titleParent&quot;);
+
+        titleParent.selectAll(&quot;.titleParent&quot;)
+                .append(&quot;text&quot;)
+                .attr(&quot;class&quot;, &quot;textTitleParent&quot;)
+                .attr(&quot;text-anchor&quot;, &quot;middle&quot;)
+                .text(function (d) {
+                    return d.name;
+                })
+                .attr(&quot;x&quot;, function () {
+                    return (cSize.width / 2);
+                })
+                .attr(&quot;y&quot;, function () {
+                    return - (my.gap().height / 4);
+                })
+                .style(&quot;display&quot;, function (d) {
+                    if (d.depth === 0) {
+                        return &quot;&quot;;
+                    }
+                    else {
+                        return &quot;none&quot;;
+                    }
+                });
+    };
+    
+    /**
+     * Method to update first parents outline
+     * 
+     * @method updateFirstParents
+     * @public
+     */
+    my.updateFirstParents = function () {    	
+    	// Class of parents
+    	var classes = my.parentsCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
+    	
+    	// Parents container
+    	my.g().selectAll(&quot;.&quot; + classes)
+    	.attr(&quot;transform&quot;, function (d) {
+    		return &quot;translate(&quot; + d.x + &quot;,&quot; + d.y + &quot;)&quot;;
+    	});
+
+    	// Parents rectangles
+    	my.g().selectAll(&quot;.&quot; + classes + &quot; rect&quot;)
+    	.attr(&quot;width&quot;, function (d) {
+    		return d.dx - 1;
+    	})
+    	.attr(&quot;height&quot;, function (d) {
+    		return d.dy - 1;
+    	})
+    	.style(&quot;display&quot;, function (d) {
+    		if (my.node()) {
+    			if (d.allParents) {
+    				if (d.allParents.indexOf(my.node()) !== -1
+    						&amp;&amp; d.children &amp;&amp; d.depth === my.depth()) {
+    					return &quot;&quot;;
+    				}
+    			}
+    		}
+    		else {
+    			if (d.depth === my.depth()) {
+    				return &quot;&quot;;
+    			}
+    		}
+    		return &quot;none&quot;;
+    	});
+
+    	// Parents texts
+    	my.g().selectAll(&quot;.&quot; + classes + &quot; text&quot;)
+    	.style(&quot;display&quot;, function (d) {
+    		if (my.node()) {
+    			if (d.allParents) {
+    				if (d.allParents.indexOf(my.node()) !== -1
+    						&amp;&amp; d.children &amp;&amp; d.depth === my.depth()) {
+    					return &quot;&quot;;
+    				}
+    			}
+    		}
+    		else {
+    			if (d.depth === my.depth()) {
+    				return &quot;&quot;;
+    			}
+    		}
+    		return &quot;none&quot;;
+    	})
+    	.attr(&quot;x&quot;, function (d) {
+    		w = this.getComputedTextLength();
+            return d.dx - (w/2);
+    	})
+    	.attr(&quot;y&quot;, function (d) {
+    		return d.dy - 5;
+    	})
+    	.style(&quot;opacity&quot;, function (d) {
+    		w = this.getComputedTextLength();
+    		return (d.x + d.dx) - d.x &gt; w ? 1 : 0;
+    	});
+    };
+
+    /**
+     * Method to update first parents title
+     * 
+     * @method updateTitleFirstParents
+     * @public
+     */
+    my.updateTitleFirstParents = function () {
+    	var cSize = my.getContainerSize();
+        d3.selectAll(&quot;.titleParent text&quot;)
+        		.attr(&quot;x&quot;, function () {
+                    return (cSize.width / 2);
+                })
+                .attr(&quot;y&quot;, function () {
+                    return - (my.gap().height / 4);
+                })
+                .style(&quot;display&quot;, function (d) {
+                    if (d === my.node()) {
+                        return &quot;&quot;;
+                    }
+                    else {
+                        return &quot;none&quot;;
+                    }
+                });
+    };
+
+    /**
+     * Method to update attribute depth, node
+     * 
+     * @method update
+     * @param {Object} node node to update
+     * @public
+     */
+    my.update = function (node) {
+    	if(node){
+    		my.node(node);
+    	}
+        
+        var depth;
+    	if(my.node() !== my.root()){
+    		depth = my.node().depth + 1;
+    	}
+    	else{
+    		depth = 1;
+    	}
+        my.depth(depth);
+    };
+    
+    /**
+     * Get the container size
+     * 
+     * @method getContainerSize
+     * @public
+     * @return {Object} size into json object {height: h, width: w}
+     */
+    my.getContainerSize = function () {
+        var height = window.innerHeight;
+        var width = window.innerWidth;
+
+        return {
+            height: height - my.gap().height,
+            width: width - my.gap().width
+        };
+    };
+    
+    /**
+     * Method to draw the outline
+     * 
+     * @method drawOutline
+     * @param {Object} node node to draw the outline
+     * @param {String} nameText text for the outline
+     * @pram {String} nameClassText class to apply
+     * @public
+     */
+    my.drawOutline = function(node, nameText, nameClassText){
+		var pathinfo = [];
+		var nodeId;
+		
+		if(node.children){
+			nodeId = node.id;
+		}
+		else{
+			nodeId = node.parent.id;
+		}
+		
+		d3.selectAll(&quot;.titleParent text&quot;)
+		.style(&quot;display&quot;, &quot;none&quot;);
+		
+		my.g().select(&quot;#&quot; + nodeId)
+		.attr(&quot;width&quot;, function(d) {
+			pathinfo.push({
+				x: d.x,
+				y: d.y
+			})
+			pathinfo.push({
+				x: d.x + d.dx,
+				y: d.y
+			})
+			pathinfo.push({
+				x: d.x + d.dx,
+				y: d.y + d.dy
+			})
+			pathinfo.push({
+				x: d.x,
+				y: d.y + d.dy
+			})
+			return d.dx - 1; 
+		})
+		.attr(&quot;height&quot;, function(d) { return d.dy - 1; })
+		.style(&quot;display&quot;, &quot;&quot;);
+		
+		// Draw the title
+		var translationX;
+		var translationY;
+		translationX = (pathinfo[0].x + ((pathinfo[1].x - pathinfo[0].x) / 2));
+		translationY = (pathinfo[0].y + ((pathinfo[1].y - pathinfo[0].y) / 2)) - 3;
+		
+		my.g().append(&quot;text&quot;)
+		.attr(&quot;class&quot;, nameClassText)
+		.attr(&quot;text-anchor&quot;, &quot;middle&quot;)
+		.text(nameText)
+		.attr(&quot;transform&quot;, &quot;translate(&quot; + translationX + &quot;,&quot; + translationY + &quot;)&quot;)
+		.style(&quot;opacity&quot;, function() { 
+			w = this.getComputedTextLength(); 
+			return pathinfo[1].x - pathinfo[0].x &gt; w ? 1 : 0; 
+		});
+	};
+
+	/**
+     * Method to draw the selector
+     * 
+     * @method draw
+     * @public
+     */
+    my.draw = function () {
+		my.trigger(&quot;drawTitleFirstParents&quot;);
+		my.trigger(&quot;drawFirstParents&quot;);
+    };
+    
+    /**
+     * Method to draw the outline of node
+     * 
+     * @method drawOnNode
+     * @param {Object} node node to draw the outline
+     * @public
+     */
+    my.drawOnNode = function (node) {
+    	my.trigger(&quot;hideOnNode&quot;);
+    	var classes = my.childrenCls().split(&#x27; &#x27;).join(&#x27;.&#x27;);
+    	if(node){
+    		if(node.children){
+    			my.drawOutline(node, node.name, &quot;textOnNode&quot;);
+	    		my.g().selectAll(&quot;.&quot; + classes)
+	            .filter(function(n) {
+	            	var containParent = n.allParents.indexOf(node);
+	                return containParent === -1;
+	            })
+	            .style(&quot;opacity&quot;, &quot;0.2&quot;);
+    		}
+    		else{
+	    		my.g().selectAll(&quot;.&quot; + classes)
+	            .filter(function(n) {
+	                return n != node;
+	            })
+	            .style(&quot;opacity&quot;, &quot;0.2&quot;);
+    		}
+		}
+    };
+    
+    /**
+     * Method to redraw the selector
+     * on a changed node
+     * 
+     * @method redraw
+     * @param {Object} node node to draw the selector
+     * @public
+     */
+    my.redraw = function (node) {
+    	my.trigger(&quot;hide&quot;);
+    	my.update(node);
+    	my.trigger(&quot;updateTitleFirstParents&quot;);
+		my.trigger(&quot;updateFirstParents&quot;);
+    };
+
+    /**
+     * Method to hide all on selector
+     * 
+     * @method hide
+     * @public
+     */
+    my.hide = function () {    	
+    	my.g().selectAll(&quot;.textFirstParent&quot;)
+		.style(&quot;display&quot;, &quot;none&quot;);
+    	
+    	my.g().selectAll(&quot;.textOnNode&quot;)
+		.style(&quot;display&quot;, &quot;none&quot;);
+    };
+    
+    /**
+     * Method to hide all on node
+     * 
+     * @method hideOnNode
+     * @public
+     */
+    my.hideOnNode = function () {    	
+    	my.g().selectAll(&quot;.textOnNode&quot;)
+		.style(&quot;display&quot;, &quot;none&quot;);
+    };
+
+    /**
+     * Method called on window resize event
+     * 
+     * @method hide
+     * @public
+     */
+    my.resize = function () {
+        my.redraw();
+    };
+
+    return my;
+}
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

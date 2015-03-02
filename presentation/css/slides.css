@@ -1,0 +1,135 @@
+@media screen and (min-width: 1824px) {
+	table tr td.title {
+	    font-size: 5em;
+	}
+	
+	table .font-size-2em {
+	    font-size: 3em;
+	}
+	
+	table .font-size-17em {
+	    font-size: 2.1em;
+	}
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1823px) {
+	table tr td.title {
+	    font-size: 4em;
+	}
+	
+	table .font-size-2em {
+	    font-size: 2em;
+	}
+	
+	table .font-size-17em {
+	    font-size: 1.6em;
+	}
+}
+
+@media screen and (max-width: 1023px) {
+	table tr td.title {
+	    font-size: 3em;
+	}
+	
+	table .font-size-2em {
+	    font-size: 1em;
+	}
+	
+	table .font-size-17em {
+	    font-size: 1em;
+	}
+	
+	table figcaption {
+	    font-size: 1em;
+	}
+}
+
+.slide {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-spacing: 0px !important;
+    border-collapse: collapse !important;
+}
+
+table tr td.title {
+    height: 80px;
+    font-weight: bold;
+    text-align: center;
+}
+
+table tr td ul {
+	-webkit-margin-after: 0em !important;
+	-webkit-margin-before: 0em !important;
+}
+
+table tr td ul li {
+	margin-top: 10px;
+}
+
+table .font-size-09em {
+    font-size: 0.9em;
+}
+
+table tr td.w50 {
+    width: 50%;
+}
+
+table tr td.w33 {
+    width: 33.33%;
+}
+
+table tr td.w25 {
+    width: 25%;
+}
+
+table tr td.center {
+    text-align: center;
+}
+
+table tr td img {
+    vertical-align: middle;
+    max-height: 95%;
+    max-width: 95%;
+}
+
+table .vertical-align-middle {
+	vertical-align: middle;
+}
+
+table tr td figure {
+	vertical-align: middle;
+	height: 95%;
+    display: block;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+table tr td figure img {
+    max-height: 90% !important;
+    max-width: 90% !important;
+}
+
+figcaption {
+    font-size: 1.5em;
+    font-style: italic;
+}
+
+.page-number {
+    font-size: 20px;
+    position: fixed;
+    width: 50px;
+    right: 5px;
+    bottom: 5px;
+    height: 22px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: white;
+}

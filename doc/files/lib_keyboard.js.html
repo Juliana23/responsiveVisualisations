@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib\keyboard.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/ResponsiveAxis.html">ResponsiveAxis</a></li>
+                                <li><a href="../classes/ResponsiveBrush.html">ResponsiveBrush</a></li>
+                                <li><a href="../classes/ResponsiveConstants.html">ResponsiveConstants</a></li>
+                                <li><a href="../classes/ResponsiveEvent.html">ResponsiveEvent</a></li>
+                                <li><a href="../classes/ResponsiveLess.html">ResponsiveLess</a></li>
+                                <li><a href="../classes/ResponsiveSelector.html">ResponsiveSelector</a></li>
+                                <li><a href="../classes/ResponsiveTooltip.html">ResponsiveTooltip</a></li>
+                                <li><a href="../classes/ResponsiveTreeUtil.html">ResponsiveTreeUtil</a></li>
+                                <li><a href="../classes/ResponsiveUtil.html">ResponsiveUtil</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: lib\keyboard.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Title: KeyboardJS
+ * Version: v0.4.1
+ * Description: KeyboardJS is a flexible and easy to use keyboard binding
+ * library.
+ * Author: Robert Hurst.
+ *
+ * Copyright 2011, Robert William Hurst
+ * Licenced under the BSD License.
+ * See https://raw.github.com/RobertWHurst/KeyboardJS/master/license.txt
+ */
+(function(context, factory) {
+
+	//INDEXOF POLLYFILL
+	[].indexOf||(Array.prototype.indexOf=function(a,b,c){for(c=this.length,b=(c+~~b)%c;b&lt;c&amp;&amp;(!(b in this)||this[b]!==a);b++);return b^c?b:-1;});
+
+	//AMD
+	if(typeof define === &#x27;function&#x27; &amp;&amp; define.amd) { define(constructAMD); }
+
+	//CommonJS
+	else if(typeof module !== &#x27;undefined&#x27;) {constructCommonJS()}
+
+	//GLOBAL
+	else { constructGlobal(); }
+
+	/**
+	 * Construct AMD version of the library
+	 */
+	function constructAMD() {
+
+		//create a library instance
+		return init(context);
+
+		//spawns a library instance
+		function init(context) {
+			var library;
+			library = factory(context, &#x27;amd&#x27;);
+			library.fork = init;
+			return library;
+		}
+	}
+
+	/**
+	 * Construct CommonJS version of the library
+	 */
+	function constructCommonJS() {
+
+		//create a library instance
+		module.exports = init(context);
+
+		return;
+
+		//spawns a library instance
+		function init(context) {
+			var library;
+			library = factory(context, &#x27;CommonJS&#x27;);
+			library.fork = init;
+			return library;
+
+		}
+
+	}
+
+	/**
+	 * Construct a Global version of the library
+	 */
+	function constructGlobal() {
+		var library;
+
+		//create a library instance
+		library = init(context);
+
+		//spawns a library instance
+		function init(context) {
+			var library, namespaces = [], previousValues = {};
+
+			library = factory(context, &#x27;global&#x27;);
+			library.fork = init;
+			library.noConflict = noConflict;
+			library.noConflict(&#x27;KeyboardJS&#x27;, &#x27;k&#x27;);
+			return library;
+
+			//sets library namespaces
+			function noConflict(    ) {
+				var args, nI, newNamespaces;
+
+				newNamespaces = Array.prototype.slice.apply(arguments);
+
+				for(nI = 0; nI &lt; namespaces.length; nI += 1) {
+					if(typeof previousValues[namespaces[nI]] === &#x27;undefined&#x27;) {
+						delete context[namespaces[nI]];
+					} else {
+						context[namespaces[nI]] = previousValues[namespaces[nI]];
+					}
+				}
+
+				previousValues = {};
+
+				for(nI = 0; nI &lt; newNamespaces.length; nI += 1) {
+					if(typeof newNamespaces[nI] !== &#x27;string&#x27;) {
+						throw new Error(&#x27;Cannot replace namespaces. All new namespaces must be strings.&#x27;);
+					}
+					previousValues[newNamespaces[nI]] = context[newNamespaces[nI]];
+					context[newNamespaces[nI]] = library;
+				}
+
+				namespaces = newNamespaces;
+
+				return namespaces;
+			}
+		}
+	}
+
+})(this, function(targetWindow, env) {
+	var KeyboardJS = {}, locales = {}, locale, map, macros, activeKeys = [], bindings = [], activeBindings = [],
+	activeMacros = [], aI, usLocale;
+	targetWindow = targetWindow || window;
+
+	///////////////////////
+	// DEFAULT US LOCALE //
+	///////////////////////
+
+	//define US locale
+	//If you create a new locale please submit it as a pull request or post
+	// it in the issue tracker at
+	// http://github.com/RobertWhurst/KeyboardJS/issues/
+	usLocale = {
+		&quot;map&quot;: {
+
+			//general
+			&quot;3&quot;: [&quot;cancel&quot;],
+			&quot;8&quot;: [&quot;backspace&quot;],
+			&quot;9&quot;: [&quot;tab&quot;],
+			&quot;12&quot;: [&quot;clear&quot;],
+			&quot;13&quot;: [&quot;enter&quot;],
+			&quot;16&quot;: [&quot;shift&quot;],
+			&quot;17&quot;: [&quot;ctrl&quot;],
+			&quot;18&quot;: [&quot;alt&quot;, &quot;menu&quot;],
+			&quot;19&quot;: [&quot;pause&quot;, &quot;break&quot;],
+			&quot;20&quot;: [&quot;capslock&quot;],
+			&quot;27&quot;: [&quot;escape&quot;, &quot;esc&quot;],
+			&quot;32&quot;: [&quot;space&quot;, &quot;spacebar&quot;],
+			&quot;33&quot;: [&quot;pageup&quot;],
+			&quot;34&quot;: [&quot;pagedown&quot;],
+			&quot;35&quot;: [&quot;end&quot;],
+			&quot;36&quot;: [&quot;home&quot;],
+			&quot;37&quot;: [&quot;left&quot;],
+			&quot;38&quot;: [&quot;up&quot;],
+			&quot;39&quot;: [&quot;right&quot;],
+			&quot;40&quot;: [&quot;down&quot;],
+			&quot;41&quot;: [&quot;select&quot;],
+			&quot;42&quot;: [&quot;printscreen&quot;],
+			&quot;43&quot;: [&quot;execute&quot;],
+			&quot;44&quot;: [&quot;snapshot&quot;],
+			&quot;45&quot;: [&quot;insert&quot;, &quot;ins&quot;],
+			&quot;46&quot;: [&quot;delete&quot;, &quot;del&quot;],
+			&quot;47&quot;: [&quot;help&quot;],
+			&quot;91&quot;: [&quot;command&quot;, &quot;windows&quot;, &quot;win&quot;, &quot;super&quot;, &quot;leftcommand&quot;, &quot;leftwindows&quot;, &quot;leftwin&quot;, &quot;leftsuper&quot;],
+			&quot;92&quot;: [&quot;command&quot;, &quot;windows&quot;, &quot;win&quot;, &quot;super&quot;, &quot;rightcommand&quot;, &quot;rightwindows&quot;, &quot;rightwin&quot;, &quot;rightsuper&quot;],
+			&quot;145&quot;: [&quot;scrolllock&quot;, &quot;scroll&quot;],
+			&quot;186&quot;: [&quot;semicolon&quot;, &quot;;&quot;],
+			&quot;187&quot;: [&quot;equal&quot;, &quot;equalsign&quot;, &quot;=&quot;],
+			&quot;188&quot;: [&quot;comma&quot;, &quot;,&quot;],
+			&quot;189&quot;: [&quot;dash&quot;, &quot;-&quot;],
+			&quot;190&quot;: [&quot;period&quot;, &quot;.&quot;],
+			&quot;191&quot;: [&quot;slash&quot;, &quot;forwardslash&quot;, &quot;/&quot;],
+			&quot;192&quot;: [&quot;graveaccent&quot;, &quot;&#x60;&quot;],
+			&quot;219&quot;: [&quot;openbracket&quot;, &quot;[&quot;],
+			&quot;220&quot;: [&quot;backslash&quot;, &quot;\\&quot;],
+			&quot;221&quot;: [&quot;closebracket&quot;, &quot;]&quot;],
+			&quot;222&quot;: [&quot;apostrophe&quot;, &quot;&#x27;&quot;],
+
+			//0-9
+			&quot;48&quot;: [&quot;zero&quot;, &quot;0&quot;],
+			&quot;49&quot;: [&quot;one&quot;, &quot;1&quot;],
+			&quot;50&quot;: [&quot;two&quot;, &quot;2&quot;],
+			&quot;51&quot;: [&quot;three&quot;, &quot;3&quot;],
+			&quot;52&quot;: [&quot;four&quot;, &quot;4&quot;],
+			&quot;53&quot;: [&quot;five&quot;, &quot;5&quot;],
+			&quot;54&quot;: [&quot;six&quot;, &quot;6&quot;],
+			&quot;55&quot;: [&quot;seven&quot;, &quot;7&quot;],
+			&quot;56&quot;: [&quot;eight&quot;, &quot;8&quot;],
+			&quot;57&quot;: [&quot;nine&quot;, &quot;9&quot;],
+
+			//numpad
+			&quot;96&quot;: [&quot;numzero&quot;, &quot;num0&quot;],
+			&quot;97&quot;: [&quot;numone&quot;, &quot;num1&quot;],
+			&quot;98&quot;: [&quot;numtwo&quot;, &quot;num2&quot;],
+			&quot;99&quot;: [&quot;numthree&quot;, &quot;num3&quot;],
+			&quot;100&quot;: [&quot;numfour&quot;, &quot;num4&quot;],
+			&quot;101&quot;: [&quot;numfive&quot;, &quot;num5&quot;],
+			&quot;102&quot;: [&quot;numsix&quot;, &quot;num6&quot;],
+			&quot;103&quot;: [&quot;numseven&quot;, &quot;num7&quot;],
+			&quot;104&quot;: [&quot;numeight&quot;, &quot;num8&quot;],
+			&quot;105&quot;: [&quot;numnine&quot;, &quot;num9&quot;],
+			&quot;106&quot;: [&quot;nummultiply&quot;, &quot;num*&quot;],
+			&quot;107&quot;: [&quot;numadd&quot;, &quot;num+&quot;],
+			&quot;108&quot;: [&quot;numenter&quot;],
+			&quot;109&quot;: [&quot;numsubtract&quot;, &quot;num-&quot;],
+			&quot;110&quot;: [&quot;numdecimal&quot;, &quot;num.&quot;],
+			&quot;111&quot;: [&quot;numdivide&quot;, &quot;num/&quot;],
+			&quot;144&quot;: [&quot;numlock&quot;, &quot;num&quot;],
+
+			//function keys
+			&quot;112&quot;: [&quot;f1&quot;],
+			&quot;113&quot;: [&quot;f2&quot;],
+			&quot;114&quot;: [&quot;f3&quot;],
+			&quot;115&quot;: [&quot;f4&quot;],
+			&quot;116&quot;: [&quot;f5&quot;],
+			&quot;117&quot;: [&quot;f6&quot;],
+			&quot;118&quot;: [&quot;f7&quot;],
+			&quot;119&quot;: [&quot;f8&quot;],
+			&quot;120&quot;: [&quot;f9&quot;],
+			&quot;121&quot;: [&quot;f10&quot;],
+			&quot;122&quot;: [&quot;f11&quot;],
+			&quot;123&quot;: [&quot;f12&quot;]
+		},
+		&quot;macros&quot;: [
+
+			//secondary key symbols
+			[&#x27;shift + &#x60;&#x27;, [&quot;tilde&quot;, &quot;~&quot;]],
+			[&#x27;shift + 1&#x27;, [&quot;exclamation&quot;, &quot;exclamationpoint&quot;, &quot;!&quot;]],
+			[&#x27;shift + 2&#x27;, [&quot;at&quot;, &quot;@&quot;]],
+			[&#x27;shift + 3&#x27;, [&quot;number&quot;, &quot;#&quot;]],
+			[&#x27;shift + 4&#x27;, [&quot;dollar&quot;, &quot;dollars&quot;, &quot;dollarsign&quot;, &quot;$&quot;]],
+			[&#x27;shift + 5&#x27;, [&quot;percent&quot;, &quot;%&quot;]],
+			[&#x27;shift + 6&#x27;, [&quot;caret&quot;, &quot;^&quot;]],
+			[&#x27;shift + 7&#x27;, [&quot;ampersand&quot;, &quot;and&quot;, &quot;&amp;&quot;]],
+			[&#x27;shift + 8&#x27;, [&quot;asterisk&quot;, &quot;*&quot;]],
+			[&#x27;shift + 9&#x27;, [&quot;openparen&quot;, &quot;(&quot;]],
+			[&#x27;shift + 0&#x27;, [&quot;closeparen&quot;, &quot;)&quot;]],
+			[&#x27;shift + -&#x27;, [&quot;underscore&quot;, &quot;_&quot;]],
+			[&#x27;shift + =&#x27;, [&quot;plus&quot;, &quot;+&quot;]],
+			[&#x27;shift + (&#x27;, [&quot;opencurlybrace&quot;, &quot;opencurlybracket&quot;, &quot;{&quot;]],
+			[&#x27;shift + )&#x27;, [&quot;closecurlybrace&quot;, &quot;closecurlybracket&quot;, &quot;}&quot;]],
+			[&#x27;shift + \\&#x27;, [&quot;verticalbar&quot;, &quot;|&quot;]],
+			[&#x27;shift + ;&#x27;, [&quot;colon&quot;, &quot;:&quot;]],
+			[&#x27;shift + \&#x27;&#x27;, [&quot;quotationmark&quot;, &quot;\&quot;&quot;]],
+			[&#x27;shift + !,&#x27;, [&quot;openanglebracket&quot;, &quot;&lt;&quot;]],
+			[&#x27;shift + .&#x27;, [&quot;closeanglebracket&quot;, &quot;&gt;&quot;]],
+			[&#x27;shift + /&#x27;, [&quot;questionmark&quot;, &quot;?&quot;]]
+		]
+	};
+	//a-z and A-Z
+	for (aI = 65; aI &lt;= 90; aI += 1) {
+		usLocale.map[aI] = String.fromCharCode(aI + 32);
+		usLocale.macros.push([&#x27;shift + &#x27; + String.fromCharCode(aI + 32) + &#x27;, capslock + &#x27; + String.fromCharCode(aI + 32), [String.fromCharCode(aI)]]);
+	}
+	registerLocale(&#x27;us&#x27;, usLocale);
+	getSetLocale(&#x27;us&#x27;);
+
+
+	//////////
+	// INIT //
+	//////////
+
+	//enable the library
+	enable();
+
+
+	/////////
+	// API //
+	/////////
+
+	//assemble the library and return it
+	KeyboardJS.enable = enable;
+	KeyboardJS.disable = disable;
+	KeyboardJS.activeKeys = getActiveKeys;
+	KeyboardJS.releaseKey = removeActiveKey;
+	KeyboardJS.pressKey = addActiveKey;
+	KeyboardJS.on = createBinding;
+	KeyboardJS.clear = removeBindingByKeyCombo;
+	KeyboardJS.clear.key = removeBindingByKeyName;
+	KeyboardJS.locale = getSetLocale;
+	KeyboardJS.locale.register = registerLocale;
+	KeyboardJS.macro = createMacro;
+	KeyboardJS.macro.remove = removeMacro;
+	KeyboardJS.key = {};
+	KeyboardJS.key.name = getKeyName;
+	KeyboardJS.key.code = getKeyCode;
+	KeyboardJS.combo = {};
+	KeyboardJS.combo.active = isSatisfiedCombo;
+	KeyboardJS.combo.parse = parseKeyCombo;
+	KeyboardJS.combo.stringify = stringifyKeyCombo;
+	return KeyboardJS;
+
+
+	//////////////////////
+	// INSTANCE METHODS //
+	//////////////////////
+
+	/**
+	 * Enables KeyboardJS
+	 */
+	function enable() {
+		if(targetWindow.addEventListener) {
+			targetWindow.document.addEventListener(&#x27;keydown&#x27;, keydown, false);
+			targetWindow.document.addEventListener(&#x27;keyup&#x27;, keyup, false);
+			targetWindow.addEventListener(&#x27;blur&#x27;, reset, false);
+			targetWindow.addEventListener(&#x27;webkitfullscreenchange&#x27;, reset, false);
+			targetWindow.addEventListener(&#x27;mozfullscreenchange&#x27;, reset, false);
+		} else if(targetWindow.attachEvent) {
+			targetWindow.document.attachEvent(&#x27;onkeydown&#x27;, keydown);
+			targetWindow.document.attachEvent(&#x27;onkeyup&#x27;, keyup);
+			targetWindow.attachEvent(&#x27;onblur&#x27;, reset);
+		}
+	}
+
+	/**
+	 * Exits all active bindings and disables KeyboardJS
+	 */
+	function disable() {
+		reset();
+		if(targetWindow.removeEventListener) {
+			targetWindow.document.removeEventListener(&#x27;keydown&#x27;, keydown, false);
+			targetWindow.document.removeEventListener(&#x27;keyup&#x27;, keyup, false);
+			targetWindow.removeEventListener(&#x27;blur&#x27;, reset, false);
+			targetWindow.removeEventListener(&#x27;webkitfullscreenchange&#x27;, reset, false);
+			targetWindow.removeEventListener(&#x27;mozfullscreenchange&#x27;, reset, false);
+		} else if(targetWindow.detachEvent) {
+			targetWindow.document.detachEvent(&#x27;onkeydown&#x27;, keydown);
+			targetWindow.document.detachEvent(&#x27;onkeyup&#x27;, keyup);
+			targetWindow.detachEvent(&#x27;onblur&#x27;, reset);
+		}
+	}
+
+
+	////////////////////
+	// EVENT HANDLERS //
+	////////////////////
+
+	/**
+	 * Exits all active bindings. Optionally passes an event to all binding
+	 *  handlers.
+	 * @param  {KeyboardEvent}	event	[Optional]
+	 */
+	function reset(event) {
+		activeKeys = [];
+		pruneMacros();
+		pruneBindings(event);
+	}
+
+	/**
+	 * Key down event handler.
+	 * @param  {KeyboardEvent}	event
+	 */
+	function keydown(event) {
+		var keyNames, keyName, kI;
+		keyNames = getKeyName(event.keyCode);
+		if(keyNames.length &lt; 1) { return; }
+		event.isRepeat = false;
+		for(kI = 0; kI &lt; keyNames.length; kI += 1) {
+		    keyName = keyNames[kI];
+		    if (getActiveKeys().indexOf(keyName) != -1)
+		        event.isRepeat = true;
+			addActiveKey(keyName);
+		}
+		executeMacros();
+		executeBindings(event);
+	}
+
+	/**
+	 * Key up event handler.
+	 * @param  {KeyboardEvent} event
+	 */
+	function keyup(event) {
+		var keyNames, kI;
+		keyNames = getKeyName(event.keyCode);
+		if(keyNames.length &lt; 1) { return; }
+		for(kI = 0; kI &lt; keyNames.length; kI += 1) {
+			removeActiveKey(keyNames[kI]);
+		}
+		pruneMacros();
+		pruneBindings(event);
+	}
+
+	/**
+	 * Accepts a key code and returns the key names defined by the current
+	 *  locale.
+	 * @param  {Number}	keyCode
+	 * @return {Array}	keyNames	An array of key names defined for the key
+	 *  code as defined by the current locale.
+	 */
+	function getKeyName(keyCode) {
+		return map[keyCode] || [];
+	}
+
+	/**
+	 * Accepts a key name and returns the key code defined by the current
+	 *  locale.
+	 * @param  {Number}	keyName
+	 * @return {Number|false}
+	 */
+	function getKeyCode(keyName) {
+		var keyCode;
+		for(keyCode in map) {
+			if(!map.hasOwnProperty(keyCode)) { continue; }
+			if(map[keyCode].indexOf(keyName) &gt; -1) { return keyCode; }
+		}
+		return false;
+	}
+
+
+	////////////
+	// MACROS //
+	////////////
+
+	/**
+	 * Accepts a key combo and an array of key names to inject once the key
+	 *  combo is satisfied.
+	 * @param  {String}	combo
+	 * @param  {Array}	injectedKeys
+	 */
+	function createMacro(combo, injectedKeys) {
+		if(typeof combo !== &#x27;string&#x27; &amp;&amp; (typeof combo !== &#x27;object&#x27; || typeof combo.push !== &#x27;function&#x27;)) {
+			throw new Error(&quot;Cannot create macro. The combo must be a string or array.&quot;);
+		}
+		if(typeof injectedKeys !== &#x27;object&#x27; || typeof injectedKeys.push !== &#x27;function&#x27;) {
+			throw new Error(&quot;Cannot create macro. The injectedKeys must be an array.&quot;);
+		}
+		macros.push([combo, injectedKeys]);
+	}
+
+	/**
+	 * Accepts a key combo and clears any and all macros bound to that key
+	 * combo.
+	 * @param  {String} combo
+	 */
+	function removeMacro(combo) {
+		var macro;
+		if(typeof combo !== &#x27;string&#x27; &amp;&amp; (typeof combo !== &#x27;object&#x27; || typeof combo.push !== &#x27;function&#x27;)) { throw new Error(&quot;Cannot remove macro. The combo must be a string or array.&quot;); }
+		for(mI = 0; mI &lt; macros.length; mI += 1) {
+			macro = macros[mI];
+			if(compareCombos(combo, macro[0])) {
+				removeActiveKey(macro[1]);
+				macros.splice(mI, 1);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Executes macros against the active keys. Each macro&#x27;s key combo is
+	 *  checked and if found to be satisfied, the macro&#x27;s key names are injected
+	 *  into active keys.
+	 */
+	function executeMacros() {
+		var mI, combo, kI;
+		for(mI = 0; mI &lt; macros.length; mI += 1) {
+			combo = parseKeyCombo(macros[mI][0]);
+			if(activeMacros.indexOf(macros[mI]) === -1 &amp;&amp; isSatisfiedCombo(combo)) {
+				activeMacros.push(macros[mI]);
+				for(kI = 0; kI &lt; macros[mI][1].length; kI += 1) {
+					addActiveKey(macros[mI][1][kI]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Prunes active macros. Checks each active macro&#x27;s key combo and if found
+	 *  to no longer to be satisfied, each of the macro&#x27;s key names are removed
+	 *  from active keys.
+	 */
+	function pruneMacros() {
+		var mI, combo, kI;
+		for(mI = 0; mI &lt; activeMacros.length; mI += 1) {
+			combo = parseKeyCombo(activeMacros[mI][0]);
+			if(isSatisfiedCombo(combo) === false) {
+				for(kI = 0; kI &lt; activeMacros[mI][1].length; kI += 1) {
+					removeActiveKey(activeMacros[mI][1][kI]);
+				}
+				activeMacros.splice(mI, 1);
+				mI -= 1;
+			}
+		}
+	}
+
+
+	//////////////
+	// BINDINGS //
+	//////////////
+
+	/**
+	 * Creates a binding object, and, if provided, binds a key down hander and
+	 *  a key up handler. Returns a binding object that emits keyup and
+	 *  keydown events.
+	 * @param  {String}		keyCombo
+	 * @param  {Function}	keyDownCallback	[Optional]
+	 * @param  {Function}	keyUpCallback	[Optional]
+	 * @return {Object}		binding
+	 */
+	function createBinding(keyCombo, keyDownCallback, keyUpCallback) {
+		var api = {}, binding, subBindings = [], bindingApi = {}, kI,
+		subCombo;
+
+		//break the combo down into a combo array
+		if(typeof keyCombo === &#x27;string&#x27;) {
+			keyCombo = parseKeyCombo(keyCombo);
+		}
+
+		//bind each sub combo contained within the combo string
+		for(kI = 0; kI &lt; keyCombo.length; kI += 1) {
+			binding = {};
+
+			//stringify the combo again
+			subCombo = stringifyKeyCombo([keyCombo[kI]]);
+
+			//validate the sub combo
+			if(typeof subCombo !== &#x27;string&#x27;) { throw new Error(&#x27;Failed to bind key combo. The key combo must be string.&#x27;); }
+
+			//create the binding
+			binding.keyCombo = subCombo;
+			binding.keyDownCallback = [];
+			binding.keyUpCallback = [];
+
+			//inject the key down and key up callbacks if given
+			if(keyDownCallback) { binding.keyDownCallback.push(keyDownCallback); }
+			if(keyUpCallback) { binding.keyUpCallback.push(keyUpCallback); }
+
+			//stash the new binding
+			bindings.push(binding);
+			subBindings.push(binding);
+		}
+
+		//build the binding api
+		api.clear = clear;
+		api.on = on;
+		return api;
+
+		/**
+		 * Clears the binding
+		 */
+		function clear() {
+			var bI;
+			for(bI = 0; bI &lt; subBindings.length; bI += 1) {
+				bindings.splice(bindings.indexOf(subBindings[bI]), 1);
+			}
+		}
+
+		/**
+		 * Accepts an event name. and any number of callbacks. When the event is
+		 *  emitted, all callbacks are executed. Available events are key up and
+		 *  key down.
+		 * @param  {String}	eventName
+		 * @return {Object}	subBinding
+		 */
+		function on(eventName    ) {
+			var api = {}, callbacks, cI, bI;
+
+			//validate event name
+			if(typeof eventName !== &#x27;string&#x27;) { throw new Error(&#x27;Cannot bind callback. The event name must be a string.&#x27;); }
+			if(eventName !== &#x27;keyup&#x27; &amp;&amp; eventName !== &#x27;keydown&#x27;) { throw new Error(&#x27;Cannot bind callback. The event name must be a &quot;keyup&quot; or &quot;keydown&quot;.&#x27;); }
+
+			//gather the callbacks
+			callbacks = Array.prototype.slice.apply(arguments, [1]);
+
+			//stash each the new binding
+			for(cI = 0; cI &lt; callbacks.length; cI += 1) {
+				if(typeof callbacks[cI] === &#x27;function&#x27;) {
+					if(eventName === &#x27;keyup&#x27;) {
+						for(bI = 0; bI &lt; subBindings.length; bI += 1) {
+							subBindings[bI].keyUpCallback.push(callbacks[cI]);
+						}
+					} else if(eventName === &#x27;keydown&#x27;) {
+						for(bI = 0; bI &lt; subBindings.length; bI += 1) {
+							subBindings[bI].keyDownCallback.push(callbacks[cI]);
+						}
+					}
+				}
+			}
+
+			//construct and return the sub binding api
+			api.clear = clear;
+			return api;
+
+			/**
+			 * Clears the binding
+			 */
+			function clear() {
+				var cI, bI;
+				for(cI = 0; cI &lt; callbacks.length; cI += 1) {
+					if(typeof callbacks[cI] === &#x27;function&#x27;) {
+						if(eventName === &#x27;keyup&#x27;) {
+							for(bI = 0; bI &lt; subBindings.length; bI += 1) {
+								subBindings[bI].keyUpCallback.splice(subBindings[bI].keyUpCallback.indexOf(callbacks[cI]), 1);
+							}
+						} else {
+							for(bI = 0; bI &lt; subBindings.length; bI += 1) {
+								subBindings[bI].keyDownCallback.splice(subBindings[bI].keyDownCallback.indexOf(callbacks[cI]), 1);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Clears all binding attached to a given key combo. Key name order does not
+	 * matter as long as the key combos equate.
+	 * @param  {String}	keyCombo
+	 */
+	function removeBindingByKeyCombo(keyCombo) {
+		var bI, binding, keyName;
+		for(bI = 0; bI &lt; bindings.length; bI += 1) {
+			binding = bindings[bI];
+			if(compareCombos(keyCombo, binding.keyCombo)) {
+				bindings.splice(bI, 1); bI -= 1;
+			}
+		}
+	}
+
+	/**
+	 * Clears all binding attached to key combos containing a given key name.
+	 * @param  {String}	keyName
+	 */
+	function removeBindingByKeyName(keyName) {
+		var bI, kI, binding;
+		if(keyName) {
+			for(bI = 0; bI &lt; bindings.length; bI += 1) {
+				binding = bindings[bI];
+				for(kI = 0; kI &lt; binding.keyCombo.length; kI += 1) {
+					if(binding.keyCombo[kI].indexOf(keyName) &gt; -1) {
+						bindings.splice(bI, 1); bI -= 1;
+						break;
+					}
+				}
+			}
+		} else {
+			bindings = [];
+		}
+	}
+
+	/**
+	 * Executes bindings that are active. Only allows the keys to be used once
+	 *  as to prevent binding overlap.
+	 * @param  {KeyboardEvent}	event	The keyboard event.
+	 */
+	function executeBindings(event) {
+		var bI, sBI, binding, bindingKeys, remainingKeys, cI, killEventBubble, kI, bindingKeysSatisfied,
+		index, sortedBindings = [], bindingWeight;
+
+		remainingKeys = [].concat(activeKeys);
+		for(bI = 0; bI &lt; bindings.length; bI += 1) {
+			bindingWeight = extractComboKeys(bindings[bI].keyCombo).length;
+			if(!sortedBindings[bindingWeight]) { sortedBindings[bindingWeight] = []; }
+			sortedBindings[bindingWeight].push(bindings[bI]);
+		}
+		for(sBI = sortedBindings.length - 1; sBI &gt;= 0; sBI -= 1) {
+			if(!sortedBindings[sBI]) { continue; }
+			for(bI = 0; bI &lt; sortedBindings[sBI].length; bI += 1) {
+				binding = sortedBindings[sBI][bI];
+				bindingKeys = extractComboKeys(binding.keyCombo);
+				bindingKeysSatisfied = true;
+				for(kI = 0; kI &lt; bindingKeys.length; kI += 1) {
+					if(remainingKeys.indexOf(bindingKeys[kI]) === -1) {
+						bindingKeysSatisfied = false;
+						break;
+					}
+				}
+				if(bindingKeysSatisfied &amp;&amp; isSatisfiedCombo(binding.keyCombo)) {
+					activeBindings.push(binding);
+					for(kI = 0; kI &lt; bindingKeys.length; kI += 1) {
+						index = remainingKeys.indexOf(bindingKeys[kI]);
+						if(index &gt; -1) {
+							remainingKeys.splice(index, 1);
+							kI -= 1;
+						}
+					}
+					for(cI = 0; cI &lt; binding.keyDownCallback.length; cI += 1) {
+						if (binding.keyDownCallback[cI](event, getActiveKeys(), binding.keyCombo) === false) {
+							killEventBubble = true;
+						}
+					}
+					if(killEventBubble === true) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Removes bindings that are no longer satisfied by the active keys. Also
+	 *  fires the key up callbacks.
+	 * @param  {KeyboardEvent}	event
+	 */
+	function pruneBindings(event) {
+		var bI, cI, binding, killEventBubble;
+		for(bI = 0; bI &lt; activeBindings.length; bI += 1) {
+			binding = activeBindings[bI];
+			if(isSatisfiedCombo(binding.keyCombo) === false) {
+				for(cI = 0; cI &lt; binding.keyUpCallback.length; cI += 1) {
+					if (binding.keyUpCallback[cI](event, getActiveKeys(), binding.keyCombo) === false) {
+						killEventBubble = true;
+					}
+				}
+				if(killEventBubble === true) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				activeBindings.splice(bI, 1);
+				bI -= 1;
+			}
+		}
+	}
+
+
+	///////////////////
+	// COMBO STRINGS //
+	///////////////////
+
+	/**
+	 * Compares two key combos returning true when they are functionally
+	 *  equivalent.
+	 * @param  {String}	keyComboArrayA keyCombo A key combo string or array.
+	 * @param  {String}	keyComboArrayB keyCombo A key combo string or array.
+	 * @return {Boolean}
+	 */
+	function compareCombos(keyComboArrayA, keyComboArrayB) {
+		var cI, sI, kI;
+		keyComboArrayA = parseKeyCombo(keyComboArrayA);
+		keyComboArrayB = parseKeyCombo(keyComboArrayB);
+		if(keyComboArrayA.length !== keyComboArrayB.length) { return false; }
+		for(cI = 0; cI &lt; keyComboArrayA.length; cI += 1) {
+			if(keyComboArrayA[cI].length !== keyComboArrayB[cI].length) { return false; }
+			for(sI = 0; sI &lt; keyComboArrayA[cI].length; sI += 1) {
+				if(keyComboArrayA[cI][sI].length !== keyComboArrayB[cI][sI].length) { return false; }
+				for(kI = 0; kI &lt; keyComboArrayA[cI][sI].length; kI += 1) {
+					if(keyComboArrayB[cI][sI].indexOf(keyComboArrayA[cI][sI][kI]) === -1) { return false; }
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Checks to see if a key combo string or key array is satisfied by the
+	 *  currently active keys. It does not take into account spent keys.
+	 * @param  {String}	keyCombo	A key combo string or array.
+	 * @return {Boolean}
+	 */
+	function isSatisfiedCombo(keyCombo) {
+		var cI, sI, stage, kI, stageOffset = 0, index, comboMatches;
+		keyCombo = parseKeyCombo(keyCombo);
+		for(cI = 0; cI &lt; keyCombo.length; cI += 1) {
+			comboMatches = true;
+			stageOffset = 0;
+			for(sI = 0; sI &lt; keyCombo[cI].length; sI += 1) {
+				stage = [].concat(keyCombo[cI][sI]);
+				for(kI = stageOffset; kI &lt; activeKeys.length; kI += 1) {
+					index = stage.indexOf(activeKeys[kI]);
+					if(index &gt; -1) {
+						stage.splice(index, 1);
+						stageOffset = kI;
+					}
+				}
+				if(stage.length !== 0) { comboMatches = false; break; }
+			}
+			if(comboMatches) { return true; }
+		}
+		return false;
+	}
+
+	/**
+	 * Accepts a key combo array or string and returns a flat array containing all keys referenced by
+	 * the key combo.
+	 * @param  {String}	keyCombo	A key combo string or array.
+	 * @return {Array}
+	 */
+	function extractComboKeys(keyCombo) {
+		var cI, sI, kI, keys = [];
+		keyCombo = parseKeyCombo(keyCombo);
+		for(cI = 0; cI &lt; keyCombo.length; cI += 1) {
+			for(sI = 0; sI &lt; keyCombo[cI].length; sI += 1) {
+				keys = keys.concat(keyCombo[cI][sI]);
+			}
+		}
+		return keys;
+	}
+
+	/**
+	 * Parses a key combo string into a 3 dimensional array.
+	 * - Level 1 - sub combos.
+	 * - Level 2 - combo stages. A stage is a set of key name pairs that must
+	 *  be satisfied in the order they are defined.
+	 * - Level 3 - each key name to the stage.
+	 * @param  {String|Array}	keyCombo	A key combo string.
+	 * @return {Array}
+	 */
+	function parseKeyCombo(keyCombo) {
+		var s = keyCombo, i = 0, op = 0, ws = false, nc = false, combos = [], combo = [], stage = [], key = &#x27;&#x27;;
+
+		if(typeof keyCombo === &#x27;object&#x27; &amp;&amp; typeof keyCombo.push === &#x27;function&#x27;) { return keyCombo; }
+		if(typeof keyCombo !== &#x27;string&#x27;) { throw new Error(&#x27;Cannot parse &quot;keyCombo&quot; because its type is &quot;&#x27; + (typeof keyCombo) + &#x27;&quot;. It must be a &quot;string&quot;.&#x27;); }
+
+		//remove leading whitespace
+		while(s.charAt(i) === &#x27; &#x27;) { i += 1; }
+		while(true) {
+			if(s.charAt(i) === &#x27; &#x27;) {
+				//white space &amp; next combo op
+				while(s.charAt(i) === &#x27; &#x27;) { i += 1; }
+				ws = true;
+			} else if(s.charAt(i) === &#x27;,&#x27;) {
+				if(op || nc) { throw new Error(&#x27;Failed to parse key combo. Unexpected , at character index &#x27; + i + &#x27;.&#x27;); }
+				nc = true;
+				i += 1;
+			} else if(s.charAt(i) === &#x27;+&#x27;) {
+				//next key
+				if(key.length) { stage.push(key); key = &#x27;&#x27;; }
+				if(op || nc) { throw new Error(&#x27;Failed to parse key combo. Unexpected + at character index &#x27; + i + &#x27;.&#x27;); }
+				op = true;
+				i += 1;
+			} else if(s.charAt(i) === &#x27;&gt;&#x27;) {
+				//next stage op
+				if(key.length) { stage.push(key); key = &#x27;&#x27;; }
+				if(stage.length) { combo.push(stage); stage = []; }
+				if(op || nc) { throw new Error(&#x27;Failed to parse key combo. Unexpected &gt; at character index &#x27; + i + &#x27;.&#x27;); }
+				op = true;
+				i += 1;
+			} else if(i &lt; s.length - 1 &amp;&amp; s.charAt(i) === &#x27;!&#x27; &amp;&amp; (s.charAt(i + 1) === &#x27;&gt;&#x27; || s.charAt(i + 1) === &#x27;,&#x27; || s.charAt(i + 1) === &#x27;+&#x27;)) {
+				key += s.charAt(i + 1);
+				op = false;
+				ws = false;
+				nc = false;
+				i += 2;
+			} else if(i &lt; s.length &amp;&amp; s.charAt(i) !== &#x27;+&#x27; &amp;&amp; s.charAt(i) !== &#x27;&gt;&#x27; &amp;&amp; s.charAt(i) !== &#x27;,&#x27; &amp;&amp; s.charAt(i) !== &#x27; &#x27;) {
+				//end combo
+				if(op === false &amp;&amp; ws === true || nc === true) {
+					if(key.length) { stage.push(key); key = &#x27;&#x27;; }
+					if(stage.length) { combo.push(stage); stage = []; }
+					if(combo.length) { combos.push(combo); combo = []; }
+				}
+				op = false;
+				ws = false;
+				nc = false;
+				//key
+				while(i &lt; s.length &amp;&amp; s.charAt(i) !== &#x27;+&#x27; &amp;&amp; s.charAt(i) !== &#x27;&gt;&#x27; &amp;&amp; s.charAt(i) !== &#x27;,&#x27; &amp;&amp; s.charAt(i) !== &#x27; &#x27;) {
+					key += s.charAt(i);
+					i += 1;
+				}
+			} else {
+				//unknown char
+				i += 1;
+				continue;
+			}
+			//end of combos string
+			if(i &gt;= s.length) {
+				if(key.length) { stage.push(key); key = &#x27;&#x27;; }
+				if(stage.length) { combo.push(stage); stage = []; }
+				if(combo.length) { combos.push(combo); combo = []; }
+				break;
+			}
+		}
+		return combos;
+	}
+
+	/**
+	 * Stringifys a key combo.
+	 * @param  {Array|String}	keyComboArray	A key combo array. If a key
+	 *  combo string is given it will be returned.
+	 * @return {String}
+	 */
+	function stringifyKeyCombo(keyComboArray) {
+		var cI, ccI, output = [];
+		if(typeof keyComboArray === &#x27;string&#x27;) { return keyComboArray; }
+		if(typeof keyComboArray !== &#x27;object&#x27; || typeof keyComboArray.push !== &#x27;function&#x27;) { throw new Error(&#x27;Cannot stringify key combo.&#x27;); }
+		for(cI = 0; cI &lt; keyComboArray.length; cI += 1) {
+			output[cI] = [];
+			for(ccI = 0; ccI &lt; keyComboArray[cI].length; ccI += 1) {
+				output[cI][ccI] = keyComboArray[cI][ccI].join(&#x27; + &#x27;);
+			}
+			output[cI] = output[cI].join(&#x27; &gt; &#x27;);
+		}
+		return output.join(&#x27; &#x27;);
+	}
+
+
+	/////////////////
+	// ACTIVE KEYS //
+	/////////////////
+
+	/**
+	 * Returns the a copy of the active keys array.
+	 * @return {Array}
+	 */
+	function getActiveKeys() {
+		return [].concat(activeKeys);
+	}
+
+	/**
+	 * Adds a key to the active keys array, but only if it has not already been
+	 *  added.
+	 * @param {String}	keyName	The key name string.
+	 */
+	function addActiveKey(keyName) {
+		if(keyName.match(/\s/)) { throw new Error(&#x27;Cannot add key name &#x27; + keyName + &#x27; to active keys because it contains whitespace.&#x27;); }
+		if(activeKeys.indexOf(keyName) &gt; -1) { return; }
+		activeKeys.push(keyName);
+	}
+
+	/**
+	 * Removes a key from the active keys array.
+	 * @param  {String}	keyNames	The key name string.
+	 */
+	function removeActiveKey(keyName) {
+		var keyCode = getKeyCode(keyName);
+		if(keyCode === &#x27;91&#x27; || keyCode === &#x27;92&#x27;) { activeKeys = []; } //remove all key on release of super.
+		else { activeKeys.splice(activeKeys.indexOf(keyName), 1); }
+	}
+
+
+	/////////////
+	// LOCALES //
+	/////////////
+
+	/**
+	 * Registers a new locale. This is useful if you would like to add support for a new keyboard layout. It could also be useful for
+	 * alternative key names. For example if you program games you could create a locale for your key mappings. Instead of key 65 mapped
+	 * to &#x27;a&#x27; you could map it to &#x27;jump&#x27;.
+	 * @param  {String}	localeName	The name of the new locale.
+	 * @param  {Object}	localeMap	The locale map.
+	 */
+	function registerLocale(localeName, localeMap) {
+
+		//validate arguments
+		if(typeof localeName !== &#x27;string&#x27;) { throw new Error(&#x27;Cannot register new locale. The locale name must be a string.&#x27;); }
+		if(typeof localeMap !== &#x27;object&#x27;) { throw new Error(&#x27;Cannot register &#x27; + localeName + &#x27; locale. The locale map must be an object.&#x27;); }
+		if(typeof localeMap.map !== &#x27;object&#x27;) { throw new Error(&#x27;Cannot register &#x27; + localeName + &#x27; locale. The locale map is invalid.&#x27;); }
+
+		//stash the locale
+		if(!localeMap.macros) { localeMap.macros = []; }
+		locales[localeName] = localeMap;
+	}
+
+	/**
+	 * Swaps the current locale.
+	 * @param  {String}	localeName	The locale to activate.
+	 * @return {Object}
+	 */
+	function getSetLocale(localeName) {
+
+		//if a new locale is given then set it
+		if(localeName) {
+			if(typeof localeName !== &#x27;string&#x27;) { throw new Error(&#x27;Cannot set locale. The locale name must be a string.&#x27;); }
+			if(!locales[localeName]) { throw new Error(&#x27;Cannot set locale to &#x27; + localeName + &#x27; because it does not exist. If you would like to submit a &#x27; + localeName + &#x27; locale map for KeyboardJS please submit it at https://github.com/RobertWHurst/KeyboardJS/issues.&#x27;); }
+
+			//set the current map and macros
+			map = locales[localeName].map;
+			macros = locales[localeName].macros;
+
+			//set the current locale
+			locale = localeName;
+		}
+
+		//return the current locale
+		return locale;
+	}
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

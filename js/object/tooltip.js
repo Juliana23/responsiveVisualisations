@@ -1,29 +1,79 @@
-/* 
- * Responsive Tooltip For d3js library
-
+/**
+ * <b>Responsive Tooltip For d3js library :</b><br/>
+ * <br/>
+ * Responive tooltip allows you to create tooltip to show details.
+ * Tooltip element will be responsive and you don't need to take care to
+ * the size and position of them. <br/>
+ * To instantiate one, you need to set the following parameters into a json object :<br/>
+ * <b>g</b> : g element used to draw tooltip (required)<br/>
+ * <b>cls</b> : css class for tooltip<br/>
+ * <b>autoresize</b>  : indicate if resize is automatically done (default false)<br/>
+ * <br/>
+ * <b>Example:</b><br/>
+ * var tooltip = new ResponsiveTooltip({<br/>
+ *      &nbsp;&nbsp;&nbsp;g: g,<br/>
+ *      &nbsp;&nbsp;&nbsp;cls: "fixed_tooltip",<br/>
+ *  })();<br/>
+ *  <br/>
+ * @class ResponsiveTooltip
+ * @constructor
  * @version 0.1
  * @author Leclaire Juliana
  * @support d3js v3
  */
-
-/**
- * Create a responsive tooltip
- * @param json object options :
- * g : graph
- * cls : css class for tooltip
- * autoresize : indicate if resize is automatically done
- */
 function ResponsiveTooltip(options) {
     options = {
+        /**
+         * g element used to draw tooltip<br/>
+         * Read with : tooltip.g()<br/>
+         * Write with : tooltip.g(newValue)<br/>
+         * 
+         * @attribute g
+         * @public
+         * @required
+         * @type Object
+         */
         g: options.g,
         data: options.data,
+        /**
+         * Css class to apply on tooltip<br/>
+         * Read with : tooltip.cls()<br/>
+         * Write with : tooltip.cls(newValue)<br/>
+         * 
+         * @attribute cls
+         * @public
+         * @type String
+         */
         cls: options.cls.concat(" responsive"),
+        /**
+         * Indicate if resize is automatically done<br/>
+         * Read with : tooltip.autoresize()<br/>
+         * Write with : tooltip.autoresize(newValue)<br/>
+         * 
+         * @attribute autoresize
+         * @public
+         * @type Boolean
+         * @default false
+         */
         autoresize: options.autoresize || false,
+        /**
+         * List of events attached <br/>
+         * Read with : tooltip.events()<br/>
+         * 
+         * @attribute events
+         * @private
+         * @type Object
+         * @readonly
+         */
         events: {}
     };
 
     /**
-     * Constructor
+     * ResponsiveTooltip Constructor
+     *
+     * @method my
+     * @public
+     * @constructor
      */
     function my() {
         // Create getters and setters for options
@@ -45,8 +95,11 @@ function ResponsiveTooltip(options) {
 
     /**
      * Method to attach custom event
-     * @param the event to add
-     * @param the function to call on event triggered
+     * 
+     * @method on
+     * @public
+     * @param {Object} event event to add
+     * @param {Function} func function to call on event triggered
      */
     my.on = function (event, func) {
         if (!my.events()[event]) {
@@ -58,8 +111,11 @@ function ResponsiveTooltip(options) {
 
     /**
      * Method to trigger event 
-     * @param the event to trigger
-     * @param the args to apply to the function called
+     * 
+     * @method trigger
+     * @public
+     * @param {Object} event event to trigger
+     * @param {Object} args arguments to apply to the function called
      */
     my.trigger = function () {
     	if (arguments) {
@@ -90,9 +146,12 @@ function ResponsiveTooltip(options) {
     };
 
     /**
-     * Method to remove event on function
-     * @param the event to clear
-     * @param the function to remove
+     * Method to remove function on event
+     * 
+     * @method remove
+     * @public
+     * @param {Object} event event to clear
+     * @param {Function} func function to remove
      */
     my.remove = function (event, func) {
         if (my.events()[event].indexOf(func) !== -1) {
@@ -103,6 +162,9 @@ function ResponsiveTooltip(options) {
 
     /**
      * Add default events to current object
+     * 
+     * @method addDefaultEvents
+     * @private
      */
     my.addDefaultEvents = function () {
         my.on("redraw", my.draw);
@@ -110,17 +172,21 @@ function ResponsiveTooltip(options) {
     };
 
     /**
-     * Method to init properties for tooltip
+     * This method init properties for tooltip
+     * 
+     * @method initProperties
+     * @private
      */
     my.initProperties = function () {
         var width = my.initWidth();
-
         var container = my.initContainer();
+        var gap = my.initRatio();
         var tooltip = my.initTooltip(width);
-
+        
         var properties = {
-            tooltip: tooltip,
-            container: container,
+            tooltip : tooltip,
+            container : container,
+            gap : gap,
             width : width
         };
         // Generate getters and setters for properties
@@ -129,7 +195,10 @@ function ResponsiveTooltip(options) {
 
     /**
      * Retrieve the parent container of g element
-     * @returns {object} container
+     * 
+     * @method initContainer
+     * @private
+     * @return {HTMLElement} parent container of g element
      */
     my.initContainer = function () {
         // Set id to g element in order to select it
@@ -139,10 +208,14 @@ function ResponsiveTooltip(options) {
         var el = document.getElementById(my.g().node().id);
         return el.parentNode;
     };
-
+    
     /**
-     * Function to init tooltip
-     * @return object tooltip
+     * Initialize container for tooltip
+     * 
+     * @method initTooltip
+     * @private
+     * @param {String} width width of tooltip
+     * @return {Object} tooltip container created
      */
     my.initTooltip = function (width) {
         var tooltip = d3.select("body")
@@ -157,8 +230,11 @@ function ResponsiveTooltip(options) {
 
 
     /**
-     * Init width
-     * @return object width
+     * Initialize width container for tooltip
+     * 
+     * @method initWidth
+     * @private
+     * @return {String} tooltip width
      */
     my.initWidth = function () {
         var isMobile = $$ResponsiveUtil.mobile();
@@ -177,20 +253,55 @@ function ResponsiveTooltip(options) {
         width = width.match(regex)[0];
         return width;
     };
+    
+    /**
+     * Initialize gap : the difference between container size and screen size
+     * 
+     * @method initRatio
+     * @private
+     * @return {Object} gap
+     */
+    my.initRatio = function () {
+        var height = window.innerHeight;
+        var width = window.innerWidth;
+        return {
+            height: height - my.g().attr("height"),
+            width: width - my.g().attr("width")
+        };
+    };
 
     /**
-     * Get the current height of the tooltip
-     * @return int the height of tooltip
+     * Get the container tooltip height
+     * 
+     * @method getHeight
+     * @private
+     * @return {String} height of clientHeight tooltip container
      */
     my.getHeight = function () {
         var classes = my.cls().split(' ').join('.');
         var el = d3.select("." + classes).node();
-        return el.clientHeight;
+        return el.clientHeight || el.getBoundingClientRect().height;
+    };
+    
+    /**
+     * Get the container tooltip width
+     * 
+     * @method getWidth
+     * @private
+     * @return {String} width of clientWidth tooltip container
+     */
+    my.getWidth = function () {
+        var classes = my.cls().split(' ').join('.');
+        var el = d3.select("." + classes).node();
+        return el.clientWidth || el.getBoundingClientRect().width;
     };
 
     /**
-     * Function to know if the tooltip is drawn
-     * @return boolean
+     * Get if the tooltip is drawn
+     * 
+     * @method getIsDrawn
+     * @private
+     * @return {Boolean} true if the tooltip is drawn
      */
     my.getIsDrawn = function () {
         if (my.tooltip().style("display") !== "none") {
@@ -198,38 +309,57 @@ function ResponsiveTooltip(options) {
         }
         return false;
     };
+    
+    /**
+     * Get the container g position
+     * 
+     * @method getGPosition
+     * @private
+     * @return {Object} position into json object {x: vx, y: vy}
+     */
+    my.getGPosition = function () {
+        var pos = d3.transform(my.g().attr("transform")).translate;
+        return {
+            x: pos[0],
+            y: pos[1]
+        };
+    };
 
     /**
-     * Get the tooltip position
-     * @returns json object
+     * Get the container tooltip position
+     * 
+     * @method getTooltipPosition
+     * @private
+     * @param {String} width width of g 
+     * @param {String} height height of g
+     * @return {Object} position into json object {tooltipLeft: tl, tooltipTop: tp}
      */
-    my.getTooltipPosition = function (width, height, position) {
+    my.getTooltipPosition = function (width, height) {
         var xMin;
         var xMax;
         var yMin;
         var yMax;
-
         var tooltipTop;
         var tooltipLeft;
+        var gPosition = my.getGPosition();
+        var tooltipHeight = my.getHeight();
+        var tooltipWidth = my.width();
 
-        if (position) {
-            xMin = position.xMin - my.width() - 50;
-            xMax = position.xMax + 50;
-            yMin = position.yMin;
-            yMax = position.yMax;
+    	var cursor = $$ResponsiveUtil.getCursorPosition();
+    	var posX = cursor.x;
+        var posY = cursor.y;
+        if($$ResponsiveUtil.mobile()){
+        	xMin = posX - tooltipWidth * 2 - gPosition.x;
+        	xMax = posX + gPosition.x * 2;
         }
-        else {
-        	var cursor = $$ResponsiveUtil.getCursorPosition();
-        	var posX = cursor.x;
-            var posY = cursor.y;
-            xMin = posX - my.width() - 50;
-            xMax = posX + 50;
-            yMin = posY;
-            yMax = posY;
+        else{
+        	xMin = posX - tooltipWidth - gPosition.x;
+        	xMax = posX + gPosition.x;
         }
+        yMin = posY - 50;
+        yMax = posY;
 
         // Reset tooltip position
-        var tooltipHeight = my.getHeight();
 
         // Check if the tooltip can be displayed center to the cursor
         if (height - yMin >= tooltipHeight / 2 && yMin >= tooltipHeight / 2) {
@@ -247,6 +377,24 @@ function ResponsiveTooltip(options) {
         else {
             tooltipTop = 0;
         }
+        
+        // Check if the tooltip height can be in visualization
+        if(tooltipHeight > height){
+        	var nbColumn = 1;
+        	while(tooltipHeight > height){
+        		nbColumn++;
+        		tooltipHeight = tooltipHeight / 2;
+        	}
+        	var classes = my.cls().split(' ').join('.');
+        	d3.select("." + classes)
+        	.style("-webkit-column-count", nbColumn)
+        	.style("-moz-column-count", nbColumn)
+        	.style("column-count", nbColumn);
+        	
+        	tooltipWidth = my.getWidth();
+        	xMin = posX - tooltipWidth - gPosition.x - 50;
+        	tooltipTop = 0;
+        }
 
         // Reset tooltip position
         if (xMin > 0) {
@@ -263,39 +411,57 @@ function ResponsiveTooltip(options) {
     };
 
     /**
-     * Get the graph container size
-     * @returns json object
+     * Get the container size
+     * 
+     * @method getContainerSize
+     * @public
+     * @return {Object} size into json object {height: h, width: w}
      */
     my.getContainerSize = function () {
-        var height = d3.select(my.container()).attr("height");
-        var width = d3.select(my.container()).attr("width");
+        var height = window.innerHeight;
+        var width = window.innerWidth;
         return {
-            height: (height ? height : my.container().clientHeight),
-            width: (width ? width : my.container().clientWidth)
+            height: height - my.gap().height,
+            width: width - my.gap().width
         };
     };
 
     /**
-     * Method to draw the tooltip
+     * Method that draws tooltip :<br/>
+     * Updates :<br/>
+     *  - the data of tooltip
+     *  - the tooltip position (automatically recalculated)
+     * 
+     * @method draw
+     * @public
+     * @param {String} data content of tooltip
      */
-    my.draw = function (data, position) {
+    my.draw = function (data) {
         my.data(data);
         // Get container size to give a tooltip position
         var cSize = my.getContainerSize();
         var height = cSize.height;
         var width = cSize.width;
-
+    	
         my.tooltip().style("display", "");
         my.tooltip().html(my.data());
-
-        var tooltipPosition = my.getTooltipPosition(width, height, position);
+        
+        var classes = my.cls().split(' ').join('.');
+        d3.select("." + classes)
+    	.style("-webkit-column-count", 1)
+    	.style("-moz-column-count", 1)
+    	.style("column-count", 1);
+        
+        var tooltipPosition = my.getTooltipPosition(width, height);
         my.tooltip()
                 .style("left", tooltipPosition.tooltipLeft + "px")
                 .style("top", tooltipPosition.tooltipTop + "px");
     };
 
     /**
-     * Method to hide the tooltip
+     * Method to hide tooltip object
+     * @method hide
+     * @public
      */
     my.hide = function () {
         my.tooltip().style("display", "none");

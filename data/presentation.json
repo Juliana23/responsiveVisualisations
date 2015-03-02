@@ -1,0 +1,208 @@
+	{
+	"name": "Visualisations Responsives",
+	"page": "0",
+	"url": "./presentation/slides.html",
+	"children": [
+		{
+      "name": "1) Visualisations Responsives",
+      "page": "1",
+      "children": [
+        {
+          "name": "Visualisations Responsives",
+          "slide": "1",
+          "size": 20000
+        }
+      ]
+    },
+	{
+      "name": "2) Contexte",
+      "page": "2",
+      "children": [
+        {
+          "name": "Contexte",
+          "slide": "2",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "3) Problématiques",
+      "page": "3",
+      "children": [
+        {
+          "name": "Problématiques",
+          "slide": "3",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "4) Méthodes de recherches",
+      "page": "4",
+      "children": [
+        {
+          "name": "Méthodes de recherches",
+          "slide": "4",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "5) Etat de l'art",
+      "page": "5",
+      "children": [
+      	{
+          "name": "Zoomable Treemap",
+          "page": "8",
+          "slide": "7",
+          "size": 20000
+        },
+        {
+          "name": "Visualisation responsives",
+          "page": "7",
+          "slide": "6",
+          "size": 20000
+        },
+        {
+          "name": "Visualisation mobiles",
+          "page": "6",
+          "slide": "5",
+          "size": 20000
+        }
+      ]
+    },
+    {
+      "name": "6) Points Essentiels",
+      "page": "9",
+      "children": [
+      	{
+          "name": "Objectifs",
+          "page": "11",
+          "slide": "9",
+          "size": 20000
+        },
+        {
+          "name": "Points Essentiels",
+          "page": "10",
+          "slide": "8",
+          "size": 20000
+        }
+      ]
+    },
+		{
+			"name": "7) Les étiquettes",
+			"page": "12",
+			"children": [
+				{
+					"name": "Les étiquettes - Treemap",
+					"page": "14",
+					"slide": "11",
+					"size": 20000
+				},
+				{
+					"name": "Les étiquettes - Timeline",
+					"page": "13",
+					"slide": "10",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "8) Le zoom",
+			"page": "15",
+			"children": [
+				{
+					"name": "Le zoom - Treemap",
+					"page": "17",
+					"slide": "13",
+					"size": 20000
+				},
+				{
+					"name": "Le zoom - Timeline",
+					"page": "16",
+					"slide": "12",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "9) Les media queries",
+			"page": "18",
+			"children": [
+				{
+					"name": "Les media queries - Treemap",
+					"page": "21",
+					"slide": "16",
+					"size": 20000
+				},
+				{
+					"name": "Les media queries - Timeline",
+					"page": "20",
+					"slide": "15",
+					"size": 20000
+				},
+				{
+					"name": "Les media queries",
+					"page": "19",
+					"slide": "14",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "10) Objets réutilisables",
+			"page": "22",
+			"children": [
+				{
+					"name": "Objets réutilisables",
+					"slide": "17",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "11) Conclusion",
+			"page": "23",
+			"children": [
+				{
+					"name": "Conclusion",
+					"slide": "18",
+					"size": 20000
+				}
+			]
+		},
+		{
+			"name": "12) Références",
+			"page": "24",
+			"children": [
+				{
+					"name": "Références",
+					"slide": "19",
+					"size": 10000
+				}
+			]
+		},
+		{
+			"name": "13) Remerciements",
+			"page": "25",
+			"children": [
+				{
+					"name": "Remerciements",
+					"slide": "20",
+					"size": 10000
+				}
+			]
+		},
+		{
+			"name": "14) Questions",
+			"page": "26",
+			"children": [
+				{
+					"name": "Questions",
+					"slide": "21",
+					"size": 10000
+				}
+			]
+		}
+	]
+}
